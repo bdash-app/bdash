@@ -1,0 +1,27 @@
+{
+  "name": "bdash",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "start": "gulp run"
+  },
+  "dependencies": {
+    "font-awesome": "^4.5.0",
+    "mysql": "^2.10.0",
+    "react": "^0.14.5",
+    "react-dom": "^0.14.5"
+  },
+  "devDependencies": {
+    "babel-preset-node5": "^10.1.2",
+    "babel-preset-react": "^6.3.13",
+    "electron-prebuilt": "^0.36.0",
+    "gulp": "^3.9.0",
+    "gulp-babel": "^6.1.1",
+    "gulp-load-plugins": "^1.1.0",
+    "gulp-plumber": "^1.0.1",
+    "gulp-sass": "^2.1.1",
+    "gulp-sass-glob": "0.0.8",
+    "gulp-sourcemaps": "^1.6.0"
+  },
+  "license": "MIT"
+}
