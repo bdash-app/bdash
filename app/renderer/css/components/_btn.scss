@@ -1,11 +1,7 @@
-.c-btn {
+.Btn {
   width: 100px;
   background-color: #CCC;
   border-radius: 3px;
-  border: 1px solid #999;
+  border: 1px solid #ECECEC;
   color: #333;
-
-  &:before {
-    @include font-awesome('hand-peace-o');
-  }
 }
