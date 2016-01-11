@@ -1,5 +1,8 @@
 import React from 'react';
 import mysql from 'mysql';
+import Codemirror from './codemirror';
+import 'codemirror/addon/runmode/colorize';
+import 'codemirror/mode/sql/sql';
 
 export default class Main extends React.Component {
   constructor() {
@@ -16,8 +19,8 @@ export default class Main extends React.Component {
     });
   }
 
-  handleInput(e) {
-    this.setState({ sql: e.target.value });
+  handleInput(sql) {
+    this.setState({ sql });
   }
 
   handleSubmit(e) {
@@ -33,10 +36,7 @@ export default class Main extends React.Component {
 
     return (
       <div>
-        <textarea className="Editor"
-          value={this.state.sql}
-          onInput={this.handleInput.bind(this)}
-        ></textarea>
+        <Codemirror value={this.state.sql} onChange={this.handleInput.bind(this)} options={{ mode: 'text/x-sql', theme: 'monokai' }} />
         <button className="Btn" onClick={this.handleSubmit.bind(this)}>Send</button>
         {result}
       </div>

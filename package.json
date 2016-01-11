@@ -6,6 +6,7 @@
     "start": "gulp run"
   },
   "dependencies": {
+    "codemirror": "^5.10.0",
     "core-js": "^2.0.1",
     "font-awesome": "^4.5.0",
     "mysql": "^2.10.0",
