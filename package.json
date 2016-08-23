@@ -11,7 +11,8 @@
     "font-awesome": "^4.5.0",
     "mysql": "^2.10.0",
     "react": "^0.14.5",
-    "react-dom": "^0.14.5"
+    "react-dom": "^0.14.5",
+    "react-micro-container": "^1.0.1"
   },
   "devDependencies": {
     "babel-preset-node5": "^10.1.2",
