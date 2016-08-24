@@ -18,6 +18,7 @@ export default class SQLEditor extends React.Component {
         <CodeMirror
           value={this.props.sql}
           onChange={this.handleChange.bind(this)}
+          onSubmit={this.handleSubmit.bind(this)}
           options={{ mode: 'text/x-sql', theme: 'monokai' }} />
         <button className="Btn" onClick={this.handleSubmit.bind(this)}>Send</button>
       </div>

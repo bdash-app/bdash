@@ -7,6 +7,7 @@ var CodeMirror = React.createClass({
 
 	propTypes: {
 		onChange: React.PropTypes.func,
+		onSubmit: React.PropTypes.func,
 		onFocusChange: React.PropTypes.func,
 		options: React.PropTypes.object,
 		path: React.PropTypes.string,
@@ -24,6 +25,11 @@ var CodeMirror = React.createClass({
 		this.codeMirror.on('change', this.codemirrorValueChanged);
 		this.codeMirror.on('focus', this.focusChanged.bind(this, true));
 		this.codeMirror.on('blur', this.focusChanged.bind(this, false));
+		this.codeMirror.setOption("extraKeys", {
+		  'Cmd-Enter': () => {
+				this.props.onSubmit();
+		  }
+		});
 		this._currentCodemirrorValue = this.props.defaultValue || this.props.value || '';
 		this.codeMirror.setValue(this._currentCodemirrorValue);
 	},
