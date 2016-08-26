@@ -9,7 +9,9 @@
     "codemirror": "^5.10.0",
     "core-js": "^2.0.1",
     "font-awesome": "^4.5.0",
+    "lodash": "^4.15.0",
     "mysql": "^2.10.0",
+    "pg": "^6.1.0",
     "react": "^0.14.5",
     "react-dom": "^0.14.5",
     "react-micro-container": "^1.0.1"
