@@ -1,13 +1,14 @@
 import React from 'react';
 import Container from 'react-micro-container';
 import _ from 'lodash';
-import SQLEditor from '../components/sql_editor/sql_editor';
-import ResultTable from '../components/result_table/result_table';
-import ConnectionSelect from '../components/connection_select/connection_select';
 import GlobalMenu from '../components/global_menu/global_menu';
+import QueryPanel from '../components/query_panel/query_panel';
+import ConnectionPanel from '../components/connection_panel/connection_panel';
+import HistoryPanel from '../components/history_panel/history_panel';
+import SettingPanel from '../components/setting_panel/setting_panel';
 import Executor from '../services/executor';
 
-export default class MainContainer extends Container {
+export default class AppContainer extends Container {
   constructor() {
     super();
 
@@ -72,16 +73,24 @@ export default class MainContainer extends Container {
     this.setState({ selectedGlobalMenu: name });
   }
 
+  getCurrentPanel() {
+    switch (this.state.selectedGlobalMenu) {
+      case 'query': return QueryPanel;
+      case 'connection': return ConnectionPanel;
+      case 'history': return HistoryPanel;
+      case 'setting': return SettingPanel;
+    }
+  }
+
   render() {
+    let Panel = this.getCurrentPanel();
     return (
       <div className="layout-app">
         <div className="layout-app-menu">
           <GlobalMenu dispatch={this.dispatch} {...this.state} />
         </div>
         <div className="layout-app-main">
-          <ConnectionSelect dispatch={this.dispatch} {...this.state} />
-          <SQLEditor dispatch={this.dispatch} {...this.state} />
-          <ResultTable dispatch={this.dispatch} {...this.state} />
+          <Panel dispatch={this.dispatch} {...this.state} />
         </div>
       </div>
     );
