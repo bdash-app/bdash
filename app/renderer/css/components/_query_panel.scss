@@ -1,0 +1,13 @@
+.QueryPanel {
+  display: flex;
+}
+
+.QueryPanel-queryList {
+  width: 280px;
+  border-right: 1px solid #CCC;
+  min-height: 100vh;
+}
+
+.QueryPanel-main {
+  flex: 1;
+}

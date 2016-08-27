@@ -14,6 +14,12 @@ export default class AppContainer extends Container {
 
     this.state = {
       sql: localStorage.getItem('sql') || '',
+      queries: [
+        { name: 'Query A', id: 4 },
+        { name: 'Query B', id: 3 },
+        { name: 'Query C', id: 2 },
+        { name: 'Long Long Long Long Long Long Long Long Long Long Queryyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy', id: 1 },
+      ],
       rows: [],
       fields: [],
       connections: [
@@ -38,6 +44,7 @@ export default class AppContainer extends Container {
       ],
       selectedConnectionId: 1,
       selectedGlobalMenu: 'query',
+      selectedQueryId: 1,
     };
   }
 
@@ -47,6 +54,8 @@ export default class AppContainer extends Container {
       changeSql: this.handleChangeSql,
       changeConnection: this.handleChangeConnection,
       selectGlobalMenu: this.handleSelectGlobalMenu,
+      addNewQuery: this.handleAddNewQuery,
+      selectQuery: this.handleSelectQuery,
     });
   }
 
@@ -73,12 +82,25 @@ export default class AppContainer extends Container {
     this.setState({ selectedGlobalMenu: name });
   }
 
+  handleAddNewQuery() {
+    let id = this.state.queries.length + 2;
+    let newQuery = { id: id, name: 'New Query' };
+    this.setState({
+      queries: [newQuery].concat(this.state.queries),
+      selectedQueryId: id,
+    });
+  }
+
+  handleSelectQuery(id) {
+    this.setState({ selectedQueryId: id });
+  }
+
   getCurrentPanel() {
     switch (this.state.selectedGlobalMenu) {
-      case 'query': return QueryPanel;
-      case 'connection': return ConnectionPanel;
-      case 'history': return HistoryPanel;
-      case 'setting': return SettingPanel;
+    case 'query': return QueryPanel;
+    case 'connection': return ConnectionPanel;
+    case 'history': return HistoryPanel;
+    case 'setting': return SettingPanel;
     }
   }
 

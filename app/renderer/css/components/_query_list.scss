@@ -1,0 +1,36 @@
+.QueryList {
+}
+
+.QueryList-new {
+  padding: 10px;
+  font-size: 20px;
+  border-bottom: 1px solid #CCC;
+
+  i {
+    cursor: pointer;
+  }
+}
+
+.QueryList > ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.QueryList > ul > li {
+  margin: 0;
+  padding: 15px 10px;
+  border-bottom: 1px solid #CCC;
+  color: #333;
+  box-sizing: border-box;
+  font-size: 14px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.QueryList > ul > li.is-selected {
+  background-color: #2673E8;
+  color: #FFF;
+}
