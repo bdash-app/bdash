@@ -4,6 +4,7 @@ import _ from 'lodash';
 import SQLEditor from '../components/sql_editor/sql_editor';
 import ResultTable from '../components/result_table/result_table';
 import ConnectionSelect from '../components/connection_select/connection_select';
+import GlobalMenu from '../components/global_menu/global_menu';
 import Executor from '../services/executor';
 
 export default class MainContainer extends Container {
@@ -35,6 +36,7 @@ export default class MainContainer extends Container {
         },
       ],
       selectedConnectionId: 1,
+      selectedGlobalMenu: 'query',
     };
   }
 
@@ -43,6 +45,7 @@ export default class MainContainer extends Container {
       execute: this.handleExecute,
       changeSql: this.handleChangeSql,
       changeConnection: this.handleChangeConnection,
+      selectGlobalMenu: this.handleSelectGlobalMenu,
     });
   }
 
@@ -65,12 +68,17 @@ export default class MainContainer extends Container {
     this.setState({ selectedConnectionId: connectionId });
   }
 
+  handleSelectGlobalMenu(name) {
+    this.setState({ selectedGlobalMenu: name });
+  }
+
   render() {
     return (
       <div className="layout-app">
-        <div className="layout-app-column1">
+        <div className="layout-app-menu">
+          <GlobalMenu dispatch={this.dispatch} {...this.state} />
         </div>
-        <div className="layout-app-column2">
+        <div className="layout-app-main">
           <ConnectionSelect dispatch={this.dispatch} {...this.state} />
           <SQLEditor dispatch={this.dispatch} {...this.state} />
           <ResultTable dispatch={this.dispatch} {...this.state} />
