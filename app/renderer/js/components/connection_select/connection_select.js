@@ -7,7 +7,7 @@ export default class ConnectionSelect extends React.Component {
 
   render() {
     return (
-      <select onChange={this.handleChange.bind(this)}>
+      <select className="ConnectionSelect" onChange={this.handleChange.bind(this)}>
         {this.props.connections.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
       </select>
     );

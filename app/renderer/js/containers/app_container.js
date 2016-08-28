@@ -15,10 +15,10 @@ export default class AppContainer extends Container {
     this.state = {
       sql: localStorage.getItem('sql') || '',
       queries: [
-        { name: 'Query A', id: 4 },
-        { name: 'Query B', id: 3 },
-        { name: 'Query C', id: 2 },
-        { name: 'Long Long Long Long Long Long Long Long Long Long Queryyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy', id: 1 },
+        { title: 'Query A', id: 4 },
+        { title: 'Query B', id: 3 },
+        { title: 'Query C', id: 2 },
+        { title: 'Long Long Long Long Long Long Long Long Long Long Queryyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy', id: 1 },
       ],
       rows: [],
       fields: [],
@@ -44,7 +44,7 @@ export default class AppContainer extends Container {
       ],
       selectedConnectionId: 1,
       selectedGlobalMenu: 'query',
-      selectedQueryId: 1,
+      selectedQueryId: 3,
     };
   }
 
@@ -84,7 +84,7 @@ export default class AppContainer extends Container {
 
   handleAddNewQuery() {
     let id = this.state.queries.length + 2;
-    let newQuery = { id: id, name: 'New Query' };
+    let newQuery = { id: id, title: 'New Query' };
     this.setState({
       queries: [newQuery].concat(this.state.queries),
       selectedQueryId: id,

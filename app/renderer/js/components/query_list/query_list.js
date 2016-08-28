@@ -17,7 +17,7 @@ export default class QueryList extends React.Component {
         key={query.id}
         className={className}
         onClick={() => this.handleClickItem(query.id)}
-      >{query.name}</li>;
+      >{query.title}</li>;
     });
 
     return (

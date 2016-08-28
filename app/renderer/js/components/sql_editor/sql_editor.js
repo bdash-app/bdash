@@ -2,6 +2,7 @@ import React from 'react';
 import CodeMirror from './codemirror';
 import 'codemirror/addon/runmode/colorize';
 import 'codemirror/mode/sql/sql';
+import Button from '../button/button';
 
 export default class SQLEditor extends React.Component {
   handleChange(sql) {
@@ -19,8 +20,10 @@ export default class SQLEditor extends React.Component {
           value={this.props.sql}
           onChange={this.handleChange.bind(this)}
           onSubmit={this.handleSubmit.bind(this)}
-          options={{ mode: 'text/x-sql', theme: 'monokai' }} />
-        <button className="Btn" onClick={this.handleSubmit.bind(this)}>Send</button>
+          options={{ mode: 'text/x-sql', theme: 'neat', lineNumbers: true }} />
+        <div className="SQLEditor-ctrl">
+          <Button label="Execute" onClick={this.handleSubmit.bind(this)} />
+        </div>
       </div>
     );
   }
