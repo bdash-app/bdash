@@ -6,23 +6,28 @@ import Button from '../button/button';
 
 export default class SQLEditor extends React.Component {
   handleChange(sql) {
-    this.props.dispatch('changeSql', sql);
+    this.props.dispatch('changeSql', this.props.query, sql);
   }
 
   handleSubmit() {
-    this.props.dispatch('execute');
+    this.props.dispatch('execute', this.props.query);
   }
 
   render() {
+    let query = this.props.query;
+
     return (
       <div className="SQLEditor">
         <CodeMirror
-          value={this.props.sql}
+          value={query.sql || ''}
           onChange={this.handleChange.bind(this)}
           onSubmit={this.handleSubmit.bind(this)}
           options={{ mode: 'text/x-sql', theme: 'neat', lineNumbers: true }} />
         <div className="SQLEditor-ctrl">
           <Button label="Execute" onClick={this.handleSubmit.bind(this)} />
+          <span><i className="fa fa-check"></i></span>
+          <span>runtime: {query.runtime ? `${query.runtime}ms` : '-'}</span>
+          <span>rows: {query.rows ? query.rows.length : '-'}</span>
         </div>
       </div>
     );

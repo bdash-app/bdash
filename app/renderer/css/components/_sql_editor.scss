@@ -4,4 +4,17 @@
 
 .SQLEditor-ctrl {
   padding: 10px;
+  background-color: #F7F7F7;
+}
+
+.SQLEditor-ctrl > span {
+  color: #999;
+  display: inline-block;
+  font-size: 13px;
+  margin: 0 5px;
+}
+
+.SQLEditor-ctrl .fa-check {
+  color: #59bb0c;
+  font-size: 14px;
 }

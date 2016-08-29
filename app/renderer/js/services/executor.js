@@ -18,13 +18,15 @@ export default class Executor {
     });
 
     return new Promise((resolve, reject) => {
+      let start = Date.now();
       connection.query(query, (err, rows, fields) => {
+        let runtime = Date.now() - start;
         connection.end();
         if (err) {
           reject(err);
         }
         else {
-          resolve([fields, rows]);
+          resolve({ fields, rows, runtime });
         }
       });
     });
@@ -41,10 +43,13 @@ export default class Executor {
     return new Promise((resolve, reject) => {
       pg.connect(options, (err, client) => {
         if (err) return reject(err);
+        let start = Date.now();
         client.query(query, (err, result) => {
+          let runtime = Date.now() - start;
           pg.end();
           if (err) return reject(err);
-          resolve([result.fields, result.rows]);
+          let { fields, rows } = result;
+          resolve({ fields, rows, runtime });
         });
       });
     });

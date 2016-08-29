@@ -2,8 +2,10 @@ import React from 'react';
 
 export default class ResultTable extends React.Component {
   render() {
-    let heads = this.props.fields.map((field, i) => <th key={`head-${i}`}>{field.name}</th>);
-    let rows = this.props.rows.map((row, i) => {
+    if (!this.props.query.fields || !this.props.query.rows) return null;
+
+    let heads = this.props.query.fields.map((field, i) => <th key={`head-${i}`}>{field.name}</th>);
+    let rows = this.props.query.rows.map((row, i) => {
       let cols = Object.values(row).map((value, j) => <td key={`${i}-${j}`}>{`${value}`}</td>);
       return <tr key={`cols-${i}`}>{cols}</tr>;
     });

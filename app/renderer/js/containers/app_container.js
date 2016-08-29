@@ -12,16 +12,10 @@ export default class AppContainer extends Container {
   constructor() {
     super();
 
-    this.state = {
-      sql: localStorage.getItem('sql') || '',
-      queries: [
-        { title: 'Query A', id: 4 },
-        { title: 'Query B', id: 3 },
-        { title: 'Query C', id: 2 },
-        { title: 'Long Long Long Long Long Long Long Long Long Long Queryyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy', id: 1 },
-      ],
-      rows: [],
-      fields: [],
+    let state = JSON.parse(localStorage.getItem('state') || '{}');
+
+    this.state = Object.assign({
+      queries: [],
       connections: [
         {
           id: 1,
@@ -42,16 +36,33 @@ export default class AppContainer extends Container {
           database: 'adventar_dev',
         },
       ],
-      selectedConnectionId: 1,
       selectedGlobalMenu: 'query',
-      selectedQueryId: 3,
-    };
+    }, state);
+  }
+
+  update(state) {
+    this.setState(state, () => {
+      localStorage.setItem('state', JSON.stringify(this.state));
+    });
+  }
+
+  updateQuery(query, nextState) {
+    let queries = this.state.queries.map(q => {
+      if (query.id === q.id) {
+        return Object.assign({}, q, nextState);
+      }
+      else {
+        return q;
+      }
+    });
+    this.update({ queries });
   }
 
   componentDidMount() {
     this.subscribe({
       execute: this.handleExecute,
       changeSql: this.handleChangeSql,
+      changeTitle: this.handleChangeTitle,
       changeConnection: this.handleChangeConnection,
       selectGlobalMenu: this.handleSelectGlobalMenu,
       addNewQuery: this.handleAddNewQuery,
@@ -59,40 +70,43 @@ export default class AppContainer extends Container {
     });
   }
 
-  handleChangeSql(sql) {
-    this.setState({ sql });
+  handleChangeSql(query, sql) {
+    this.updateQuery(query, { sql });
   }
 
-  handleExecute() {
-    localStorage.setItem('sql', this.state.sql);
-    let connection = _.find(this.state.connections, { id: Number(this.state.selectedConnectionId) });
+  handleExecute(query) {
+    let connection = _.find(this.state.connections, { id: query.connectionId });
     let { type } = connection;
-    Executor.execute(type, this.state.sql, connection).then(([fields, rows]) => {
-      this.setState({ fields, rows });
+    Executor.execute(type, query.sql, connection).then(({ fields, rows, runtime }) => {
+      this.updateQuery(query, { fields, rows, runtime });
     }).catch(err => {
       console.error(err);
     });
   }
 
-  handleChangeConnection(connectionId) {
-    this.setState({ selectedConnectionId: connectionId });
+  handleChangeTitle(query, title) {
+    this.updateQuery(query, { title });
+  }
+
+  handleChangeConnection(query, connectionId) {
+    this.updateQuery(query, { connectionId });
   }
 
   handleSelectGlobalMenu(name) {
-    this.setState({ selectedGlobalMenu: name });
+    this.update({ selectedGlobalMenu: name });
   }
 
   handleAddNewQuery() {
     let id = this.state.queries.length + 2;
-    let newQuery = { id: id, title: 'New Query' };
-    this.setState({
+    let newQuery = { id: id, title: 'New Query', connectionId: 1 };
+    this.update({
       queries: [newQuery].concat(this.state.queries),
       selectedQueryId: id,
     });
   }
 
   handleSelectQuery(id) {
-    this.setState({ selectedQueryId: id });
+    this.update({ selectedQueryId: id });
   }
 
   getCurrentPanel() {
