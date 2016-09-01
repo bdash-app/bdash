@@ -11,10 +11,12 @@ export default class ResultTable extends React.Component {
     });
 
     return (
-      <table className="ResultTable">
-        <thead><tr>{heads}</tr></thead>
-        <tbody>{rows}</tbody>
-      </table>
+      <div className="QueryResult">
+        <table className="ResultTable">
+          <thead><tr>{heads}</tr></thead>
+          <tbody>{rows}</tbody>
+        </table>
+      </div>
     );
   }
 }

@@ -1,0 +1,25 @@
+.ResultTable {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.ResultTable th,
+.ResultTable td {
+  border-bottom: 1px solid #DDD;
+  padding: 10px;
+  font-size: 13px;
+}
+
+.ResultTable th {
+  background-color: #f7f7f7;
+  text-align: left;
+  font-weight: bold;
+}
+
+.ResultTable td {
+}
+
+
+.ResultTable tbody tr:hover td {
+  background-color: #f7f7f7;
+}
