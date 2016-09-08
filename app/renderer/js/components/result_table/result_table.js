@@ -1,15 +1,40 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import Plotly from 'plotly.js/dist/plotly.js';
-import yaml from 'yamljs';
+import Chart from './chart';
 
 export default class ResultTable extends React.Component {
-  componentDidMount() {
-    this.renderChart();
+  constructor(props) {
+    super(props);
+    this.state = {
+      show: 'chart',
+      type: 'line',
+      x: 'day',
+      y: ['value', 'value2'],
+      stack: 'disable',
+    };
   }
 
-  componentDidUpdate() {
-    this.renderChart();
+  selectTable() {
+    this.setState({ show: 'table' });
+  }
+
+  selectChart() {
+    this.setState({ show: 'chart' });
+  }
+
+  handleSelectType(e) {
+    this.setState({ type: e.target.value });
+  }
+
+  handleChangeX(e) {
+    this.setState({ x: e.target.value });
+  }
+
+  handleChangeY(e) {
+    this.setState({ y: e.target.value.split(',') });
+  }
+
+  handleSelectStack(e) {
+    this.setState({ stack: e.target.value });
   }
 
   render() {
@@ -23,30 +48,33 @@ export default class ResultTable extends React.Component {
 
     return (
       <div className="QueryResult">
-        <table className="ResultTable">
+        <div className="QueryResult-tab">
+          <span onClick={() => this.selectTable()}><i className="fa fa-table"></i></span>
+          <span onClick={() => this.selectChart()}><i className="fa fa-bar-chart"></i></span>
+        </div>
+        <table className="ResultTable" hidden={this.state.show !== 'table'}>
           <thead><tr>{heads}</tr></thead>
           <tbody>{rows}</tbody>
         </table>
-        <div ref="chart" />
+
+        <div hidden={this.state.show !== 'chart'}>
+          <select value={this.state.type} onChange={e => this.handleSelectType(e)}>
+            <option value="">--</option>
+            <option value="line">Line</option>
+            <option value="bar">Bar</option>
+            <option value="area">Area</option>
+            <option value="pie">Pie</option>
+          </select>
+          <div>x: <input value={this.state.x} onChange={e => this.handleChangeX(e)} /></div>
+          <div>y: <input value={this.state.y} onChange={e => this.handleChangeY(e)} /></div>
+          <select value={this.state.stack} onChange={e => this.handleSelectStack(e)}>
+            <option value="disable">disable</option>
+            <option value="enable">enable</option>
+            <option value="percent">percent</option>
+          </select>
+          <Chart type={this.state.type} x={this.state.x} y={this.state.y} stack={this.state.stack} rows={this.props.query.rows} />
+        </div>
       </div>
     );
-  }
-
-  renderChart() {
-    let m = this.props.query.sql.match(/\/\*([\s\S]*?)\*\//m);
-    if (!m) return null;
-
-    let chart = ReactDOM.findDOMNode(this.refs.chart);
-    let chartDef = yaml.parse(m[1]);
-    let params = {
-      type: chartDef.type,
-      x: this.dataByField(chartDef.x),
-      y: this.dataByField(chartDef.y),
-    };
-    Plotly.newPlot(chart, [params], {}, { displayModeBar: false });
-  }
-
-  dataByField(fieldName) {
-    return this.props.query.rows.map(r => r[fieldName]);
   }
 }
