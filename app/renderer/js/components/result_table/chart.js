@@ -6,7 +6,7 @@ export default class Chart extends React.Component {
   draw() {
     let chart = ReactDOM.findDOMNode(this);
     let params = this[this.props.type]();
-    let layout = { showlegend: true };
+    let layout = { showlegend: true, margin: { l: 50, r: 50, t: 10, b: 120, pad: 4 } };
     if (this.props.stack === 'enable') {
       layout.barmode = 'stack';
     }
@@ -68,6 +68,6 @@ export default class Chart extends React.Component {
   }
 
   render() {
-    return <div />;
+    return <div className="Chart" />;
   }
 }

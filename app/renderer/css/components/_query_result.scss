@@ -1,7 +1,64 @@
 .QueryResult-tab {
   font-size: 15px;
+  background-color: #999;
+  color: #FFF;
+
+  > span {
+    display: inline-block;
+    padding: 6px;
+    margin: 5px;
+    border-radius: 3px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: darken(#333, 5%);
+    }
+
+    &.is-selected {
+      background-color: lighten(#333, 10%);
+    }
+  }
+}
+
+.ChartBody {
+  display: flex;
+}
+
+.ChartEdit {
+  width: 300px;
+  padding: 10px 0 0 10px;
+}
+
+.ChartEdit-row {
+  margin-bottom: 15px;
+}
+
+.ChartEdit-label {
+  font-size: 12px;
+  font-weight: bold;
+  color: #666;
+  margin-bottom: 3px;
+}
+
+.ChartSelect {
+  font-size: 14px;
 
   i {
-    margin: 10px;
+    font-size: 12px;
+    margin-right: 5px;
+    width: 14px;
   }
+}
+
+.has-value.Select--single > .Select-control .Select-value .Select-value-label,
+.has-value.is-pseudo-focused.Select--single > .Select-control .Select-value .Select-value-label {
+  color: #666;
+}
+
+.Select-placeholder {
+  font-size: 13px;
+}
+
+.ChartPreview {
+  flex: 1;
 }
