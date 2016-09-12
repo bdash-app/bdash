@@ -18,7 +18,7 @@ export default class Chart extends React.Component {
   }
 
   line() {
-    return this.props.y.map(y => ({
+    return (this.props.y || []).map(y => ({
       type: 'scatter',
       x: this.dataByField(this.props.x),
       y: this.dataByField(y),
