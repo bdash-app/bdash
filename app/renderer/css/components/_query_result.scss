@@ -1,7 +1,9 @@
 .QueryResult-tab {
   font-size: 15px;
-  background-color: #999;
-  color: #FFF;
+  background-color: #F7F7F7;
+  color: #666;
+  padding: 0 5px;
+  border-bottom: 1px solid #ccc;
 
   > span {
     display: inline-block;
@@ -11,22 +13,22 @@
     cursor: pointer;
 
     &:hover {
-      background-color: darken(#333, 5%);
+      background-color: darken(#F7F7F7, 5%);
     }
 
     &.is-selected {
-      background-color: lighten(#333, 10%);
+      background-color: darken(#F7F7F7, 5%);
     }
   }
 }
 
 .ChartBody {
   display: flex;
+  padding: 10px;
 }
 
 .ChartEdit {
-  width: 300px;
-  padding: 10px 0 0 10px;
+  width: 260px;
 }
 
 .ChartEdit-row {

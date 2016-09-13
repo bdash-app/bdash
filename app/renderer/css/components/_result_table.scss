@@ -11,7 +11,7 @@
 }
 
 .ResultTable th {
-  background-color: #f7f7f7;
+  border-bottom: 3px double #CCC;
   text-align: left;
   font-weight: bold;
 }
@@ -19,7 +19,6 @@
 .ResultTable td {
 }
 
-
 .ResultTable tbody tr:hover td {
-  background-color: #f7f7f7;
+  // background-color: #f7f7f7;
 }
