@@ -7,14 +7,28 @@
   background-color: #F7F7F7;
 }
 
-.SQLEditor-ctrl > span {
+.SQLEditor-status {
+  display: inline-block;
+  margin-left: 5px;
+}
+
+.SQLEditor-status > span {
   color: #999;
   display: inline-block;
   font-size: 13px;
   margin: 0 5px;
 }
 
-.SQLEditor-ctrl .fa-check {
+.SQLEditor-status .fa-check {
   color: #59bb0c;
   font-size: 14px;
+}
+
+.SQLEditor-status .fa-close {
+  color: #bb0c0c;
+  font-size: 14px;
+}
+
+.SQLEditor-status.is-error span {
+  color: #bb0c0c;
 }

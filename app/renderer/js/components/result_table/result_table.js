@@ -52,18 +52,34 @@ export default class ResultTable extends React.Component {
     return this.chart.selectedTab === 'chart';
   }
 
-  render() {
-    if (!this.props.query.fields || !this.props.query.rows) return null;
+  renderError() {
+    return (
+      <div className="QueryResult">
+        <div className="QueryResult-errorMessage">{this.props.query.error}</div>
+      </div>
+    );
+  }
 
-    let heads = this.props.query.fields.map((field, i) => <th key={`head-${i}`}>{field.name}</th>);
-    let rows = this.props.query.rows.map((row, i) => {
-      let cols = Object.values(row).map((value, j) => <td key={`${i}-${j}`}>{`${value}`}</td>);
+  render() {
+    let query = this.props.query;
+    if (query.status === 'fail') {
+      return this.renderError();
+    }
+
+    if (!query.fields || !query.rows) return null;
+
+    let heads = query.fields.map((field, i) => <th key={`head-${i}`}>{field.name}</th>);
+    let rows = query.rows.map((row, i) => {
+      let cols = Object.values(row).map((value, j) => {
+        let val = value === null ? 'NULL' : value.toString();
+        return <td key={`${i}-${j}`} className={value === null ? 'is-null' : ''}>{val}</td>;
+      });
       return <tr key={`cols-${i}`}>{cols}</tr>;
     });
     let options = ['line', 'bar', 'area', 'pie'].map(value => {
       return { value, label: value[0].toUpperCase() + value.slice(1) };
     });
-    let fieldOptions = this.props.query.fields.map(f => ({ value: f.name, label: f.name }));
+    let fieldOptions = query.fields.map(f => ({ value: f.name, label: f.name }));
     let stackOptions = ['disable', 'enable', 'percent'].map(o => ({ label: o, value: o }));
 
     return (
@@ -120,7 +136,7 @@ export default class ResultTable extends React.Component {
             </div>
           </div>
           <div className="ChartPreview">
-            <Chart type={this.chart.type} x={this.chart.x} y={this.chart.y} stack={this.chart.stack} rows={this.props.query.rows} />
+            <Chart type={this.chart.type} x={this.chart.x} y={this.chart.y} stack={this.chart.stack} rows={query.rows} />
           </div>
         </div>
       </div>

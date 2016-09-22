@@ -79,9 +79,9 @@ export default class AppContainer extends Container {
     let connection = _.find(this.state.connections, { id: query.connectionId });
     let { type } = connection;
     Executor.execute(type, query.sql, connection).then(({ fields, rows, runtime }) => {
-      this.updateQuery(query, { fields, rows, runtime });
+      this.updateQuery(query, { status: 'success', fields, rows, runtime });
     }).catch(err => {
-      console.error(err);
+      this.updateQuery(query, { status: 'fail', error: err.message });
     });
   }
 

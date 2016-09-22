@@ -17,6 +17,12 @@
 }
 
 .ResultTable td {
+  white-space: pre;
+  vertical-align: top;
+}
+
+.ResultTable td.is-null {
+  color: #999;
 }
 
 .ResultTable tbody tr:hover td {
