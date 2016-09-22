@@ -6,7 +6,7 @@ export default class GlobalMenu extends React.Component {
     return [
       { name: 'query', icon: 'terminal' },
       { name: 'connection', icon: 'database' },
-      { name: 'history', icon: 'history' },
+      //{ name: 'history', icon: 'history' },
       { name: 'setting', icon: 'cog' },
     ].map((item, idx) => {
       let selected = this.props.selectedGlobalMenu === item.name;
