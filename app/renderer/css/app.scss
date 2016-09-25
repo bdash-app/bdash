@@ -2,7 +2,7 @@ $fa-font-path: "../../../../node_modules/font-awesome/fonts";
 
 @import 'font-awesome/scss/font-awesome';
 @import 'codemirror/lib/codemirror';
-@import 'codemirror/theme/neat';
+@import 'codemirror/addon/dialog/dialog';
 @import 'react-select/dist/react-select';
 @import './foundations/*';
 @import './functions/*';

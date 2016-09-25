@@ -2,6 +2,9 @@
 
 var CM = require('codemirror');
 var React = require('react');
+require('codemirror/keymap/vim');
+var isEqual = require('lodash').isEqual;
+
 var CodeMirror = React.createClass({
 	displayName: 'CodeMirror',
 
@@ -31,7 +34,9 @@ var CodeMirror = React.createClass({
 		  }
 		});
 		this._currentCodemirrorValue = this.props.defaultValue || this.props.value || '';
+		this._currentOptions = this.props.options || {};
 		this.codeMirror.setValue(this._currentCodemirrorValue);
+		CM.Vim.map('<C-j>', '<Esc>', 'insert');
 	},
 	componentWillUnmount: function componentWillUnmount() {
 		// todo: is there a lighter-weight way to remove the cm instance?
@@ -44,7 +49,9 @@ var CodeMirror = React.createClass({
 		if (this.codeMirror && nextProps.value !== undefined && this._currentCodemirrorValue !== nextProps.value) {
 			this.codeMirror.setValue(nextProps.value);
 		}
-		if (typeof nextProps.options === 'object') {
+		if (typeof nextProps.options === 'object' && !isEqual(nextProps.options, this._currentOptions)) {
+			console.log(nextProps.options);
+			this._currentOptions = nextProps.options;
 			for (var optionName in nextProps.options) {
 				if (nextProps.options.hasOwnProperty(optionName)) {
 					this.codeMirror.setOption(optionName, nextProps.options[optionName]);

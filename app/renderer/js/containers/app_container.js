@@ -37,6 +37,9 @@ export default class AppContainer extends Container {
         },
       ],
       selectedGlobalMenu: 'query',
+      setting: {
+        keyBind: 'default',
+      },
     }, state);
   }
 
@@ -68,6 +71,7 @@ export default class AppContainer extends Container {
       addNewQuery: this.handleAddNewQuery,
       selectQuery: this.handleSelectQuery,
       updateChart: this.handleUpdateChart,
+      updateSetting: this.handleUpdateSetting,
     });
   }
 
@@ -113,6 +117,10 @@ export default class AppContainer extends Container {
   handleUpdateChart(query, chartParams) {
     let chart = Object.assign({}, query.chart, chartParams);
     this.updateQuery(query, { chart });
+  }
+
+  handleUpdateSetting(setting) {
+    this.setState({ setting });
   }
 
   getCurrentPanel() {

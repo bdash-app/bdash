@@ -49,7 +49,7 @@ export default class SQLEditor extends React.Component {
           value={query.sql || ''}
           onChange={this.handleChange.bind(this)}
           onSubmit={this.handleSubmit.bind(this)}
-          options={{ mode: 'text/x-sql', theme: 'neat', lineNumbers: true }} />
+          options={{ mode: 'text/x-sql', keyMap: this.props.setting.keyBind, lineNumbers: true, matchBrackets: true }} />
         <div className="SQLEditor-ctrl">
           <Button label="Execute" onClick={this.handleSubmit.bind(this)} />
           {this.renderStatus()}
