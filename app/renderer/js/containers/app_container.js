@@ -11,36 +11,7 @@ import Executor from '../services/executor';
 export default class AppContainer extends Container {
   constructor() {
     super();
-
-    let state = JSON.parse(localStorage.getItem('state') || '{}');
-
-    this.state = Object.assign({
-      queries: [],
-      connections: [
-        {
-          id: 1,
-          name: 'MySQL local',
-          type: 'mysql',
-          host: 'localhost',
-          user: 'root',
-          password: '',
-          database: 'isucon',
-        },
-        {
-          id: 2,
-          name: 'Adventar local',
-          type: 'postgres',
-          host: 'localhost',
-          user: 'hokamura',
-          password: '',
-          database: 'adventar_dev',
-        },
-      ],
-      selectedGlobalMenu: 'query',
-      setting: {
-        keyBind: 'default',
-      },
-    }, state);
+    this.state = JSON.parse(localStorage.getItem('state') || '{}');
   }
 
   update(state) {
@@ -71,6 +42,8 @@ export default class AppContainer extends Container {
       addNewQuery: this.handleAddNewQuery,
       selectQuery: this.handleSelectQuery,
       updateChart: this.handleUpdateChart,
+      addNewConnection: this.handleAddNewConnection,
+      selectConnection: this.handleSelectConnection,
       updateSetting: this.handleUpdateSetting,
     });
   }
@@ -119,8 +92,36 @@ export default class AppContainer extends Container {
     this.updateQuery(query, { chart });
   }
 
+  handleAddNewConnection() {
+    alert('TODO');
+  }
+
+  handleSelectConnection(id) {
+    this.update({ selectedConnectionId: id });
+    this.fetchTables(id);
+  }
+
   handleUpdateSetting(setting) {
     this.setState({ setting });
+  }
+
+  fetchTables(id) {
+    let connection = _.find(this.state.connections, { id });
+    let query;
+    if (connection.type === 'mysql') {
+      query = `select table_name, table_type from information_schema.tables where table_schema = '${connection.database}'`;
+    }
+
+    if (connection.type === 'postgres') {
+      query = 'select table_schema, table_name, table_type  from information_schema.tables';
+    }
+
+    Executor.execute(connection.type, query, connection).then(res => {
+      connection.tables = res.rows;
+      this.setState({ connections: this.state.connections });
+    }).catch(err => {
+      console.log(err);
+    });
   }
 
   getCurrentPanel() {
