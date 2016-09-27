@@ -113,7 +113,7 @@ export default class AppContainer extends Container {
     }
 
     if (connection.type === 'postgres') {
-      query = 'select table_schema, table_name, table_type  from information_schema.tables';
+      query = "select table_schema, table_name, table_type from information_schema.tables where table_schema not in ('information_schema', 'pg_catalog')";
     }
 
     Executor.execute(connection.type, query, connection).then(res => {

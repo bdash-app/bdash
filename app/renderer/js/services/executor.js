@@ -54,4 +54,31 @@ export default class Executor {
       });
     });
   }
+
+  static fetchTableSummaryPostgres(table, connection) {
+    // TODO: escape
+    let sql = `
+select
+    pg_attribute.attname as name,
+    pg_attribute.atttypid::regtype as type,
+    pg_attribute.atttypmod as max_length,
+    pg_attribute.attnotnull as not_null,
+    pg_attribute.atthasdef as has_default,
+    pg_description.description as description,
+    pg_attrdef.adsrc as default_value
+from
+    pg_attribute
+    left join pg_description on
+        pg_description.objoid = pg_attribute.attrelid
+        and pg_description.objsubid = pg_attribute.attnum
+    left join pg_attrdef on
+        pg_attrdef.adrelid = pg_attribute.attrelid
+        and pg_attrdef.adnum = pg_attribute.attnum
+where
+    pg_attribute.attrelid = '${table}'::regclass
+    and not pg_attribute.attisdropped
+    and pg_attribute.attnum > 0
+order by pg_attribute.attnum`;
+    return this.executePostgres(sql, connection);
+  }
 }
