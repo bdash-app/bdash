@@ -10,37 +10,30 @@ export default class ConnectionPanel extends React.Component {
   }
 
   handleClickTable(connection, table) {
-    Executor.fetchTableSummaryPostgres(`${table.table_schema}.${table.table_name}`, connection).then(res => {
-      this.setState({ tableSummary: res.rows });
+    let tableName = table.table_schema ? `${table.table_schema}.${table.table_name}` : table.table_name;
+
+    Executor.fetchTableSummary(tableName, connection).then(res => {
+      this.setState({ tableSummary: res });
     });
   }
 
   renderTableSummary() {
     if (!this.state.tableSummary) return;
 
-    let rows = this.state.tableSummary.map((row, i) => {
-      return (
-        <tr key={i}>
-          <td>{row.name}</td>
-          <td>{row.type}</td>
-          <td>{row.not_null ? 'NOT NULL' : ''}</td>
-          <td>{row.default_value}</td>
-        </tr>
-      );
+    let tableSummary = this.state.tableSummary;
+    console.log(tableSummary);
+    let fields = tableSummary.fields.map(f => f.name);
+    let heads = fields.map((f, i) => <th key={i}>{f}</th>);
+    let rows = tableSummary.rows.map((row, i) => {
+      let cols = Object.keys(row).map(k => <td key={`${k}-{i}`}>{row[k]}</td>);
+      return <tr key={i}>{cols}</tr>;
     });
 
     return (
       <div>
         <h3>Table Summary</h3>
         <table>
-          <thead>
-            <tr>
-              <th>name</th>
-              <th>type</th>
-              <th>null</th>
-              <th>default</th>
-            </tr>
-          </thead>
+          <thead><tr>{heads}</tr></thead>
           <tbody>{rows}</tbody>
         </table>
       </div>

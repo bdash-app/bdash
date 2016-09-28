@@ -55,17 +55,27 @@ export default class Executor {
     });
   }
 
+  static fetchTableSummary(table, connection) {
+    if (connection.type === 'postgres') {
+      return this.fetchTableSummaryPostgres(table, connection);
+    }
+
+    if (connection.type === 'mysql') {
+      return this.fetchTableSummaryMysql(table, connection);
+    }
+  }
+
   static fetchTableSummaryPostgres(table, connection) {
     // TODO: escape
     let sql = `
 select
     pg_attribute.attname as name,
     pg_attribute.atttypid::regtype as type,
-    pg_attribute.atttypmod as max_length,
-    pg_attribute.attnotnull as not_null,
-    pg_attribute.atthasdef as has_default,
-    pg_description.description as description,
-    pg_attrdef.adsrc as default_value
+--  pg_attribute.atttypmod as max_length,
+    case pg_attribute.attnotnull when true then 'NO' else 'YES' end as null,
+--  pg_attribute.atthasdef as has_default,
+    pg_attrdef.adsrc as default_value,
+    pg_description.description as description
 from
     pg_attribute
     left join pg_description on
@@ -80,5 +90,10 @@ where
     and pg_attribute.attnum > 0
 order by pg_attribute.attnum`;
     return this.executePostgres(sql, connection);
+  }
+
+  static fetchTableSummaryMysql(table, connection) {
+    let sql = `show columns from ${table}`;
+    return this.executeMySql(sql, connection);
   }
 }
