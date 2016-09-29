@@ -2,6 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import ConnectionList from '../connection_list/connection_list';
 import Executor from '../../services/executor';
+import Modal from 'react-modal';
 
 export default class ConnectionPanel extends React.Component {
   constructor() {
@@ -40,8 +41,12 @@ export default class ConnectionPanel extends React.Component {
     );
   }
 
+  getCurrentConnection() {
+    return _.find(this.props.connections, { id: this.props.selectedConnectionId });
+  }
+
   renderMain() {
-    let connection = _.find(this.props.connections, { id: this.props.selectedConnectionId });
+    let connection = this.getCurrentConnection();
 
     if (!connection) {
       return <div className="ConnectionPanel-main"></div>;
@@ -62,24 +67,6 @@ export default class ConnectionPanel extends React.Component {
     return (
       <div className="ConnectionPanel-main">
         <div className="ConnectionSetting">
-          <h3>name</h3>
-          <div>{connection.name}</div>
-
-          <h3>type</h3>
-          <div>{connection.type}</div>
-
-          <h3>host</h3>
-          <div>{connection.host}</div>
-
-          <h3>user</h3>
-          <div>{connection.user}</div>
-
-          <h3>password</h3>
-          <div>{connection.password}</div>
-
-          <h3>database</h3>
-          <div>{connection.database}</div>
-
           <h3>tables</h3>
           <ul className="ConnectionSetting-tables">{tables}</ul>
 
@@ -89,6 +76,77 @@ export default class ConnectionPanel extends React.Component {
     );
   }
 
+  renderModal() {
+    let connection = this.getCurrentConnection();
+    let style = {
+      overlay: {
+        backgroundColor: '',
+      },
+      content: {
+        top: 0,
+        bottom: null,
+        left: 0,
+        right: 0,
+        margin: '0 auto',
+        width: '400px',
+        borderRadius: 0,
+        backgroundColor: '#EFEFEF',
+        border: '1px solid #CCC',
+        borderTop: 'none',
+        boxShadow: '1px 1px 10px rgba(0,0,0,0.2), 0 6px 10px -6px rgba(0,0,0,0.2) inset',
+        outline: 'none',
+      },
+    };
+    return <Modal isOpen={true} style={style} className="ConnectionFormModal">
+      <table>
+        <tr>
+          <th>Name</th>
+          <td><input type="text" value={connection.name} /></td>
+        </tr>
+        <tr>
+          <th>Type</th>
+          <td>
+            <select value={connection.type}>
+              <option value="mysql">MySQL</option>
+              <option value="postgres">PostgreSQL</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <th>Host</th>
+          <td><input type="text" value={connection.host} /></td>
+        </tr>
+        <tr>
+          <th>Port</th>
+          <td><input type="text" value={connection.port} placeholder="3306" /></td>
+        </tr>
+        <tr>
+          <th>Username</th>
+          <td><input type="text" value={connection.user} /></td>
+        </tr>
+        <tr>
+          <th>Password</th>
+          <td><input type="password" value={connection.password} /></td>
+        </tr>
+        <tr>
+          <th>Database</th>
+          <td><input type="text" value={connection.database} /></td>
+        </tr>
+      </table>
+
+      <div className="ConnectionFormModal-connectionTest">
+        <button>Connection Test</button>
+        <i className="fa fa-check"></i>
+        <i className="fa fa-close"></i>
+        <i className="fa fa-spin fa-refresh"></i>
+      </div>
+      <div className="ConnectionFormModal-buttons">
+        <button>Cancel</button>
+        <button>Save</button>
+      </div>
+    </Modal>;
+  }
+
   render() {
     return (
       <div className="ConnectionPanel">
@@ -96,6 +154,7 @@ export default class ConnectionPanel extends React.Component {
           <ConnectionList {...this.props} />
         </div>
         {this.renderMain()}
+        {this.renderModal()}
       </div>
     );
   }

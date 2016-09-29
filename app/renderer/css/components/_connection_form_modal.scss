@@ -1,0 +1,67 @@
+.ConnectionFormModal {
+  padding: 20px 30px;
+}
+
+.ConnectionFormModal table {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.ConnectionFormModal th {
+  font-weight: normal;
+  text-align: right;
+  width: 80px;
+}
+
+.ConnectionFormModal th,
+.ConnectionFormModal td {
+  font-size: 14px;
+  padding: 5px;
+}
+
+.ConnectionFormModal td input {
+  padding: 3px 5px;
+  width: 260px;
+  font-size: 14px;
+}
+
+.ConnectionFormModal td select {
+  border: 1px solid #DFDFDF;
+  font-size: 14px;
+  background-color: #FFF;
+}
+
+.ConnectionFormModal .ConnectionFormModal-connectionTest button,
+.ConnectionFormModal .ConnectionFormModal-buttons button {
+  transform: scale(1.2);
+}
+
+.ConnectionFormModal .ConnectionFormModal-connectionTest {
+  position: absolute;
+  margin-left: 20px;
+}
+
+.ConnectionFormModal .ConnectionFormModal-connectionTest .fa-check {
+  color: #59bb0c;
+}
+
+.ConnectionFormModal .ConnectionFormModal-connectionTest .fa-close {
+  color: #bb0c0c;
+}
+
+.ConnectionFormModal .ConnectionFormModal-connectionTest .fa-refresh {
+  color: #999;
+}
+
+.ConnectionFormModal .ConnectionFormModal-connectionTest button {
+  margin-right: 15px;
+}
+
+.ConnectionFormModal .ConnectionFormModal-buttons {
+  margin-right: 25px;
+  text-align: right;
+}
+
+.ConnectionFormModal .ConnectionFormModal-buttons button {
+  margin: 0 8px;
+}
