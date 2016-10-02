@@ -45,6 +45,11 @@ export default class AppContainer extends Container {
       addNewConnection: this.handleAddNewConnection,
       selectConnection: this.handleSelectConnection,
       updateSetting: this.handleUpdateSetting,
+      openConnectionFormModal: this.handleOpenConnectionFormModal,
+      changeConnectionFormModalValue: this.handleChangeConnectionFormModalValue,
+      closeConnectionFormModal: this.handleCloseConnectionFormModal,
+      saveConnectionFormModal: this.handleSaveConnectionFormModal,
+      deleteConnection: this.handleDeleteConnection,
     });
   }
 
@@ -93,7 +98,7 @@ export default class AppContainer extends Container {
   }
 
   handleAddNewConnection() {
-    alert('TODO');
+    this.setState({ connectionFormValues: {} });
   }
 
   handleSelectConnection(id) {
@@ -105,6 +110,52 @@ export default class AppContainer extends Container {
     this.setState({ setting });
   }
 
+  handleOpenConnectionFormModal({ connectionId }) {
+    let connectionFormValues = {};
+    let connection = _.find(this.state.connections, { id: connectionId });
+    if (connection) {
+      connectionFormValues = Object.assign({}, connection);
+    }
+
+    this.setState({ connectionFormValues });
+  }
+
+  handleChangeConnectionFormModalValue(name, value) {
+    let connectionFormValues = Object.assign({}, this.state.connectionFormValues, {
+      [name]: value,
+    });
+    this.setState({ connectionFormValues });
+  }
+
+  handleCloseConnectionFormModal() {
+    this.setState({ connectionFormValues: null });
+  }
+
+  handleSaveConnectionFormModal() {
+    let connectionFormValues = this.state.connectionFormValues;
+    let connections;
+    if (connectionFormValues.id) {
+      connections = this.state.connections.map(c => {
+        if (c.id === connectionFormValues.id) {
+          return Object.assign({}, connectionFormValues);
+        }
+        else {
+          return c;
+        }
+      });
+    }
+    else {
+      let newConnection = Object.assign({ id: this.state.connections.length + 1 }, connectionFormValues);
+      connections = [newConnection].concat(this.state.connections);
+    }
+    this.update({ connections, connectionFormValues: null });
+  }
+
+  handleDeleteConnection({ connectionId }) {
+    let connections = this.state.connections.filter(c => c.id !== connectionId);
+    this.update({ connections, selectedConnectionId: null });
+  }
+
   fetchTables(id) {
     let connection = _.find(this.state.connections, { id });
     let query;
@@ -113,7 +164,7 @@ export default class AppContainer extends Container {
     }
 
     if (connection.type === 'postgres') {
-      query = "select table_schema, table_name, table_type from information_schema.tables where table_schema not in ('information_schema', 'pg_catalog')";
+      query = "select table_schema, table_name, table_type from information_schema.tables where table_schema not in ('information_schema', 'pg_catalog', 'pg_internal')";
     }
 
     Executor.execute(connection.type, query, connection).then(res => {

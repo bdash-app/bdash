@@ -13,6 +13,7 @@ export default class Executor {
     let connection = mysql.createConnection({
       host: connectionInfo.host,
       user: connectionInfo.user,
+      port: connectionInfo.port,
       password: connectionInfo.password,
       database: connectionInfo.database,
     });
@@ -36,6 +37,7 @@ export default class Executor {
     let options = {
       host: connectionInfo.host,
       user: connectionInfo.user,
+      port: connectionInfo.port,
       password: connectionInfo.password,
       database: connectionInfo.database,
     };
