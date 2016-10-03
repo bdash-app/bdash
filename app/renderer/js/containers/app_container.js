@@ -40,6 +40,7 @@ export default class AppContainer extends Container {
       changeConnection: this.handleChangeConnection,
       selectGlobalMenu: this.handleSelectGlobalMenu,
       addNewQuery: this.handleAddNewQuery,
+      deleteQuery: this.handleDeleteQuery,
       selectQuery: this.handleSelectQuery,
       updateChart: this.handleUpdateChart,
       addNewConnection: this.handleAddNewConnection,
@@ -87,6 +88,11 @@ export default class AppContainer extends Container {
       queries: [newQuery].concat(this.state.queries),
       selectedQueryId: id,
     });
+  }
+
+  handleDeleteQuery(id) {
+    let queries = this.state.queries.filter(q => q.id !== id);
+    this.update({ queries, selectedQueryId: null });
   }
 
   handleSelectQuery(id) {

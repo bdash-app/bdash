@@ -7,6 +7,14 @@
 
 .QueryPanelHeader .ConnectionSelect {
   position: absolute;
+  right: 35px;
+  top: 10px;
+}
+
+.QueryPanelHeader-delete {
+  position: absolute;
   right: 10px;
   top: 10px;
+  color: #999;
+  cursor: pointer;
 }
