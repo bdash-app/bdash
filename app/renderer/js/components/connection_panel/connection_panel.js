@@ -87,7 +87,11 @@ export default class ConnectionPanel extends React.Component {
           <ConnectionList {...this.props} />
         </div>
         {this.renderMain()}
-        <ConnectionFormModal dispatch={this.props.dispatch} connectionFormValues={this.props.connectionFormValues} />
+        <ConnectionFormModal
+          dispatch={this.props.dispatch}
+          connectionTest={this.props.connectionTest}
+          connectionFormValues={this.props.connectionFormValues}
+          />
       </div>
     );
   }

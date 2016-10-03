@@ -17,6 +17,10 @@ export default class ConnectionFormModal extends React.Component {
     this.props.dispatch('saveConnectionFormModal');
   }
 
+  onClickConnectionTest() {
+    this.props.dispatch('executeConnectionTest', this.props.connectionFormValues);
+  }
+
   render() {
     let connection = this.props.connectionFormValues;
     if (!connection) return null;
@@ -83,10 +87,10 @@ export default class ConnectionFormModal extends React.Component {
       </table>
 
       <div className="ConnectionFormModal-connectionTest">
-        <button>Connection Test</button>
-        <i className="fa fa-check"></i>
-        <i className="fa fa-close"></i>
-        <i className="fa fa-spin fa-refresh"></i>
+        <button onClick={() => this.onClickConnectionTest()}>Connection Test</button>
+        <i hidden={this.props.connectionTest !== 'success'} className="fa fa-check"></i>
+        <i hidden={this.props.connectionTest !== 'fail'} className="fa fa-close"></i>
+        <i hidden={this.props.connectionTest !== 'working'} className="fa fa-spin fa-refresh"></i>
       </div>
       <div className="ConnectionFormModal-buttons">
         <button onClick={() => this.handleCancel()}>Cancel</button>

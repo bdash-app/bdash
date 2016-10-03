@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import { remote } from 'electron';
 
 export default class QueryList extends React.Component {
   handleClickNew() {
@@ -10,6 +11,14 @@ export default class QueryList extends React.Component {
     this.props.dispatch('selectQuery', id);
   }
 
+  handleContextMenu(id) {
+    this.props.dispatch('selectQuery', id);
+    let menu = remote.Menu.buildFromTemplate([
+      { label: 'Delete' },
+    ]);
+    menu.popup(remote.getCurrentWindow());
+  }
+
   render() {
     let items = this.props.queries.map(query => {
       let className = classNames({ 'is-selected': this.props.selectedQueryId === query.id });
@@ -17,6 +26,7 @@ export default class QueryList extends React.Component {
         key={query.id}
         className={className}
         onClick={() => this.handleClickItem(query.id)}
+        onContextMenu={() => this.handleContextMenu(query.id)}
       >{query.title}</li>;
     });
 

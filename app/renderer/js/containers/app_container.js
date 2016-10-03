@@ -50,6 +50,7 @@ export default class AppContainer extends Container {
       closeConnectionFormModal: this.handleCloseConnectionFormModal,
       saveConnectionFormModal: this.handleSaveConnectionFormModal,
       deleteConnection: this.handleDeleteConnection,
+      executeConnectionTest: this.handleExecuteConnectionTest,
     });
   }
 
@@ -98,7 +99,7 @@ export default class AppContainer extends Container {
   }
 
   handleAddNewConnection() {
-    this.setState({ connectionFormValues: {} });
+    this.setState({ connectionFormValues: {}, connectionTest: null });
   }
 
   handleSelectConnection(id) {
@@ -117,7 +118,7 @@ export default class AppContainer extends Container {
       connectionFormValues = Object.assign({}, connection);
     }
 
-    this.setState({ connectionFormValues });
+    this.setState({ connectionFormValues, connectionTest: null });
   }
 
   handleChangeConnectionFormModalValue(name, value) {
@@ -154,6 +155,13 @@ export default class AppContainer extends Container {
   handleDeleteConnection({ connectionId }) {
     let connections = this.state.connections.filter(c => c.id !== connectionId);
     this.update({ connections, selectedConnectionId: null });
+  }
+
+  handleExecuteConnectionTest(connection) {
+    this.update({ connectionTest: 'working' });
+    Executor.execute(connection.type, 'select 1', connection)
+      .then(() => this.update({ connectionTest: 'success' }))
+      .catch(() => this.update({ connectionTest: 'fail' }));
   }
 
   fetchTables(id) {
