@@ -2,6 +2,7 @@
 
 var CM = require('codemirror');
 var React = require('react');
+require('codemirror/addon/search/search');
 require('codemirror/keymap/vim');
 var isEqual = require('lodash').isEqual;
 
