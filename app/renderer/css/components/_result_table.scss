@@ -1,30 +1,36 @@
-.ResultTable {
+.ResultTable-table {
   border-collapse: collapse;
   width: 100%;
 }
 
-.ResultTable th,
-.ResultTable td {
+.ResultTable-table th,
+.ResultTable-table td {
   border-bottom: 1px solid #DDD;
   padding: 10px;
   font-size: 13px;
 }
 
-.ResultTable th {
+.ResultTable-table th {
   border-bottom: 3px double #CCC;
   text-align: left;
   font-weight: bold;
 }
 
-.ResultTable td {
+.ResultTable-table td {
   white-space: pre;
   vertical-align: top;
 }
 
-.ResultTable td.is-null {
+.ResultTable-table td.is-null {
   color: #999;
 }
 
-.ResultTable tbody tr:hover td {
+.ResultTable-table tbody tr:hover td {
   // background-color: #f7f7f7;
+}
+
+.ResultTable-more {
+  font-size: 13px;
+  color: #999;
+  padding: 10px;
 }

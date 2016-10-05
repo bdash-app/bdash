@@ -2,6 +2,8 @@ import React from 'react';
 import Select from 'react-select';
 import Chart from './chart';
 
+const MAX_DISPLAY_ROWS_COUNT = 1000;
+
 export default class ResultTable extends React.Component {
   get chart() {
     return Object.assign({ selectedTab: 'table', type: 'line' }, this.props.query.chart);
@@ -69,7 +71,7 @@ export default class ResultTable extends React.Component {
     if (!query.fields || !query.rows) return null;
 
     let heads = query.fields.map((field, i) => <th key={`head-${i}`}>{field.name}</th>);
-    let rows = query.rows.map((row, i) => {
+    let rows = query.rows.slice(0, MAX_DISPLAY_ROWS_COUNT).map((row, i) => {
       let cols = Object.values(row).map((value, j) => {
         let val = value === null ? 'NULL' : value.toString();
         return <td key={`${i}-${j}`} className={value === null ? 'is-null' : ''}>{val}</td>;
@@ -89,10 +91,13 @@ export default class ResultTable extends React.Component {
           <span className={this.selectedChart() ? 'is-selected' : ''} onClick={() => this.selectChart()}><i className="fa fa-bar-chart"></i></span>
         </div>
 
-        <table className="ResultTable" hidden={!this.selectedTable()}>
-          <thead><tr>{heads}</tr></thead>
-          <tbody>{rows}</tbody>
-        </table>
+        <div className="ResultTable" hidden={!this.selectedTable()}>
+          <table className="ResultTable-table">
+            <thead><tr>{heads}</tr></thead>
+            <tbody>{rows}</tbody>
+          </table>
+          <div className="ResultTable-more" hidden={MAX_DISPLAY_ROWS_COUNT >= query.rows.length}>And more rows ...</div>
+        </div>
 
         <div className="ChartBody" hidden={!this.selectedChart()}>
           <div className="ChartEdit">
