@@ -20,7 +20,7 @@ export default class AppContainer extends Container {
     });
   }
 
-  updateQuery(query, nextState) {
+  updateQuery(query, nextState, { save } = { save: true }) {
     let queries = this.state.queries.map(q => {
       if (query.id === q.id) {
         return Object.assign({}, q, nextState);
@@ -29,7 +29,13 @@ export default class AppContainer extends Container {
         return q;
       }
     });
-    this.update({ queries });
+
+    if (save) {
+      this.update({ queries });
+    }
+    else {
+      this.setState({ queries });
+    }
   }
 
   componentDidMount() {
@@ -62,6 +68,7 @@ export default class AppContainer extends Container {
   handleExecute(query) {
     let connection = _.find(this.state.connections, { id: query.connectionId });
     let { type } = connection;
+    this.updateQuery(query, { status: 'working' }, { save: false });
     Executor.execute(type, query.sql, connection).then(({ fields, rows, runtime }) => {
       this.updateQuery(query, { status: 'success', fields, rows, runtime });
     }).catch(err => {

@@ -29,6 +29,11 @@
   font-size: 14px;
 }
 
+.SQLEditor-status .fa-working {
+  color: #999;
+  font-size: 14px;
+}
+
 .SQLEditor-status.is-error span {
   color: #bb0c0c;
 }

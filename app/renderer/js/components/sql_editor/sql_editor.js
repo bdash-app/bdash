@@ -17,6 +17,7 @@ export default class SQLEditor extends React.Component {
     switch (this.props.query.status) {
     case 'success': return this.renderSuccess();
     case 'fail': return this.renderError();
+    case 'working': return this.renderWorking();
     default: return null;
     }
   }
@@ -36,6 +37,14 @@ export default class SQLEditor extends React.Component {
     return (
       <div className="SQLEditor-status is-error">
         <span><i className="fa fa-close"></i> Failed</span>
+      </div>
+    );
+  }
+
+  renderWorking() {
+    return (
+      <div className="SQLEditor-status is-working">
+        <span><i className="fa fa-spin fa-refresh"></i></span>
       </div>
     );
   }
