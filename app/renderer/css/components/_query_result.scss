@@ -1,6 +1,5 @@
 .QueryResult-tab {
   font-size: 15px;
-  background-color: #F7F7F7;
   color: #666;
   padding: 0 5px;
   border-bottom: 1px solid #ccc;
@@ -11,13 +10,21 @@
     margin: 5px;
     border-radius: 3px;
     cursor: pointer;
+    position: relative;
 
     &:hover {
       background-color: darken(#F7F7F7, 5%);
     }
 
-    &.is-selected {
-      background-color: darken(#F7F7F7, 5%);
+    &.is-selected::after {
+      content: '';
+      position: absolute;
+      width: 30px;
+      height: 4px;
+      background-color: #2673E8;
+      bottom: -5px;
+      left: -2px;
+      border-radius: 3px 3px 0 0;
     }
   }
 }
@@ -63,6 +70,7 @@
 
 .ChartPreview {
   flex: 1;
+  width: 0;
 }
 
 .QueryResult-errorMessage {

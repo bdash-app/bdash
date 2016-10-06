@@ -13,9 +13,18 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
+  width: 0;
 
   .QueryResult {
     flex: 1 1 auto;
     overflow: auto;
   }
+}
+
+.QueryPanel-main .QueryPanelHeader {
+  z-index: 1;
+}
+
+.QueryPanel-main .SQLEditor {
+  z-index: 0;
 }

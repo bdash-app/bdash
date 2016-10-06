@@ -13,10 +13,19 @@ export default class QueryList extends React.Component {
 
   handleContextMenu(id) {
     this.props.dispatch('selectQuery', id);
-    let menu = remote.Menu.buildFromTemplate([
-      { label: 'Delete' },
-    ]);
-    menu.popup(remote.getCurrentWindow());
+    setTimeout(() => {
+      let menu = remote.Menu.buildFromTemplate([
+        {
+          label: 'Delete',
+          click: () => {
+            if (window.confirm('Are you sure?')) {
+              this.props.dispatch('deleteQuery', id);
+            }
+          },
+        },
+      ]);
+      menu.popup(remote.getCurrentWindow());
+    });
   }
 
   render() {

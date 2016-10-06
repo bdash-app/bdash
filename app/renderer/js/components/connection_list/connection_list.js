@@ -17,11 +17,17 @@ export default class ConnectionList extends React.Component {
       let menu = remote.Menu.buildFromTemplate([
         {
           label: 'Edit',
-          click: () => { this.props.dispatch('openConnectionFormModal', { connectionId: id }); },
+          click: () => {
+            this.props.dispatch('openConnectionFormModal', { connectionId: id });
+          },
         },
         {
           label: 'Delete',
-          click: () => { this.props.dispatch('deleteConnection', { connectionId: id }); },
+          click: () => {
+            if (window.confirm('Are you sure?')) {
+              this.props.dispatch('deleteConnection', { connectionId: id });
+            }
+          },
         },
       ]);
       menu.popup(remote.getCurrentWindow());

@@ -1,6 +1,7 @@
 import React from 'react';
 import Container from 'react-micro-container';
 import _ from 'lodash';
+import uuid from 'uuid';
 import GlobalMenu from '../components/global_menu/global_menu';
 import QueryPanel from '../components/query_panel/query_panel';
 import ConnectionPanel from '../components/connection_panel/connection_panel';
@@ -103,8 +104,8 @@ export default class AppContainer extends Container {
   }
 
   handleAddNewQuery() {
-    let id = this.state.queries.length + 2;
-    let newQuery = { id: id, title: 'New Query', connectionId: 1 };
+    let id = uuid();
+    let newQuery = { id: id, title: 'New Query' };
     this.update({
       queries: [newQuery].concat(this.state.queries),
       selectedQueryId: id,
@@ -173,7 +174,7 @@ export default class AppContainer extends Container {
       });
     }
     else {
-      let newConnection = Object.assign({ id: this.state.connections.length + 1 }, connectionFormValues);
+      let newConnection = Object.assign({ id: uuid() }, connectionFormValues);
       connections = [newConnection].concat(this.state.connections);
     }
     this.update({ connections, connectionFormValues: null });

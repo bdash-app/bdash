@@ -1,23 +1,26 @@
 import React from 'react';
+import Select from 'react-select';
 
 export default class ConnectionSelect extends React.Component {
   handleChange(e) {
-    this.props.dispatch('changeConnection', this.props.query, Number(e.target.value));
+    this.props.dispatch('changeConnection', this.props.query, e.value);
   }
 
   render() {
     let options = this.props.connections.map(connection => {
-      return <option key={connection.id} value={connection.id}>{connection.name}</option>;
+      return { value: connection.id, label: connection.name };
     });
 
     return (
-      <select
-        className="ConnectionSelect"
-        value={this.props.query.connectionId}
-        onChange={this.handleChange.bind(this)}
-        >
-        {options}
-      </select>
+      <div className="ConnectionSelect">
+        <Select
+          value={this.props.query.connectionId}
+          options={options}
+          onChange={(e) => this.handleChange(e)}
+          placeholder={'Select data source...'}
+          clearable={false}
+          />
+      </div>
     );
   }
 }
