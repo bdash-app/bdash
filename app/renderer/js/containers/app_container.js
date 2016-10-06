@@ -38,6 +38,19 @@ export default class AppContainer extends Container {
     }
   }
 
+  updateConnection(connection, nextState) {
+    let connections = this.state.connections.map(c => {
+      if (connection.id === c.id) {
+        return Object.assign({}, c, nextState);
+      }
+      else {
+        return c;
+      }
+    });
+
+    this.update({ connections });
+  }
+
   componentDidMount() {
     this.subscribe({
       execute: this.handleExecute,
@@ -58,6 +71,7 @@ export default class AppContainer extends Container {
       saveConnectionFormModal: this.handleSaveConnectionFormModal,
       deleteConnection: this.handleDeleteConnection,
       executeConnectionTest: this.handleExecuteConnectionTest,
+      selectTable: this.handleSelectTable,
     });
   }
 
@@ -121,7 +135,7 @@ export default class AppContainer extends Container {
   }
 
   handleUpdateSetting(setting) {
-    this.setState({ setting });
+    this.update({ setting });
   }
 
   handleOpenConnectionFormModal({ connectionId }) {
@@ -131,18 +145,18 @@ export default class AppContainer extends Container {
       connectionFormValues = Object.assign({}, connection);
     }
 
-    this.setState({ connectionFormValues, connectionTest: null });
+    this.update({ connectionFormValues, connectionTest: null });
   }
 
   handleChangeConnectionFormModalValue(name, value) {
     let connectionFormValues = Object.assign({}, this.state.connectionFormValues, {
       [name]: value,
     });
-    this.setState({ connectionFormValues });
+    this.update({ connectionFormValues });
   }
 
   handleCloseConnectionFormModal() {
-    this.setState({ connectionFormValues: null });
+    this.update({ connectionFormValues: null });
   }
 
   handleSaveConnectionFormModal() {
@@ -177,6 +191,17 @@ export default class AppContainer extends Container {
       .catch(() => this.update({ connectionTest: 'fail' }));
   }
 
+  handleSelectTable(connection, table) {
+    let tableName = table.table_schema ? `${table.table_schema}.${table.table_name}` : table.table_name;
+
+    this.updateConnection(connection, { selectedTable: tableName, tableSummary: null });
+    Executor.fetchTableSummary(tableName, connection).then(tableSummary => {
+      this.updateConnection(connection, { selectedTable: tableName, tableSummary });
+    }).catch(err => {
+      console.error(err);
+    });
+  }
+
   fetchTables(id) {
     let connection = _.find(this.state.connections, { id });
     let query;
@@ -190,7 +215,7 @@ export default class AppContainer extends Container {
 
     Executor.execute(connection.type, query, connection).then(res => {
       connection.tables = res.rows;
-      this.setState({ connections: this.state.connections });
+      this.update({ connections: this.state.connections });
     }).catch(err => {
       console.log(err);
     });

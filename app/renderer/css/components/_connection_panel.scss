@@ -2,28 +2,19 @@
   display: flex;
 }
 
-.ConnectionPanel-list {
+.ConnectionPanel-connectionList {
   width: 280px;
   border-right: 1px solid #CCC;
   min-height: 100vh;
 }
 
-.ConnectionPanel-main {
+.ConnectionPanel-tableList {
+  width: 260px;
+}
+
+.ConnectionPanel-tableSummary {
+  flex: 1;
   height: 100vh;
-}
-
-.ConnectionSetting {
-  padding: 10px;
-}
-
-.ConnectionSetting h3 {
-  margin: 10px 0 5px 0;
-}
-
-.ConnectionSetting-tables i {
-  color: #BBA41D;
-}
-
-.ConnectionSetting-tables .is-view i {
-  color: #4B89BB;
+  width: 0;
+  overflow: auto;
 }
