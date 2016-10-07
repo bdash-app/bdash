@@ -4,7 +4,7 @@ import _ from 'lodash';
 import uuid from 'uuid';
 import GlobalMenu from '../components/global_menu/global_menu';
 import QueryPanel from '../components/query_panel/query_panel';
-import ConnectionPanel from '../components/connection_panel/connection_panel';
+import DataSourcePanel from '../components/data_source_panel/data_source_panel';
 import HistoryPanel from '../components/history_panel/history_panel';
 import SettingPanel from '../components/setting_panel/setting_panel';
 import Executor from '../services/executor';
@@ -39,9 +39,9 @@ export default class AppContainer extends Container {
     }
   }
 
-  updateConnection(connection, nextState) {
-    let connections = this.state.connections.map(c => {
-      if (connection.id === c.id) {
+  updateDataSource(dataSource, nextState) {
+    let dataSources = this.state.dataSources.map(c => {
+      if (dataSource.id === c.id) {
         return Object.assign({}, c, nextState);
       }
       else {
@@ -49,7 +49,7 @@ export default class AppContainer extends Container {
       }
     });
 
-    this.update({ connections });
+    this.update({ dataSources });
   }
 
   componentDidMount() {
@@ -57,20 +57,20 @@ export default class AppContainer extends Container {
       execute: this.handleExecute,
       changeSql: this.handleChangeSql,
       changeTitle: this.handleChangeTitle,
-      changeConnection: this.handleChangeConnection,
+      changeDataSource: this.handleChangeDataSource,
       selectGlobalMenu: this.handleSelectGlobalMenu,
       addNewQuery: this.handleAddNewQuery,
       deleteQuery: this.handleDeleteQuery,
       selectQuery: this.handleSelectQuery,
       updateChart: this.handleUpdateChart,
-      addNewConnection: this.handleAddNewConnection,
-      selectConnection: this.handleSelectConnection,
+      addNewDataSource: this.handleAddNewDataSource,
+      selectDataSource: this.handleSelectDataSource,
       updateSetting: this.handleUpdateSetting,
-      openConnectionFormModal: this.handleOpenConnectionFormModal,
-      changeConnectionFormModalValue: this.handleChangeConnectionFormModalValue,
-      closeConnectionFormModal: this.handleCloseConnectionFormModal,
-      saveConnectionFormModal: this.handleSaveConnectionFormModal,
-      deleteConnection: this.handleDeleteConnection,
+      openDataSourceFormModal: this.handleOpenDataSourceFormModal,
+      changeDataSourceFormModalValue: this.handleChangeDataSourceFormModalValue,
+      closeDataSourceFormModal: this.handleCloseDataSourceFormModal,
+      saveDataSourceFormModal: this.handleSaveDataSourceFormModal,
+      deleteDataSource: this.handleDeleteDataSource,
       executeConnectionTest: this.handleExecuteConnectionTest,
       selectTable: this.handleSelectTable,
     });
@@ -81,10 +81,10 @@ export default class AppContainer extends Container {
   }
 
   handleExecute(query) {
-    let connection = _.find(this.state.connections, { id: query.connectionId });
-    let { type } = connection;
+    let dataSource = _.find(this.state.dataSources, { id: query.dataSourceId });
+    let { type } = dataSource;
     this.updateQuery(query, { status: 'working' }, { save: false });
-    Executor.execute(type, query.sql, connection).then(({ fields, rows, runtime }) => {
+    Executor.execute(type, query.sql, dataSource).then(({ fields, rows, runtime }) => {
       this.updateQuery(query, { status: 'success', fields, rows, runtime });
     }).catch(err => {
       this.updateQuery(query, { status: 'fail', error: err.message });
@@ -95,8 +95,8 @@ export default class AppContainer extends Container {
     this.updateQuery(query, { title });
   }
 
-  handleChangeConnection(query, connectionId) {
-    this.updateQuery(query, { connectionId });
+  handleChangeDataSource(query, dataSourceId) {
+    this.updateQuery(query, { dataSourceId });
   }
 
   handleSelectGlobalMenu(name) {
@@ -126,12 +126,12 @@ export default class AppContainer extends Container {
     this.updateQuery(query, { chart });
   }
 
-  handleAddNewConnection() {
-    this.setState({ connectionFormValues: {}, connectionTest: null });
+  handleAddNewDataSource() {
+    this.setState({ dataSourceFormValues: {}, connectionTest: null });
   }
 
-  handleSelectConnection(id) {
-    this.update({ selectedConnectionId: id });
+  handleSelectDataSource(id) {
+    this.update({ selectedDataSourceId: id });
     this.fetchTables(id);
   }
 
@@ -139,34 +139,34 @@ export default class AppContainer extends Container {
     this.update({ setting });
   }
 
-  handleOpenConnectionFormModal({ connectionId }) {
-    let connectionFormValues = {};
-    let connection = _.find(this.state.connections, { id: connectionId });
-    if (connection) {
-      connectionFormValues = Object.assign({}, connection);
+  handleOpenDataSourceFormModal({ dataSourceId }) {
+    let dataSourceFormValues = {};
+    let dataSource = _.find(this.state.dataSources, { id: dataSourceId });
+    if (dataSource) {
+      dataSourceFormValues = Object.assign({}, dataSource);
     }
 
-    this.update({ connectionFormValues, connectionTest: null });
+    this.update({ dataSourceFormValues, connectionTest: null });
   }
 
-  handleChangeConnectionFormModalValue(name, value) {
-    let connectionFormValues = Object.assign({}, this.state.connectionFormValues, {
+  handleChangeDataSourceFormModalValue(name, value) {
+    let dataSourceFormValues = Object.assign({}, this.state.dataSourceFormValues, {
       [name]: value,
     });
-    this.update({ connectionFormValues });
+    this.update({ dataSourceFormValues });
   }
 
-  handleCloseConnectionFormModal() {
-    this.update({ connectionFormValues: null });
+  handleCloseDataSourceFormModal() {
+    this.update({ dataSourceFormValues: null });
   }
 
-  handleSaveConnectionFormModal() {
-    let connectionFormValues = this.state.connectionFormValues;
-    let connections;
-    if (connectionFormValues.id) {
-      connections = this.state.connections.map(c => {
-        if (c.id === connectionFormValues.id) {
-          return Object.assign({}, connectionFormValues);
+  handleSaveDataSourceFormModal() {
+    let dataSourceFormValues = this.state.dataSourceFormValues;
+    let dataSources;
+    if (dataSourceFormValues.id) {
+      dataSources = this.state.dataSources.map(c => {
+        if (c.id === dataSourceFormValues.id) {
+          return Object.assign({}, dataSourceFormValues);
         }
         else {
           return c;
@@ -174,49 +174,49 @@ export default class AppContainer extends Container {
       });
     }
     else {
-      let newConnection = Object.assign({ id: uuid() }, connectionFormValues);
-      connections = [newConnection].concat(this.state.connections);
+      let newDataSource = Object.assign({ id: uuid() }, dataSourceFormValues);
+      dataSources = [newDataSource].concat(this.state.dataSources);
     }
-    this.update({ connections, connectionFormValues: null });
+    this.update({ dataSources, dataSourceFormValues: null });
   }
 
-  handleDeleteConnection({ connectionId }) {
-    let connections = this.state.connections.filter(c => c.id !== connectionId);
-    this.update({ connections, selectedConnectionId: null });
+  handleDeleteDataSource({ dataSourceId }) {
+    let dataSources = this.state.dataSources.filter(c => c.id !== dataSourceId);
+    this.update({ dataSources, selectedDataSourceId: null });
   }
 
-  handleExecuteConnectionTest(connection) {
+  handleExecuteConnectionTest(dataSource) {
     this.update({ connectionTest: 'working' });
-    Executor.execute(connection.type, 'select 1', connection)
+    Executor.execute(dataSource.type, 'select 1', dataSource)
       .then(() => this.update({ connectionTest: 'success' }))
       .catch(() => this.update({ connectionTest: 'fail' }));
   }
 
-  handleSelectTable(connection, table) {
+  handleSelectTable(dataSource, table) {
     let tableName = table.table_schema ? `${table.table_schema}.${table.table_name}` : table.table_name;
 
-    this.updateConnection(connection, { selectedTable: tableName, tableSummary: null });
-    Executor.fetchTableSummary(tableName, connection).then(tableSummary => {
-      this.updateConnection(connection, { selectedTable: tableName, tableSummary });
+    this.updateDataSource(dataSource, { selectedTable: tableName, tableSummary: null });
+    Executor.fetchTableSummary(tableName, dataSource).then(tableSummary => {
+      this.updateDataSource(dataSource, { selectedTable: tableName, tableSummary });
     }).catch(err => {
       console.error(err);
     });
   }
 
   fetchTables(id) {
-    let connection = _.find(this.state.connections, { id });
+    let dataSource = _.find(this.state.dataSources, { id });
     let query;
-    if (connection.type === 'mysql') {
-      query = `select table_name, table_type from information_schema.tables where table_schema = '${connection.database}'`;
+    if (dataSource.type === 'mysql') {
+      query = `select table_name, table_type from information_schema.tables where table_schema = '${dataSource.database}'`;
     }
 
-    if (connection.type === 'postgres') {
+    if (dataSource.type === 'postgres') {
       query = "select table_schema, table_name, table_type from information_schema.tables where table_schema not in ('information_schema', 'pg_catalog', 'pg_internal')";
     }
 
-    Executor.execute(connection.type, query, connection).then(res => {
-      connection.tables = res.rows;
-      this.update({ connections: this.state.connections });
+    Executor.execute(dataSource.type, query, dataSource).then(res => {
+      dataSource.tables = res.rows;
+      this.update({ dataSources: this.state.dataSources });
     }).catch(err => {
       console.log(err);
     });
@@ -225,7 +225,7 @@ export default class AppContainer extends Container {
   getCurrentPanel() {
     switch (this.state.selectedGlobalMenu) {
     case 'query': return QueryPanel;
-    case 'connection': return ConnectionPanel;
+    case 'dataSource': return DataSourcePanel;
     case 'history': return HistoryPanel;
     case 'setting': return SettingPanel;
     }

@@ -5,7 +5,7 @@ export default class GlobalMenu extends React.Component {
   get menuList() {
     return [
       { name: 'query', icon: 'terminal' },
-      { name: 'connection', icon: 'database' },
+      { name: 'dataSource', icon: 'database' },
       //{ name: 'history', icon: 'history' },
       { name: 'setting', icon: 'cog' },
     ].map((item, idx) => {

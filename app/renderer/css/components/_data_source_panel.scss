@@ -1,18 +1,18 @@
-.ConnectionPanel {
+.DataSourcePanel {
   display: flex;
 }
 
-.ConnectionPanel-connectionList {
+.DataSourcePanel-dataSourceList {
   width: 280px;
   border-right: 1px solid #CCC;
   min-height: 100vh;
 }
 
-.ConnectionPanel-tableList {
+.DataSourcePanel-tableList {
   width: 260px;
 }
 
-.ConnectionPanel-tableSummary {
+.DataSourcePanel-tableSummary {
   flex: 1;
   height: 100vh;
   width: 0;

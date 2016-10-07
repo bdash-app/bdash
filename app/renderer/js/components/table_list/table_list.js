@@ -2,16 +2,16 @@ import React from 'react';
 import classNames from 'classnames';
 
 export default class TableList extends React.Component {
-  handleClickTable(connection, table) {
-    this.props.dispatch('selectTable', this.props.connection, connection, table);
+  handleClickTable(dataSource, table) {
+    this.props.dispatch('selectTable', this.props.dataSource, dataSource, table);
   }
 
-  renderItem(connection, table, key) {
+  renderItem(dataSource, table, key) {
     let schema = table.table_schema ? `${table.table_schema}.` : '';
     let tableName = schema + table.table_name;
     let className = classNames({
       'is-view': table.table_type.toLowerCase() === 'view',
-      'is-selected': connection.selectedTable === tableName,
+      'is-selected': dataSource.selectedTable === tableName,
     });
 
     return <li
@@ -24,11 +24,11 @@ export default class TableList extends React.Component {
   }
 
   render() {
-    let connection = this.props.connection;
-    if (!connection) return null;
+    let dataSource = this.props.dataSource;
+    if (!dataSource) return null;
 
-    let items = (connection.tables || []).map((table, i) => {
-      return this.renderItem(connection, table, i);
+    let items = (dataSource.tables || []).map((table, i) => {
+      return this.renderItem(dataSource, table, i);
     });
 
     return <div className="TableList">

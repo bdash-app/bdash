@@ -1,29 +1,29 @@
 import React from 'react';
 import Modal from 'react-modal';
 
-export default class ConnectionFormModal extends React.Component {
+export default class DataSourceFormModal extends React.Component {
   handleChange(e) {
     let el = e.target;
     let name = el.getAttribute('name');
     let value = el.value;
-    this.props.dispatch('changeConnectionFormModalValue', name, value);
+    this.props.dispatch('changeDataSourceFormModalValue', name, value);
   }
 
   handleCancel() {
-    this.props.dispatch('closeConnectionFormModal');
+    this.props.dispatch('closeDataSourceFormModal');
   }
 
   handleSave() {
-    this.props.dispatch('saveConnectionFormModal');
+    this.props.dispatch('saveDataSourceFormModal');
   }
 
   onClickConnectionTest() {
-    this.props.dispatch('executeConnectionTest', this.props.connectionFormValues);
+    this.props.dispatch('executeConnectionTest', this.props.dataSourceFormValues);
   }
 
   render() {
-    let connection = this.props.connectionFormValues;
-    if (!connection) return null;
+    let dataSource = this.props.dataSourceFormValues;
+    if (!dataSource) return null;
 
     let handleChange = this.handleChange.bind(this);
     let style = {
@@ -46,17 +46,17 @@ export default class ConnectionFormModal extends React.Component {
       },
     };
 
-    return <Modal isOpen={true} style={style} className="ConnectionFormModal">
+    return <Modal isOpen={true} style={style} className="DataSourceFormModal">
       <table>
         <tbody>
           <tr>
             <th>Name</th>
-            <td><input type="text" value={connection.name} name="name" onChange={handleChange} /></td>
+            <td><input type="text" value={dataSource.name} name="name" onChange={handleChange} /></td>
           </tr>
           <tr>
             <th>Type</th>
             <td>
-              <select value={connection.type} name="type" onChange={handleChange}>
+              <select value={dataSource.type} name="type" onChange={handleChange}>
                 <option></option>
                 <option value="mysql">MySQL</option>
                 <option value="postgres">PostgreSQL</option>
@@ -65,34 +65,34 @@ export default class ConnectionFormModal extends React.Component {
           </tr>
           <tr>
             <th>Host</th>
-            <td><input type="text" value={connection.host} name="host" onChange={handleChange} /></td>
+            <td><input type="text" value={dataSource.host} name="host" onChange={handleChange} /></td>
           </tr>
           <tr>
             <th>Port</th>
-            <td><input type="text" value={connection.port} name="port" onChange={handleChange} /></td>
+            <td><input type="text" value={dataSource.port} name="port" onChange={handleChange} /></td>
           </tr>
           <tr>
             <th>Username</th>
-            <td><input type="text" value={connection.user} name="user" onChange={handleChange} /></td>
+            <td><input type="text" value={dataSource.user} name="user" onChange={handleChange} /></td>
           </tr>
           <tr>
             <th>Password</th>
-            <td><input type="password" value={connection.password} name="password" onChange={handleChange} /></td>
+            <td><input type="password" value={dataSource.password} name="password" onChange={handleChange} /></td>
           </tr>
           <tr>
             <th>Database</th>
-            <td><input type="text" value={connection.database} name="database" onChange={handleChange} /></td>
+            <td><input type="text" value={dataSource.database} name="database" onChange={handleChange} /></td>
           </tr>
         </tbody>
       </table>
 
-      <div className="ConnectionFormModal-connectionTest">
+      <div className="DataSourceFormModal-connectionTest">
         <button onClick={() => this.onClickConnectionTest()}>Connection Test</button>
         <i hidden={this.props.connectionTest !== 'success'} className="fa fa-check"></i>
         <i hidden={this.props.connectionTest !== 'fail'} className="fa fa-close"></i>
         <i hidden={this.props.connectionTest !== 'working'} className="fa fa-spin fa-refresh"></i>
       </div>
-      <div className="ConnectionFormModal-buttons">
+      <div className="DataSourceFormModal-buttons">
         <button onClick={() => this.handleCancel()}>Cancel</button>
         <button onClick={() => this.handleSave()}>Save</button>
       </div>
