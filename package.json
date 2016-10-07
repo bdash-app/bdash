@@ -1,5 +1,6 @@
 {
   "name": "bdash",
+  "main": "./app/main.js",
   "private": true,
   "version": "0.0.0",
   "scripts": {
