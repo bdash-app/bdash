@@ -34,6 +34,7 @@ create table query_results (
   rows json,
   error_message text
 );
+create index idx_query_id_on_query_results on query_results(query_id);
 
 create table chart_types (
   type text primary key not null,
@@ -51,3 +52,4 @@ create table charts (
   created_at datetime not null,
   updated_at datetime not null
 );
+create index idx_query_id_on_charts on charts(query_id);
