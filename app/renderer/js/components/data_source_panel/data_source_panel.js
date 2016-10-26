@@ -7,7 +7,7 @@ import DataSourceFormModal from '../data_source_form_modal/data_source_form_moda
 
 export default class DataSourcePanel extends React.Component {
   render() {
-    let dataSource = _.find(this.props.dataSources, { id: this.props.selectedDataSourceId });
+    let dataSource = _.find(this.props.dataSources, { id: this.props.ui.selectedDataSourceId });
 
     return (
       <div className="DataSourcePanel">
@@ -22,8 +22,8 @@ export default class DataSourcePanel extends React.Component {
         </div>
         <DataSourceFormModal
           dispatch={this.props.dispatch}
-          connectionTest={this.props.connectionTest}
-          dataSourceFormValues={this.props.dataSourceFormValues}
+          connectionTest={this.props.ui.connectionTest}
+          dataSourceFormValues={this.props.ui.dataSourceFormValues}
           />
       </div>
     );

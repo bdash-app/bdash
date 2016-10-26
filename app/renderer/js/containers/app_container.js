@@ -1,3 +1,6 @@
+import electron from 'electron';
+import path from 'path';
+import fs from 'fs';
 import React from 'react';
 import Container from 'react-micro-container';
 import _ from 'lodash';
@@ -8,16 +11,31 @@ import DataSourcePanel from '../components/data_source_panel/data_source_panel';
 import HistoryPanel from '../components/history_panel/history_panel';
 import SettingPanel from '../components/setting_panel/setting_panel';
 import Executor from '../services/executor';
+import Database from '../services/database';
+import Setting from '../services/setting';
 
 export default class AppContainer extends Container {
   constructor() {
     super();
-    this.state = JSON.parse(localStorage.getItem('state') || '{}');
+    this.state = {
+      initialize: false,
+      ui: localStorage.getItem('ui') ? JSON.parse(localStorage.getItem('ui')) : {
+        selectedGlobalMenu: 'query',
+        dataSourceFormValues: null,
+        connectionTest: null,
+      },
+    };
   }
 
   update(state) {
     this.setState(state, () => {
       localStorage.setItem('state', JSON.stringify(this.state));
+    });
+  }
+
+  updateUi(params) {
+    this.setState({ ui: Object.assign(this.state.ui, params) }, () => {
+      localStorage.setItem('ui', JSON.stringify(this.state.ui));
     });
   }
 
@@ -53,6 +71,25 @@ export default class AppContainer extends Container {
   }
 
   componentDidMount() {
+    let home = electron.remote.app.getPath('home');
+    let bdashDir = path.resolve(home, '.bdash');
+    if (!fs.existsSync(bdashDir)) {
+      fs.mkdirSync(bdashDir);
+    }
+
+    let dbPath = path.resolve(bdashDir, 'bdash.sqlite3');
+    let schemaPath = path.resolve(__dirname, '../../../../../', 'db/schema.sql');
+    let schema = fs.readFileSync(schemaPath).toString();
+    let settingFilePath = path.resolve(bdashDir, 'setting.yml');
+    this.db = new Database({ dbPath });
+    this.setting = new Setting({ filePath: settingFilePath });
+
+    this.db.initialize({ schema }).then(({ queries, dataSources }) => {
+      this.setState({ initialize: true, queries, dataSources, setting: this.setting.all() });
+    }).catch(err => {
+      console.error(err);
+    });
+
     this.subscribe({
       execute: this.handleExecute,
       changeSql: this.handleChangeSql,
@@ -100,7 +137,7 @@ export default class AppContainer extends Container {
   }
 
   handleSelectGlobalMenu(name) {
-    this.update({ selectedGlobalMenu: name });
+    this.updateUi({ selectedGlobalMenu: name });
   }
 
   handleAddNewQuery() {
@@ -127,7 +164,7 @@ export default class AppContainer extends Container {
   }
 
   handleAddNewDataSource() {
-    this.setState({ dataSourceFormValues: {}, connectionTest: null });
+    this.updateUi({ dataSourceFormValues: {}, connectionTest: null });
   }
 
   handleSelectDataSource(id) {
@@ -136,7 +173,9 @@ export default class AppContainer extends Container {
   }
 
   handleUpdateSetting(setting) {
-    this.update({ setting });
+    this.setState({ setting: Object.assign(this.state.setting, setting) }, () => {
+      this.setting.update(setting);
+    });
   }
 
   handleOpenDataSourceFormModal({ dataSourceId }) {
@@ -146,50 +185,79 @@ export default class AppContainer extends Container {
       dataSourceFormValues = Object.assign({}, dataSource);
     }
 
-    this.update({ dataSourceFormValues, connectionTest: null });
+    this.updateUi({ dataSourceFormValues, connectionTest: null });
   }
 
   handleChangeDataSourceFormModalValue(name, value) {
-    let dataSourceFormValues = Object.assign({}, this.state.dataSourceFormValues, {
-      [name]: value,
-    });
-    this.update({ dataSourceFormValues });
-  }
+    let newValue = {};
+    let re = /^config\./;
 
-  handleCloseDataSourceFormModal() {
-    this.update({ dataSourceFormValues: null });
-  }
-
-  handleSaveDataSourceFormModal() {
-    let dataSourceFormValues = this.state.dataSourceFormValues;
-    let dataSources;
-    if (dataSourceFormValues.id) {
-      dataSources = this.state.dataSources.map(c => {
-        if (c.id === dataSourceFormValues.id) {
-          return Object.assign({}, dataSourceFormValues);
-        }
-        else {
-          return c;
-        }
+    if (re.test(name)) {
+      newValue.config = Object.assign(this.state.ui.dataSourceFormValues.config, {
+        [name.replace(re, '')]: value,
       });
     }
     else {
-      let newDataSource = Object.assign({ id: uuid() }, dataSourceFormValues);
-      dataSources = [newDataSource].concat(this.state.dataSources);
+      newValue[name] = value;
     }
-    this.update({ dataSources, dataSourceFormValues: null });
+
+    let dataSourceFormValues = Object.assign({}, this.state.ui.dataSourceFormValues, newValue);
+    this.updateUi({ dataSourceFormValues });
+  }
+
+  handleCloseDataSourceFormModal() {
+    this.updateUi({ dataSourceFormValues: null });
+  }
+
+  handleSaveDataSourceFormModal() {
+    let dataSourceFormValues = this.state.ui.dataSourceFormValues;
+    let dataSources;
+
+    if (dataSourceFormValues.id) {
+      // update
+      this.db.updateDataSource(dataSourceFormValues).then(() => {
+        dataSources = this.state.dataSources.map(c => {
+          if (c.id === dataSourceFormValues.id) {
+            return Object.assign({}, dataSourceFormValues);
+          }
+          else {
+            return c;
+          }
+        });
+        this.setState({ dataSources });
+      }).catch(err => {
+        console.error(err);
+      });
+    }
+    else {
+      // create
+      this.db.createDataSource(dataSourceFormValues).then(newDataSource => {
+        dataSources = [newDataSource].concat(this.state.dataSources);
+        this.setState({ dataSources });
+      })
+      .catch(err => {
+        console.error(err);
+      });
+    }
+
+    this.updateUi({ dataSourceFormValues: null });
   }
 
   handleDeleteDataSource({ dataSourceId }) {
     let dataSources = this.state.dataSources.filter(c => c.id !== dataSourceId);
-    this.update({ dataSources, selectedDataSourceId: null });
+    this.db.deleteDataSource(dataSourceId).then(() => {
+      this.setState({ dataSources });
+      this.update({ selectedDataSourceId: null });
+    }).catch(err => {
+      console.error(err);
+    });
   }
 
   handleExecuteConnectionTest(dataSource) {
-    this.update({ connectionTest: 'working' });
+    this.updateUi({ connectionTest: 'working' });
     Executor.execute(dataSource.type, 'select 1', dataSource)
-      .then(() => this.update({ connectionTest: 'success' }))
-      .catch(() => this.update({ connectionTest: 'fail' }));
+      .then(() => this.updateUi({ connectionTest: 'success' }))
+      .catch(() => this.updateUi({ connectionTest: 'fail' }));
   }
 
   handleSelectTable(dataSource, table) {
@@ -223,7 +291,7 @@ export default class AppContainer extends Container {
   }
 
   getCurrentPanel() {
-    switch (this.state.selectedGlobalMenu) {
+    switch (this.state.ui.selectedGlobalMenu) {
     case 'query': return QueryPanel;
     case 'dataSource': return DataSourcePanel;
     case 'history': return HistoryPanel;
@@ -232,6 +300,10 @@ export default class AppContainer extends Container {
   }
 
   render() {
+    if (!this.state.initialize) {
+      return <div>Loading...</div>;
+    }
+
     let Panel = this.getCurrentPanel();
     return (
       <div className="layout-app">

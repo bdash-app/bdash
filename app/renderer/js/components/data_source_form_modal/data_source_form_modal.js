@@ -25,6 +25,8 @@ export default class DataSourceFormModal extends React.Component {
     let dataSource = this.props.dataSourceFormValues;
     if (!dataSource) return null;
 
+    dataSource.config = dataSource.config || {};
+
     let handleChange = this.handleChange.bind(this);
     let style = {
       overlay: {
@@ -65,23 +67,23 @@ export default class DataSourceFormModal extends React.Component {
           </tr>
           <tr>
             <th>Host</th>
-            <td><input type="text" value={dataSource.host} name="host" onChange={handleChange} /></td>
+            <td><input type="text" value={dataSource.config.host} name="config.host" onChange={handleChange} /></td>
           </tr>
           <tr>
             <th>Port</th>
-            <td><input type="text" value={dataSource.port} name="port" onChange={handleChange} /></td>
+            <td><input type="text" value={dataSource.config.port} name="config.port" onChange={handleChange} /></td>
           </tr>
           <tr>
             <th>Username</th>
-            <td><input type="text" value={dataSource.user} name="user" onChange={handleChange} /></td>
+            <td><input type="text" value={dataSource.config.user} name="config.user" onChange={handleChange} /></td>
           </tr>
           <tr>
             <th>Password</th>
-            <td><input type="password" value={dataSource.password} name="password" onChange={handleChange} /></td>
+            <td><input type="password" value={dataSource.config.password} name="config.password" onChange={handleChange} /></td>
           </tr>
           <tr>
             <th>Database</th>
-            <td><input type="text" value={dataSource.database} name="database" onChange={handleChange} /></td>
+            <td><input type="text" value={dataSource.config.database} name="config.database" onChange={handleChange} /></td>
           </tr>
         </tbody>
       </table>
