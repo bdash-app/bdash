@@ -39,7 +39,7 @@ export default class AppContainer extends Container {
     });
   }
 
-  updateQuery(query, nextState, { save } = { save: true }) {
+  updateQuery(query, nextState) {
     let queries = this.state.queries.map(q => {
       if (query.id === q.id) {
         return Object.assign({}, q, nextState);
@@ -49,12 +49,7 @@ export default class AppContainer extends Container {
       }
     });
 
-    if (save) {
-      this.update({ queries });
-    }
-    else {
-      this.setState({ queries });
-    }
+    this.setState({ queries });
   }
 
   updateDataSource(dataSource, nextState) {
@@ -92,7 +87,7 @@ export default class AppContainer extends Container {
 
     this.subscribe({
       execute: this.handleExecute,
-      changeSql: this.handleChangeSql,
+      changeQueryBody: this.handleChangeQueryBody,
       changeTitle: this.handleChangeTitle,
       changeDataSource: this.handleChangeDataSource,
       selectGlobalMenu: this.handleSelectGlobalMenu,
@@ -113,10 +108,6 @@ export default class AppContainer extends Container {
     });
   }
 
-  handleChangeSql(query, sql) {
-    this.updateQuery(query, { sql });
-  }
-
   handleExecute(query) {
     let dataSource = _.find(this.state.dataSources, { id: query.dataSourceId });
     let { type } = dataSource;
@@ -130,10 +121,23 @@ export default class AppContainer extends Container {
 
   handleChangeTitle(query, title) {
     this.updateQuery(query, { title });
+    this.db.updateQuery({ id: query.id, title }).catch(err => {
+      console.error(err);
+    });
+  }
+
+  handleChangeQueryBody(query, body) {
+    this.updateQuery(query, { body });
+    this.db.updateQuery({ id: query.id, body }).catch(err => {
+      console.error(err);
+    });
   }
 
   handleChangeDataSource(query, dataSourceId) {
     this.updateQuery(query, { dataSourceId });
+    this.db.updateQuery({ id: query.id, dataSourceId }).catch(err => {
+      console.error(err);
+    });
   }
 
   handleSelectGlobalMenu(name) {
@@ -141,11 +145,24 @@ export default class AppContainer extends Container {
   }
 
   handleAddNewQuery() {
-    let id = uuid();
-    let newQuery = { id: id, title: 'New Query' };
-    this.update({
-      queries: [newQuery].concat(this.state.queries),
-      selectedQueryId: id,
+    let defaultDataSource = this.state.dataSources[0];
+    if (!defaultDataSource) {
+      alert('Please create data source');
+      return;
+    }
+
+    let params = {
+      title: 'New Query',
+      dataSourceId: defaultDataSource.id,
+    };
+
+    this.db.createQuery(params).then(newQuery => {
+      this.setState({
+        queries: [newQuery].concat(this.state.queries),
+        selectedQueryId: newQuery.id,
+      });
+    }).catch(err => {
+      console.error(err);
     });
   }
 
@@ -155,6 +172,15 @@ export default class AppContainer extends Container {
   }
 
   handleSelectQuery(id) {
+    let query = _.find(this.state.queries, { id });
+    if (query.body === undefined) {
+      this.db.getQuery(id).then(newQuery => {
+        let queries = this.state.queries.map(q => (q.id === id) ? newQuery : q);
+        this.setState({ queries });
+      }).catch(err => {
+        console.log(err);
+      });
+    }
     this.update({ selectedQueryId: id });
   }
 

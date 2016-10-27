@@ -5,6 +5,19 @@ export default class Database {
     this.db = new sqlite3.Database(dbPath);
   }
 
+  get(sql, ...params) {
+    return new Promise((resolve, reject) => {
+      this.db.get(sql, ...params, (err, result) => {
+        if (err) {
+          reject(err);
+        }
+        else {
+          resolve(result);
+        }
+      });
+    });
+  }
+
   all(sql, ...params) {
     return new Promise((resolve, reject) => {
       this.db.all(sql, ...params, (err, result) => {
@@ -102,5 +115,42 @@ export default class Database {
     let sql = 'delete from data_sources where id = ?';
 
     return this.run(sql, id);
+  }
+
+  getQuery(id) {
+    return this.get('select * from queries where id = ?', id);
+  }
+
+  createQuery(params) {
+    let sql = `
+      insert into queries
+      (dataSourceId, title, updatedAt, createdAt)
+      values (?, ?, datetime('now'), datetime('now'))
+    `;
+    let { dataSourceId, title } = params;
+
+    return this.insert(sql, dataSourceId, title).then(id => {
+      return { id, dataSourceId, title };
+    });
+  }
+
+  updateQuery(params) {
+    let fields = [];
+    let values = [];
+
+    Object.keys(params).forEach(field => {
+      if (field === 'id') return;
+      fields.push(field);
+      values.push(params[field]);
+    });
+    values.push(params.id);
+
+    let sql = `
+      update queries
+      set ${fields.map(f => `${f} = ?`).join(', ')}, updatedAt = datetime('now')
+      where id = ?
+    `;
+
+    return this.run(sql, values);
   }
 }

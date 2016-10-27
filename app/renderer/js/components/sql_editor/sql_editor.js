@@ -5,8 +5,8 @@ import 'codemirror/mode/sql/sql';
 import Button from '../button/button';
 
 export default class SQLEditor extends React.Component {
-  handleChange(sql) {
-    this.props.dispatch('changeSql', this.props.query, sql);
+  handleChange(body) {
+    this.props.dispatch('changeQueryBody', this.props.query, body);
   }
 
   handleSubmit() {
@@ -55,7 +55,7 @@ export default class SQLEditor extends React.Component {
     return (
       <div className="SQLEditor">
         <CodeMirror
-          value={query.sql || ''}
+          value={query.body || ''}
           onChange={this.handleChange.bind(this)}
           onSubmit={this.handleSubmit.bind(this)}
           options={{ mode: 'text/x-sql', keyMap: this.props.setting.keyBind, lineNumbers: true, matchBrackets: true }} />

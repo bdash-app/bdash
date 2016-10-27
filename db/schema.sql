@@ -11,13 +11,13 @@ create table if not exists queries (
   id integer primary key autoincrement,
   dataSourceId integer not null references data_sources(id),
   title text not null,
-  query text not null,
+  body text not null default '',
   runtime integer,
   status text check(status in ('success', 'failure')),
   fields json,
   rows json,
   errorMessage text,
-  runAt datetime not null,
+  runAt datetime,
   createdAt datetime not null,
   updatedAt datetime not null
 );
