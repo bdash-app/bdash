@@ -4,7 +4,7 @@ import fs from 'fs';
 import React from 'react';
 import Container from 'react-micro-container';
 import _ from 'lodash';
-import uuid from 'uuid';
+import moment from 'moment';
 import GlobalMenu from '../components/global_menu/global_menu';
 import QueryPanel from '../components/query_panel/query_panel';
 import DataSourcePanel from '../components/data_source_panel/data_source_panel';
@@ -105,37 +105,67 @@ export default class AppContainer extends Container {
       deleteDataSource: this.handleDeleteDataSource,
       executeConnectionTest: this.handleExecuteConnectionTest,
       selectTable: this.handleSelectTable,
+      changeQueryResultSelectedTab: this.handleChangeQueryResultSelectedTab,
     });
+  }
+
+  now() {
+    return moment().utc().format('YYYY-MM-DD HH:mm:ss');
+  }
+
+  handleChangeQueryResultSelectedTab(query, selectedTab) {
+    this.updateQuery(query, { selectedTab });
   }
 
   handleExecute(query) {
     let dataSource = _.find(this.state.dataSources, { id: query.dataSourceId });
     let { type } = dataSource;
-    this.updateQuery(query, { status: 'working' }, { save: false });
-    Executor.execute(type, query.sql, dataSource).then(({ fields, rows, runtime }) => {
-      this.updateQuery(query, { status: 'success', fields, rows, runtime });
+    this.updateQuery(query, { status: 'working' });
+    Executor.execute(type, query.body, dataSource.config).then(({ fields, rows, runtime }) => {
+      let params = {
+        status: 'success',
+        fields: fields,
+        rows: rows,
+        runtime: runtime,
+        errorMessage: null,
+      };
+      this.updateQuery(query, params);
+      return this.db.updateQuery(query.id, Object.assign(params, {
+        fields: JSON.stringify(params.fields),
+        rows: JSON.stringify(params.rows),
+      }));
     }).catch(err => {
-      this.updateQuery(query, { status: 'fail', error: err.message });
+      let params = {
+        status: 'failure',
+        fields: null,
+        rows: null,
+        runtime: null,
+        errorMessage: err.message,
+      };
+      this.updateQuery(query, params);
+      return this.db.updateQuery(query.id, params);
+    }).catch(err => {
+      console.error(err);
     });
   }
 
   handleChangeTitle(query, title) {
     this.updateQuery(query, { title });
-    this.db.updateQuery({ id: query.id, title }).catch(err => {
+    this.db.updateQuery(query.id, { title }).catch(err => {
       console.error(err);
     });
   }
 
   handleChangeQueryBody(query, body) {
     this.updateQuery(query, { body });
-    this.db.updateQuery({ id: query.id, body }).catch(err => {
+    this.db.updateQuery(query.id, { body }).catch(err => {
       console.error(err);
     });
   }
 
   handleChangeDataSource(query, dataSourceId) {
     this.updateQuery(query, { dataSourceId });
-    this.db.updateQuery({ id: query.id, dataSourceId }).catch(err => {
+    this.db.updateQuery(query.id, { dataSourceId }).catch(err => {
       console.error(err);
     });
   }
@@ -175,7 +205,10 @@ export default class AppContainer extends Container {
     let query = _.find(this.state.queries, { id });
     if (query.body === undefined) {
       this.db.getQuery(id).then(newQuery => {
-        let queries = this.state.queries.map(q => (q.id === id) ? newQuery : q);
+        let queries = this.state.queries.map(q => {
+          if (q.id !== id) return q;
+          return Object.assign({ selectedTab: 'table' }, newQuery);
+        });
         this.setState({ queries });
       }).catch(err => {
         console.log(err);
@@ -281,9 +314,9 @@ export default class AppContainer extends Container {
 
   handleExecuteConnectionTest(dataSource) {
     this.updateUi({ connectionTest: 'working' });
-    Executor.execute(dataSource.type, 'select 1', dataSource)
+    Executor.execute(dataSource.type, 'select 1', dataSource.config)
       .then(() => this.updateUi({ connectionTest: 'success' }))
-      .catch(() => this.updateUi({ connectionTest: 'fail' }));
+      .catch(() => this.updateUi({ connectionTest: 'failure' }));
   }
 
   handleSelectTable(dataSource, table) {
@@ -308,7 +341,7 @@ export default class AppContainer extends Container {
       query = "select table_schema, table_name, table_type from information_schema.tables where table_schema not in ('information_schema', 'pg_catalog', 'pg_internal')";
     }
 
-    Executor.execute(dataSource.type, query, dataSource).then(res => {
+    Executor.execute(dataSource.type, query, dataSource.config).then(res => {
       dataSource.tables = res.rows;
       this.update({ dataSources: this.state.dataSources });
     }).catch(err => {

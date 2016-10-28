@@ -2,8 +2,8 @@ import React from 'react';
 import _ from 'lodash';
 import QueryPanelHeader from '../query_panel_header/query_panel_header';
 import SQLEditor from '../sql_editor/sql_editor';
-import ResultTable from '../result_table/result_table';
 import QueryList from '../query_list/query_list';
+import QueryResult from '../query_result/query_result';
 
 export default class QueryPanel extends React.Component {
   renderMain() {
@@ -14,7 +14,7 @@ export default class QueryPanel extends React.Component {
         <div className="QueryPanel-main">
           <QueryPanelHeader query={query} {...this.props} />
           <SQLEditor query={query} {...this.props} />
-          <ResultTable query={query} {...this.props} />
+          <QueryResult query={query} {...this.props} />
         </div>
       );
     }

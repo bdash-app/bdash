@@ -2,20 +2,20 @@ import mysql from 'mysql';
 import pg from 'pg';
 
 export default class Executor {
-  static execute(type, query, connectionInfo) {
-    switch(type) {
-      case 'mysql': return this.executeMySql(query, connectionInfo);
-      case 'postgres': return this.executePostgres(query, connectionInfo);
+  static execute(type, query, config) {
+    switch (type) {
+    case 'mysql': return this.executeMySql(query, config);
+    case 'postgres': return this.executePostgres(query, config);
     }
   }
 
-  static executeMySql(query, connectionInfo) {
+  static executeMySql(query, config) {
     let connection = mysql.createConnection({
-      host: connectionInfo.host,
-      user: connectionInfo.user,
-      port: connectionInfo.port,
-      password: connectionInfo.password,
-      database: connectionInfo.database,
+      host: config.host,
+      user: config.user,
+      port: config.port,
+      password: config.password,
+      database: config.database,
     });
 
     return new Promise((resolve, reject) => {
@@ -33,13 +33,13 @@ export default class Executor {
     });
   }
 
-  static executePostgres(query, connectionInfo) {
+  static executePostgres(query, config) {
     let options = {
-      host: connectionInfo.host,
-      user: connectionInfo.user,
-      port: connectionInfo.port,
-      password: connectionInfo.password,
-      database: connectionInfo.database,
+      host: config.host,
+      user: config.user,
+      port: config.port,
+      password: config.password,
+      database: config.database,
     };
 
     return new Promise((resolve, reject) => {

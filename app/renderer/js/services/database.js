@@ -76,7 +76,10 @@ export default class Database {
     return this.exec(schema)
       .then(() => this.all('select id, name, type, config from data_sources order by createdAt desc'))
       .then(dataSources => {
-        result.dataSources = dataSources;
+        result.dataSources = dataSources.map(s => {
+          let config = JSON.parse(s.config || '{}');
+          return Object.assign(s, { config });
+        });
         return this.all('select id, title from queries order by createdAt desc');
       })
       .then(queries => {
@@ -118,7 +121,17 @@ export default class Database {
   }
 
   getQuery(id) {
-    return this.get('select * from queries where id = ?', id);
+    return this.get('select * from queries where id = ?', id).then(query => {
+      if (query.fields) {
+        query.fields = JSON.parse(query.fields);
+      }
+
+      if (query.rows) {
+        query.rows = JSON.parse(query.rows);
+      }
+
+      return query;
+    });
   }
 
   createQuery(params) {
@@ -134,16 +147,15 @@ export default class Database {
     });
   }
 
-  updateQuery(params) {
+  updateQuery(id, params) {
     let fields = [];
     let values = [];
 
     Object.keys(params).forEach(field => {
-      if (field === 'id') return;
       fields.push(field);
       values.push(params[field]);
     });
-    values.push(params.id);
+    values.push(id);
 
     let sql = `
       update queries

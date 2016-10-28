@@ -16,7 +16,7 @@ export default class SQLEditor extends React.Component {
   renderStatus() {
     switch (this.props.query.status) {
     case 'success': return this.renderSuccess();
-    case 'fail': return this.renderError();
+    case 'failure': return this.renderError();
     case 'working': return this.renderWorking();
     default: return null;
     }

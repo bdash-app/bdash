@@ -91,7 +91,7 @@ export default class DataSourceFormModal extends React.Component {
       <div className="DataSourceFormModal-connectionTest">
         <button onClick={() => this.onClickConnectionTest()}>Connection Test</button>
         <i hidden={this.props.connectionTest !== 'success'} className="fa fa-check"></i>
-        <i hidden={this.props.connectionTest !== 'fail'} className="fa fa-close"></i>
+        <i hidden={this.props.connectionTest !== 'failure'} className="fa fa-close"></i>
         <i hidden={this.props.connectionTest !== 'working'} className="fa fa-spin fa-refresh"></i>
       </div>
       <div className="DataSourceFormModal-buttons">
