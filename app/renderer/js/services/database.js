@@ -84,6 +84,12 @@ export default class Database {
       })
       .then(queries => {
         result.queries = queries;
+        return this.all('select * from charts');
+      }).then(charts => {
+        result.charts = charts.map(chart => {
+          let yColumns = JSON.parse(chart.yColumns || '[]');
+          return Object.assign(chart, { yColumns });
+        });
         return result;
       });
   }
@@ -159,6 +165,38 @@ export default class Database {
 
     let sql = `
       update queries
+      set ${fields.map(f => `${f} = ?`).join(', ')}, updatedAt = datetime('now')
+      where id = ?
+    `;
+
+    return this.run(sql, values);
+  }
+
+  createChart(params) {
+    let sql = `
+      insert into charts
+      (queryId, type, updatedAt, createdAt)
+      values (?, ?, datetime('now'), datetime('now'))
+    `;
+    let { queryId, type } = params;
+
+    return this.insert(sql, queryId, type).then(id => {
+      return { id, queryId, type };
+    });
+  }
+
+  updateChart(id, params) {
+    let fields = [];
+    let values = [];
+
+    Object.keys(params).forEach(field => {
+      fields.push(field);
+      values.push(field === 'yColumns' ? JSON.stringify(params[field]) : params[field]);
+    });
+    values.push(id);
+
+    let sql = `
+      update charts
       set ${fields.map(f => `${f} = ?`).join(', ')}, updatedAt = datetime('now')
       where id = ?
     `;

@@ -79,8 +79,8 @@ export default class AppContainer extends Container {
     this.db = new Database({ dbPath });
     this.setting = new Setting({ filePath: settingFilePath });
 
-    this.db.initialize({ schema }).then(({ queries, dataSources }) => {
-      this.setState({ initialize: true, queries, dataSources, setting: this.setting.all() });
+    this.db.initialize({ schema }).then(({ queries, dataSources, charts }) => {
+      this.setState({ initialize: true, queries, dataSources, charts, setting: this.setting.all() });
     }).catch(err => {
       console.error(err);
     });
@@ -113,8 +113,24 @@ export default class AppContainer extends Container {
     return moment().utc().format('YYYY-MM-DD HH:mm:ss');
   }
 
+  findChart(queryId) {
+    return this.state.charts.filter(chart => {
+      return queryId === chart.queryId;
+    })[0];
+  }
+
   handleChangeQueryResultSelectedTab(query, selectedTab) {
-    this.updateQuery(query, { selectedTab });
+    if (selectedTab === 'chart' && !this.findChart(query.id)) {
+      this.db.createChart({ queryId: query.id, type: 'line' }).then(newChart => {
+        this.setState({ charts: [newChart].concat(this.state.charts) });
+        this.updateQuery(query, { selectedTab });
+      }).catch(err => {
+        console.error(err);
+      });
+    }
+    else {
+      this.updateQuery(query, { selectedTab });
+    }
   }
 
   handleExecute(query) {
@@ -217,9 +233,20 @@ export default class AppContainer extends Container {
     this.update({ selectedQueryId: id });
   }
 
-  handleUpdateChart(query, chartParams) {
-    let chart = Object.assign({}, query.chart, chartParams);
-    this.updateQuery(query, { chart });
+  handleUpdateChart(chartId, chartParams) {
+    let charts = this.state.charts.map(c => {
+      if (chartId === c.id) {
+        return Object.assign({}, c, chartParams);
+      }
+      else {
+        return c;
+      }
+    });
+
+    this.setState({ charts });
+    this.db.updateChart(chartId, chartParams).catch(err => {
+      console.error(err);
+    });
   }
 
   handleAddNewDataSource() {

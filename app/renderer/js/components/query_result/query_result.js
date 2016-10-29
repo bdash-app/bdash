@@ -49,10 +49,14 @@ export default class QueryResult extends React.Component {
       return null;
     }
 
+    let chart = this.props.charts.filter(chart => {
+      return chart.queryId === query.id;
+    })[0];
+
     return <div className="QueryResult">
       {this.renderTab()}
       <QueryResultTable query={query} {...this.props} />
-      <QueryResultChart query={query} {...this.props} />
+      <QueryResultChart query={query} chart={chart} {...this.props} />
     </div>;
   }
 }

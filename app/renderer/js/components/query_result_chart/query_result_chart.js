@@ -3,12 +3,8 @@ import Select from 'react-select';
 import Chart from './chart';
 
 export default class QueryResultChart extends React.Component {
-  get chart() {
-    return Object.assign({ selectedTab: 'table', type: 'line' }, this.props.query.chart);
-  }
-
   update(nextState) {
-    this.props.dispatch('updateChart', this.props.query, nextState);
+    this.props.dispatch('updateChart', this.props.chart.id, nextState);
   }
 
   handleSelectType(option) {
@@ -16,11 +12,11 @@ export default class QueryResultChart extends React.Component {
   }
 
   handleChangeX(option) {
-    this.update({ x: option ? option.value : null });
+    this.update({ xColumn: option ? option.value : null });
   }
 
   handleChangeY(options) {
-    this.update({ y: options.map(o => o.value) });
+    this.update({ yColumns: options.map(o => o.value) });
   }
 
   handleSelectStack(option) {
@@ -38,6 +34,9 @@ export default class QueryResultChart extends React.Component {
     let query = this.props.query;
     if (!query.fields) return null;
 
+    let chart = this.props.chart;
+    if (!chart) return null;
+
     let options = ['line', 'bar', 'area', 'pie'].map(value => {
       return { value, label: value[0].toUpperCase() + value.slice(1) };
     });
@@ -50,7 +49,7 @@ export default class QueryResultChart extends React.Component {
           <div className="ChartEdit-label">Chart Type</div>
           <Select
             className="ChartSelect"
-            value={this.chart.type}
+            value={chart.type}
             options={options}
             optionRenderer={this.renderLabel}
             valueRenderer={this.renderLabel}
@@ -59,26 +58,26 @@ export default class QueryResultChart extends React.Component {
             />
         </div>
         <div className="ChartEdit-row">
-          <div className="ChartEdit-label">{this.chart.type === 'pie' ? 'Label Column' : 'X Column'}</div>
+          <div className="ChartEdit-label">{chart.type === 'pie' ? 'Label Column' : 'X Column'}</div>
           <Select
             options={fieldOptions}
-            value={this.chart.x}
+            value={chart.xColumn}
             onChange={(o) => this.handleChangeX(o)}
             />
         </div>
         <div className="ChartEdit-row">
-          <div className="ChartEdit-label">{this.chart.type === 'pie' ? 'Value Column' : 'Y Column'}</div>
+          <div className="ChartEdit-label">{chart.type === 'pie' ? 'Value Column' : 'Y Column'}</div>
           <Select
             multi={true}
             options={fieldOptions}
-            value={this.chart.y}
+            value={chart.yColumns}
             onChange={(o) => this.handleChangeY(o)}
             />
         </div>
-        <div className="ChartEdit-row" hidden={this.chart.type !== 'bar'}>
+        <div className="ChartEdit-row" hidden={chart.type !== 'bar'}>
           <div className="ChartEdit-label">Stacking</div>
           <Select
-            value={this.chart.stack}
+            value={chart.stack}
             onChange={o => this.handleSelectStack(o)}
             options={stackOptions}
             clearable={false}
@@ -86,7 +85,7 @@ export default class QueryResultChart extends React.Component {
         </div>
       </div>
       <div className="ChartPreview">
-        <Chart type={this.chart.type} x={this.chart.x} y={this.chart.y} stack={this.chart.stack} rows={query.rows} />
+        <Chart type={chart.type} x={chart.xColumn} y={chart.yColumns} stack={chart.stack} rows={query.rows} />
       </div>
     </div>;
   }
