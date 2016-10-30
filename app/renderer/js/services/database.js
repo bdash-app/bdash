@@ -197,7 +197,7 @@ export default class Database {
 
     let sql = `
       update charts
-      set ${fields.map(f => `${f} = ?`).join(', ')}, updatedAt = datetime('now')
+      set ${fields.map(f => `${f} = ?`).join(', ')}
       where id = ?
     `;
 

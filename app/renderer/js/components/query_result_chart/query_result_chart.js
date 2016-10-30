@@ -3,6 +3,21 @@ import Select from 'react-select';
 import Chart from './chart';
 
 export default class QueryResultChart extends React.Component {
+  shouldComponentUpdate(nextProps) {
+    let query = nextProps.query;
+    let chart = nextProps.chart;
+
+    if (!query || !query.fields) return true;
+    if (!chart) return true;
+
+    if (this.props.query.id !== query.id) return true;
+    if (this.props.query.selectedTab !== query.selectedTab && query.selectedTab === 'chart') return true;
+    if (this.props.query.runAt !== query.runAt) return true;
+    if (this.props.chart.updatedAt !== chart.updatedAt) return true;
+
+    return false;
+  }
+
   update(nextState) {
     this.props.dispatch('updateChart', this.props.chart.id, nextState);
   }

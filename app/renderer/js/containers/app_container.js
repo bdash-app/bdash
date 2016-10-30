@@ -143,6 +143,7 @@ export default class AppContainer extends Container {
         fields: fields,
         rows: rows,
         runtime: runtime,
+        runAt: this.now(),
         errorMessage: null,
       };
       this.updateQuery(query, params);
@@ -234,6 +235,7 @@ export default class AppContainer extends Container {
   }
 
   handleUpdateChart(chartId, chartParams) {
+    chartParams = Object.assign({}, chartParams, { updatedAt: this.now() });
     let charts = this.state.charts.map(c => {
       if (chartId === c.id) {
         return Object.assign({}, c, chartParams);
