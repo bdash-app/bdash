@@ -104,7 +104,7 @@ export default class Database {
     let config = JSON.stringify(params.config);
 
     return this.insert(sql, name, type, config).then(id => {
-      return { id, name, type, config };
+      return { id, name, type, config: JSON.parse(config) };
     });
   }
 
@@ -176,12 +176,12 @@ export default class Database {
     let sql = `
       insert into charts
       (queryId, type, updatedAt, createdAt)
-      values (?, ?, datetime('now'), datetime('now'))
+      values (?, ?, ?, datetime('now'))
     `;
-    let { queryId, type } = params;
+    let { queryId, type, updatedAt } = params;
 
-    return this.insert(sql, queryId, type).then(id => {
-      return { id, queryId, type };
+    return this.insert(sql, queryId, type, updatedAt).then(id => {
+      return { id, queryId, type, updatedAt };
     });
   }
 

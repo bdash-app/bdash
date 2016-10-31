@@ -57,17 +57,17 @@ export default class Executor {
     });
   }
 
-  static fetchTableSummary(table, connection) {
-    if (connection.type === 'postgres') {
-      return this.fetchTableSummaryPostgres(table, connection);
+  static fetchTableSummary(table, dataSource) {
+    if (dataSource.type === 'postgres') {
+      return this.fetchTableSummaryPostgres(table, dataSource);
     }
 
-    if (connection.type === 'mysql') {
-      return this.fetchTableSummaryMysql(table, connection);
+    if (dataSource.type === 'mysql') {
+      return this.fetchTableSummaryMysql(table, dataSource);
     }
   }
 
-  static fetchTableSummaryPostgres(table, connection) {
+  static fetchTableSummaryPostgres(table, dataSource) {
     // TODO: escape
     let sql = `
 select
@@ -91,11 +91,11 @@ where
     and not pg_attribute.attisdropped
     and pg_attribute.attnum > 0
 order by pg_attribute.attnum`;
-    return this.executePostgres(sql, connection);
+    return this.executePostgres(sql, dataSource.config);
   }
 
-  static fetchTableSummaryMysql(table, connection) {
+  static fetchTableSummaryMysql(table, dataSource) {
     let sql = `show columns from ${table}`;
-    return this.executeMySql(sql, connection);
+    return this.executeMySql(sql, dataSource.config);
   }
 }

@@ -19,24 +19,15 @@ export default class AppContainer extends Container {
     super();
     this.state = {
       initialize: false,
-      ui: localStorage.getItem('ui') ? JSON.parse(localStorage.getItem('ui')) : {
-        selectedGlobalMenu: 'query',
-        dataSourceFormValues: null,
-        connectionTest: null,
-      },
+      dataSources: [],
+      queries: [],
+      charts: [],
+      selectedGlobalMenu: 'query',
+      selectedDataSourceId: null,
+      selectedQueryId: null,
+      dataSourceFormValues: null,
+      connectionTest: null,
     };
-  }
-
-  update(state) {
-    this.setState(state, () => {
-      localStorage.setItem('state', JSON.stringify(this.state));
-    });
-  }
-
-  updateUi(params) {
-    this.setState({ ui: Object.assign(this.state.ui, params) }, () => {
-      localStorage.setItem('ui', JSON.stringify(this.state.ui));
-    });
   }
 
   updateQuery(query, nextState) {
@@ -62,7 +53,7 @@ export default class AppContainer extends Container {
       }
     });
 
-    this.update({ dataSources });
+    this.setState({ dataSources });
   }
 
   componentDidMount() {
@@ -80,7 +71,16 @@ export default class AppContainer extends Container {
     this.setting = new Setting({ filePath: settingFilePath });
 
     this.db.initialize({ schema }).then(({ queries, dataSources, charts }) => {
-      this.setState({ initialize: true, queries, dataSources, charts, setting: this.setting.all() });
+      let hasDataSource = dataSources.length > 0;
+      this.setState({
+        initialize: true,
+        queries,
+        dataSources,
+        charts,
+        setting: this.setting.all(),
+        dataSourceFormValues: hasDataSource ? null : {},
+        selectedGlobalMenu: hasDataSource ? 'query' : 'dataSource',
+      });
     }).catch(err => {
       console.error(err);
     });
@@ -121,7 +121,7 @@ export default class AppContainer extends Container {
 
   handleChangeQueryResultSelectedTab(query, selectedTab) {
     if (selectedTab === 'chart' && !this.findChart(query.id)) {
-      this.db.createChart({ queryId: query.id, type: 'line' }).then(newChart => {
+      this.db.createChart({ queryId: query.id, type: 'line', updatedAt: this.now() }).then(newChart => {
         this.setState({ charts: [newChart].concat(this.state.charts) });
         this.updateQuery(query, { selectedTab });
       }).catch(err => {
@@ -146,7 +146,7 @@ export default class AppContainer extends Container {
         runAt: this.now(),
         errorMessage: null,
       };
-      this.updateQuery(query, params);
+      this.updateQuery(query, Object.assign({ selectedTab: 'table' }, params));
       return this.db.updateQuery(query.id, Object.assign(params, {
         fields: JSON.stringify(params.fields),
         rows: JSON.stringify(params.rows),
@@ -188,7 +188,7 @@ export default class AppContainer extends Container {
   }
 
   handleSelectGlobalMenu(name) {
-    this.updateUi({ selectedGlobalMenu: name });
+    this.setState({ selectedGlobalMenu: name });
   }
 
   handleAddNewQuery() {
@@ -215,7 +215,7 @@ export default class AppContainer extends Container {
 
   handleDeleteQuery(id) {
     let queries = this.state.queries.filter(q => q.id !== id);
-    this.update({ queries, selectedQueryId: null });
+    this.setState({ queries, selectedQueryId: null });
   }
 
   handleSelectQuery(id) {
@@ -231,7 +231,7 @@ export default class AppContainer extends Container {
         console.log(err);
       });
     }
-    this.update({ selectedQueryId: id });
+    this.setState({ selectedQueryId: id });
   }
 
   handleUpdateChart(chartId, chartParams) {
@@ -252,11 +252,11 @@ export default class AppContainer extends Container {
   }
 
   handleAddNewDataSource() {
-    this.updateUi({ dataSourceFormValues: {}, connectionTest: null });
+    this.setState({ dataSourceFormValues: {}, connectionTest: null });
   }
 
   handleSelectDataSource(id) {
-    this.update({ selectedDataSourceId: id });
+    this.setState({ selectedDataSourceId: id });
     this.fetchTables(id);
   }
 
@@ -273,7 +273,7 @@ export default class AppContainer extends Container {
       dataSourceFormValues = Object.assign({}, dataSource);
     }
 
-    this.updateUi({ dataSourceFormValues, connectionTest: null });
+    this.setState({ dataSourceFormValues, connectionTest: null });
   }
 
   handleChangeDataSourceFormModalValue(name, value) {
@@ -281,7 +281,7 @@ export default class AppContainer extends Container {
     let re = /^config\./;
 
     if (re.test(name)) {
-      newValue.config = Object.assign(this.state.ui.dataSourceFormValues.config, {
+      newValue.config = Object.assign(this.state.dataSourceFormValues.config, {
         [name.replace(re, '')]: value,
       });
     }
@@ -289,16 +289,16 @@ export default class AppContainer extends Container {
       newValue[name] = value;
     }
 
-    let dataSourceFormValues = Object.assign({}, this.state.ui.dataSourceFormValues, newValue);
-    this.updateUi({ dataSourceFormValues });
+    let dataSourceFormValues = Object.assign({}, this.state.dataSourceFormValues, newValue);
+    this.setState({ dataSourceFormValues });
   }
 
   handleCloseDataSourceFormModal() {
-    this.updateUi({ dataSourceFormValues: null });
+    this.setState({ dataSourceFormValues: null });
   }
 
   handleSaveDataSourceFormModal() {
-    let dataSourceFormValues = this.state.ui.dataSourceFormValues;
+    let dataSourceFormValues = this.state.dataSourceFormValues;
     let dataSources;
 
     if (dataSourceFormValues.id) {
@@ -313,39 +313,43 @@ export default class AppContainer extends Container {
           }
         });
         this.setState({ dataSources });
+        this.fetchTables(dataSourceFormValues.id);
       }).catch(err => {
         console.error(err);
       });
     }
     else {
       // create
+      if (!dataSourceFormValues.name) {
+        dataSourceFormValues.name = 'New Database';
+      }
       this.db.createDataSource(dataSourceFormValues).then(newDataSource => {
         dataSources = [newDataSource].concat(this.state.dataSources);
-        this.setState({ dataSources });
+        this.setState({ dataSources, selectedDataSourceId: newDataSource.id });
+        this.fetchTables(newDataSource.id);
       })
       .catch(err => {
         console.error(err);
       });
     }
 
-    this.updateUi({ dataSourceFormValues: null });
+    this.setState({ dataSourceFormValues: null });
   }
 
   handleDeleteDataSource({ dataSourceId }) {
     let dataSources = this.state.dataSources.filter(c => c.id !== dataSourceId);
     this.db.deleteDataSource(dataSourceId).then(() => {
-      this.setState({ dataSources });
-      this.update({ selectedDataSourceId: null });
+      this.setState({ dataSources, selectedDataSourceId: null });
     }).catch(err => {
       console.error(err);
     });
   }
 
   handleExecuteConnectionTest(dataSource) {
-    this.updateUi({ connectionTest: 'working' });
+    this.setState({ connectionTest: 'working' });
     Executor.execute(dataSource.type, 'select 1', dataSource.config)
-      .then(() => this.updateUi({ connectionTest: 'success' }))
-      .catch(() => this.updateUi({ connectionTest: 'failure' }));
+      .then(() => this.setState({ connectionTest: 'success' }))
+      .catch(() => this.setState({ connectionTest: 'failure' }));
   }
 
   handleSelectTable(dataSource, table) {
@@ -363,7 +367,7 @@ export default class AppContainer extends Container {
     let dataSource = _.find(this.state.dataSources, { id });
     let query;
     if (dataSource.type === 'mysql') {
-      query = `select table_name, table_type from information_schema.tables where table_schema = '${dataSource.database}'`;
+      query = `select table_name, table_type from information_schema.tables where table_schema = '${dataSource.config.database}'`;
     }
 
     if (dataSource.type === 'postgres') {
@@ -372,14 +376,14 @@ export default class AppContainer extends Container {
 
     Executor.execute(dataSource.type, query, dataSource.config).then(res => {
       dataSource.tables = res.rows;
-      this.update({ dataSources: this.state.dataSources });
+      this.setState({ dataSources: this.state.dataSources });
     }).catch(err => {
-      console.log(err);
+      console.error(err);
     });
   }
 
   getCurrentPanel() {
-    switch (this.state.ui.selectedGlobalMenu) {
+    switch (this.state.selectedGlobalMenu) {
     case 'query': return QueryPanel;
     case 'dataSource': return DataSourcePanel;
     case 'history': return HistoryPanel;

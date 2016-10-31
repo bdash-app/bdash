@@ -10,6 +10,7 @@ export default class QueryResultTable extends React.Component {
     }
 
     if (!query.fields || !query.rows) return null;
+    if (query.selectedTab !== 'table') return null;
 
     let heads = query.fields.map((field, i) => <th key={`head-${i}`}>{field.name}</th>);
     let rows = query.rows.slice(0, MAX_DISPLAY_ROWS_COUNT).map((row, i) => {
@@ -20,7 +21,7 @@ export default class QueryResultTable extends React.Component {
       return <tr key={`cols-${i}`}>{cols}</tr>;
     });
 
-    return <div className="ResultTable" hidden={query.selectedTab !== 'table'}>
+    return <div className="ResultTable">
       <table className="ResultTable-table">
         <thead><tr>{heads}</tr></thead>
         <tbody>{rows}</tbody>

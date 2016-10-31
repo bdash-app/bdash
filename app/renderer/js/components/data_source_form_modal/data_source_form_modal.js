@@ -53,7 +53,7 @@ export default class DataSourceFormModal extends React.Component {
         <tbody>
           <tr>
             <th>Name</th>
-            <td><input type="text" value={dataSource.name} name="name" onChange={handleChange} /></td>
+            <td><input type="text" value={dataSource.name} name="name" placeholder="New Database" onChange={handleChange} /></td>
           </tr>
           <tr>
             <th>Type</th>

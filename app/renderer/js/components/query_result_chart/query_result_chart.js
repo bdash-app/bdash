@@ -8,10 +8,10 @@ export default class QueryResultChart extends React.Component {
     let chart = nextProps.chart;
 
     if (!query || !query.fields) return true;
-    if (!chart) return true;
+    if (!this.props.chart || !chart) return true;
 
     if (this.props.query.id !== query.id) return true;
-    if (this.props.query.selectedTab !== query.selectedTab && query.selectedTab === 'chart') return true;
+    if (this.props.query.selectedTab !== query.selectedTab) return true;
     if (this.props.query.runAt !== query.runAt) return true;
     if (this.props.chart.updatedAt !== chart.updatedAt) return true;
 
@@ -48,6 +48,7 @@ export default class QueryResultChart extends React.Component {
   render() {
     let query = this.props.query;
     if (!query.fields) return null;
+    if (query.selectedTab !== 'chart') return null;
 
     let chart = this.props.chart;
     if (!chart) return null;
@@ -58,7 +59,7 @@ export default class QueryResultChart extends React.Component {
     let fieldOptions = query.fields.map(f => ({ value: f.name, label: f.name }));
     let stackOptions = ['disable', 'enable', 'percent'].map(o => ({ label: o, value: o }));
 
-    return <div className="ChartBody" hidden={query.selectedTab !== 'chart'}>
+    return <div className="ChartBody">
       <div className="ChartEdit">
         <div className="ChartEdit-row">
           <div className="ChartEdit-label">Chart Type</div>
