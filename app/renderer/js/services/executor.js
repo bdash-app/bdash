@@ -1,6 +1,12 @@
 import mysql from 'mysql';
 import pg from 'pg';
 
+// Disable auto convert to date in pg
+// https://github.com/brianc/node-pg-types/blob/ed2d0e36e33217b34530727a98d20b325389e73a/lib/textParsers.js#L147-L149
+pg.types.setTypeParser(1082, v => v); // date
+pg.types.setTypeParser(1114, v => v); // timestamp without timezone
+pg.types.setTypeParser(1184, v => v); // timestamp
+
 export default class Executor {
   static execute(type, query, config) {
     switch (type) {
