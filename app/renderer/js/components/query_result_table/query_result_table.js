@@ -3,6 +3,17 @@ import React from 'react';
 const MAX_DISPLAY_ROWS_COUNT = 1000;
 
 export default class QueryResultTable extends React.Component {
+  shouldComponentUpdate(nextProps) {
+    let query = nextProps.query;
+
+    if (!query || !query.fields) return true;
+    if (this.props.query.id !== query.id) return true;
+    if (this.props.query.selectedTab !== query.selectedTab) return true;
+    if (this.props.query.runAt !== query.runAt) return true;
+
+    return false;
+  }
+
   render() {
     let query = this.props.query;
     if (query.status === 'failure') {
