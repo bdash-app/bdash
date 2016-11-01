@@ -1,3 +1,4 @@
 node_modules
 app/renderer/dist
 *.sqlite3
+out/
