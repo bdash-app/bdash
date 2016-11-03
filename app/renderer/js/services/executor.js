@@ -104,4 +104,32 @@ order by pg_attribute.attnum`;
     let sql = `show columns from ${table}`;
     return this.executeMySql(sql, dataSource.config);
   }
+
+  static fetchTables(dataSource) {
+    if (dataSource.type === 'mysql') {
+      return this.fetchTablesMysql(dataSource);
+    }
+
+    if (dataSource.type === 'postgres') {
+      return this.fetchTablesPostgres(dataSource);
+    }
+  }
+
+  static fetchTablesMysql(dataSource) {
+    let query = `
+select table_name, table_type
+from information_schema.tables
+where table_schema = '${dataSource.config.database}'
+    `;
+    return this.executeMySql(query, dataSource.config);
+  }
+
+  static fetchTablesPostgres(dataSource) {
+    let query = `
+select table_schema, table_name, table_type
+from information_schema.tables
+where table_schema not in ('information_schema', 'pg_catalog', 'pg_internal')
+    `;
+    return this.executePostgres(query, dataSource.config);
+  }
 }

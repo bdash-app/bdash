@@ -365,16 +365,7 @@ export default class AppContainer extends Container {
 
   fetchTables(id) {
     let dataSource = _.find(this.state.dataSources, { id });
-    let query;
-    if (dataSource.type === 'mysql') {
-      query = `select table_name, table_type from information_schema.tables where table_schema = '${dataSource.config.database}'`;
-    }
-
-    if (dataSource.type === 'postgres') {
-      query = "select table_schema, table_name, table_type from information_schema.tables where table_schema not in ('information_schema', 'pg_catalog', 'pg_internal')";
-    }
-
-    Executor.execute(dataSource.type, query, dataSource.config).then(res => {
+    Executor.fetchTables(dataSource).then(res => {
       dataSource.tables = res.rows;
       this.setState({ dataSources: this.state.dataSources });
     }).catch(err => {
