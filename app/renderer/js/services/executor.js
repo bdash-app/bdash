@@ -120,6 +120,7 @@ order by pg_attribute.attnum`;
 select table_name, table_type
 from information_schema.tables
 where table_schema = '${dataSource.config.database}'
+order by table_name
     `;
     return this.executeMySql(query, dataSource.config);
   }
@@ -129,6 +130,7 @@ where table_schema = '${dataSource.config.database}'
 select table_schema, table_name, table_type
 from information_schema.tables
 where table_schema not in ('information_schema', 'pg_catalog', 'pg_internal')
+order by table_schema, table_name
     `;
     return this.executePostgres(query, dataSource.config);
   }
