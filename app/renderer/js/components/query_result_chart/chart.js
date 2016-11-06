@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Plotly from 'plotly.js/dist/plotly.js';
+import _ from 'lodash';
 
 export default class Chart extends React.Component {
   draw() {
@@ -17,31 +18,59 @@ export default class Chart extends React.Component {
     Plotly.newPlot(chart, params, layout, { displayModeBar: false });
   }
 
+  // TODO: Performance tuning
+  generateChartData() {
+    if (!this.props.y) return [];
+
+    if (!this.props.groupBy) {
+      return this.props.y.map(y => {
+        return {
+          x: this.dataByField(this.props.x),
+          y: this.dataByField(y),
+          name: y,
+        };
+      });
+    }
+
+    let groupValues = _.uniq(this.dataByField(this.props.groupBy));
+    let x = _.groupBy(this.props.rows, row => row[this.props.groupBy]);
+
+    return _.flatMap(this.props.y, y => {
+      return groupValues.map(g => ({
+        name: `${y} (${g})`,
+        x: x[g].map(row => row[this.props.x]),
+        y: this.props.rows
+          .filter(row => row[this.props.groupBy] === g)
+          .map(row => row[y]),
+      }));
+    });
+  }
+
   line() {
-    return (this.props.y || []).map(y => ({
+    return this.generateChartData().map(data => ({
       type: 'scatter',
-      x: this.dataByField(this.props.x),
-      y: this.dataByField(y),
-      name: y,
+      x: data.x,
+      y: data.y,
+      name: data.name,
       mode: 'lines',
     }));
   }
 
   bar() {
-    return this.props.y.map(y => ({
+    return this.generateChartData().map(data => ({
       type: 'bar',
-      x: this.dataByField(this.props.x),
-      y: this.dataByField(y),
-      name: y,
+      x: data.x,
+      y: data.y,
+      name: data.name,
     }));
   }
 
   area() {
-    return this.props.y.map(y => ({
+    return this.generateChartData().map(data => ({
       type: 'scatter',
-      x: this.dataByField(this.props.x),
-      y: this.dataByField(y),
-      name: y,
+      x: data.x,
+      y: data.y,
+      name: data.name,
       mode: 'lines',
       fill: 'tozeroy',
     }));

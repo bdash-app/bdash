@@ -38,6 +38,10 @@ export default class QueryResultChart extends React.Component {
     this.update({ stack: option.value });
   }
 
+  handleChangeGroup(option) {
+    this.update({ groupColumn: option ? option.value : null });
+  }
+
   renderLabel(option) {
     return <span>
       <i className={`fa fa-${option.value}-chart`}></i>
@@ -99,9 +103,17 @@ export default class QueryResultChart extends React.Component {
             clearable={false}
             />
         </div>
+        <div className="ChartEdit-row" hidden={chart.type === 'pie'}>
+          <div className="ChartEdit-label">Group By</div>
+          <Select
+            options={fieldOptions}
+            value={chart.groupColumn}
+            onChange={(o) => this.handleChangeGroup(o)}
+            />
+        </div>
       </div>
       <div className="ChartPreview">
-        <Chart type={chart.type} x={chart.xColumn} y={chart.yColumns} stack={chart.stack} rows={query.rows} />
+        <Chart type={chart.type} x={chart.xColumn} y={chart.yColumns} stack={chart.stack} groupBy={chart.groupColumn} rows={query.rows} />
       </div>
     </div>;
   }
