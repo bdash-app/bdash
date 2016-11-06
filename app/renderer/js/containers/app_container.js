@@ -106,6 +106,7 @@ export default class AppContainer extends Container {
       executeConnectionTest: this.handleExecuteConnectionTest,
       selectTable: this.handleSelectTable,
       changeQueryResultSelectedTab: this.handleChangeQueryResultSelectedTab,
+      changeTableFilterValue: this.handleChangeTableFilterValue,
     });
   }
 
@@ -361,6 +362,11 @@ export default class AppContainer extends Container {
     }).catch(err => {
       console.error(err);
     });
+  }
+
+  handleChangeTableFilterValue(dataSource, value) {
+    dataSource.tableFilterValue = value;
+    this.setState({ dataSources: this.state.dataSources });
   }
 
   fetchTables(id) {

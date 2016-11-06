@@ -6,9 +6,18 @@ export default class TableList extends React.Component {
     this.props.dispatch('selectTable', this.props.dataSource, dataSource, table);
   }
 
+  handleChangeFilter(e) {
+    let value = e.target.value;
+    this.props.dispatch('changeTableFilterValue', this.props.dataSource, value);
+  }
+
   renderItem(dataSource, table, key) {
+    let tableFilterValue = dataSource.tableFilterValue;
     let schema = table.table_schema ? `${table.table_schema}.` : '';
     let tableName = schema + table.table_name;
+    if (tableFilterValue && tableName.indexOf(tableFilterValue) === -1) {
+      return null;
+    }
     let className = classNames({
       'is-view': table.table_type.toLowerCase() === 'view',
       'is-selected': dataSource.selectedTable === tableName,
@@ -32,6 +41,9 @@ export default class TableList extends React.Component {
     });
 
     return <div className="TableList">
+      <div className="TableList-filter">
+        <input type="search" value={dataSource.tableFilterValue} onChange={(e) => this.handleChangeFilter(e)} />
+      </div>
       <ul>{items}</ul>
     </div>;
   }
