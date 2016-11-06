@@ -2,7 +2,7 @@
   "name": "bdash",
   "main": "./app/main.js",
   "private": true,
-  "version": "1.0.0-beta2",
+  "version": "1.0.0-beta3",
   "scripts": {
     "start": "gulp run"
   },
