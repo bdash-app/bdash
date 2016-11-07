@@ -30,4 +30,4 @@ VERSION=$(cat package.json | jq -r '.version')
   --app-copyright=hokaccha
 
 cd out/Bdash-darwin-x64
-zip -r Bdash-$VERSION.zip Bdash.app
+zip -ry Bdash-$VERSION.zip Bdash.app
