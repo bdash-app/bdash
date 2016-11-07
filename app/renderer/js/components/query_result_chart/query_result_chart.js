@@ -34,8 +34,8 @@ export default class QueryResultChart extends React.Component {
     this.update({ yColumns: options.map(o => o.value) });
   }
 
-  handleSelectStack(option) {
-    this.update({ stack: option.value });
+  handleSelectStacking(option) {
+    this.update({ stacking: option.value });
   }
 
   handleChangeGroup(option) {
@@ -61,7 +61,7 @@ export default class QueryResultChart extends React.Component {
       return { value, label: value[0].toUpperCase() + value.slice(1) };
     });
     let fieldOptions = query.fields.map(f => ({ value: f.name, label: f.name }));
-    let stackOptions = ['disable', 'enable', 'percent'].map(o => ({ label: o, value: o }));
+    let stackingOptions = ['disable', 'enable', 'percent'].map(o => ({ label: o, value: o }));
 
     return <div className="ChartBody">
       <div className="ChartEdit">
@@ -97,9 +97,9 @@ export default class QueryResultChart extends React.Component {
         <div className="ChartEdit-row" hidden={chart.type !== 'bar'}>
           <div className="ChartEdit-label">Stacking</div>
           <Select
-            value={chart.stack}
-            onChange={o => this.handleSelectStack(o)}
-            options={stackOptions}
+            value={chart.stacking}
+            onChange={o => this.handleSelectStacking(o)}
+            options={stackingOptions}
             clearable={false}
             />
         </div>
@@ -113,7 +113,7 @@ export default class QueryResultChart extends React.Component {
         </div>
       </div>
       <div className="ChartPreview">
-        <Chart type={chart.type} x={chart.xColumn} y={chart.yColumns} stack={chart.stack} groupBy={chart.groupColumn} rows={query.rows} />
+        <Chart type={chart.type} x={chart.xColumn} y={chart.yColumns} stacking={chart.stacking} groupBy={chart.groupColumn} rows={query.rows} />
       </div>
     </div>;
   }

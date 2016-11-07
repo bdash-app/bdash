@@ -8,10 +8,10 @@ export default class Chart extends React.Component {
     let chart = ReactDOM.findDOMNode(this);
     let params = this[this.props.type]();
     let layout = { showlegend: true, margin: { l: 50, r: 50, t: 10, b: 120, pad: 4 } };
-    if (this.props.stack === 'enable') {
+    if (this.props.stacking === 'enable') {
       layout.barmode = 'stack';
     }
-    if (this.props.stack === 'percent') {
+    if (this.props.stacking === 'percent') {
       layout.barmode = 'stack';
       layout.barnorm = 'percent';
     }
