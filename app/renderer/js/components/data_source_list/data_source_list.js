@@ -12,20 +12,29 @@ export default class DataSourceList extends React.Component {
   }
 
   handleContextMenu(id) {
-    this.props.dispatch('selectDataSource', id);
+    if (id !== this.props.selectedDataSourceId) {
+      this.props.dispatch('selectDataSource', id);
+    }
+
     setTimeout(() => {
       let menu = remote.Menu.buildFromTemplate([
         {
           label: 'Edit',
           click: () => {
-            this.props.dispatch('openDataSourceFormModal', { dataSourceId: id });
+            this.props.dispatch('openDataSourceFormModal', id);
+          },
+        },
+        {
+          label: 'Reload',
+          click: () => {
+            this.props.dispatch('reloadDataSourceTables', id);
           },
         },
         {
           label: 'Delete',
           click: () => {
             if (window.confirm('Are you sure?')) {
-              this.props.dispatch('deleteDataSource', { dataSourceId: id });
+              this.props.dispatch('deleteDataSource', id);
             }
           },
         },

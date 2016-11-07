@@ -97,6 +97,7 @@ export default class AppContainer extends Container {
       updateChart: this.handleUpdateChart,
       addNewDataSource: this.handleAddNewDataSource,
       selectDataSource: this.handleSelectDataSource,
+      reloadDataSourceTables: this.handleReloadDataSourceTables,
       updateSetting: this.handleUpdateSetting,
       openDataSourceFormModal: this.handleOpenDataSourceFormModal,
       changeDataSourceFormModalValue: this.handleChangeDataSourceFormModalValue,
@@ -261,15 +262,19 @@ export default class AppContainer extends Container {
     this.fetchTables(id);
   }
 
+  handleReloadDataSourceTables(id) {
+    this.fetchTables(id);
+  }
+
   handleUpdateSetting(setting) {
     this.setState({ setting: Object.assign(this.state.setting, setting) }, () => {
       this.setting.update(setting);
     });
   }
 
-  handleOpenDataSourceFormModal({ dataSourceId }) {
+  handleOpenDataSourceFormModal(id) {
     let dataSourceFormValues = {};
-    let dataSource = _.find(this.state.dataSources, { id: dataSourceId });
+    let dataSource = _.find(this.state.dataSources, { id });
     if (dataSource) {
       dataSourceFormValues = Object.assign({}, dataSource);
     }
@@ -337,9 +342,9 @@ export default class AppContainer extends Container {
     this.setState({ dataSourceFormValues: null });
   }
 
-  handleDeleteDataSource({ dataSourceId }) {
-    let dataSources = this.state.dataSources.filter(c => c.id !== dataSourceId);
-    this.db.deleteDataSource(dataSourceId).then(() => {
+  handleDeleteDataSource(id) {
+    let dataSources = this.state.dataSources.filter(c => c.id !== id);
+    this.db.deleteDataSource(id).then(() => {
       this.setState({ dataSources, selectedDataSourceId: null });
     }).catch(err => {
       console.error(err);
@@ -371,6 +376,9 @@ export default class AppContainer extends Container {
 
   fetchTables(id) {
     let dataSource = _.find(this.state.dataSources, { id });
+    dataSource.tables = null;
+    this.setState({ dataSources: this.state.dataSources });
+
     Executor.fetchTables(dataSource).then(res => {
       dataSource.tables = res.rows;
       this.setState({ dataSources: this.state.dataSources });
