@@ -1,11 +1,22 @@
 #!/bin/bash
 
-set -e
+set -ex
+
+export NODE_ENV=production
 
 rm -rf out
+mkdir -p out/tmp/app/renderer
+npm run build:app
+cp -a app/main.js app/main out/tmp/app
+cp -a app/renderer/index.html app/renderer/dist out/tmp/app/renderer
+cp -a db yarn.lock package.json out/tmp
+cd out/tmp
+yarn install
+cd -
+./node_modules/.bin/electron-rebuild -p -m out/tmp -w sqlite3
 
 VERSION=$(cat package.json | jq -r '.version')
-./node_modules/.bin/electron-packager . Bdash \
+./node_modules/.bin/electron-packager out/tmp Bdash \
   --asar=true \
   --overwrite \
   --icon=./assets/icon.icns \
