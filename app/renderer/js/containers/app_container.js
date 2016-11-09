@@ -88,6 +88,7 @@ export default class AppContainer extends Container {
     this.subscribe({
       execute: this.handleExecute,
       changeQueryBody: this.handleChangeQueryBody,
+      changeEditorCursor: this.handleChangeEditorCursor,
       changeTitle: this.handleChangeTitle,
       changeDataSource: this.handleChangeDataSource,
       selectGlobalMenu: this.handleSelectGlobalMenu,
@@ -138,8 +139,9 @@ export default class AppContainer extends Container {
   handleExecute(query) {
     let dataSource = _.find(this.state.dataSources, { id: query.dataSourceId });
     let { type } = dataSource;
+    let line = this.state.currentCursorLine || 1;
     this.updateQuery(query, { status: 'working' });
-    Executor.execute(type, query.body, dataSource.config).then(({ fields, rows, runtime }) => {
+    Executor.executeByLine(type, query.body, dataSource.config, line).then(({ fields, rows, runtime }) => {
       let params = {
         status: 'success',
         fields: fields,
@@ -180,6 +182,10 @@ export default class AppContainer extends Container {
     this.db.updateQuery(query.id, { body }).catch(err => {
       console.error(err);
     });
+  }
+
+  handleChangeEditorCursor(line) {
+    this.setState({ currentCursorLine: line });
   }
 
   handleChangeDataSource(query, dataSourceId) {

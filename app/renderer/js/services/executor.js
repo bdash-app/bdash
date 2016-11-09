@@ -1,5 +1,6 @@
 import mysql from 'mysql';
 import pg from 'pg';
+import _ from 'lodash';
 
 // Disable auto convert to date in pg
 // https://github.com/brianc/node-pg-types/blob/ed2d0e36e33217b34530727a98d20b325389e73a/lib/textParsers.js#L147-L149
@@ -13,6 +14,42 @@ export default class Executor {
     case 'mysql': return this.executeMySql(query, config);
     case 'postgres': return this.executePostgres(query, config);
     }
+  }
+
+  static executeByLine(type, query, config, line) {
+    return this.execute(type, this.findQueryByLine(query, line), config);
+  }
+
+  static findQueryByLine(sql, line) {
+    let chunks = this.splitQuery(sql);
+
+    if (chunks.length === 0) return '';
+    if (chunks.length === 1) return chunks[0].query;
+
+    let chunk = _.find(chunks, chunk => chunk.end >= line);
+    return chunk ? chunk.query : _.last(chunks).query;
+  }
+
+  static splitQuery(sql) {
+    let lines = sql.replace(/\s+$/, '').split('\n');
+    let chunks = [];
+    let chunk = null;
+
+    lines.forEach((line, i) => {
+      if (!chunk) {
+        chunk = { query: '', end: null };
+        chunks.push(chunk);
+      }
+
+      chunk.query += `${line}\n`;
+
+      if (/;$/.test(line)) {
+        chunk.end = i + 1;
+        chunk = null;
+      }
+    });
+
+    return chunks.map(chunk => ({ query: chunk.query.trim(), end: chunk.end }));
   }
 
   static executeMySql(query, config) {

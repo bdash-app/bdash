@@ -9,6 +9,10 @@ export default class SQLEditor extends React.Component {
     this.props.dispatch('changeQueryBody', this.props.query, body);
   }
 
+  handleChangeCursor(line) {
+    this.props.dispatch('changeEditorCursor', line);
+  }
+
   handleSubmit() {
     this.props.dispatch('execute', this.props.query);
   }
@@ -57,6 +61,7 @@ export default class SQLEditor extends React.Component {
         <CodeMirror
           value={query.body || ''}
           onChange={this.handleChange.bind(this)}
+          onChangeCursor={this.handleChangeCursor.bind(this)}
           onSubmit={this.handleSubmit.bind(this)}
           options={{ mode: 'text/x-sql', keyMap: this.props.setting.keyBind, lineNumbers: true, matchBrackets: true }} />
         <div className="SQLEditor-ctrl">

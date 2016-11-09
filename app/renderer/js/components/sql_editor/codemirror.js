@@ -29,6 +29,7 @@ var CodeMirror = React.createClass({
 		this.codeMirror.on('change', this.codemirrorValueChanged);
 		this.codeMirror.on('focus', this.focusChanged.bind(this, true));
 		this.codeMirror.on('blur', this.focusChanged.bind(this, false));
+		this.codeMirror.on('cursorActivity', this.cursorChange);
 		this.codeMirror.setOption("extraKeys", {
 		  'Cmd-Enter': () => {
 				this.props.onSubmit();
@@ -51,7 +52,6 @@ var CodeMirror = React.createClass({
 			this.codeMirror.setValue(nextProps.value);
 		}
 		if (typeof nextProps.options === 'object' && !isEqual(nextProps.options, this._currentOptions)) {
-			console.log(nextProps.options);
 			this._currentOptions = nextProps.options;
 			for (var optionName in nextProps.options) {
 				if (nextProps.options.hasOwnProperty(optionName)) {
@@ -82,6 +82,12 @@ var CodeMirror = React.createClass({
 		var newValue = doc.getValue();
 		this._currentCodemirrorValue = newValue;
 		this.props.onChange && this.props.onChange(newValue);
+	},
+
+	cursorChange: function cursorChange(doc) {
+		let cursor = doc.getCursor();
+		let line = (cursor.line || 0) + 1;
+		this.props.onChangeCursor(line);
 	},
 
 	render: function render() {
