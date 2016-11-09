@@ -6,6 +6,7 @@
   "scripts": {
     "build:sqlite3": "electron-rebuild -p -w sqlite3",
     "build:app": "gulp build",
+    "test": "mocha --compilers js:babel-register",
     "start": "gulp run"
   },
   "dependencies": {
@@ -31,6 +32,7 @@
   "devDependencies": {
     "babel-preset-node5": "^10.1.2",
     "babel-preset-react": "^6.3.13",
+    "babel-register": "^6.18.0",
     "electron-packager": "^8.2.0",
     "electron-prebuilt": "^1.4.2",
     "electron-rebuild": "^1.3.0",
@@ -40,7 +42,8 @@
     "gulp-plumber": "^1.0.1",
     "gulp-sass": "^2.1.1",
     "gulp-sass-glob": "0.0.8",
-    "gulp-sourcemaps": "^1.6.0"
+    "gulp-sourcemaps": "^1.6.0",
+    "mocha": "^3.1.2"
   },
   "license": "MIT"
 }
