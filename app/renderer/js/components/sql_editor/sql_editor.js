@@ -53,6 +53,17 @@ export default class SQLEditor extends React.Component {
     );
   }
 
+  get codeMirrorOptions() {
+    return {
+      mode: 'text/x-sql',
+      keyMap: this.props.setting.keyBind,
+      lineNumbers: true,
+      matchBrackets: true,
+      indentUnit: 4,
+      smartIndent: false,
+    };
+  }
+
   render() {
     let query = this.props.query;
 
@@ -63,7 +74,7 @@ export default class SQLEditor extends React.Component {
           onChange={this.handleChange.bind(this)}
           onChangeCursor={this.handleChangeCursor.bind(this)}
           onSubmit={this.handleSubmit.bind(this)}
-          options={{ mode: 'text/x-sql', keyMap: this.props.setting.keyBind, lineNumbers: true, matchBrackets: true }} />
+          options={this.codeMirrorOptions} />
         <div className="SQLEditor-ctrl">
           <Button label="Execute" onClick={this.handleSubmit.bind(this)} />
           {this.renderStatus()}

@@ -33,7 +33,17 @@ var CodeMirror = React.createClass({
 		this.codeMirror.setOption("extraKeys", {
 		  'Cmd-Enter': () => {
 				this.props.onSubmit();
-		  }
+		  },
+      'Tab': cm => {
+				if (!cm.state.vim || cm.state.vim.insertMode) {
+					cm.execCommand('insertSoftTab');
+				}
+			},
+      'Ctrl-U': cm => {
+				if (!cm.state.vim || cm.state.vim.insertMode) {
+					cm.execCommand('delLineLeft');
+				}
+			},
 		});
 		this._currentCodemirrorValue = this.props.defaultValue || this.props.value || '';
 		this._currentOptions = this.props.options || {};
