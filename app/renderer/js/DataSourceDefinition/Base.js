@@ -1,10 +1,9 @@
 export default class Base {
+  static get key() { throw new Error('Not Implemented'); }
+  static get label() { throw new Error('Not Implemented'); }
+
   constructor(config) {
     this.config = config;
-  }
-
-  connectionTest() {
-    throw new Error('Not Implemented');
   }
 
   execute() {
@@ -12,6 +11,10 @@ export default class Base {
   }
 
   cancel() {
+    throw new Error('Not Implemented');
+  }
+
+  connectionTest() {
     throw new Error('Not Implemented');
   }
 
