@@ -13,6 +13,7 @@ import SettingPanel from '../components/setting_panel/setting_panel';
 import Executor from '../services/executor';
 import Database from '../services/database';
 import Setting from '../services/setting';
+import strings from '../utils/strings';
 
 export default class AppContainer extends Container {
   constructor() {
@@ -122,6 +123,10 @@ export default class AppContainer extends Container {
     })[0];
   }
 
+  executor(dataSource) {
+    return Executor.create(dataSource.type, dataSource.config);
+  }
+
   handleChangeQueryResultSelectedTab(query, selectedTab) {
     if (selectedTab === 'chart' && !this.findChart(query.id)) {
       this.db.createChart({ queryId: query.id, type: 'line', updatedAt: this.now() }).then(newChart => {
@@ -138,10 +143,11 @@ export default class AppContainer extends Container {
 
   handleExecute(query) {
     let dataSource = _.find(this.state.dataSources, { id: query.dataSourceId });
-    let { type } = dataSource;
     let line = this.state.currentCursorLine || 1;
+    let body = strings.findQueryByLine(query.body, line);
+
     this.updateQuery(query, { status: 'working' });
-    Executor.executeByLine(type, query.body, dataSource.config, line).then(({ fields, rows, runtime }) => {
+    this.executor(dataSource).execute(body).then(({ fields, rows, runtime }) => {
       let params = {
         status: 'success',
         fields: fields,
@@ -359,16 +365,18 @@ export default class AppContainer extends Container {
 
   handleExecuteConnectionTest(dataSource) {
     this.setState({ connectionTest: 'working' });
-    Executor.execute(dataSource.type, 'select 1', dataSource.config)
-      .then(() => this.setState({ connectionTest: 'success' }))
-      .catch(() => this.setState({ connectionTest: 'failure' }));
+    this.executor(dataSource).connectionTest().then(result => {
+      this.setState({ connectionTest: result ? 'success' : 'failure' });
+    }).catch(err => {
+      console.error(err);
+    });
   }
 
   handleSelectTable(dataSource, table) {
     let tableName = table.table_schema ? `${table.table_schema}.${table.table_name}` : table.table_name;
 
     this.updateDataSource(dataSource, { selectedTable: tableName, tableSummary: null });
-    Executor.fetchTableSummary(tableName, dataSource).then(tableSummary => {
+    this.executor(dataSource).fetchTableSummary(tableName).then(tableSummary => {
       this.updateDataSource(dataSource, { selectedTable: tableName, tableSummary });
     }).catch(err => {
       console.error(err);
@@ -385,7 +393,7 @@ export default class AppContainer extends Container {
     dataSource.tables = null;
     this.setState({ dataSources: this.state.dataSources });
 
-    Executor.fetchTables(dataSource).then(res => {
+    this.executor(dataSource).fetchTables().then(res => {
       dataSource.tables = res.rows;
       this.setState({ dataSources: this.state.dataSources });
     }).catch(err => {

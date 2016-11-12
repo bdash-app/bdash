@@ -1,5 +1,6 @@
 import React from 'react';
 import Modal from 'react-modal';
+import Executor from '../services/executor';
 
 export default class DataSourceFormModal extends React.Component {
   handleChange(e) {
@@ -47,6 +48,10 @@ export default class DataSourceFormModal extends React.Component {
         outline: 'none',
       },
     };
+    let options = Executor.list.map(({ key, label }) => {
+      return <option key={key}, value={key}>{label}</option>;
+    });
+    options.unshift(<option></option>);
 
     return <Modal isOpen={true} style={style} className="DataSourceFormModal">
       <table>
@@ -59,9 +64,7 @@ export default class DataSourceFormModal extends React.Component {
             <th>Type</th>
             <td>
               <select value={dataSource.type} name="type" onChange={handleChange}>
-                <option></option>
-                <option value="mysql">MySQL</option>
-                <option value="postgres">PostgreSQL</option>
+                {options}
               </select>
             </td>
           </tr>
