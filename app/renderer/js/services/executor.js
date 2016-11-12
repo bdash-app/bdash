@@ -86,12 +86,13 @@ export default class Executor {
     };
 
     return new Promise((resolve, reject) => {
-      pg.connect(options, (err, client) => {
+      let client = new pg.Client(options);
+      client.connect(err => {
         if (err) return reject(err);
         let start = Date.now();
         client.query(query, (err, result) => {
           let runtime = Date.now() - start;
-          pg.end();
+          client.end();
           if (err) return reject(err);
           let { fields, rows } = result;
           resolve({ fields, rows, runtime });
