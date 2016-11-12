@@ -172,6 +172,12 @@ export default class Database {
     return this.run(sql, values);
   }
 
+  deleteQuery(id) {
+    let sql = 'delete from queries where id = ?';
+
+    return this.run(sql, id);
+  }
+
   createChart(params) {
     let sql = `
       insert into charts

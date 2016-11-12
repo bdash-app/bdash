@@ -230,6 +230,9 @@ export default class AppContainer extends Container {
   handleDeleteQuery(id) {
     let queries = this.state.queries.filter(q => q.id !== id);
     this.setState({ queries, selectedQueryId: null });
+    this.db.deleteQuery(id).catch(err => {
+      console.error(err);
+    });
   }
 
   handleSelectQuery(id) {
