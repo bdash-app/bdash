@@ -2,11 +2,15 @@ import pg from 'pg';
 import Base from './Base';
 import strings from '../utils/strings';
 
-// Disable auto convert to date in pg
+// Disable auto convert
 // https://github.com/brianc/node-pg-types/blob/ed2d0e36e33217b34530727a98d20b325389e73a/lib/textParsers.js#L147-L149
-pg.types.setTypeParser(1082, v => v); // date
-pg.types.setTypeParser(1114, v => v); // timestamp without timezone
-pg.types.setTypeParser(1184, v => v); // timestamp
+[
+  20, 21, 23, 26, 700, 701, 16, 1082, 1114, 1184, 600, 718, 1000, 1001,
+  1005, 1007, 1028, 1016, 1021, 1022, 1231, 1014, 1015, 1008, 1009, 1115,
+  1182, 1185, 1186, 17, 114, 3802, 199, 3807, 2951, 791, 1183,
+].forEach(n => {
+  pg.types.setTypeParser(n, v => v);
+});
 
 export default class Postgres extends Base {
   static get key() { return 'postgres'; }
