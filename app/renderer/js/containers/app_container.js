@@ -88,6 +88,7 @@ export default class AppContainer extends Container {
 
     this.subscribe({
       execute: this.handleExecute,
+      cancelQuery: this.handleCancelQuery,
       changeQueryBody: this.handleChangeQueryBody,
       changeEditorCursor: this.handleChangeEditorCursor,
       changeTitle: this.handleChangeTitle,
@@ -142,12 +143,15 @@ export default class AppContainer extends Container {
   }
 
   handleExecute(query) {
+    if (query.status === 'working') return;
+
     let dataSource = _.find(this.state.dataSources, { id: query.dataSourceId });
     let line = this.state.currentCursorLine || 1;
     let body = strings.findQueryByLine(query.body, line);
+    let executor = this.executor(dataSource);
 
-    this.updateQuery(query, { status: 'working' });
-    this.executor(dataSource).execute(body).then(({ fields, rows, runtime }) => {
+    this.updateQuery(query, { status: 'working', executor });
+    executor.execute(body).then(({ fields, rows, runtime }) => {
       let params = {
         status: 'success',
         fields: fields,
@@ -156,7 +160,7 @@ export default class AppContainer extends Container {
         runAt: this.now(),
         errorMessage: null,
       };
-      this.updateQuery(query, Object.assign({ selectedTab: 'table' }, params));
+      this.updateQuery(query, Object.assign({ selectedTab: 'table', executor: null }, params));
       return this.db.updateQuery(query.id, Object.assign(params, {
         fields: JSON.stringify(params.fields),
         rows: JSON.stringify(params.rows),
@@ -169,9 +173,20 @@ export default class AppContainer extends Container {
         runtime: null,
         errorMessage: err.message,
       };
-      this.updateQuery(query, params);
+      this.updateQuery(query, Object.assign({ executor: null }, params));
       return this.db.updateQuery(query.id, params);
     }).catch(err => {
+      console.error(err);
+    });
+  }
+
+  handleCancelQuery(query) {
+    if (query.status !== 'working') return;
+
+    query.executor.cancel().then(() => {
+      this.updateQuery(query, { executor: null });
+    }).catch(err => {
+      this.updateQuery(query, { executor: null });
       console.error(err);
     });
   }

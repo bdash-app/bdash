@@ -17,15 +17,24 @@ export default class Postgres extends Base {
   static get label() { return 'PostgreSQL'; }
 
   execute(query, ...args) {
+    if (this.currentClient) {
+      return Promise.reject(new Error('A query is running'));
+    }
+
     return new Promise((resolve, reject) => {
-      let client = new pg.Client(this.config);
-      client.connect(err => {
-        if (err) return reject(err);
+      this.currentClient = new pg.Client(this.config);
+      this.currentClient.connect(err => {
+        if (err) {
+          this.currentClient = null;
+          return reject(err);
+        }
+
         let start = Date.now();
 
-        client.query(query, args, (err, result) => {
+        this.currentClient.query(query, args, (err, result) => {
           let runtime = Date.now() - start;
-          client.end();
+          this.currentClient.end();
+          this.currentClient = null;
 
           if (err) {
             reject(err);
@@ -37,6 +46,13 @@ export default class Postgres extends Base {
         });
       });
     });
+  }
+
+  cancel() {
+    let pid = this.currentClient && this.currentClient.processID;
+    if (!pid) return Promise.resolve();
+
+    return new Postgres(this.config).execute(`select pg_cancel_backend(${pid})`);
   }
 
   connectionTest() {

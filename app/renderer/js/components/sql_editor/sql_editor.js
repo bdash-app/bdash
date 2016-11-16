@@ -13,8 +13,21 @@ export default class SQLEditor extends React.Component {
     this.props.dispatch('changeEditorCursor', line);
   }
 
+  handleCancel() {
+    this.props.dispatch('cancelQuery', this.props.query);
+  }
+
   handleSubmit() {
     this.props.dispatch('execute', this.props.query);
+  }
+
+  renderButton() {
+    if (this.props.query.status === 'working') {
+      return <Button label="Cancel" onClick={this.handleCancel.bind(this)} />;
+    }
+    else {
+      return <Button label="Execute" onClick={this.handleSubmit.bind(this)} />;
+    }
   }
 
   renderStatus() {
@@ -76,7 +89,7 @@ export default class SQLEditor extends React.Component {
           onSubmit={this.handleSubmit.bind(this)}
           options={this.codeMirrorOptions} />
         <div className="SQLEditor-ctrl">
-          <Button label="Execute" onClick={this.handleSubmit.bind(this)} />
+          {this.renderButton()}
           {this.renderStatus()}
         </div>
       </div>

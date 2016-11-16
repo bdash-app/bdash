@@ -7,13 +7,18 @@ export default class Mysql extends Base {
   static get label() { return 'MySQL'; }
 
   execute(query, ...args) {
+    if (this.currentConnection) {
+      return Promise.reject(new Error('A query is running'));
+    }
+
     return new Promise((resolve, reject) => {
-      let connection = mysql.createConnection(this.config);
+      this.currentConnection = mysql.createConnection(this.config);
       let start = Date.now();
 
-      connection.query(query, args, (err, rows, fields) => {
+      this.currentConnection.query(query, args, (err, rows, fields) => {
         let runtime = Date.now() - start;
-        connection.end();
+        this.currentConnection.end();
+        this.currentConnection = null;
 
         if (err) {
           reject(err);
@@ -23,6 +28,13 @@ export default class Mysql extends Base {
         }
       });
     });
+  }
+
+  cancel() {
+    let tid = this.currentConnection && this.currentConnection.threadId;
+    if (!tid) return Promise.resolve();
+
+    return new Mysql(this.config).execute(`kill query ${tid}`);
   }
 
   connectionTest() {
