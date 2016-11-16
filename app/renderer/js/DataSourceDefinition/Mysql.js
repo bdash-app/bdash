@@ -12,9 +12,10 @@ export default class Mysql extends Base {
     }
 
     return new Promise((resolve, reject) => {
-      this.currentConnection = mysql.createConnection(this.config);
-      let start = Date.now();
+      let params = Object.assign({ typeCast: false }, this.config);
+      this.currentConnection = mysql.createConnection(params);
 
+      let start = Date.now();
       this.currentConnection.query(query, args, (err, rows, fields) => {
         let runtime = Date.now() - start;
         this.currentConnection.end();
