@@ -1,8 +1,17 @@
+import electron from 'electron';
 import React from 'react';
+import markdownTable from 'markdown-table';
+import csvStringify from 'csv-stringify';
+import Flyout from 'react-micro-flyout';
 import QueryResultTable from '../query_result_table/query_result_table';
 import QueryResultChart from '../query_result_chart/query_result_chart';
 
 export default class QueryResult extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { openShareFlyout: false };
+  }
+
   selectTable() {
     this.props.dispatch('changeQueryResultSelectedTab', this.props.query, 'table');
   }
@@ -17,6 +26,31 @@ export default class QueryResult extends React.Component {
 
   selectedChart() {
     return this.props.query.selectedTab === 'chart';
+  }
+
+  getTableData() {
+    let query = this.props.query;
+    let header = [query.fields.map(f => f.name)];
+    let rows = query.rows.map(row => Object.values(row));
+
+    return header.concat(rows);
+  }
+
+  handleClickCopyAsTsv() {
+    this.setState({ openShareFlyout: false });
+    csvStringify(this.getTableData(), { delimiter: '\t' }, (err, tsv) => {
+      if (err) {
+        console.error(err);
+      }
+      else {
+        electron.clipboard.writeText(tsv);
+      }
+    });
+  }
+
+  handleClickCopyAsMarkdown() {
+    this.setState({ openShareFlyout: false });
+    electron.clipboard.writeText(markdownTable(this.getTableData()));
   }
 
   renderError() {
@@ -37,6 +71,21 @@ export default class QueryResult extends React.Component {
         className={this.selectedChart() ? 'is-selected' : ''}
         onClick={() => this.selectChart()}>
         <i className="fa fa-bar-chart"></i></span>
+      <div className="QueryResult-share">
+        <span
+          className="QueryResult-shareBtn"
+          onClick={() => this.setState({ openShareFlyout: true })}>
+          <i className="fa fa-share-alt"></i></span>
+        <Flyout
+          open={this.state.openShareFlyout}
+          className="QueryResult-shareFlyout"
+          onRequestClose={() => this.setState({ openShareFlyout: false })}>
+          <ul>
+            <li onClick={() => this.handleClickCopyAsTsv()}>Copy table as TSV</li>
+            <li onClick={() => this.handleClickCopyAsMarkdown()}>Copy table as Markdown</li>
+          </ul>
+        </Flyout>
+      </div>
     </div>;
   }
 

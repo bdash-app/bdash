@@ -1083,6 +1083,12 @@ csscolorparser@^1.0.2, csscolorparser@~1.0.2:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/csscolorparser/-/csscolorparser-1.0.3.tgz#b34f391eea4da8f3e98231e2ccd8df9c041f171b"
 
+csv-stringify:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/csv-stringify/-/csv-stringify-1.0.4.tgz#bc18bab9ad4cef3195fd257980b58b479c42d3e5"
+  dependencies:
+    lodash.get "^4.0.0"
+
 ctype@0.5.3:
   version "0.5.3"
   resolved "https://registry.yarnpkg.com/ctype/-/ctype-0.5.3.tgz#82c18c2461f74114ef16c135224ad0b9144ca12f"
@@ -3509,6 +3515,10 @@ marching-simplex-table@^1.0.0:
   dependencies:
     convex-hull "^1.0.3"
 
+markdown-table:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/markdown-table/-/markdown-table-1.0.0.tgz#5f768d5ae1b98f31ce673cd24686251decf2c460"
+
 mat4-decompose@^1.0.3:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/mat4-decompose/-/mat4-decompose-1.0.4.tgz#65eb4fe39d70878f7a444eb4624d52f7e7eb2faf"
@@ -4599,6 +4609,10 @@ react-micro-container@^1.0.1:
   resolved "https://registry.yarnpkg.com/react-micro-container/-/react-micro-container-1.1.0.tgz#a950fb3b21a46a1e3daf2bc673edaa6aae782a50"
   dependencies:
     events "^1.1.0"
+
+react-micro-flyout:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/react-micro-flyout/-/react-micro-flyout-0.2.0.tgz#d45818f20a5275d85455dc4c33ffb29b2762b2de"
 
 react-modal@^1.4.0:
   version "1.5.2"
