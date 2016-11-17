@@ -1,6 +1,7 @@
 import React from 'react';
 import Select from 'react-select';
-import Chart from './chart';
+import Chart from '../../services/Chart';
+import ReactDOM from 'react-dom';
 
 export default class QueryResultChart extends React.Component {
   shouldComponentUpdate(nextProps) {
@@ -16,6 +17,32 @@ export default class QueryResultChart extends React.Component {
     if (this.props.chart.updatedAt !== chart.updatedAt) return true;
 
     return false;
+  }
+
+  drawChart() {
+    let query = this.props.query;
+    let chart = this.props.chart;
+    let dom = ReactDOM.findDOMNode(this.refs.chart);
+    if (!query || !chart || !dom) return;
+
+    let params = {
+      type: chart.type,
+      x: chart.xColumn,
+      y: chart.yColumns,
+      stacking: chart.stacking,
+      groupBy: chart.groupColumn,
+      rows: query.rows,
+    };
+
+    new Chart(params).drawTo(dom);
+  }
+
+  componentDidMount() {
+    this.drawChart();
+  }
+
+  componentDidUpdate() {
+    this.drawChart();
   }
 
   update(nextState) {
@@ -113,7 +140,7 @@ export default class QueryResultChart extends React.Component {
         </div>
       </div>
       <div className="ChartPreview">
-        <Chart type={chart.type} x={chart.xColumn} y={chart.yColumns} stacking={chart.stacking} groupBy={chart.groupColumn} rows={query.rows} />
+        <div className="Chart" ref="chart" />
       </div>
     </div>;
   }

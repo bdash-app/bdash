@@ -160,7 +160,7 @@ export default class AppContainer extends Container {
         runAt: this.now(),
         errorMessage: null,
       };
-      this.updateQuery(query, Object.assign({ selectedTab: 'table', executor: null }, params));
+      this.updateQuery(query, Object.assign({ selectedTab: query.selectedTab || 'table', executor: null }, params));
       return this.db.updateQuery(query.id, Object.assign(params, {
         fields: JSON.stringify(params.fields),
         rows: JSON.stringify(params.rows),

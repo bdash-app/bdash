@@ -5,6 +5,7 @@ import csvStringify from 'csv-stringify';
 import Flyout from 'react-micro-flyout';
 import QueryResultTable from '../query_result_table/query_result_table';
 import QueryResultChart from '../query_result_chart/query_result_chart';
+import Chart from '../../services/Chart';
 
 export default class QueryResult extends React.Component {
   constructor(props) {
@@ -36,21 +37,90 @@ export default class QueryResult extends React.Component {
     return header.concat(rows);
   }
 
+  getTableDataAsTsv() {
+    return new Promise((resolve, reject) => {
+      csvStringify(this.getTableData(), { delimiter: '\t' }, (err, tsv) => {
+        if (err) {
+          reject(err);
+        }
+        else {
+          resolve(tsv);
+        }
+      });
+    });
+  }
+
+  getChartAsSvg() {
+    let query = this.props.query;
+    let chart = this.props.charts.filter(chart => {
+      return chart.queryId === query.id;
+    })[0];
+
+    if (!query || !chart) return Promise.resolve(null);
+
+    let params = {
+      type: chart.type,
+      x: chart.xColumn,
+      y: chart.yColumns,
+      stacking: chart.stacking,
+      groupBy: chart.groupColumn,
+      rows: query.rows,
+    };
+
+    return new Chart(params).toSVG();
+  }
+
   handleClickCopyAsTsv() {
     this.setState({ openShareFlyout: false });
-    csvStringify(this.getTableData(), { delimiter: '\t' }, (err, tsv) => {
-      if (err) {
-        console.error(err);
-      }
-      else {
-        electron.clipboard.writeText(tsv);
-      }
+    this.getTableDataAsTsv().then(tsv => {
+      electron.clipboard.writeText(tsv);
+    }).catch(err => {
+      console.error(err);
     });
   }
 
   handleClickCopyAsMarkdown() {
     this.setState({ openShareFlyout: false });
     electron.clipboard.writeText(markdownTable(this.getTableData()));
+  }
+
+  handleClickShareOnGist() {
+    this.setState({ openShareFlyout: false });
+    let query = this.props.query;
+    let github = this.props.setting.github;
+    let baseUrl = github.url || 'https://github.com';
+    let token = github.token;
+
+    if (!token) {
+      console.error('Github token is required');
+      return;
+    }
+
+    Promise.all([this.getTableDataAsTsv(), this.getChartAsSvg()]).then(([tsv, svg]) => {
+      let files = {
+        'query.sql': { content: query.body },
+        'result.tsv': { content: tsv },
+      };
+      if (svg) {
+        files['result2.svg'] = { content: svg };
+      }
+
+      return fetch(`${baseUrl}/gists?access_token=${token}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          description: query.title,
+          public: false,
+          files,
+        }),
+      });
+    }).then(response => {
+      return response.json();
+    }).then(json => {
+      electron.shell.openExternal(json.html_url);
+    }).catch(err => {
+      console.error(err);
+    });
   }
 
   renderError() {
@@ -83,6 +153,7 @@ export default class QueryResult extends React.Component {
           <ul>
             <li onClick={() => this.handleClickCopyAsTsv()}>Copy table as TSV</li>
             <li onClick={() => this.handleClickCopyAsMarkdown()}>Copy table as Markdown</li>
+            <li onClick={() => this.handleClickShareOnGist()}>Share on gist</li>
           </ul>
         </Flyout>
       </div>
