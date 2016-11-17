@@ -12,7 +12,7 @@ export default class Mysql extends Base {
     }
 
     return new Promise((resolve, reject) => {
-      let params = Object.assign({ typeCast: false }, this.config);
+      let params = Object.assign({ dateStrings: true }, this.config);
       this.currentConnection = mysql.createConnection(params);
 
       let start = Date.now();
