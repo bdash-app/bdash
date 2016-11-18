@@ -39,20 +39,17 @@ var CodeMirror = React.createClass({
 					cm.execCommand('insertSoftTab');
 				}
 			},
-      'Ctrl-U': cm => {
-				if (!cm.state.vim || cm.state.vim.insertMode) {
-					cm.execCommand('delLineLeft');
-				}
-			},
 		});
 		this._currentCodemirrorValue = this.props.defaultValue || this.props.value || '';
 		this._currentOptions = this.props.options || {};
 		this.codeMirror.setValue(this._currentCodemirrorValue);
 		CM.Vim.defineAction('indent', cm => cm.indentLine(cm.getCursor().line, 'add'));
 		CM.Vim.defineAction('unindent', cm => cm.indentLine(cm.getCursor().line, 'subtract'));
+		CM.Vim.defineAction('delLineLeft', cm => cm.execCommand('delLineLeft'));
 		CM.Vim.map('<C-j>', '<Esc>', 'insert');
 		CM.Vim._mapCommand({ keys: '<C-t>', type: 'action', action: 'indent', context: 'insert' });
 		CM.Vim._mapCommand({ keys: '<C-d>', type: 'action', action: 'unindent', context: 'insert' });
+		CM.Vim._mapCommand({ keys: '<C-u>', type: 'action', action: 'delLineLeft', context: 'insert' });
 	},
 	componentWillUnmount: function componentWillUnmount() {
 		// todo: is there a lighter-weight way to remove the cm instance?
