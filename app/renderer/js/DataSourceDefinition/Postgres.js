@@ -37,7 +37,7 @@ export default class Postgres extends Base {
           this.currentClient = null;
 
           if (err) {
-            reject(err);
+            reject(this._createError(query, err));
           }
           else {
             let { rows, fields } = result;
@@ -98,5 +98,16 @@ export default class Postgres extends Base {
     );
 
     return this.execute(query, tableName);
+  }
+
+  _createError(query, err) {
+    let message = err.message;
+
+    if (err.position) {
+      let line = (query.substring(0, err.position).match(/\n/g) || []).length + 1;
+      message += ` (line: ${line})`;
+    }
+
+    return new Error(message);
   }
 }
