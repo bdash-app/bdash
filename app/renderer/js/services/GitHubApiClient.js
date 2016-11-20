@@ -14,7 +14,7 @@ export default class GitHubApiClient {
   }
 
   getUrl(path) {
-    let baseUrl =  this.url || GITHUB_COM_URL;
+    let baseUrl =  this.baseUrl || GITHUB_COM_URL;
     return baseUrl + path;
   }
 
