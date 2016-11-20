@@ -2,14 +2,13 @@ import fs from 'fs';
 import yaml from 'js-yaml';
 
 export default class Setting {
-  constructor({ filePath }) {
+  constructor(filePath, defaultSetting = {}) {
     this.filePath = filePath;
 
     if (!fs.existsSync(filePath)) {
       fs.writeFileSync(filePath, '');
     }
 
-    let defaultSetting = { keyBind: 'default' };
     this.setting = Object.assign(defaultSetting, yaml.safeLoad(fs.readFileSync(filePath).toString()));
   }
 

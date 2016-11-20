@@ -6,6 +6,7 @@ import Flyout from 'react-micro-flyout';
 import QueryResultTable from '../query_result_table/query_result_table';
 import QueryResultChart from '../query_result_chart/query_result_chart';
 import Chart from '../../services/Chart';
+import GitHubApiClient from '../../services/GitHubApiClient';
 
 export default class QueryResult extends React.Component {
   constructor(props) {
@@ -87,16 +88,15 @@ export default class QueryResult extends React.Component {
   handleClickShareOnGist() {
     this.setState({ openShareFlyout: false });
     let query = this.props.query;
-    let github = this.props.setting.github;
-    let baseUrl = github.url || 'https://github.com';
-    let token = github.token;
+    let githubSetting = this.props.setting.github || {};
 
-    if (!token) {
-      console.error('Github token is required');
+    if (!githubSetting.token) {
+      alert('Set your Github token');
       return;
     }
 
     Promise.all([this.getTableDataAsTsv(), this.getChartAsSvg()]).then(([tsv, svg]) => {
+      let description = query.title;
       let files = {
         'query.sql': { content: query.body },
         'result.tsv': { content: tsv },
@@ -105,21 +105,12 @@ export default class QueryResult extends React.Component {
         files['result2.svg'] = { content: svg };
       }
 
-      return fetch(`${baseUrl}/gists?access_token=${token}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          description: query.title,
-          public: false,
-          files,
-        }),
-      });
-    }).then(response => {
-      return response.json();
-    }).then(json => {
-      electron.shell.openExternal(json.html_url);
+      return new GitHubApiClient(githubSetting).postToGist({ description, files });
+    }).then(result => {
+      electron.shell.openExternal(result.html_url);
     }).catch(err => {
       console.error(err);
+      alert(err.message);
     });
   }
 

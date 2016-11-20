@@ -69,7 +69,10 @@ export default class AppContainer extends Container {
     let schema = fs.readFileSync(schemaPath).toString();
     let settingFilePath = path.resolve(bdashDir, 'setting.yml');
     this.db = new Database({ dbPath });
-    this.setting = new Setting({ filePath: settingFilePath });
+    this.setting = new Setting(settingFilePath, {
+      keyBind: 'default',
+      github: {},
+    });
 
     this.db.initialize({ schema }).then(({ queries, dataSources, charts }) => {
       let hasDataSource = dataSources.length > 0;
@@ -297,8 +300,9 @@ export default class AppContainer extends Container {
   }
 
   handleUpdateSetting(setting) {
-    this.setState({ setting: Object.assign(this.state.setting, setting) }, () => {
-      this.setting.update(setting);
+    let newSetting = _.merge({}, this.state.setting, setting);
+    this.setState({ setting: newSetting }, () => {
+      this.setting.update(newSetting);
     });
   }
 
