@@ -11,7 +11,7 @@ cp -a app/main.js app/main out/tmp/app
 cp -a app/renderer/index.html app/renderer/dist out/tmp/app/renderer
 cp -a db yarn.lock package.json out/tmp
 cd out/tmp
-yarn install
+yarn install --no-progress
 cd -
 ./node_modules/.bin/electron-rebuild -p -m out/tmp -w sqlite3
 
@@ -31,4 +31,4 @@ VERSION=$(cat package.json | jq -r '.version')
 ./node_modules/.bin/electron-osx-sign out/Bdash-darwin-x64/Bdash.app
 
 cd out/Bdash-darwin-x64
-zip -ry Bdash-$VERSION.zip Bdash.app
+zip -qry Bdash-$VERSION.zip Bdash.app
