@@ -46,7 +46,9 @@ export default class Chart {
   generateChartData() {
     if (!this.params.y) return [];
 
-    if (!this.params.groupBy) {
+    let fields = Object.keys(this.params.rows[0]);
+
+    if (!this.params.groupBy || !fields.includes(this.params.groupBy)) {
       return this.params.y.map(y => {
         return {
           x: this.dataByField(this.params.x),
@@ -56,7 +58,7 @@ export default class Chart {
       });
     }
 
-    let groupValues = _.uniq(this.dataByField(this.params.groupBy));
+    let groupValues = _.uniq(this.dataByField(this.params.groupBy)).sort();
     let x = _.groupBy(this.params.rows, row => row[this.params.groupBy]);
 
     return _.flatMap(this.params.y, y => {
