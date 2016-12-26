@@ -28,6 +28,7 @@ VERSION=$(cat package.json | jq -r '.version')
   --app-version=$VERSION \
   --build-version=$VERSION \
   --app-copyright=hokaccha
+./node_modules/.bin/electron-osx-sign out/Bdash-darwin-x64/Bdash.app
 
 cd out/Bdash-darwin-x64
 zip -ry Bdash-$VERSION.zip Bdash.app
