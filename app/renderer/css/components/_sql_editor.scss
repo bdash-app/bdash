@@ -1,10 +1,13 @@
 .SQLEditor {
   border-bottom: 1px solid #CCC;
+  height: 45vh;
+  max-height: calc(100vh - 48px);
 }
 
 .SQLEditor-ctrl {
   padding: 10px;
   background-color: #F7F7F7;
+  position: relative;
 }
 
 .SQLEditor-status {
@@ -36,4 +39,13 @@
 
 .SQLEditor-status.is-error span {
   color: #bb0c0c;
+}
+
+.SQLEditor-resize {
+  position: absolute;
+  right: 18px;
+  top: 14px;
+  display: inline-block;
+  color: #999;
+  cursor: row-resize;
 }

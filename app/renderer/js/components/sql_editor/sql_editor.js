@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import CodeMirror from './codemirror';
 import 'codemirror/addon/runmode/colorize';
 import 'codemirror/mode/sql/sql';
@@ -77,6 +78,24 @@ export default class SQLEditor extends React.Component {
     };
   }
 
+  handleResizeStart(e) {
+    e.preventDefault();
+    let dom = ReactDOM.findDOMNode(this);
+    let height = dom.clientHeight;
+    let y = e.pageY;
+    let handleResize = (e) => {
+      let newHeight = height + (e.pageY - y);
+      if (newHeight < 46) newHeight = 46;
+      dom.style.height = `${newHeight}px`;
+    };
+    let handleResizeStop = () => {
+      document.removeEventListener('mouseup', handleResizeStop);
+      document.removeEventListener('mousemove', handleResize);
+    };
+    document.addEventListener('mousemove', handleResize);
+    document.addEventListener('mouseup', handleResizeStop);
+  }
+
   render() {
     let query = this.props.query;
 
@@ -91,6 +110,9 @@ export default class SQLEditor extends React.Component {
         <div className="SQLEditor-ctrl">
           {this.renderButton()}
           {this.renderStatus()}
+          <span onMouseDown={this.handleResizeStart.bind(this)} className="SQLEditor-resize">
+            <i className="fa fa-arrows-v" />
+          </span>
         </div>
       </div>
     );

@@ -104,7 +104,7 @@ var CodeMirror = React.createClass({
 	render: function render() {
 		return React.createElement(
 			'div',
-			null,
+			{ className: 'CodeMirrorBox' },
 			React.createElement('textarea', { ref: 'textarea', name: this.props.path, defaultValue: '', autoComplete: 'off' })
 		);
 	}

@@ -1,7 +1,11 @@
+.CodeMirrorBox {
+  height: calc(100% - 45px);
+}
+
 .CodeMirror {
   font-size: 13px;
   font-family: monaco, monospace;
   border-top: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
-  height: 38vh;
+  height: calc(100% - 2px);
 }
