@@ -29,10 +29,7 @@ export default class Postgres extends Base {
           return reject(err);
         }
 
-        let start = Date.now();
-
         this.currentClient.query(query, args, (err, result) => {
-          let runtime = Date.now() - start;
           this.currentClient.end();
           this.currentClient = null;
 
@@ -41,7 +38,7 @@ export default class Postgres extends Base {
           }
           else {
             let { rows, fields } = result;
-            resolve({ fields, rows, runtime });
+            resolve({ fields, rows });
           }
         });
       });

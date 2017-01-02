@@ -15,9 +15,7 @@ export default class Mysql extends Base {
       let params = Object.assign({ dateStrings: true }, this.config);
       this.currentConnection = mysql.createConnection(params);
 
-      let start = Date.now();
       this.currentConnection.query(query, args, (err, rows, fields) => {
-        let runtime = Date.now() - start;
         this.currentConnection.end();
         this.currentConnection = null;
 
@@ -25,7 +23,7 @@ export default class Mysql extends Base {
           reject(err);
         }
         else {
-          resolve({ fields, rows, runtime });
+          resolve({ fields, rows });
         }
       });
     });

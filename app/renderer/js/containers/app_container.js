@@ -156,12 +156,13 @@ export default class AppContainer extends Container {
     let executor = this.executor(dataSource);
 
     this.updateQuery(query, { status: 'working', executor });
-    executor.execute(body).then(({ fields, rows, runtime }) => {
+    let start = Date.now();
+    executor.execute(body).then(({ fields, rows }) => {
       let params = {
         status: 'success',
         fields: fields,
         rows: rows,
-        runtime: runtime,
+        runtime: Date.now() - start,
         runAt: this.now(),
         errorMessage: null,
       };
