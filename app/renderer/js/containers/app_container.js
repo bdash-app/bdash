@@ -28,6 +28,7 @@ export default class AppContainer extends Container {
       selectedQueryId: null,
       dataSourceFormValues: null,
       connectionTest: null,
+      editorHeight: null,
     };
   }
 
@@ -114,6 +115,7 @@ export default class AppContainer extends Container {
       selectTable: this.handleSelectTable,
       changeQueryResultSelectedTab: this.handleChangeQueryResultSelectedTab,
       changeTableFilterValue: this.handleChangeTableFilterValue,
+      changeEditorHeight: this.handleChangeEditorHeight,
     });
   }
 
@@ -408,6 +410,10 @@ export default class AppContainer extends Container {
   handleChangeTableFilterValue(dataSource, value) {
     dataSource.tableFilterValue = value;
     this.setState({ dataSources: this.state.dataSources });
+  }
+
+  handleChangeEditorHeight(height) {
+    this.setState({ editorHeight: height });
   }
 
   fetchTables(id) {

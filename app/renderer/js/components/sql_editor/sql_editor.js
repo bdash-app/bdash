@@ -86,7 +86,7 @@ export default class SQLEditor extends React.Component {
     let handleResize = (e) => {
       let newHeight = height + (e.pageY - y);
       if (newHeight < 46) newHeight = 46;
-      dom.style.height = `${newHeight}px`;
+      this.props.dispatch('changeEditorHeight', newHeight);
     };
     let handleResizeStop = () => {
       document.removeEventListener('mouseup', handleResizeStop);
@@ -96,11 +96,17 @@ export default class SQLEditor extends React.Component {
     document.addEventListener('mouseup', handleResizeStop);
   }
 
+  getStyle() {
+    return this.props.editorHeight == null ? {} : {
+      height: `${this.props.editorHeight}px`,
+    };
+  }
+
   render() {
     let query = this.props.query;
 
     return (
-      <div className="SQLEditor">
+      <div className="SQLEditor" style={this.getStyle()}>
         <CodeMirror
           value={query.body || ''}
           onChange={this.handleChange.bind(this)}
