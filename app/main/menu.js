@@ -1,4 +1,5 @@
 const app = require('electron').app;
+const zoom = require('./zoom');
 
 module.exports = [
   {
@@ -76,6 +77,10 @@ module.exports = [
   {
     label: 'View',
     submenu: [
+      { label: 'Zoom In', accelerator: 'CmdOrCtrl+Plus', click: () => zoom.zoomIn() },
+      { label: 'Zoom Out', accelerator: 'CmdOrCtrl+-', click: () => zoom.zoomOut() },
+      { label: 'Zoom Reset', accelerator: 'CmdOrCtrl+0', click: () => zoom.reset() },
+      { type: 'separator' },
       {
         label: 'Reload',
         accelerator: 'Shift+CmdOrCtrl+R',
