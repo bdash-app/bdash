@@ -36,6 +36,7 @@
     "babel-preset-node5": "^10.1.2",
     "babel-preset-react": "^6.3.13",
     "babel-register": "^6.18.0",
+    "electron-osx-sign": "^0.4.2",
     "electron-packager": "^8.2.0",
     "electron-prebuilt": "^1.4.12",
     "electron-rebuild": "^1.4.0",
