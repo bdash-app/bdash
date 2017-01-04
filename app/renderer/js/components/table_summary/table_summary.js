@@ -5,10 +5,9 @@ export default class TableSummary extends React.Component {
     let dataSource = this.props.dataSource;
     if (!dataSource || !dataSource.tableSummary) return null;
 
-    let fields = dataSource.tableSummary.fields.map(f => f.name);
-    let heads = fields.map((f, i) => <th key={i}>{f}</th>);
+    let heads = dataSource.tableSummary.fields.map((f, i) => <th key={i}>{f}</th>);
     let rows = dataSource.tableSummary.rows.map((row, i) => {
-      let cols = Object.keys(row).map(k => <td key={`${k}-{i}`}>{row[k]}</td>);
+      let cols = row.map((v, j) => <td key={j}>{v}</td>);
       return <tr key={i}>{cols}</tr>;
     });
 

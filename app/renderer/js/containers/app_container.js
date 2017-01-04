@@ -422,8 +422,8 @@ export default class AppContainer extends Container {
     dataSource.tables = null;
     this.setState({ dataSources: this.state.dataSources });
 
-    this.executor(dataSource).fetchTables().then(res => {
-      dataSource.tables = res.rows;
+    this.executor(dataSource).fetchTables().then(tables => {
+      dataSource.tables = tables;
       this.setState({ dataSources: this.state.dataSources });
     }).catch(err => {
       console.error(err);

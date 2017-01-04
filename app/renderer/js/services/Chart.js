@@ -46,9 +46,7 @@ export default class Chart {
   generateChartData() {
     if (!this.params.y) return [];
 
-    let fields = Object.keys(this.params.rows[0]);
-
-    if (!this.params.groupBy || !fields.includes(this.params.groupBy)) {
+    if (!this.params.groupBy || !this.params.fields.includes(this.params.groupBy)) {
       return this.params.y.map(y => {
         return {
           x: this.dataByField(this.params.x),
@@ -59,21 +57,35 @@ export default class Chart {
     }
 
     let groupValues = _.uniq(this.dataByField(this.params.groupBy)).sort();
-    let x = _.groupBy(this.params.rows, row => row[this.params.groupBy]);
+    let idx = this.params.fields.findIndex(field => field === this.params.groupBy);
+    let x = _.groupBy(this.params.rows, row => row[idx]);
 
     return _.flatMap(this.params.y, y => {
-      return groupValues.map(g => ({
-        name: `${y} (${g})`,
-        x: x[g].map(row => row[this.params.x]),
-        y: this.params.rows
-          .filter(row => row[this.params.groupBy] === g)
-          .map(row => row[y]),
-      }));
+      return groupValues.map(g => {
+        let groupByIdx = this.rowIndexByFieldName(this.params.groupBy);
+        let yIdx = this.rowIndexByFieldName(y);
+        return {
+          name: `${y} (${g})`,
+          x: this.valuesByField(x[g], this.params.x),
+          y: this.params.rows
+            .filter(row => row[groupByIdx] === g)
+            .map(row => row[yIdx]),
+        };
+      });
     });
   }
 
-  dataByField(fieldName) {
-    return this.params.rows.map(r => r[fieldName]);
+  rowIndexByFieldName(field) {
+    return this.params.fields.findIndex(f => f === field);
+  }
+
+  valuesByField(rows, field) {
+    let idx = this.rowIndexByFieldName(field);
+    return rows.map(row => row[idx]);
+  }
+
+  dataByField(field) {
+    return this.valuesByField(this.params.rows, field);
   }
 
   line() {

@@ -1,6 +1,7 @@
-import mysql from 'mysql';
+import mysql from 'mysql2';
 import Base from './Base';
 import strings from '../utils/strings';
+import { zipObject } from 'lodash';
 
 export default class Mysql extends Base {
   static get key() { return 'mysql'; }
@@ -15,7 +16,7 @@ export default class Mysql extends Base {
       let params = Object.assign({ dateStrings: true }, this.config);
       this.currentConnection = mysql.createConnection(params);
 
-      this.currentConnection.query(query, args, (err, rows, fields) => {
+      this.currentConnection.query({ sql: query, values: args, rowsAsArray: true }, (err, rows, fields) => {
         this.currentConnection.end();
         this.currentConnection = null;
 
@@ -23,7 +24,7 @@ export default class Mysql extends Base {
           reject(err);
         }
         else {
-          resolve({ fields, rows });
+          resolve({ fields: fields.map(f => f.name), rows });
         }
       });
     });
@@ -52,7 +53,9 @@ export default class Mysql extends Base {
       order by table_name
     `);
 
-    return this.execute(query, this.config.database);
+    return this.execute(query, this.config.database).then(({ fields, rows }) => {
+      return rows.map(row => zipObject(fields, row));
+    });
   }
 
   fetchTableSummary(tableName) {

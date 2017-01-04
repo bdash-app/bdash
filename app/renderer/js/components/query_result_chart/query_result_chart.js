@@ -31,6 +31,7 @@ export default class QueryResultChart extends React.Component {
       y: chart.yColumns,
       stacking: chart.stacking,
       groupBy: chart.groupColumn,
+      fields: query.fields,
       rows: query.rows,
     };
 
@@ -81,13 +82,15 @@ export default class QueryResultChart extends React.Component {
     if (!query.fields) return null;
     if (query.selectedTab !== 'chart') return null;
 
+    if (typeof query.fields[0] !== 'string') return null;
+
     let chart = this.props.chart;
     if (!chart) return null;
 
     let options = ['line', 'bar', 'area', 'pie'].map(value => {
       return { value, label: value[0].toUpperCase() + value.slice(1) };
     });
-    let fieldOptions = query.fields.map(f => ({ value: f.name, label: f.name }));
+    let fieldOptions = query.fields.map(field => ({ value: field, label: field }));
     let stackingOptions = ['disable', 'enable', 'percent'].map(o => ({ label: o, value: o }));
 
     return <div className="ChartBody">

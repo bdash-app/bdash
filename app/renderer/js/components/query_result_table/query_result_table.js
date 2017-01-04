@@ -23,9 +23,11 @@ export default class QueryResultTable extends React.Component {
     if (!query.fields || !query.rows) return null;
     if (query.selectedTab !== 'table') return null;
 
-    let heads = query.fields.map((field, i) => <th key={`head-${i}`}>{field.name}</th>);
+    if (typeof query.fields[0] !== 'string') return null;
+
+    let heads = query.fields.map((field, i) => <th key={`head-${i}`}>{field}</th>);
     let rows = query.rows.slice(0, MAX_DISPLAY_ROWS_COUNT).map((row, i) => {
-      let cols = Object.values(row).map((value, j) => {
+      let cols = row.map((value, j) => {
         let val = value === null ? 'NULL' : value.toString();
         return <td key={`${i}-${j}`} className={value === null ? 'is-null' : ''}>{val}</td>;
       });

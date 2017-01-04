@@ -1,6 +1,7 @@
 import pg from 'pg';
 import Base from './Base';
 import strings from '../utils/strings';
+import { zipObject } from 'lodash';
 
 // Disable auto convert
 // https://github.com/brianc/node-pg-types/blob/ed2d0e36e33217b34530727a98d20b325389e73a/lib/textParsers.js#L147-L149
@@ -29,7 +30,7 @@ export default class Postgres extends Base {
           return reject(err);
         }
 
-        this.currentClient.query(query, args, (err, result) => {
+        this.currentClient.query({ text: query, values: args, rowMode: 'array' }, (err, result) => {
           this.currentClient.end();
           this.currentClient = null;
 
@@ -38,7 +39,7 @@ export default class Postgres extends Base {
           }
           else {
             let { rows, fields } = result;
-            resolve({ fields, rows });
+            resolve({ fields: fields.map(f => f.name), rows });
           }
         });
       });
@@ -68,7 +69,9 @@ export default class Postgres extends Base {
       order by table_schema, table_name
     `);
 
-    return this.execute(query);
+    return this.execute(query).then(({ fields, rows }) => {
+      return rows.map(row => zipObject(fields, row));
+    });
   }
 
   fetchTableSummary(tableName) {
