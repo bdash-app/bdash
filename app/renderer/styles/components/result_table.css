@@ -25,10 +25,6 @@
   color: #999;
 }
 
-.ResultTable-table tbody tr:hover td {
-  // background-color: #f7f7f7;
-}
-
 .ResultTable-more {
   font-size: 13px;
   color: #999;

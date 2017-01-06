@@ -13,9 +13,9 @@
 }
 
 .GlobalMenu-item:hover {
-  background-color: darken(#333, 5%);
+  background-color: #262626;
 }
 
 .GlobalMenu-item.is-selected {
-  background-color: lighten(#333, 10%);
+  background-color: #4d4d4d;
 }

@@ -8,17 +8,17 @@
 .TableList-filter {
   padding: 10px 5px;
   position: relative;
+}
 
-  &:before {
-    content: "\f002";
-    font-family: "FontAwesome";
-    display: inline-block;
-    position: absolute;
-    left: 14px;
-    top: 16px;
-    color: #999;
-    font-size: 12px;
-  }
+.TableList-filter:before {
+  content: "\f002";
+  font-family: "FontAwesome";
+  display: inline-block;
+  position: absolute;
+  left: 14px;
+  top: 16px;
+  color: #999;
+  font-size: 12px;
 }
 
 .TableList-filter input[type="search"] {
@@ -43,23 +43,24 @@
   font-size: 14px;
   cursor: pointer;
   white-space: nowrap;
+}
 
-  &:hover {
-    background-color: #EFEFEF;
-  }
+.TableList > ul > li:hover {
+  background-color: #EFEFEF;
+}
 
-  &.is-selected {
-    background-color: #2673E8;
-    color: #FFF;
+.TableList > ul > li.is-selected {
+  background-color: #2673E8;
+  color: #FFF;
+}
 
-    > i {
-      color: #e2ce57;
-    }
 
-    &.is-view > i {
-      color: #b7dfff;
-    }
-  }
+.TableList > ul > li.is-selected > i {
+  color: #e2ce57;
+}
+
+.TableList > ul > li.is-selected.is-view > i {
+  color: #b7dfff;
 }
 
 .TableList > ul > li > i {
