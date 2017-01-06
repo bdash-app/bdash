@@ -14,6 +14,7 @@ import Executor from '../services/executor';
 import Database from '../services/database';
 import Setting from '../services/setting';
 import strings from '../utils/strings';
+import { appRootDir } from '../utils/path';
 
 export default class AppContainer extends Container {
   constructor() {
@@ -66,7 +67,7 @@ export default class AppContainer extends Container {
     }
 
     let dbPath = path.resolve(bdashDir, 'bdash.sqlite3');
-    let schemaPath = path.resolve(__dirname, '../../../../../', 'db/schema.sql');
+    let schemaPath = path.resolve(appRootDir, 'db/schema.sql');
     let schema = fs.readFileSync(schemaPath).toString();
     let settingFilePath = path.resolve(bdashDir, 'setting.yml');
     this.db = new Database({ dbPath });

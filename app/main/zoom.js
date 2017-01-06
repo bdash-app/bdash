@@ -1,4 +1,5 @@
-const { webContents } = require('electron');
+import { webContents } from 'electron';
+
 const MAX_ZOOM_LEVEL = 2;
 const MIN_ZOOM_LEVEL = -2;
 const ZOOM_LEVEL_STEP = 0.5;
@@ -29,7 +30,7 @@ function reset() {
   setZoomLevel(0);
 }
 
-module.exports = {
+export default {
   zoomIn,
   zoomOut,
   reset,

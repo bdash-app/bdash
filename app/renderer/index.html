@@ -3,10 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Bdash</title>
-<link rel="stylesheet" href="dist/css/app.css">
 </head>
 <body>
 <div id="app"></div>
-<script>require('./dist/js/app')</script>
+<script>
+require('babel-register');
+require('./js/helpers/css-register');
+require('./js/app');
+</script>
 </body>
 </html>

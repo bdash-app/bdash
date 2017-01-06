@@ -1,13 +1,12 @@
 {
   "name": "bdash",
-  "main": "./app/main.js",
+  "main": "./index.js",
   "private": true,
   "version": "1.0.0-beta10",
   "scripts": {
     "build:sqlite3": "electron-rebuild -p -w sqlite3",
-    "build:app": "gulp build",
     "test": "mocha --compilers js:babel-register",
-    "start": "gulp run"
+    "start": "electron ."
   },
   "dependencies": {
     "classnames": "^2.2.5",
@@ -29,24 +28,16 @@
     "react-modal": "^1.4.0",
     "react-select": "^1.0.0-rc.1",
     "sqlite3": "^3.1.7",
-    "uuid": "^2.0.3",
     "yamljs": "^0.2.8"
   },
   "devDependencies": {
-    "babel-preset-node5": "^10.1.2",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.18.0",
     "babel-preset-react": "^6.3.13",
     "babel-register": "^6.18.0",
     "electron-osx-sign": "^0.4.2",
     "electron-packager": "^8.2.0",
     "electron-prebuilt": "^1.4.12",
     "electron-rebuild": "^1.4.0",
-    "gulp": "^3.9.0",
-    "gulp-babel": "^6.1.1",
-    "gulp-load-plugins": "^1.1.0",
-    "gulp-plumber": "^1.0.1",
-    "gulp-sass": "^2.1.1",
-    "gulp-sass-glob": "0.0.8",
-    "gulp-sourcemaps": "^1.6.0",
     "mocha": "^3.1.2"
   },
   "license": "MIT"

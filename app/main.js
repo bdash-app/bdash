@@ -1,10 +1,7 @@
-'use strict';
+import electron from 'electron';
+import menu from './main/menu';
 
-const electron = require('electron');
-const app = electron.app;
-const BrowserWindow = electron.BrowserWindow;
-const menu = require('./main/menu');
-
+let app = electron.app;
 let mainWindow;
 
 app.on('window-all-closed', () => {
@@ -14,7 +11,7 @@ app.on('window-all-closed', () => {
 });
 
 app.on('ready', () => {
-  mainWindow = new BrowserWindow({
+  mainWindow = new electron.BrowserWindow({
     width: 1280,
     height: 780,
     title: 'Bdash',

@@ -1,7 +1,7 @@
-const app = require('electron').app;
-const zoom = require('./zoom');
+import { app } from 'electron';
+import zoom from './zoom';
 
-module.exports = [
+export default [
   {
     label: 'Application',
     submenu: [
