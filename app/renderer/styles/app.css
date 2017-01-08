@@ -1,11 +1,9 @@
 @import './base.css';
-@import './layouts/app.css';
 @import './components/button.css';
 @import './components/codemirror.css';
 @import './components/data_source_form_modal.css';
 @import './components/data_source_list.css';
 @import './components/data_source_panel.css';
-@import './components/global_menu.css';
 @import './components/query_list.css';
 @import './components/query_panel.css';
 @import './components/query_panel_header.css';

@@ -83,7 +83,7 @@ export default [
       { type: 'separator' },
       {
         label: 'Reload',
-        accelerator: 'Shift+CmdOrCtrl+R',
+        accelerator: 'CmdOrCtrl+R',
         click: (item, focusedWindow) => {
           if (focusedWindow) {
             focusedWindow.reload();

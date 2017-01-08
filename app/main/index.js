@@ -1,5 +1,5 @@
 import electron from 'electron';
-import menu from './main/menu';
+import menu from './menu';
 
 let app = electron.app;
 let mainWindow;
@@ -19,6 +19,6 @@ app.on('ready', () => {
 
   electron.Menu.setApplicationMenu(electron.Menu.buildFromTemplate(menu));
 
-  mainWindow.loadURL(`file://${__dirname}/renderer/index.html`);
+  mainWindow.loadURL(`file://${__dirname}/../renderer/index.html`);
   mainWindow.on('closed', () => { mainWindow = null; });
 });

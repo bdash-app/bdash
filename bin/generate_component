@@ -1,0 +1,29 @@
+#!/bin/sh
+
+set -e
+
+COMPONENT_NAME=$1
+mkdir app/renderer/components/$COMPONENT_NAME
+
+cat << EOF > app/renderer/components/$COMPONENT_NAME/$COMPONENT_NAME.js
+import React from 'react';
+
+export default class $COMPONENT_NAME extends React.Component {
+  render() {
+    return <div className="$COMPONENT_NAME">
+      $COMPONENT_NAME compoment!
+    </div>;
+  }
+}
+EOF
+
+cat << EOF > app/renderer/components/$COMPONENT_NAME/$COMPONENT_NAME.css
+.$COMPONENT_NAME {
+}
+EOF
+
+cat << EOF > app/renderer/components/$COMPONENT_NAME/index.js
+import './$COMPONENT_NAME.css';
+import $COMPONENT_NAME from './$COMPONENT_NAME';
+export default $COMPONENT_NAME;
+EOF
