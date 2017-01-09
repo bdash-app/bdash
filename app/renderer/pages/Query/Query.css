@@ -1,2 +1,30 @@
 .page-Query {
+  display: flex;
+}
+
+.page-Query-list {
+  width: 280px;
+  border-right: 1px solid #CCC;
+  min-height: 100vh;
+}
+
+.page-Query-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 0;
+}
+
+.page-Query-main .QueryResult {
+  flex: 1 1 auto;
+  overflow: auto;
+}
+
+.page-Query-main .QueryPanelHeader {
+  z-index: 1;
+}
+
+.page-Query-main .SQLEditor {
+  z-index: 0;
 }

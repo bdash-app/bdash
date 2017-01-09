@@ -1,28 +1,24 @@
 import React from 'react';
+import Container from '../../flux/Container';
+import { store } from './AppStore';
+import AppAction from './AppAction';
 import GlobalMenu from '../../components/GlobalMenu';
 import Query from '../Query';
 import DataSource from '../DataSource';
 import Setting from '../Setting';
 
-const DEFAULT_PAGE = 'query';
-
-export default class App extends React.Component {
-  constructor() {
-    super();
-    this.state = { page: DEFAULT_PAGE };
+export default class App extends Container {
+  get store() {
+    return store;
   }
 
   getSelectedPage() {
-    switch (this.state.page) {
-    case 'query': return Query;
-    case 'dataSource': return DataSource;
-    case 'setting': return Setting;
-    default: throw new Error(`Unknown page: ${this.state.page}`);
+    switch (this.state.selectedPage) {
+      case 'query': return Query;
+      case 'dataSource': return DataSource;
+      case 'setting': return Setting;
+      default: throw new Error(`Unknown page: ${this.state.page}`);
     }
-  }
-
-  handleSelectMenu(page) {
-    this.setState({ page });
   }
 
   render() {
@@ -31,10 +27,12 @@ export default class App extends React.Component {
     return (
       <div className="page-app">
         <div className="page-app-menu">
-          <GlobalMenu {...this.state} onSelect={this.handleSelectMenu.bind(this)} />
+          <GlobalMenu
+            selectedPage={this.state.selectedPage}
+            onSelect={AppAction.selectPage} />
         </div>
         <div className="page-app-main">
-          <Page {...this.state} />
+          <Page />
         </div>
       </div>
     );
