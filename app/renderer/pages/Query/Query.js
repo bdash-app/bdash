@@ -1,10 +1,6 @@
 import React from 'react';
-import electron from 'electron';
-import path from 'path';
-import fs from 'fs';
-import Database from '../../../domain/Database';
 import QueryList from '../../components/QueryList';
-import { appRootDir } from '../../../domain/Path';
+import Database from '../../../domain/Database';
 
 export default class Query extends React.Component {
   constructor() {
@@ -20,23 +16,8 @@ export default class Query extends React.Component {
   }
 
   componentDidMount() {
-    let home = electron.remote.app.getPath('home');
-    let bdashDir = path.resolve(home, '.bdash');
-    if (!fs.existsSync(bdashDir)) {
-      fs.mkdirSync(bdashDir);
-    }
-    let dbPath = path.resolve(bdashDir, 'bdash.sqlite3');
-    let schemaPath = path.resolve(appRootDir, 'db/schema.sql');
-    let schema = fs.readFileSync(schemaPath).toString();
-    this.db = new Database({ dbPath });
-    this.db.initialize({ schema }).then(({ queries, dataSources, charts }) => {
-      this.setState({
-        queries,
-        dataSources,
-        charts,
-      });
-    }).catch(err => {
-      console.error(err);
+    Database.Query.getAll().then(queries => {
+      this.setState({ queries });
     });
   }
 

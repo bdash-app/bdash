@@ -1,0 +1,4 @@
+.LoadingIcon {
+  color: var(--LoadingIcon-color, #999);
+  font-size: var(--LoadingIcon-font-size, 16px);
+}
