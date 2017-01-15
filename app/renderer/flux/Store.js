@@ -1,6 +1,13 @@
 import { EventEmitter } from 'events';
 
 export default class Store {
+  static create(StoreClass) {
+    let store = new StoreClass();
+    let dispatch = store.dispatch.bind(store);
+
+    return { store, dispatch };
+  }
+
   constructor() {
     this.state = this.getInitialState();
     this._emitter = new EventEmitter();

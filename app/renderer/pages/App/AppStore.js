@@ -19,7 +19,5 @@ export default class AppStore extends Store {
   }
 }
 
-let store = new AppStore();
-let dispatch = store.dispatch.bind(store);
-
+let { store, dispatch } = Store.create(AppStore);
 export { store, dispatch };
