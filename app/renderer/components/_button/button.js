@@ -8,6 +8,10 @@ export default class Button extends React.Component {
   }
 
   render() {
-    return <span className="Button" onClick={this.handleClick.bind(this)}>{this.props.children}</span>;
+    return <span
+      className="Button"
+      onClick={this.handleClick.bind(this)}>
+      {this.props.label}
+    </span>;
   }
 }

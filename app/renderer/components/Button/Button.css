@@ -1,0 +1,22 @@
+.Button {
+  display: inline-block;
+  padding: 3px 12px;
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.4;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  background-image: linear-gradient(transparent, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.06));
+  border: 1px solid #CCC;
+  border-radius: 4px;
+  color: #333;
+  background-color: #FFF;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.Button:hover {
+  background-image: linear-gradient(transparent, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.10));
+}

@@ -3,10 +3,15 @@ import Select from 'react-select';
 import Container from '../../flux/Container';
 import { store } from './SettingStore';
 import SettingAction from './SettingAction';
+import Button from '../../components/Button';
 
 export default class Setting extends Container {
   get store() {
     return store;
+  }
+
+  componentDidMount() {
+    SettingAction.initialize();
   }
 
   renderGithubVlidateTokenResult() {
@@ -31,9 +36,9 @@ export default class Setting extends Container {
         <div className="page-Setting-section2 page-Setting-keyBind">
           <h2>Key bind</h2>
           <Select
-            value={this.state.keyBind || 'default'}
+            value={setting.keyBind || 'default'}
             options={keyBindOptions}
-            onChange={(o) => this.handleChangeKeyBind(o)}
+            onChange={e => SettingAction.update({ keyBind: e.value })}
             clearable={false}
             />
         </div>
@@ -50,7 +55,7 @@ export default class Setting extends Container {
           <input type="text" onChange={e => this.handleGithubUrl(e)} value={github.url} placeholder="https://yourdomain/api/v3" />
         </div>
         <div className="page-Setting-validateToken">
-          <button onClick={() => this.handleGithubValidateToken()}>Validate Token</button>
+          <Button onClick={() => this.handleGithubValidateToken()}>Validate Token</Button>
           {this.renderGithubVlidateTokenResult()}
         </div>
       </div>
