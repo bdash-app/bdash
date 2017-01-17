@@ -1,0 +1,21 @@
+.ProgressIcon {
+  font-size: 14px;
+  --LoadingIcon-font-size: 14px;
+}
+
+.ProgressIcon.is-success {
+  color: #59bb0c;
+}
+
+.ProgressIcon.is-failure {
+  color: #bb0c0c;
+}
+
+.ProgressIcon-icon {
+  display: inline-block;
+}
+
+.ProgressIcon-message {
+  display: inline-block;
+  margin-left: 5px;
+}

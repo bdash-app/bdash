@@ -34,3 +34,7 @@
   padding: 5px;
   outline: none;
 }
+
+.page-Setting-validateToken .ProgressIcon {
+  margin-left: 10px;
+}

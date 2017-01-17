@@ -1,6 +1,7 @@
 import fs from 'fs';
 import yaml from 'js-yaml';
 import Config from './Config';
+import _ from 'lodash';
 
 export default class Setting {
   constructor(filePath) {
@@ -18,7 +19,7 @@ export default class Setting {
   }
 
   save(params) {
-    let setting = Object.assign(this.setting, params);
+    let setting = _.merge(this.setting, params);
     fs.writeFileSync(this.filePath, yaml.safeDump(setting));
   }
 }
