@@ -1,22 +1,22 @@
 import sqlite3 from 'sqlite3';
 
-export default class Base {
-  static get db() {
-    if (!Base._db) {
+export default class Connection {
+  get db() {
+    if (!this._db) {
       throw new Error('Database is not initialized.');
     }
 
-    return Base._db;
+    return this._db;
   }
 
-  static initialize({ databasePath, schema }) {
-    Base._db = new sqlite3.Database(databasePath);
-    return Base.exec(schema);
+  initialize({ databasePath, schema }) {
+    this._db = new sqlite3.Database(databasePath);
+    return this.exec(schema);
   }
 
-  static exec(sql) {
+  exec(sql) {
     return new Promise((resolve, reject) => {
-      Base.db.exec(sql, err => {
+      this.db.exec(sql, err => {
         if (err) {
           reject(err);
         }
@@ -27,9 +27,9 @@ export default class Base {
     });
   }
 
-  static get(sql, ...params) {
+  get(sql, ...params) {
     return new Promise((resolve, reject) => {
-      Base.db.get(sql, ...params, (err, result) => {
+      this.db.get(sql, ...params, (err, result) => {
         if (err) {
           reject(err);
         }
@@ -40,9 +40,9 @@ export default class Base {
     });
   }
 
-  static all(sql, ...params) {
+  all(sql, ...params) {
     return new Promise((resolve, reject) => {
-      Base.db.all(sql, ...params, (err, result) => {
+      this.db.all(sql, ...params, (err, result) => {
         if (err) {
           reject(err);
         }
@@ -53,9 +53,9 @@ export default class Base {
     });
   }
 
-  static insert(sql, ...params) {
+  insert(sql, ...params) {
     return new Promise((resolve, reject) => {
-      Base.db.run(sql, ...params, function(err) {
+      this.db.run(sql, ...params, function(err) {
         if (err) {
           reject(err);
         }
@@ -66,9 +66,9 @@ export default class Base {
     });
   }
 
-  static run(sql, ...params) {
+  run(sql, ...params) {
     return new Promise((resolve, reject) => {
-      Base.db.run(sql, ...params, err => {
+      this.db.run(sql, ...params, err => {
         if (err) {
           reject(err);
         }
@@ -79,3 +79,5 @@ export default class Base {
     });
   }
 }
+
+export let connection = new Connection();

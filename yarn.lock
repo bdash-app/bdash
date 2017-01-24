@@ -2278,9 +2278,9 @@ iferr@^0.1.5, iferr@~0.1.5:
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/iferr/-/iferr-0.1.5.tgz#c60eed69e6d8fdb6b3104a1fcbca1c192dc5b501"
 
-immup@^1.1.2:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/immup/-/immup-1.1.2.tgz#bef75870e6cef6c4c59ee6f5093b058bf055a81e"
+immup@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/immup/-/immup-2.0.0.tgz#261dd648f4154e6efea1679b5c0bcdce4f960f62"
 
 imurmurhash@^0.1.4:
   version "0.1.4"

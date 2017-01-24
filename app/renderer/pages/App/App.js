@@ -9,8 +9,9 @@ import Setting from '../Setting';
 import LoadingIcon from '../../components/LoadingIcon';
 
 export default class App extends Container {
-  get store() {
-    return store;
+  constructor(...args) {
+    super(args);
+    this.connect(store);
   }
 
   componentDidMount() {

@@ -1,5 +1,4 @@
 import Store from '../../flux/Store';
-import immup from 'immup';
 
 export default class AppStore extends Store {
   getInitialState() {
@@ -11,10 +10,12 @@ export default class AppStore extends Store {
 
   reduce(type, payload) {
     switch (type) {
-      case 'initialize':
-        return immup.set(this.state, 'initialized', payload.initialized);
-      case 'selectPage':
-        return immup.set(this.state, 'selectedPage', payload.page);
+      case 'initialize': {
+        return this.set('initialized', true);
+      }
+      case 'selectPage': {
+        return this.set('selectedPage', payload.page);
+      }
     }
   }
 }

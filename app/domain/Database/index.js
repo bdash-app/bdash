@@ -1,7 +1,9 @@
-import Base from './Base';
+import { connection } from './Connection';
 import Query from './Query';
+import DataSource from './DataSource';
 
 export default {
-  Base,
+  connection,
   Query,
+  DataSource,
 };

@@ -7,8 +7,9 @@ import Button from '../../components/Button';
 import ProgressIcon from '../../components/ProgressIcon';
 
 export default class Setting extends Container {
-  get store() {
-    return store;
+  constructor(...args) {
+    super(args);
+    this.connect(store);
   }
 
   componentDidMount() {

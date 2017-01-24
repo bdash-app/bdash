@@ -1,3 +1,4 @@
+import immup from 'immup';
 import { EventEmitter } from 'events';
 
 export default class Store {
@@ -32,5 +33,29 @@ export default class Store {
 
     this.state = newState;
     this.emit();
+  }
+
+  set(...args) {
+    return immup.set(this.state, ...args);
+  }
+
+  merge(...args) {
+    return immup.merge(this.state, ...args);
+  }
+
+  del(...args) {
+    return immup.del(this.state, ...args);
+  }
+
+  append(...args) {
+    return immup.append(this.state, ...args);
+  }
+
+  prepend(...args) {
+    return immup.prepend(this.state, ...args);
+  }
+
+  chain() {
+    return immup(this.state);
   }
 }

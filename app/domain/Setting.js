@@ -1,10 +1,19 @@
 import fs from 'fs';
 import yaml from 'js-yaml';
-import Config from './Config';
 import _ from 'lodash';
 
 export default class Setting {
-  constructor(filePath) {
+  static getDefault() {
+    return {
+      keyBind: 'default',
+      github: {
+        token: null,
+        url: null,
+      },
+    };
+  }
+
+  initialize(filePath) {
     this.filePath = filePath;
 
     if (!fs.existsSync(filePath)) {
@@ -24,4 +33,4 @@ export default class Setting {
   }
 }
 
-export let setting = new Setting(Config.settingPath);
+export let setting = new Setting();
