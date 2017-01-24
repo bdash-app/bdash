@@ -1,8 +1,11 @@
 import React from 'react';
-import QueryList from '../../components/QueryList';
 import { store } from './QueryStore';
 import QueryAction from './QueryAction';
 import Container from '../../flux/Container';
+import QueryList from '../../components/QueryList';
+import QueryHeader from '../../components/QueryHeader';
+import QueryEditor from '../../components/QueryEditor';
+import QueryResult from '../../components/QueryResult';
 
 export default class Query extends Container {
   constructor(...args) {
@@ -24,12 +27,25 @@ export default class Query extends Container {
     }
   }
 
-  render() {
+  renderMain() {
     let query = this.state.queries.find(query => query.id === this.state.selectedQueryId);
-        // <QueryPanelHeader query={query} {...this.props} />
-        // <QueryEditor query={query} {...this.props} />
-        // <QueryResult query={query} {...this.props} />
+    if (!query) return <div className="page-Query-main" />;
 
+    return <div className="page-Query-main">
+      <QueryHeader query={query} {...this.state}
+        onChangeTitle={title => QueryAction.updateQuery(query.id, { title })}
+        onChangeDataSource={dataSourceId => QueryAction.updateQuery(query.id, { dataSourceId })}
+        />
+      {/*
+      <QueryEditor query={query} {...this.state}
+        />
+      <QueryResult query={query} {...this.state}
+        />
+      */}
+    </div>;
+  }
+
+  render() {
     return <div className="page-Query">
       <div className="page-Query-list">
         <QueryList {...this.state}
@@ -38,8 +54,7 @@ export default class Query extends Container {
           onDeleteQuery={QueryAction.deleteQuery}
           />
       </div>
-      <div className="page-Query-main">
-      </div>
+      {this.renderMain()}
     </div>;
   }
 }

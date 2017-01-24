@@ -1,0 +1,21 @@
+.QueryHeader {
+  position: relative;
+}
+
+.QueryHeader-inputTitle {
+  font-weight: bold;
+  font-size: 24px;
+  margin: 0;
+  padding: 10px;
+  outline: none;
+  border: none;
+  font-family: inherit;
+  width: 100%;
+}
+
+.QueryHeader-selectDataSource {
+  position: absolute;
+  right: 10px;
+  top: 6px;
+  width: 240px;
+}

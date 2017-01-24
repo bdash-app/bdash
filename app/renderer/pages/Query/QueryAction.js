@@ -15,12 +15,8 @@ export default {
   },
 
   selectQuery(id) {
-    dispatch('selectQuery', { id });
-  },
-
-  deleteQuery(id) {
-    Database.Query.del(id).then(() => {
-      dispatch('deleteQuery', { id });
+    Database.Query.find(id).then(query => {
+      dispatch('selectQuery', { id, query });
     });
   },
 
@@ -32,6 +28,18 @@ export default {
 
     Database.Query.create(params).then(query => {
       dispatch('addNewQuery', { query });
+    });
+  },
+
+  updateQuery(id, params) {
+    Database.Query.update(id, params).then(() => {
+      dispatch('updateQuery', { id, params });
+    });
+  },
+
+  deleteQuery(id) {
+    Database.Query.del(id).then(() => {
+      dispatch('deleteQuery', { id });
     });
   },
 };
