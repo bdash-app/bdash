@@ -1,5 +1,5 @@
+import Setting from '../../../lib/Setting';
 import Store from '../../flux/Store';
-import Setting from '../../../domain/Setting';
 
 export default class SettingStore extends Store {
   getInitialState() {

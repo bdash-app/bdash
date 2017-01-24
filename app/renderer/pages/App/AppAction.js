@@ -1,8 +1,8 @@
-import { dispatch } from './AppStore';
-import Database from '../../../domain/Database';
-import { setting } from '../../../domain/Setting';
-import Config from '../../../domain/Config';
 import fs from 'fs';
+import Database from '../../../lib/Database';
+import { setting } from '../../../lib/Setting';
+import Config from '../../../lib/Config';
+import { dispatch } from './AppStore';
 
 export default {
   initialize() {

@@ -1,12 +1,12 @@
 import React from 'react';
 import Container from '../../flux/Container';
+import LoadingIcon from '../../components/LoadingIcon';
+import GlobalMenu from '../../components/GlobalMenu';
 import { store } from './AppStore';
 import AppAction from './AppAction';
-import GlobalMenu from '../../components/GlobalMenu';
 import Query from '../Query';
 import DataSource from '../DataSource';
 import Setting from '../Setting';
-import LoadingIcon from '../../components/LoadingIcon';
 
 export default class App extends Container {
   constructor(...args) {

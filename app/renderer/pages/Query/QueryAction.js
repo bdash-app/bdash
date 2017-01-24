@@ -1,6 +1,6 @@
 import { dispatch } from './QueryStore';
-import { setting } from '../../../domain/Setting';
-import Database from '../../../domain/Database';
+import { setting } from '../../../lib/Setting';
+import Database from '../../../lib/Database';
 
 const DEFAULT_QUERY_TITLE = 'New Query';
 

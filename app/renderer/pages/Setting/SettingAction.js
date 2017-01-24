@@ -1,6 +1,6 @@
+import { setting } from '../../../lib/Setting';
+import GitHubApiClient from '../../../lib/GitHubApiClient';
 import { dispatch } from './SettingStore';
-import { setting } from '../../../domain/Setting';
-import GitHubApiClient from '../../../domain/GitHubApiClient';
 
 export default {
   initialize() {
