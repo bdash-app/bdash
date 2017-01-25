@@ -1,11 +1,20 @@
 .QueryEditor {
+  border-top: 1px solid #CCC;
   border-bottom: 1px solid #CCC;
+  --QueryEditor-navbarHeight: 45px;
+}
+
+.QueryEditor .Editor .CodeMirror {
+  height: 100%;
 }
 
 .QueryEditor-navbar {
+  box-sizing: border-box;
   padding: 10px;
   background-color: #F7F7F7;
   position: relative;
+  border-top: 1px solid #CCC;
+  height: var(--QueryEditor-navbarHeight);
 }
 
 .QueryEditor-status {

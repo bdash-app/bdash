@@ -56,8 +56,8 @@ export default class Editor extends React.Component {
     }
   }
 
-  shouldComponentUpdate() {
-    return false;
+  shouldComponentUpdate(nextProps) {
+    return this.props.height !== nextProps.height;
   }
 
   handleValueChange(doc) {
@@ -73,7 +73,8 @@ export default class Editor extends React.Component {
   }
 
   render() {
-    return <div className="Editor">
+    let height = this.props.height;
+    return <div className="Editor" style={height != null ? { height: `${height}px` } : {}}>
       <textarea ref="textarea" defaultValue="" autoComplete="off" />
     </div>;
   }

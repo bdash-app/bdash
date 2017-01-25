@@ -4,6 +4,4 @@
 .Editor .CodeMirror {
   font-size: 13px;
   font-family: monaco, monospace;
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
 }

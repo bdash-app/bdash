@@ -23,12 +23,12 @@ export default class QueryEditor extends React.Component {
 
   handleResizeStart(e) {
     e.preventDefault();
-    let dom = ReactDOM.findDOMNode(this);
-    let height = dom.clientHeight;
+    let editor = ReactDOM.findDOMNode(this.refs.Editor);
+    let height = editor.clientHeight;
     let y = e.pageY;
     let handleResize = (e) => {
       let newHeight = height + (e.pageY - y);
-      if (newHeight < 46) newHeight = 46;
+      if (newHeight < 0) newHeight = 0;
       this.props.onChangeEditorHeight(newHeight);
     };
     let handleResizeStop = () => {
@@ -87,9 +87,11 @@ export default class QueryEditor extends React.Component {
   render() {
     let query = this.props.query;
 
-    return <div className="QueryEditor" style={this.style}>
+    return <div className="QueryEditor">
       <Editor
         value={query.body || ''}
+        height={this.props.editor.height}
+        ref="Editor"
         onChange={body => this.props.onChangeQueryBody(body)}
         onChangeCursor={line => this.props.onChangeCursorPosition(line)}
         onSubmit={() => this.props.onSubmit()}
