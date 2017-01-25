@@ -7,12 +7,7 @@ import QueryHeader from '../../components/QueryHeader';
 import QueryEditor from '../../components/QueryEditor';
 import QueryResult from '../../components/QueryResult';
 
-export default class Query extends Container {
-  constructor(...args) {
-    super(...args);
-    this.connect(store);
-  }
-
+class Query extends React.Component {
   componentDidMount() {
     QueryAction.initialize();
   }
@@ -36,12 +31,15 @@ export default class Query extends Container {
         onChangeTitle={title => QueryAction.updateQuery(query.id, { title })}
         onChangeDataSource={dataSourceId => QueryAction.updateQuery(query.id, { dataSourceId })}
         />
-      {/*
       <QueryEditor query={query} {...this.state}
+        onChangeQueryBody={body => QueryAction.updateQuery(query.id, { body })}
+        onChangeCursorPosition={line => QueryAction.updateEditor({ line })}
+        onChangeEditorHeight={height => QueryAction.updateEditor({ height })}
+        onSubmit={() => QueryAction.executeQuery({ line: this.state.editor.line, query })}
+        onCancel={() => QueryAction.cancelQuery(query)}
         />
       <QueryResult query={query} {...this.state}
         />
-      */}
     </div>;
   }
 
@@ -58,3 +56,5 @@ export default class Query extends Container {
     </div>;
   }
 }
+
+export default Container.create(Query, store);

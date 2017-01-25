@@ -1,2 +1,50 @@
 .QueryEditor {
+  border-bottom: 1px solid #CCC;
+}
+
+.QueryEditor-navbar {
+  padding: 10px;
+  background-color: #F7F7F7;
+  position: relative;
+}
+
+.QueryEditor-status {
+  display: inline-block;
+  margin-left: 5px;
+}
+
+.QueryEditor-status > span {
+  color: #999;
+  display: inline-block;
+  font-size: 13px;
+  margin: 0 5px;
+}
+
+.QueryEditor-status .fa-check {
+  color: #59bb0c;
+  font-size: 14px;
+}
+
+.QueryEditor-status .fa-close {
+  color: #bb0c0c;
+  font-size: 14px;
+}
+
+.QueryEditor-status .fa-working {
+  color: #999;
+  font-size: 14px;
+}
+
+.QueryEditor-status.is-error span {
+  color: #bb0c0c;
+}
+
+.QueryEditor-resize {
+  position: absolute;
+  right: 8px;
+  top: 5px;
+  display: inline-block;
+  color: #999;
+  cursor: row-resize;
+  padding: 10px 20px;
 }

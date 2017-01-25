@@ -8,12 +8,7 @@ import Query from '../Query';
 import DataSource from '../DataSource';
 import Setting from '../Setting';
 
-export default class App extends Container {
-  constructor(...args) {
-    super(args);
-    this.connect(store);
-  }
-
+class App extends React.Component {
   componentDidMount() {
     AppAction.initialize();
   }
@@ -48,3 +43,5 @@ export default class App extends Container {
     </div>;
   }
 }
+
+export default Container.create(App, store);

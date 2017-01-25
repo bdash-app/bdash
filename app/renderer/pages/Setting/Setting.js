@@ -6,12 +6,7 @@ import SettingAction from './SettingAction';
 import Button from '../../components/Button';
 import ProgressIcon from '../../components/ProgressIcon';
 
-export default class Setting extends Container {
-  constructor(...args) {
-    super(args);
-    this.connect(store);
-  }
-
+class Setting extends React.Component {
   componentDidMount() {
     SettingAction.initialize();
   }
@@ -58,3 +53,5 @@ export default class Setting extends Container {
     </div>;
   }
 }
+
+export default Container.create(Setting, store);

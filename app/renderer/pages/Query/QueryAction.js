@@ -32,14 +32,25 @@ export default {
   },
 
   updateQuery(id, params) {
-    Database.Query.update(id, params).then(() => {
-      dispatch('updateQuery', { id, params });
-    });
+    dispatch('updateQuery', { id, params });
+    Database.Query.update(id, params);
   },
 
   deleteQuery(id) {
     Database.Query.del(id).then(() => {
       dispatch('deleteQuery', { id });
     });
+  },
+
+  executeQuery({ line, query }) {
+    console.log(line, query);
+  },
+
+  cancelQuery(query) {
+    console.log(query);
+  },
+
+  updateEditor(params) {
+    dispatch('updateEditor', params);
   },
 };

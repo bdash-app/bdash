@@ -9,7 +9,10 @@ export default class QueryStore extends Store {
       dataSources: [],
       charts: [],
       selectedQueryId: null,
-      editorHeight: null,
+      editor: {
+        height: null,
+        line: null,
+      },
     };
   }
 
@@ -20,13 +23,16 @@ export default class QueryStore extends Store {
       }
       case 'selectQuery': {
         let idx = this.findQueryIndex(payload.id);
-        return this.chain()
+        return this
           .set('selectedQueryId', payload.id)
-          .merge(`queries.${idx}`, payload.query)
-          .end();
+          .set('editor.line', null)
+          .merge(`queries.${idx}`, payload.query);
       }
       case 'addNewQuery': {
-        return this.prepend('queries', payload.query);
+        return this
+          .set('selectedQueryId', payload.query.id)
+          .set('editor.line', null)
+          .prepend('queries', payload.query);
       }
       case 'updateQuery': {
         let idx = this.findQueryIndex(payload.id);
@@ -34,7 +40,13 @@ export default class QueryStore extends Store {
       }
       case 'deleteQuery': {
         let idx = this.findQueryIndex(payload.id);
-        return this.del(`queries.${idx}`, payload.id);
+        return this
+          .set('selectedQueryId', null)
+          .set('editor.line', null)
+          .del(`queries.${idx}`, payload.id);
+      }
+      case 'updateEditor': {
+        return this.merge('editor', payload);
       }
     }
   }

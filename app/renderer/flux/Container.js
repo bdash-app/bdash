@@ -1,12 +1,19 @@
-import React from 'react';
+export default {
+  create(Component, store) {
+    return class Container extends Component {
+      constructor(...args) {
+        super(...args);
+        this.state = store.state;
+        this._unsubscribe = store.subscribe(state => this.setState(state));
+      }
 
-export default class Container extends React.Component {
-  connect(store) {
-    this.state = store.state;
-    this.unsubscribe = store.subscribe(state => this.setState(state));
-  }
+      componentWillUnmount() {
+        if (super.componentWillUnmount) {
+          super.componentWillUnmount();
+        }
 
-  componentWillUnmount() {
-    this.unsubscribe();
-  }
-}
+        this._unsubscribe();
+      }
+    };
+  },
+};

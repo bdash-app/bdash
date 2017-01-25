@@ -21,10 +21,16 @@
   overflow: auto;
 }
 
-.page-Query-main .QueryPanelHeader {
+.page-Query-main .QueryHeader {
   z-index: 1;
 }
 
 .page-Query-main .SQLEditor {
   z-index: 0;
+  height: 45vh;
+  max-height: calc(100vh - 48px);
+}
+
+.page-Query-main .SQLEditor .Editor {
+  height: calc(100% - 2px);
 }
