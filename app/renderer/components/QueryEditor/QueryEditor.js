@@ -44,7 +44,7 @@ export default class QueryEditor extends React.Component {
       return <Button onClick={() => this.props.onCancel()}>Cancel</Button>;
     }
     else {
-      return <Button onClick={() => this.props.onSubmit()}>Execute</Button>;
+      return <Button onClick={() => this.props.onExecute()}>Execute</Button>;
     }
   }
 
@@ -94,7 +94,7 @@ export default class QueryEditor extends React.Component {
         ref="Editor"
         onChange={body => this.props.onChangeQueryBody(body)}
         onChangeCursor={line => this.props.onChangeCursorPosition(line)}
-        onSubmit={() => this.props.onSubmit()}
+        onSubmit={() => this.props.onExecute()}
         options={this.options} />
       <div className="QueryEditor-navbar">
         {this.renderButton()}

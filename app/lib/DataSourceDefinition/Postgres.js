@@ -1,6 +1,6 @@
 import pg from 'pg';
 import Base from './Base';
-import strings from '../utils/strings';
+import Util from '../Util';
 import { zipObject } from 'lodash';
 
 // Disable auto convert
@@ -62,7 +62,7 @@ export default class Postgres extends Base {
   }
 
   fetchTables() {
-    let query = strings.stripHeredoc(`
+    let query = Util.stripHeredoc(`
       select table_schema, table_name, table_type
       from information_schema.tables
       where table_schema not in ('information_schema', 'pg_catalog', 'pg_internal')
@@ -75,7 +75,7 @@ export default class Postgres extends Base {
   }
 
   fetchTableSummary(tableName) {
-    let query = strings.stripHeredoc(`
+    let query = Util.stripHeredoc(`
       select
           pg_attribute.attname as name,
           pg_attribute.atttypid::regtype as type,

@@ -47,6 +47,10 @@ export default class Store {
     return immup(this.state).merge(...args);
   }
 
+  mergeList(...args) {
+    return immup(this.state).mergeList(...args);
+  }
+
   del(...args) {
     return immup(this.state).del(...args);
   }

@@ -1,0 +1,32 @@
+.QueryResultTable-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.QueryResultTable-table th,
+.QueryResultTable-table td {
+  border-bottom: 1px solid #DDD;
+  padding: 10px;
+  font-size: 13px;
+}
+
+.QueryResultTable-table th {
+  border-bottom: 3px double #CCC;
+  text-align: left;
+  font-weight: bold;
+}
+
+.QueryResultTable-table td {
+  white-space: pre;
+  vertical-align: top;
+}
+
+.QueryResultTable-table td.is-null {
+  color: #999;
+}
+
+.QueryResultTable-more {
+  font-size: 13px;
+  color: #999;
+  padding: 10px;
+}

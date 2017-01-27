@@ -2,7 +2,7 @@ import { connection } from './Connection';
 
 export default class Query {
   static getAll() {
-    return connection.all('select id, title, body from queries order by createdAt desc');
+    return connection.all('select id, title from queries order by createdAt desc');
   }
 
   static find(id) {

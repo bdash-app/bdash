@@ -1,6 +1,6 @@
 import mysql from 'mysql2';
 import Base from './Base';
-import strings from '../utils/strings';
+import Util from '../Util';
 import { zipObject } from 'lodash';
 
 export default class Mysql extends Base {
@@ -46,7 +46,7 @@ export default class Mysql extends Base {
   }
 
   fetchTables() {
-    let query = strings.stripHeredoc(`
+    let query = Util.stripHeredoc(`
       select table_name, table_type
       from information_schema.tables
       where table_schema = ?

@@ -22,6 +22,19 @@ class Query extends React.Component {
     }
   }
 
+  handleExecute(query) {
+    let line = this.state.editor.line;
+    let dataSource = this.state.dataSources.find(ds => ds.id === query.dataSourceId);
+
+    QueryAction.executeQuery({ query, dataSource, line });
+  }
+
+  handleCancel(query) {
+    if (query.status === 'working') {
+      QueryAction.cancelQuery(query);
+    }
+  }
+
   renderMain() {
     let query = this.state.queries.find(query => query.id === this.state.selectedQueryId);
     if (!query) return <div className="page-Query-main" />;
@@ -35,8 +48,8 @@ class Query extends React.Component {
         onChangeQueryBody={body => QueryAction.updateQuery(query.id, { body })}
         onChangeCursorPosition={line => QueryAction.updateEditor({ line })}
         onChangeEditorHeight={height => QueryAction.updateEditor({ height })}
-        onSubmit={() => QueryAction.executeQuery({ line: this.state.editor.line, query })}
-        onCancel={() => QueryAction.cancelQuery(query)}
+        onExecute={() => this.handleExecute(query)}
+        onCancel={() => this.handleCancel(query)}
         />
       <QueryResult query={query} {...this.state}
         />

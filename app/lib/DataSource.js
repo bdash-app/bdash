@@ -1,7 +1,7 @@
-import Mysql from '../DataSourceDefinition/Mysql';
-import Postgres from '../DataSourceDefinition/Postgres';
+import Mysql from './DataSourceDefinition/Mysql';
+import Postgres from './DataSourceDefinition/Postgres';
 
-export default class DataSources {
+export default class DataSource {
   static register(...classes) {
     let dataSources = {};
 
@@ -16,12 +16,12 @@ export default class DataSources {
     return Object.values(this.dataSources);
   }
 
-  static create(type, config) {
+  static create({ type, config }) {
     return new this.dataSources[type](config);
   }
 }
 
-DataSources.register(
+DataSource.register(
   Mysql,
   Postgres
 );

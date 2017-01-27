@@ -19,7 +19,10 @@ export default class QueryStore extends Store {
   reduce(type, payload) {
     switch (type) {
       case 'initialize': {
-        return this.merge(payload);
+        return this
+          .merge('setting', payload.setting)
+          .mergeList('queries', payload.queries, this.compareById)
+          .mergeList('dataSources', payload.dataSources, this.compareById);
       }
       case 'selectQuery': {
         let idx = this.findQueryIndex(payload.id);
@@ -59,6 +62,10 @@ export default class QueryStore extends Store {
     }
 
     return idx;
+  }
+
+  compareById(a, b) {
+    return a.id === b.id;
   }
 }
 
