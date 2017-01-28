@@ -22,6 +22,7 @@ export default class QueryStore extends Store {
         return this
           .merge('setting', payload.setting)
           .mergeList('queries', payload.queries, this.compareById)
+          .mergeList('charts', payload.charts, this.compareById)
           .mergeList('dataSources', payload.dataSources, this.compareById);
       }
       case 'selectQuery': {
@@ -50,6 +51,10 @@ export default class QueryStore extends Store {
       }
       case 'updateEditor': {
         return this.merge('editor', payload);
+      }
+      case 'selectResultTab': {
+        let idx = this.findQueryIndex(payload.id);
+        return this.set(`queries.${idx}.selectedTab`, payload.name);
       }
     }
   }

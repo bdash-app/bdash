@@ -1,4 +1,5 @@
 import React from 'react';
+import QuerySharing from '../../../lib/QuerySharing';
 import { store } from './QueryStore';
 import QueryAction from './QueryAction';
 import Container from '../../flux/Container';
@@ -35,6 +36,19 @@ class Query extends React.Component {
     }
   }
 
+  handleShareOnGist(query) {
+    let chart = this.state.charts.find(chart => chart.queryId === query.id);
+    let setting = this.state.setting.github;
+    if (!setting.token) {
+      alert('Set your Github token');
+      return;
+    }
+
+    QuerySharing.shareOnGist({ query, chart, setting }).catch(err => {
+      alert(err.message);
+    });
+  }
+
   renderMain() {
     let query = this.state.queries.find(query => query.id === this.state.selectedQueryId);
     if (!query) return <div className="page-Query-main" />;
@@ -52,6 +66,10 @@ class Query extends React.Component {
         onCancel={() => this.handleCancel(query)}
         />
       <QueryResult query={query} {...this.state}
+        onClickCopyAsTsv={() => QuerySharing.copyAsTsv(query)}
+        onClickCopyAsMarkdown={() => QuerySharing.copyAsMarkdown(query)}
+        onClickShareOnGist={() => this.handleShareOnGist(query)}
+        onSelectTab={name => QueryAction.selectResultTab(query.id, name)}
         />
     </div>;
   }

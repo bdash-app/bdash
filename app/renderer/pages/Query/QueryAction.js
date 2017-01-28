@@ -12,8 +12,9 @@ export default {
     Promise.all([
       Database.Query.getAll(),
       Database.DataSource.getAll(),
-    ]).then(([queries, dataSources]) => {
-      dispatch('initialize', { queries, dataSources, setting: setting.load() });
+      Database.Chart.getAll(),
+    ]).then(([queries, dataSources, charts]) => {
+      dispatch('initialize', { queries, dataSources, charts, setting: setting.load() });
     });
   },
 
@@ -86,5 +87,9 @@ export default {
 
   updateEditor(params) {
     dispatch('updateEditor', params);
+  },
+
+  selectResultTab(id, name) {
+    dispatch('selectResultTab', { id, name });
   },
 };

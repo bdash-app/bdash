@@ -1,4 +1,5 @@
 import React from 'react';
+import QueryResultNav from '../QueryResultNav';
 import QueryResultTable from '../QueryResultTable';
 
 export default class QueryResult extends React.Component {
@@ -24,6 +25,7 @@ export default class QueryResult extends React.Component {
     }
 
     return <div className="QueryResult">
+      <QueryResultNav {...this.props} />
       <QueryResultTable {...this.props} />
     </div>;
   }
