@@ -36,7 +36,8 @@ export default class QueryStore extends Store {
         return this
           .set('selectedQueryId', payload.query.id)
           .set('editor.line', null)
-          .prepend('queries', payload.query);
+          .prepend('queries', payload.query)
+          .prepend('charts', payload.chart);
       }
       case 'updateQuery': {
         let idx = this.findQueryIndex(payload.id);
@@ -56,6 +57,10 @@ export default class QueryStore extends Store {
         let idx = this.findQueryIndex(payload.id);
         return this.set(`queries.${idx}.selectedTab`, payload.name);
       }
+      case 'updateChart': {
+        let idx = this.findChartIndex(payload.id);
+        return this.merge(`charts.${idx}`, payload.params);
+      }
     }
   }
 
@@ -64,6 +69,16 @@ export default class QueryStore extends Store {
 
     if (idx === undefined) {
       throw new Error(`query id:${id} not found`);
+    }
+
+    return idx;
+  }
+
+  findChartIndex(id) {
+    let idx = this.state.charts.findIndex(c => c.id === id);
+
+    if (idx === undefined) {
+      throw new Error(`chart id:${id} not found`);
     }
 
     return idx;

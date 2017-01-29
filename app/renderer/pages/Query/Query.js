@@ -70,6 +70,7 @@ class Query extends React.Component {
         onClickCopyAsMarkdown={() => QuerySharing.copyAsMarkdown(query)}
         onClickShareOnGist={() => this.handleShareOnGist(query)}
         onSelectTab={name => QueryAction.selectResultTab(query.id, name)}
+        onUpdateChart={QueryAction.updateChart}
         />
     </div>;
   }

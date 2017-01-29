@@ -1,6 +1,7 @@
 import React from 'react';
 import QueryResultNav from '../QueryResultNav';
 import QueryResultTable from '../QueryResultTable';
+import QueryResultChart from '../QueryResultChart';
 
 export default class QueryResult extends React.Component {
   renderError() {
@@ -9,6 +10,16 @@ export default class QueryResult extends React.Component {
         <div className="QueryResult-errorMessage">{this.props.query.errorMessage}</div>
       </div>
     );
+  }
+
+  renderMain() {
+    if (this.props.query.selectedTab === 'chart') {
+      let chart = this.props.charts.find(chart => chart.queryId === this.props.query.id);
+      return <QueryResultChart chart={chart} {...this.props} />;
+    }
+    else {
+      return <QueryResultTable {...this.props} />;
+    }
   }
 
   render() {
@@ -26,7 +37,7 @@ export default class QueryResult extends React.Component {
 
     return <div className="QueryResult">
       <QueryResultNav {...this.props} />
-      <QueryResultTable {...this.props} />
+      {this.renderMain()}
     </div>;
   }
 }

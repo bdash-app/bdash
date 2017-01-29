@@ -30,8 +30,16 @@ export default {
       dataSourceId: dataSourceId,
     };
 
+    let payload = {};
     Database.Query.create(params).then(query => {
-      dispatch('addNewQuery', { query });
+      payload.query = query;
+      return Database.Chart.create({
+        queryId: query.id,
+        type: 'line',
+      });
+    }).then(chart => {
+      payload.chart = chart;
+      dispatch('addNewQuery', payload);
     });
   },
 
@@ -91,5 +99,11 @@ export default {
 
   selectResultTab(id, name) {
     dispatch('selectResultTab', { id, name });
+  },
+
+  updateChart(id, params) {
+    Database.Chart.update(id, params).then(chart => {
+      dispatch('updateChart', { id, params: chart });
+    });
   },
 };

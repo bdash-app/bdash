@@ -67,6 +67,7 @@ function getChartAsSvg(query, chart) {
     stacking: chart.stacking,
     groupBy: chart.groupColumn,
     rows: query.rows,
+    fields: query.fields,
   };
 
   return new Chart(params).toSVG();
