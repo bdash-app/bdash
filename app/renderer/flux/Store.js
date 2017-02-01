@@ -25,18 +25,22 @@ export default class Store {
   }
 
   dispatch(type, payload) {
-    let newState = this.reduce(type, payload);
+    this.state = this.getNextState(type, payload);
+    this.emit();
+  }
 
-    if (newState === undefined) {
+  getNextState(type, payload) {
+    let nextState = this.reduce(type, payload);
+
+    if (nextState === undefined) {
       throw new Error(`${this.constructor.name}.reduce returns undefined, action type: ${type}`);
     }
 
-    if (newState instanceof Immup) {
-      newState = newState.end();
+    if (nextState instanceof Immup) {
+      nextState = nextState.end();
     }
 
-    this.state = newState;
-    this.emit();
+    return nextState;
   }
 
   set(...args) {
