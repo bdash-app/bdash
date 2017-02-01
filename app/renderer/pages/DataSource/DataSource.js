@@ -1,9 +1,61 @@
 import React from 'react';
+import { store } from './DataSourceStore';
+import Action from './DataSourceAction';
+import Container from '../../flux/Container';
+import DataSourceList from '../../components/DataSourceList';
+import TableList from '../../components/TableList';
+import TableSummary from '../../components/TableSummary';
+import DataSourceForm from '../../components/DataSourceForm';
 
-export default class DataSource extends React.Component {
+class DataSource extends React.Component {
+  componentDidMount() {
+    Action.initialize();
+  }
+
+  find(id) {
+    return this.state.dataSources.find(d => d.id === id);
+  }
+
+  handleSave(dataSource) {
+    if (dataSource.id) {
+      Action.updateDataSource(dataSource);
+    }
+    else {
+      Action.createDataSource(dataSource);
+    }
+  }
+
+  renderDataSourceForm() {
+    if (!this.state.showForm) return;
+
+    return <DataSourceForm onSave={this.handleSave.bind(this)} onCancel={Action.hideForm} />;
+  }
+
   render() {
+    let dataSource = this.find(this.state.selectedDataSourceId);
+
     return <div className="page-DataSource">
-      DataSource page!
+      <div className="page-DataSource-list">
+        <DataSourceList {...this.state}
+          onClickNew={() => Action.showFormNew()}
+          onSelect={id => Action.selectDataSource(this.find(id))}
+          onEdit={id => Action.editDataSource(this.find(id))}
+          onDelete={id => Action.deleteDataSource(id)}
+          onReload={id => Action.reloadTables(this.find(id))}
+          />
+      </div>
+      <div className="page-DataSource-tableList">
+        <TableList dataSource={dataSource} {...this.state}
+          onSelectTable={Action.selectTable}
+          onChangeTableFilter={Action.changeTableFilter}
+          />
+      </div>
+      <div className="page-DataSource-tableSummary">
+        <TableSummary dataSource={dataSource} {...this.state} />
+      </div>
+      {this.renderDataSourceForm()}
     </div>;
   }
 }
+
+export default Container.create(DataSource, store);

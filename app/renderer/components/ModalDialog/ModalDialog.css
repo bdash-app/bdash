@@ -1,0 +1,13 @@
+.ModalDialog {
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 400px;
+  border-radius: 0;
+  background-color: #EFEFEF;
+  border: 1px solid #CCC;
+  border-top: none;
+  box-shadow: 1px 1px 10px rgba(0,0,0,0.2), 0 6px 10px -6px rgba(0,0,0,0.2) inset;
+  outline: none;
+}

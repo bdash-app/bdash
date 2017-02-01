@@ -14,7 +14,7 @@
     "core-js": "^2.0.1",
     "csv-stringify": "^1.0.4",
     "font-awesome": "^4.5.0",
-    "immup": "^2.2.1",
+    "immup": "^2.2.2",
     "js-yaml": "^3.6.1",
     "lodash": "^4.15.0",
     "markdown-table": "^1.0.0",

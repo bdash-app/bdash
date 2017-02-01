@@ -1,7 +1,7 @@
 import React from 'react';
 import QuerySharing from '../../../lib/QuerySharing';
 import { store } from './QueryStore';
-import QueryAction from './QueryAction';
+import Action from './QueryAction';
 import Container from '../../flux/Container';
 import QueryList from '../../components/QueryList';
 import QueryHeader from '../../components/QueryHeader';
@@ -10,13 +10,13 @@ import QueryResult from '../../components/QueryResult';
 
 class Query extends React.Component {
   componentDidMount() {
-    QueryAction.initialize();
+    Action.initialize();
   }
 
   handleAddQuery() {
     let ds = this.state.dataSources[0];
     if (ds) {
-      QueryAction.addNewQuery({ dataSourceId: ds.id });
+      Action.addNewQuery({ dataSourceId: ds.id });
     }
     else {
       alert('Please create data source');
@@ -27,12 +27,12 @@ class Query extends React.Component {
     let line = this.state.editor.line;
     let dataSource = this.state.dataSources.find(ds => ds.id === query.dataSourceId);
 
-    QueryAction.executeQuery({ query, dataSource, line });
+    Action.executeQuery({ query, dataSource, line });
   }
 
   handleCancel(query) {
     if (query.status === 'working') {
-      QueryAction.cancelQuery(query);
+      Action.cancelQuery(query);
     }
   }
 
@@ -55,13 +55,13 @@ class Query extends React.Component {
 
     return <div className="page-Query-main">
       <QueryHeader query={query} {...this.state}
-        onChangeTitle={title => QueryAction.updateQuery(query.id, { title })}
-        onChangeDataSource={dataSourceId => QueryAction.updateQuery(query.id, { dataSourceId })}
+        onChangeTitle={title => Action.updateQuery(query.id, { title })}
+        onChangeDataSource={dataSourceId => Action.updateQuery(query.id, { dataSourceId })}
         />
       <QueryEditor query={query} {...this.state}
-        onChangeQueryBody={body => QueryAction.updateQuery(query.id, { body })}
-        onChangeCursorPosition={line => QueryAction.updateEditor({ line })}
-        onChangeEditorHeight={height => QueryAction.updateEditor({ height })}
+        onChangeQueryBody={body => Action.updateQuery(query.id, { body })}
+        onChangeCursorPosition={line => Action.updateEditor({ line })}
+        onChangeEditorHeight={height => Action.updateEditor({ height })}
         onExecute={() => this.handleExecute(query)}
         onCancel={() => this.handleCancel(query)}
         />
@@ -69,8 +69,8 @@ class Query extends React.Component {
         onClickCopyAsTsv={() => QuerySharing.copyAsTsv(query)}
         onClickCopyAsMarkdown={() => QuerySharing.copyAsMarkdown(query)}
         onClickShareOnGist={() => this.handleShareOnGist(query)}
-        onSelectTab={name => QueryAction.selectResultTab(query.id, name)}
-        onUpdateChart={QueryAction.updateChart}
+        onSelectTab={name => Action.selectResultTab(query.id, name)}
+        onUpdateChart={Action.updateChart}
         />
     </div>;
   }
@@ -80,8 +80,8 @@ class Query extends React.Component {
       <div className="page-Query-list">
         <QueryList {...this.state}
           onAddQuery={() => this.handleAddQuery()}
-          onSelectQuery={QueryAction.selectQuery}
-          onDeleteQuery={QueryAction.deleteQuery}
+          onSelectQuery={Action.selectQuery}
+          onDeleteQuery={Action.deleteQuery}
           />
       </div>
       {this.renderMain()}

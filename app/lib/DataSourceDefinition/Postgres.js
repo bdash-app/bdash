@@ -16,6 +16,15 @@ import { zipObject } from 'lodash';
 export default class Postgres extends Base {
   static get key() { return 'postgres'; }
   static get label() { return 'PostgreSQL'; }
+  static get configSchema() {
+    return [
+      { name: 'host', label: 'Host', type: 'string', placeholder: 'localhost' },
+      { name: 'port', label: 'Port', type: 'number', placeholder: 5432 },
+      { name: 'user', label: 'Username', type: 'string', placeholder: process.env.USER },
+      { name: 'password', label: 'Password', type: 'password' },
+      { name: 'database', label: 'Database', type: 'string', required: true },
+    ];
+  }
 
   execute(query, ...args) {
     if (this.currentClient) {
@@ -31,7 +40,12 @@ export default class Postgres extends Base {
         }
 
         this.currentClient.query({ text: query, values: args, rowMode: 'array' }, (err, result) => {
-          this.currentClient.end();
+          try {
+            this.currentClient.end();
+          }
+          catch (e) {
+            // do nothing
+          }
           this.currentClient = null;
 
           if (err) {
@@ -54,16 +68,12 @@ export default class Postgres extends Base {
   }
 
   connectionTest() {
-    return this.execute('select 1').then(() => {
-      return true;
-    }).catch(() => {
-      return false;
-    });
+    return this.execute('select 1').then(() => true);
   }
 
   fetchTables() {
     let query = Util.stripHeredoc(`
-      select table_schema, table_name, table_type
+      select table_schema as schema, table_name as name, table_type as type
       from information_schema.tables
       where table_schema not in ('information_schema', 'pg_catalog', 'pg_internal')
       order by table_schema, table_name
@@ -74,7 +84,7 @@ export default class Postgres extends Base {
     });
   }
 
-  fetchTableSummary(tableName) {
+  fetchTableSummary({ schema, name }) {
     let query = Util.stripHeredoc(`
       select
           pg_attribute.attname as name,
@@ -97,7 +107,9 @@ export default class Postgres extends Base {
       order by pg_attribute.attnum`
     );
 
-    return this.execute(query, tableName);
+    return this.execute(query, `${schema}.${name}`).then(defs => {
+      return { schema, name, defs };
+    });
   }
 
   _createError(query, err) {

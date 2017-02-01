@@ -6,6 +6,15 @@ import { zipObject } from 'lodash';
 export default class Mysql extends Base {
   static get key() { return 'mysql'; }
   static get label() { return 'MySQL'; }
+  static get configSchema() {
+    return [
+      { name: 'host', label: 'Host', type: 'string', placeholder: 'localhost' },
+      { name: 'port', label: 'Port', type: 'number', placeholder: 3306 },
+      { name: 'user', label: 'Username', type: 'string', placeholder: process.env.USER },
+      { name: 'password', label: 'Password', type: 'password' },
+      { name: 'database', label: 'Database', type: 'string', required: true },
+    ];
+  }
 
   execute(query, ...args) {
     if (this.currentConnection) {
@@ -17,7 +26,12 @@ export default class Mysql extends Base {
       this.currentConnection = mysql.createConnection(params);
 
       this.currentConnection.query({ sql: query, values: args, rowsAsArray: true }, (err, rows, fields) => {
-        this.currentConnection.end();
+        try {
+          this.currentConnection.end();
+        }
+        catch (e) {
+          // do nothing
+        }
         this.currentConnection = null;
 
         if (err) {
@@ -38,16 +52,12 @@ export default class Mysql extends Base {
   }
 
   connectionTest() {
-    return this.execute('select 1').then(() => {
-      return true;
-    }).catch(() => {
-      return false;
-    });
+    return this.execute('select 1').then(() => true);
   }
 
   fetchTables() {
     let query = Util.stripHeredoc(`
-      select table_name, table_type
+      select table_name as name, table_type as type
       from information_schema.tables
       where table_schema = ?
       order by table_name
@@ -58,9 +68,11 @@ export default class Mysql extends Base {
     });
   }
 
-  fetchTableSummary(tableName) {
+  fetchTableSummary({ name }) {
     let sql = 'show columns from ??';
 
-    return this.execute(sql, tableName);
+    return this.execute(sql, name).then(defs => {
+      return { name, defs };
+    });
   }
 }

@@ -1,0 +1,75 @@
+.DataSourceForm {
+  padding: 10px 10px 20px 10px;
+}
+
+.DataSourceForm table {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.DataSourceForm th,
+.DataSourceForm td {
+  font-size: 14px;
+  padding: 5px;
+}
+
+.DataSourceForm th {
+  font-weight: normal;
+  text-align: right;
+  width: 80px;
+  position: relative;
+  padding-right: 12px;
+}
+
+.DataSourceForm tr.is-required th:after {
+  content: '*';
+  position: absolute;
+  right : 3px;
+  top: 12px;
+  color: #C00;
+}
+
+.DataSourceForm td input {
+  padding: 3px 5px;
+  width: 260px;
+  font-size: 14px;
+  outline: none;
+}
+
+.DataSourceForm td select {
+  outline: none;
+}
+
+.DataSourceForm td select {
+  border: 1px solid #DFDFDF;
+  font-size: 14px;
+  background-color: #FFF;
+}
+
+.DataSourceForm-bottom {
+  position: relative;
+}
+
+.DataSourceForm-connectionTest .Button {
+  margin-right: 5px;
+}
+
+.DataSourceForm-connectionTest {
+  margin-left: 20px;
+}
+
+.DataSourceForm-connectionTestMessage {
+  font-size: 13px;
+  color: #bb0c0c;
+  margin-top: 10px;
+}
+
+.DataSourceForm-buttons {
+  position: absolute;
+  right: 20px;
+  top: 0;
+}
+
+.DataSourceForm-buttons .Button:first-child {
+  margin-right: 8px;
+}

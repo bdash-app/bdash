@@ -3,14 +3,14 @@ import Container from '../../flux/Container';
 import LoadingIcon from '../../components/LoadingIcon';
 import GlobalMenu from '../../components/GlobalMenu';
 import { store } from './AppStore';
-import AppAction from './AppAction';
+import Action from './AppAction';
 import Query from '../Query';
 import DataSource from '../DataSource';
 import Setting from '../Setting';
 
 class App extends React.Component {
   componentDidMount() {
-    AppAction.initialize();
+    Action.initialize();
   }
 
   getSelectedPage() {
@@ -35,7 +35,7 @@ class App extends React.Component {
       <div className="page-app-menu">
         <GlobalMenu
           selectedPage={this.state.selectedPage}
-          onSelect={AppAction.selectPage} />
+          onSelect={Action.selectPage} />
       </div>
       <div className="page-app-main">
         <Page />

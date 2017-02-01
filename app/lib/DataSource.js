@@ -16,6 +16,10 @@ export default class DataSource {
     return Object.values(this.dataSources);
   }
 
+  static get(type) {
+    return this.dataSources[type];
+  }
+
   static create({ type, config }) {
     return new this.dataSources[type](config);
   }
