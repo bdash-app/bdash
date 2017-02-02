@@ -5,11 +5,8 @@ set -ex
 export NODE_ENV=production
 
 rm -rf out
-mkdir -p out/tmp/app/renderer
-npm run build:app
-cp -a app/main.js app/main out/tmp/app
-cp -a app/renderer/index.html app/renderer/dist out/tmp/app/renderer
-cp -a db yarn.lock package.json out/tmp
+mkdir -p out/tmp
+cp -a app db yarn.lock package.json index.js .babelrc out/tmp
 cd out/tmp
 yarn install --no-progress
 cd -
