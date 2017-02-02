@@ -11,13 +11,18 @@ export default class Chart {
     return connection.get('select * from charts where id = ?', id).then(convert);
   }
 
-  static create(params) {
+  static findOrCreateByQueryId({ queryId, type = 'line' }) {
+    return connection.get('select * from charts where queryId = ?', queryId).then(chart => {
+      return chart ? convert(chart) : Chart.create({ queryId, type });
+    });
+  }
+
+  static create({ queryId, type = 'line' }) {
     let sql = `
       insert into charts
       (queryId, type, updatedAt, createdAt)
       values (?, ?, datetime('now'), datetime('now'))
     `;
-    let { queryId, type } = params;
 
     return connection.insert(sql, queryId, type).then(id => this.get(id));
   }

@@ -15,6 +15,12 @@ export default class Query {
         query.rows = JSON.parse(query.rows);
       }
 
+      // For backword compatibility with beta version data structure.
+      if (query.rows && typeof query.rows[0] === 'object' && !Array.isArray(query.rows[0])) {
+        query.fields = query.fields.map(f => f.name);
+        query.rows = query.rows.map(r => Object.values(r));
+      }
+
       return query;
     });
   }

@@ -25,21 +25,8 @@ const QueryAction = {
   },
 
   addNewQuery({ dataSourceId }) {
-    let params = {
-      title: DEFAULT_QUERY_TITLE,
-      dataSourceId: dataSourceId,
-    };
-
-    let payload = {};
-    Database.Query.create(params).then(query => {
-      payload.query = query;
-      return Database.Chart.create({
-        queryId: query.id,
-        type: 'line',
-      });
-    }).then(chart => {
-      payload.chart = chart;
-      dispatch('addNewQuery', payload);
+    Database.Query.create({ title: DEFAULT_QUERY_TITLE, dataSourceId }).then(query => {
+      dispatch('addNewQuery', { query });
     });
   },
 
@@ -97,8 +84,14 @@ const QueryAction = {
     dispatch('updateEditor', params);
   },
 
-  selectResultTab(id, name) {
-    dispatch('selectResultTab', { id, name });
+  selectResultTab(query, name) {
+    dispatch('selectResultTab', { id: query.id, name });
+
+    if (name === 'chart' && !query.chart) {
+      Database.Chart.findOrCreateByQueryId({ queryId: query.id }).then(chart => {
+        dispatch('addChart', { chart });
+      });
+    }
   },
 
   updateChart(id, params) {
