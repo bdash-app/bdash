@@ -10,6 +10,10 @@ export default class DataSource {
     return connection.get('select * from data_sources where id = ?', id).then(convert);
   }
 
+  static count() {
+    return connection.get('select count(*) as count from data_sources').then(row => row.count);
+  }
+
   static create(params) {
     let sql = `
       insert into data_sources

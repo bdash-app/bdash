@@ -3,6 +3,7 @@ import Database from '../../../lib/Database';
 import { setting } from '../../../lib/Setting';
 import Config from '../../../lib/Config';
 import { dispatch } from './AppStore';
+import DataSourceAction from '../DataSource/DataSourceAction';
 
 const AppAction = {
   initialize() {
@@ -17,6 +18,14 @@ const AppAction = {
 
     Database.connection.initialize({ databasePath, schema }).then(() => {
       dispatch('initialize');
+    });
+
+    // on boarding
+    Database.DataSource.count().then(count => {
+      if (count === 0) {
+        dispatch('selectPage', { page: 'dataSource' });
+        DataSourceAction.showForm();
+      }
     });
   },
 
