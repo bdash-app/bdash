@@ -1,0 +1,40 @@
+.page-Setting {
+  padding: 20px;
+}
+
+.page-Setting-section1 {
+  margin-bottom: 40px;
+}
+
+.page-Setting-section1 > h1 {
+  font-size: 20px;
+  color: #333;
+  border-bottom: 1px solid #CCC;
+  padding-bottom: 5px;
+  margin: 0 0 20px 0;
+}
+
+.page-Setting-section2 {
+  margin-bottom: 20px;
+}
+
+.page-Setting-section2 > h2 {
+  font-size: 15px;
+  color: #333;
+  font-weight: normal;
+  margin: 0 0 10px 0;
+}
+
+.page-Setting-keyBind .Select {
+  width: 100px;
+}
+
+.page-Setting input[type="text"] {
+  width: 300px;
+  padding: 5px;
+  outline: none;
+}
+
+.page-Setting-validateToken .ProgressIcon {
+  margin-left: 10px;
+}

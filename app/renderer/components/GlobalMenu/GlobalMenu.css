@@ -1,0 +1,21 @@
+.GlobalMenu {
+  height: 100vh;
+  background-color: #333;
+}
+
+.GlobalMenu-item {
+  display: block;
+  color: #FFF;
+  text-align: center;
+  padding: 12px 0;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.GlobalMenu-item:hover {
+  background-color: #262626;
+}
+
+.GlobalMenu-item.is-selected {
+  background-color: #4d4d4d;
+}

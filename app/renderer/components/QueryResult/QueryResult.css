@@ -1,0 +1,10 @@
+.QueryResult {
+}
+
+.QueryResult-errorMessage {
+  padding: 10px;
+  font-size: 14px;
+  color: #333;
+  font-family: monaco, monospace;
+  line-height: 1.6;
+}

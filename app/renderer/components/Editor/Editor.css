@@ -1,0 +1,7 @@
+.Editor {
+}
+
+.Editor .CodeMirror {
+  font-size: 13px;
+  font-family: monaco, monospace;
+}

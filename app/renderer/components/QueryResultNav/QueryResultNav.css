@@ -1,0 +1,76 @@
+.QueryResultNav {
+  font-size: 15px;
+  color: #666;
+  padding: 0 5px;
+  border-bottom: 1px solid #ccc;
+  position: relative;
+}
+
+.QueryResultNav-tabMenu {
+  display: inline-block;
+  padding: 6px;
+  margin: 5px;
+  border-radius: 3px;
+  cursor: pointer;
+  position: relative;
+}
+
+.QueryResultNav-tabMenu:hover {
+  background-color: #eaeaea;
+}
+
+.QueryResultNav-tabMenu.is-selected::after {
+  content: '';
+  position: absolute;
+  width: 30px;
+  height: 4px;
+  background-color: #2673E8;
+  bottom: -5px;
+  left: -2px;
+  border-radius: 3px 3px 0 0;
+}
+
+.QueryResultNav-share {
+  position: absolute;
+  right: 20px;
+  top: 6px;
+}
+
+.QueryResultNav-shareBtn {
+  display: inline-block;
+  padding: 6px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.QueryResultNav-shareBtn:hover {
+  background-color: #eaeaea;
+}
+
+.QueryResultNav-shareFlyout {
+  position: absolute;
+  top: 28px;
+  width: 180px;
+  right: 0;
+  border: 1px solid #CCC;
+  background-color: #FFF;
+  border-radius: 4px;
+  z-index: 1;
+}
+
+.QueryResultNav-shareFlyout ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.QueryResultNav-shareFlyout li {
+  padding: 5px 8px;
+  color: #666;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.QueryResultNav-shareFlyout li:hover {
+  background-color: #EFEFEF;
+}

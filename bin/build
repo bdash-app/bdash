@@ -1,0 +1,31 @@
+#!/bin/bash
+
+set -ex
+
+export NODE_ENV=production
+
+rm -rf out
+mkdir -p out/tmp
+cp -a app db yarn.lock package.json index.js .babelrc out/tmp
+cd out/tmp
+yarn install --no-progress
+cd -
+./node_modules/.bin/electron-rebuild -p -m out/tmp -w sqlite3
+
+VERSION=$(cat package.json | jq -r '.version')
+./node_modules/.bin/electron-packager out/tmp Bdash \
+  --asar=true \
+  --overwrite \
+  --icon=./assets/icon.icns \
+  --platform=darwin \
+  --arch=x64 \
+  --out=./out \
+  --app-bundle-id=io.bdash \
+  --helper-bundle-id=io.bdash.helper \
+  --app-version=$VERSION \
+  --build-version=$VERSION \
+  --app-copyright=hokaccha
+./node_modules/.bin/electron-osx-sign out/Bdash-darwin-x64/Bdash.app
+
+cd out/Bdash-darwin-x64
+zip -qry Bdash-$VERSION.zip Bdash.app

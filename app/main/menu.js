@@ -1,7 +1,7 @@
-const app = require('electron').app;
-const zoom = require('./zoom');
+import { app } from 'electron';
+import zoom from './zoom';
 
-module.exports = [
+export default [
   {
     label: 'Application',
     submenu: [
@@ -83,7 +83,7 @@ module.exports = [
       { type: 'separator' },
       {
         label: 'Reload',
-        accelerator: 'Shift+CmdOrCtrl+R',
+        accelerator: 'CmdOrCtrl+R',
         click: (item, focusedWindow) => {
           if (focusedWindow) {
             focusedWindow.reload();
