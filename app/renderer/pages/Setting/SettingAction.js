@@ -2,7 +2,7 @@ import { setting } from '../../../lib/Setting';
 import GitHubApiClient from '../../../lib/GitHubApiClient';
 import { dispatch } from './SettingStore';
 
-export default {
+const SettingAction = {
   initialize() {
     dispatch('initialize', { setting: setting.load() });
   },
@@ -22,3 +22,5 @@ export default {
     });
   },
 };
+
+export default SettingAction;

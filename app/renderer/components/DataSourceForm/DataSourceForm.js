@@ -37,7 +37,7 @@ export default class DataSourceForm extends React.Component {
   }
 
   handleSave() {
-    let id = this.props.id;
+    let id = this.props.dataSource ? this.props.dataSource.id : null;
     let name = this.getNameValue();
     let type = this.state.selectedType;
     let config = this.getConfigValues();

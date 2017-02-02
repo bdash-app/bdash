@@ -16,10 +16,11 @@ export default class DataSourceStore extends Store {
         return this.mergeList('dataSources', payload.dataSources, (a, b) => a.id === b.id);
       }
       case 'selectDataSource': {
+        return this.set('selectedDataSourceId', payload.id);
+      }
+      case 'setTables': {
         let idx = this.findDataSourceIndex(payload.id);
-        return this
-          .set('selectedDataSourceId', payload.id)
-          .set(`dataSources.${idx}.tables`, payload.tables);
+        return this.set(`dataSources.${idx}.tables`, payload.tables);
       }
       case 'reloadTables': {
         let idx = this.findDataSourceIndex(payload.id);
@@ -41,7 +42,7 @@ export default class DataSourceStore extends Store {
         return this.set(`dataSources.${idx}.tableFilter`, payload.value);
       }
       case 'showForm': {
-        return this.set('showForm', true).set('formValue', payload.formValue);
+        return this.set('showForm', true).set('formValue', payload.dataSource);
       }
       case 'cancelForm': {
         return this.set('showForm', false).set('formValue', null);
@@ -50,8 +51,8 @@ export default class DataSourceStore extends Store {
         return this.set('showForm', false).prepend('dataSources', payload.dataSource);
       }
       case 'updateDataSource': {
-        let idx = this.findDataSourceIndex(payload.id);
-        return this.set('showForm', false).set(`dataSources.${idx}`, payload);
+        let idx = this.findDataSourceIndex(payload.dataSource.id);
+        return this.set('showForm', false).set(`dataSources.${idx}`, payload.dataSource);
       }
       case 'deleteDataSource': {
         let idx = this.findDataSourceIndex(payload.id);
@@ -63,7 +64,7 @@ export default class DataSourceStore extends Store {
   findDataSourceIndex(id) {
     let idx = this.state.dataSources.findIndex(q => q.id === id);
 
-    if (idx === undefined) {
+    if (idx === -1) {
       throw new Error(`dataSource id:${id} not found`);
     }
 

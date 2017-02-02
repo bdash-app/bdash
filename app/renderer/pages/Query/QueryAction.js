@@ -7,7 +7,7 @@ import DataSource from '../../../lib/DataSource';
 
 const DEFAULT_QUERY_TITLE = 'New Query';
 
-export default {
+const QueryAction = {
   initialize() {
     Promise.all([
       Database.Query.getAll(),
@@ -107,3 +107,5 @@ export default {
     });
   },
 };
+
+export default QueryAction;

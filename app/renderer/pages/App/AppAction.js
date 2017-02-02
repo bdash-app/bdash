@@ -4,7 +4,7 @@ import { setting } from '../../../lib/Setting';
 import Config from '../../../lib/Config';
 import { dispatch } from './AppStore';
 
-export default {
+const AppAction = {
   initialize() {
     if (!fs.existsSync(Config.bdashRoot)) {
       fs.mkdirSync(Config.bdashRoot);
@@ -24,3 +24,5 @@ export default {
     dispatch('selectPage', { page });
   },
 };
+
+export default AppAction;

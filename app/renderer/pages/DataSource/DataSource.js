@@ -28,7 +28,7 @@ class DataSource extends React.Component {
   renderDataSourceForm() {
     if (!this.state.showForm) return;
 
-    return <DataSourceForm onSave={this.handleSave.bind(this)} onCancel={Action.hideForm} />;
+    return <DataSourceForm dataSource={this.state.formValue} onSave={this.handleSave.bind(this)} onCancel={Action.hideForm} />;
   }
 
   render() {
@@ -37,11 +37,11 @@ class DataSource extends React.Component {
     return <div className="page-DataSource">
       <div className="page-DataSource-list">
         <DataSourceList {...this.state}
-          onClickNew={() => Action.showFormNew()}
+          onClickNew={() => Action.showForm()}
           onSelect={id => Action.selectDataSource(this.find(id))}
-          onEdit={id => Action.editDataSource(this.find(id))}
+          onEdit={id => Action.showForm(this.find(id))}
           onDelete={id => Action.deleteDataSource(id)}
-          onReload={id => Action.reloadTables(this.find(id))}
+          onReload={id => Action.loadTables(this.find(id))}
           />
       </div>
       <div className="page-DataSource-tableList">

@@ -67,7 +67,7 @@ export default class QueryStore extends Store {
   findQueryIndex(id) {
     let idx = this.state.queries.findIndex(q => q.id === id);
 
-    if (idx === undefined) {
+    if (idx === -1) {
       throw new Error(`query id:${id} not found`);
     }
 
@@ -77,7 +77,7 @@ export default class QueryStore extends Store {
   findChartIndex(id) {
     let idx = this.state.charts.findIndex(c => c.id === id);
 
-    if (idx === undefined) {
+    if (idx === -1) {
       throw new Error(`chart id:${id} not found`);
     }
 

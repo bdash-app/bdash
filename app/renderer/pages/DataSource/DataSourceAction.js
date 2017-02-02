@@ -2,7 +2,7 @@ import { dispatch } from './DataSourceStore';
 import Database from '../../../lib/Database';
 import DataSource from '../../../lib/DataSource';
 
-export default {
+const DataSourceAction = {
   initialize() {
     Database.DataSource.getAll().then(dataSources => {
       dispatch('initialize', { dataSources });
@@ -10,12 +10,11 @@ export default {
   },
 
   selectDataSource(dataSource) {
-    DataSource.create(dataSource).fetchTables().then(tables => {
-      dispatch('selectDataSource', { id: dataSource.id, tables });
-    });
+    dispatch('selectDataSource', { id: dataSource.id });
+    DataSourceAction.loadTables(dataSource);
   },
 
-  reloadTables(dataSource) {
+  loadTables(dataSource) {
     DataSource.create(dataSource).fetchTables().then(tables => {
       dispatch('reloadTables', { id: dataSource.id, tables });
     });
@@ -34,12 +33,14 @@ export default {
   createDataSource({ name, type, config }) {
     Database.DataSource.create({ name, type, config }).then(dataSource => {
       dispatch('createDataSource', { dataSource });
+      DataSourceAction.selectDataSource(dataSource);
     });
   },
 
   updateDataSource({ id, name, type, config }) {
     Database.DataSource.update(id, { name, type, config }).then(dataSource => {
       dispatch('updateDataSource', { dataSource });
+      DataSourceAction.loadTables(dataSource);
     });
   },
 
@@ -49,11 +50,13 @@ export default {
     });
   },
 
-  showFormNew() {
-    dispatch('showForm', { formValue: null });
+  showForm(dataSource = null) {
+    dispatch('showForm', { dataSource });
   },
 
   hideForm() {
     dispatch('cancelForm');
   },
 };
+
+export default DataSourceAction;
