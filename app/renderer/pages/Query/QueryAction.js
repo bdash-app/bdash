@@ -76,7 +76,7 @@ const QueryAction = {
   },
 
   cancelQuery(query) {
-    dispatch('updateQuery', { id: query.id, executor: null });
+    dispatch('updateQuery', { id: query.id, params: { executor: null } });
     query.executor.cancel();
   },
 

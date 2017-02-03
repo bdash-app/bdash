@@ -37,8 +37,11 @@ export default class Mysql extends Base {
         if (err) {
           reject(err);
         }
-        else {
+        else if (fields && rows) {
           resolve({ fields: fields.map(f => f.name), rows });
+        }
+        else {
+          resolve();
         }
       });
     });
