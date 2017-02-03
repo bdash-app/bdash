@@ -18,10 +18,16 @@ const QueryAction = {
     });
   },
 
-  selectQuery(id) {
-    Database.Query.find(id).then(query => {
-      dispatch('selectQuery', { id, query });
-    });
+  selectQuery(query) {
+    let id = query.id;
+    if (query.body === undefined) {
+      Database.Query.find(id).then(query => {
+        dispatch('selectQuery', { id, query });
+      });
+    }
+    else {
+      dispatch('selectQuery', { id, query: {} });
+    }
   },
 
   addNewQuery({ dataSourceId }) {

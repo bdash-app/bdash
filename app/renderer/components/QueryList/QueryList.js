@@ -7,19 +7,19 @@ export default class QueryList extends React.Component {
     this.props.onAddQuery();
   }
 
-  handleClickItem(id) {
-    this.props.onSelectQuery(id);
+  handleClickItem(query) {
+    this.props.onSelectQuery(query);
   }
 
-  handleContextMenu(id) {
-    this.props.onSelectQuery(id);
+  handleContextMenu(query) {
+    this.props.onSelectQuery(query);
     setImmediate(() => {
       let menu = remote.Menu.buildFromTemplate([
         {
           label: 'Delete',
           click: () => {
             if (window.confirm('Are you sure?')) {
-              this.props.onDeleteQuery(id);
+              this.props.onDeleteQuery(query.id);
             }
           },
         },
@@ -34,8 +34,8 @@ export default class QueryList extends React.Component {
       return <li
         key={query.id}
         className={className}
-        onClick={() => this.handleClickItem(query.id)}
-        onContextMenu={() => this.handleContextMenu(query.id)}
+        onClick={() => this.handleClickItem(query)}
+        onContextMenu={() => this.handleContextMenu(query)}
       >{query.title}</li>;
     });
 
