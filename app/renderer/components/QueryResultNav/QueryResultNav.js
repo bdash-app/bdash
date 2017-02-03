@@ -1,10 +1,6 @@
-import electron from 'electron';
 import React from 'react';
 import Flyout from 'react-micro-flyout';
 import classNames from 'classnames';
-import GitHubApiClient from '../../../lib/GitHubApiClient';
-import markdownTable from 'markdown-table';
-import csvStringify from 'csv-stringify';
 
 export default class QueryResultNav extends React.Component {
   constructor(...args) {

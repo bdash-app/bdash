@@ -140,4 +140,5 @@ export default class QueryResultChart extends React.Component {
       </div>
       <div className="QueryResultChart-chart"><div ref="chart" /></div>
     </div>;
-  }}
+  }
+}
