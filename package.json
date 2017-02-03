@@ -35,11 +35,14 @@
     "yamljs": "^0.2.8"
   },
   "devDependencies": {
+    "ava": "^0.18.0",
     "electron-osx-sign": "^0.4.3",
     "electron-packager": "^8.2.0",
     "electron-prebuilt": "^1.4.13",
-    "electron-rebuild": "^1.5.7",
-    "mocha": "^3.1.2"
+    "electron-rebuild": "^1.5.7"
+  },
+  "ava": {
+    "require": ["babel-register"]
   },
   "license": "MIT"
 }
