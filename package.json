@@ -2,7 +2,7 @@
   "name": "bdash",
   "main": "./index.js",
   "private": true,
-  "version": "1.0.0-rc1",
+  "version": "1.0.0-rc2",
   "scripts": {
     "build:sqlite3": "electron-rebuild -p -w sqlite3",
     "test": "ava --concurrency 4",
