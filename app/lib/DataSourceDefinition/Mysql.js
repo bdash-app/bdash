@@ -24,25 +24,28 @@ export default class Mysql extends Base {
     return new Promise((resolve, reject) => {
       let params = Object.assign({ dateStrings: true }, this.config);
       this.currentConnection = mysql.createConnection(params);
-
-      this.currentConnection.query({ sql: query, values: args, rowsAsArray: true }, (err, rows, fields) => {
-        try {
-          this.currentConnection.end();
-        }
-        catch (e) {
-          // do nothing
-        }
-        this.currentConnection = null;
-
+      this.currentConnection.connect(err => {
         if (err) {
-          reject(err);
+          this.currentConnection.close();
+          this.currentConnection = null;
+          return reject(err);
         }
-        else if (fields && rows) {
-          resolve({ fields: fields.map(f => f.name), rows });
-        }
-        else {
-          resolve();
-        }
+
+        this.currentConnection.query({ sql: query, values: args, rowsAsArray: true }, (err, rows, fields) => {
+          this.currentConnection.close();
+          this.currentConnection = null;
+
+          if (err) {
+            reject(err);
+          }
+          else if (fields && rows) {
+            resolve({ fields: fields.map(f => f.name), rows });
+          }
+          else {
+            // cancel query does not have result
+            resolve();
+          }
+        });
       });
     });
   }

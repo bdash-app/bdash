@@ -35,17 +35,13 @@ export default class Postgres extends Base {
       this.currentClient = new pg.Client(this.config);
       this.currentClient.connect(err => {
         if (err) {
+          this.currentClient.end();
           this.currentClient = null;
           return reject(err);
         }
 
         this.currentClient.query({ text: query, values: args, rowMode: 'array' }, (err, result) => {
-          try {
-            this.currentClient.end();
-          }
-          catch (e) {
-            // do nothing
-          }
+          this.currentClient.end();
           this.currentClient = null;
 
           if (err) {
