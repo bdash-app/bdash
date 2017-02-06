@@ -36,7 +36,7 @@ You can download and install from [GitHub release](https://github.com/bdash-app/
 
 ## Update
 
-Automatic update is not implemented yet. Download and override from [GitHub release](https://github.com/bdashio/bdash/releases) manually.
+Automatic update is not implemented yet. Download and override from [GitHub release](https://github.com/bdash-app/bdash/releases) manually.
 
 ## Support platform
 
