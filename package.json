@@ -10,6 +10,7 @@
     "start": "electron ."
   },
   "dependencies": {
+    "@google-cloud/bigquery": "^0.7.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.18.0",
     "babel-preset-react": "^6.3.13",
     "babel-register": "^6.18.0",
