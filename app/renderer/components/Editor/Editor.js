@@ -13,7 +13,7 @@ export default class Editor extends React.Component {
     this.codeMirror.on('change', this.handleValueChange.bind(this));
     this.codeMirror.on('cursorActivity', this.handleCursorChange.bind(this));
     this.codeMirror.setOption('extraKeys', {
-      'Cmd-Enter': () => {
+      [process.platform === 'darwin' ? 'Cmd-Enter' : 'Alt-Enter']: () => {
         this.props.onSubmit();
       },
       'Tab': cm => {
