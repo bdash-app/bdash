@@ -31,7 +31,7 @@ export default [
       },
       {
         label: 'Quit',
-        accelerator: 'Command+Q',
+        accelerator: 'CmdOrCtrl+Q',
         click: () => { app.quit(); },
       },
     ],
