@@ -22,7 +22,7 @@ https://gist.github.com/hokaccha/e128e1c3a68527ebf2c50d5e95a089b1
 
 - [x] MySQL
 - [x] PostgreSQL (Redshift)
-- [ ] BigQuery
+- [x] BigQuery
 - [ ] Athena
 - [ ] Treasure Data
 - [ ] Hive
