@@ -16,8 +16,10 @@ export default class Query {
       }
 
       // For backword compatibility with beta version data structure.
-      if (query.rows && typeof query.rows[0] === 'object' && !Array.isArray(query.rows[0])) {
+      if (query.fields && typeof query.fields[0] === 'object') {
         query.fields = query.fields.map(f => f.name);
+      }
+      if (query.rows && typeof query.rows[0] === 'object' && !Array.isArray(query.rows[0])) {
         query.rows = query.rows.map(r => Object.values(r));
       }
 
