@@ -17,7 +17,7 @@ export default class Setting {
     this.filePath = filePath;
 
     if (!fs.existsSync(filePath)) {
-      fs.writeFileSync(filePath, '');
+      fs.writeFileSync(filePath, '', { mode: 0o600 });
     }
 
     this.setting = yaml.safeLoad(fs.readFileSync(filePath).toString()) || {};
