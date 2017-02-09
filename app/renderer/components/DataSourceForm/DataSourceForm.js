@@ -30,10 +30,14 @@ export default class DataSourceForm extends React.Component {
     // TODO: validation
     let form = ReactDOM.findDOMNode(this.refs.form);
     let inputs = form.querySelectorAll('.DataSourceForm-configInput');
+    let checkboxes = form.querySelectorAll('.DataSourceForm-configCheckbox');
 
     return Array.from(inputs).reduce((acc, el) => {
       return Object.assign(acc, { [el.name]: el.value });
-    }, {});
+    }, Array.from(checkboxes).reduce((acc, el) => {
+      let value = el.checked ? el.value : "";
+      return Object.assign(acc, { [el.name]: value });
+    }, {}));
   }
 
   handleSave() {
@@ -41,6 +45,7 @@ export default class DataSourceForm extends React.Component {
     let name = this.getNameValue();
     let type = this.state.selectedType;
     let config = this.getConfigValues();
+    console.log(config);
     this.props.onSave({ id, name, type, config });
   }
 
@@ -63,6 +68,37 @@ export default class DataSourceForm extends React.Component {
     });
   }
 
+  renderConfigCheckbox(i, value, schema) {
+    return <tr key={i} className={schema.required ? 'is-required' : ''}>
+      <th>{schema.label}</th>
+      <td>
+        <input
+          className="DataSourceForm-configCheckbox"
+          type="checkbox"
+          value={schema.value}
+          name={schema.name}
+          defaultChecked={schema.value == value ? 'checked' : ''}
+          />
+      </td>
+    </tr>;
+  }
+
+  renderConfigInput(i, value, schema) {
+    let type = schema.type === 'password' ? 'password' : 'text';
+    return <tr key={i} className={schema.required ? 'is-required' : ''}>
+      <th>{schema.label}</th>
+      <td>
+        <input
+          className="DataSourceForm-configInput"
+          type={type}
+          defaultValue={value}
+          name={schema.name}
+          placeholder={schema.placeholder}
+          />
+      </td>
+    </tr>;
+  }
+
   renderConfig() {
     let ds = DataSource.get(this.state.selectedType);
     if (!ds) return null;
@@ -71,21 +107,15 @@ export default class DataSourceForm extends React.Component {
       let dataSource = this.props.dataSource || {};
       let config = dataSource.config || {};
       let value = config[schema.name];
-      let type = schema.type === 'password' ? 'password' : 'text';
-      return <tr key={i} className={schema.required ? 'is-required' : ''}>
-        <th>{schema.label}</th>
-        <td>
-          <input
-            className="DataSourceForm-configInput"
-            type={type}
-            defaultValue={value}
-            name={schema.name}
-            placeholder={schema.placeholder}
-            />
-        </td>
-      </tr>;
+      switch(schema.type) {
+        case 'checkbox':
+          return this.renderConfigCheckbox(i, value, schema);
+        default:
+          return this.renderConfigInput(i, value, schema);
+      }
     });
   }
+
 
   render() {
     let dataSource = this.props.dataSource || {};
