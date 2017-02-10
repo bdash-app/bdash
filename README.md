@@ -44,6 +44,20 @@ Automatic update is not implemented yet. Download and override from [GitHub rele
 - [ ] Windows
 - [ ] Linux
 
+## Development
+
+You can start the application with following commands.
+
+```
+$ npm install -g yarn
+$ cd bdash
+$ yarn
+$ npm run build:sqlite3
+$ npm start
+```
+
+After changing the code, you can reload with `⌘+R` to apply the change.
+
 ## License
 
 MIT
