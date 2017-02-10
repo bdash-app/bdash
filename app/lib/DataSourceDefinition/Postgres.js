@@ -23,6 +23,7 @@ export default class Postgres extends Base {
       { name: 'user', label: 'Username', type: 'string', placeholder: process.env.USER },
       { name: 'password', label: 'Password', type: 'password' },
       { name: 'database', label: 'Database', type: 'string', required: true },
+      { name: 'ssl', label: 'SSL', type: 'checkbox', value: 'true', required: false },
     ];
   }
 
