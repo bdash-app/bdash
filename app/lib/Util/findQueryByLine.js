@@ -23,7 +23,7 @@ function splitQuery(sql) {
 
     chunk.query += `${line}\n`;
 
-    if (/;$/.test(line)) {
+    if (/;\s*$/.test(line)) {
       chunk.end = i + 1;
       chunk = null;
     }

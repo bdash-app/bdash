@@ -31,10 +31,7 @@ test(t => {
 });
 
 test(t => {
-  let sql = `
-    select 1;
-    select 2;
-  `;
+  let sql = '\nselect 1; \nselect 2;\n';
   let sql1 = 'select 1;';
   let sql2 = 'select 2;';
 
