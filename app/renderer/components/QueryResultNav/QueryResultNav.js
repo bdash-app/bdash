@@ -17,6 +17,11 @@ export default class QueryResultNav extends React.Component {
     this.props.onClickCopyAsTsv();
   }
 
+  handleClickCopyAsCsv() {
+    this.setState({ openShareFlyout: false });
+    this.props.onClickCopyAsCsv();
+  }
+
   handleClickCopyAsMarkdown() {
     this.setState({ openShareFlyout: false });
     this.props.onClickCopyAsMarkdown();
@@ -48,6 +53,7 @@ export default class QueryResultNav extends React.Component {
           onRequestClose={() => this.setState({ openShareFlyout: false })}>
           <ul>
             <li onClick={() => this.handleClickCopyAsTsv()}>Copy table as TSV</li>
+            <li onClick={() => this.handleClickCopyAsCsv()}>Copy table as CSV</li>
             <li onClick={() => this.handleClickCopyAsMarkdown()}>Copy table as Markdown</li>
             <li onClick={() => this.handleClickShareOnGist()}>Share on gist</li>
           </ul>
