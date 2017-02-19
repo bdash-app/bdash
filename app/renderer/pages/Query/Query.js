@@ -67,6 +67,7 @@ class Query extends React.Component {
         />
       <QueryResult query={query} {...this.state}
         onClickCopyAsTsv={() => QuerySharing.copyAsTsv(query)}
+        onClickCopyAsCsv={() => QuerySharing.copyAsCsv(query)}
         onClickCopyAsMarkdown={() => QuerySharing.copyAsMarkdown(query)}
         onClickShareOnGist={() => this.handleShareOnGist(query)}
         onSelectTab={name => Action.selectResultTab(query, name)}

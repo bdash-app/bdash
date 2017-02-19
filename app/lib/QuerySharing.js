@@ -36,6 +36,12 @@ export default {
       electron.clipboard.writeText(tsv);
     });
   },
+
+  copyAsCsv(query) {
+    return getTableDataAsCsv(query).then(csv => {
+      electron.clipboard.writeText(csv);
+    });
+  },
 };
 
 // private functions
@@ -52,6 +58,30 @@ function getTableDataAsTsv(query) {
       }
       else {
         resolve(tsv);
+      }
+    });
+  });
+}
+
+function getTableDataAsCsv(query) {
+  return new Promise((resolve, reject) => {
+    const csvOpts = {
+      'eof': true,
+      'quote': '"',
+      'quoted': true,
+      'quotedEmpty': true,
+      'quotedString': true,
+      'escape': '"',
+      'columns': query.fields,
+      'header': true
+    };
+    const data = query.rows.map(row => Object.values(row));
+    csvStringify(data, csvOpts, (err, csv) => {
+      if (err) {
+        reject(err)
+      }
+      else {
+        resolve(csv);
       }
     });
   });
