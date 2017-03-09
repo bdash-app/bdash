@@ -3318,9 +3318,9 @@ ignore@^3.2.0:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-3.2.2.tgz#1c51e1ef53bab6ddc15db4d9ac4ec139eceb3410"
 
-immup@^2.2.3:
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/immup/-/immup-2.2.3.tgz#c906ef1b0accc89760a6a1042c53ff953aca6ac0"
+immup@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/immup/-/immup-3.0.0.tgz#00ce661282bcbc90ded9afd96bc46611a8866f10"
 
 imurmurhash@^0.1.4:
   version "0.1.4"

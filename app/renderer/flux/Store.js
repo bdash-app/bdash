@@ -1,4 +1,4 @@
-import immup, { Immup } from 'immup';
+import immup from 'immup';
 import { EventEmitter } from 'events';
 
 export default class Store {
@@ -36,34 +36,36 @@ export default class Store {
       throw new Error(`${this.constructor.name}.reduce returns undefined, action type: ${type}`);
     }
 
-    if (nextState instanceof Immup) {
+    if (nextState instanceof StateBuilder) {
       nextState = nextState.end();
     }
 
     return nextState;
   }
+}
 
-  set(...args) {
-    return immup(this.state).set(...args);
-  }
+class StateBuilder extends immup.Immup {
+  mergeList(path, value, comparator = (a, b) => a.id === b.id) {
+    return this.set(path, arr => {
+      if (!Array.isArray(arr)) {
+        throw new Error('target is not an array');
+      }
 
-  merge(...args) {
-    return immup(this.state).merge(...args);
-  }
-
-  mergeList(...args) {
-    return immup(this.state).mergeList(...args);
-  }
-
-  del(...args) {
-    return immup(this.state).del(...args);
-  }
-
-  append(...args) {
-    return immup(this.state).append(...args);
-  }
-
-  prepend(...args) {
-    return immup(this.state).prepend(...args);
+      return value.map(v => {
+        let target = arr.find(v2 => comparator(v, v2));
+        if (target === undefined) {
+          return v;
+        }
+        else {
+          return immup.merge(target, null, v);
+        }
+      });
+    });
   }
 }
+
+['set', 'del', 'merge', 'append', 'prepend', 'mergeList'].forEach(method => {
+  Store.prototype[method] = function(...args) {
+    return new StateBuilder(this.state)[method](...args);
+  };
+});

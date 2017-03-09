@@ -13,7 +13,7 @@ export default class DataSourceStore extends Store {
   reduce(type, payload) {
     switch (type) {
       case 'initialize': {
-        return this.mergeList('dataSources', payload.dataSources, (a, b) => a.id === b.id);
+        return this.mergeList('dataSources', payload.dataSources);
       }
       case 'selectDataSource': {
         return this.set('selectedDataSourceId', payload.id);
