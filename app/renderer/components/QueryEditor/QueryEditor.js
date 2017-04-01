@@ -41,10 +41,10 @@ export default class QueryEditor extends React.Component {
 
   renderButton() {
     if (this.props.query.status === 'working') {
-      return <Button onClick={() => this.props.onCancel()}>Cancel</Button>;
+      return <Button className="QueryEditor-cancelBtn" onClick={() => this.props.onCancel()}>Cancel</Button>;
     }
     else {
-      return <Button onClick={() => this.props.onExecute()}>Execute</Button>;
+      return <Button className="QueryEditor-executeBtn" onClick={() => this.props.onExecute()}>Execute</Button>;
     }
   }
 

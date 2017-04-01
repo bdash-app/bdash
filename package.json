@@ -18,7 +18,9 @@
     "codemirror": "^5.10.0",
     "core-js": "^2.0.1",
     "csv-stringify": "^1.0.4",
+    "dotenv": "^4.0.0",
     "font-awesome": "^4.5.0",
+    "fs-extra": "^2.1.2",
     "immup": "^3.0.0",
     "js-yaml": "^3.6.1",
     "lodash": "^4.15.0",
@@ -37,14 +39,15 @@
     "yamljs": "^0.2.8"
   },
   "devDependencies": {
-    "@hokaccha/eslint-config": "^2.2.0",
+    "@hokaccha/eslint-config": "^2.3.0",
     "ava": "^0.18.0",
     "electron-osx-sign": "^0.4.3",
     "electron-packager": "^8.2.0",
     "electron-prebuilt": "^1.4.13",
     "electron-rebuild": "^1.5.7",
     "eslint": "^3.14.1",
-    "eslint-plugin-react": "^6.9.0"
+    "eslint-plugin-react": "^6.9.0",
+    "spectron": "^3.6.0"
   },
   "ava": {
     "require": [
