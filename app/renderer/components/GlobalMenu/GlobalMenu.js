@@ -9,7 +9,7 @@ export default class GlobalMenu extends React.Component {
       { page: 'setting', icon: 'cog' },
     ].map((item, idx) => {
       let selected = this.props.selectedPage === item.page;
-      let className = classNames('GlobalMenu-item', { 'is-selected': selected });
+      let className = classNames('GlobalMenu-item', `GlobalMenu-${item.page}`, { 'is-selected': selected });
 
       return (
         <span className={className} onClick={() => this.handleClick(item.page)} key={idx}>

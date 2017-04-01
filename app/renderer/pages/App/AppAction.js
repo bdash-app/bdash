@@ -1,4 +1,5 @@
 import fs from 'fs';
+import { ensureDirSync } from 'fs-extra';
 import Database from '../../../lib/Database';
 import { setting } from '../../../lib/Setting';
 import Config from '../../../lib/Config';
@@ -8,7 +9,7 @@ import DataSourceAction from '../DataSource/DataSourceAction';
 const AppAction = {
   initialize() {
     if (!fs.existsSync(Config.bdashRoot)) {
-      fs.mkdirSync(Config.bdashRoot);
+      ensureDirSync(Config.bdashRoot);
     }
 
     let databasePath = Config.databasePath;

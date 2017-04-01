@@ -148,8 +148,8 @@ export default class DataSourceForm extends React.Component {
           {this.state.connectionTestMessage ? <div className="DataSourceForm-connectionTestMessage">{this.state.connectionTestMessage}</div> : null}
         </div>
         <div className="DataSourceForm-buttons">
-          <Button onClick={() => this.handleCancel()}>Cancel</Button>
-          <Button onClick={() => this.handleSave()}>Save</Button>
+          <Button className="DataSourceForm-cancelBtn" onClick={() => this.handleCancel()}>Cancel</Button>
+          <Button className="DataSourceForm-saveBtn" onClick={() => this.handleSave()}>Save</Button>
         </div>
       </div>
     </ModalDialog>;
