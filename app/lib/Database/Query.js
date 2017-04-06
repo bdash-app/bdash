@@ -5,38 +5,37 @@ export default class Query {
     return connection.all('select id, title from queries order by createdAt desc');
   }
 
-  static find(id) {
-    return connection.get('select * from queries where id = ?', id).then(query => {
-      if (query.fields) {
-        query.fields = JSON.parse(query.fields);
-      }
+  static async find(id) {
+    let query = await connection.get('select * from queries where id = ?', id);
 
-      if (query.rows) {
-        query.rows = JSON.parse(query.rows);
-      }
+    if (query.fields) {
+      query.fields = JSON.parse(query.fields);
+    }
 
-      // For backword compatibility with beta version data structure.
-      if (query.fields && typeof query.fields[0] === 'object') {
-        query.fields = query.fields.map(f => f.name);
-      }
-      if (query.rows && typeof query.rows[0] === 'object' && !Array.isArray(query.rows[0])) {
-        query.rows = query.rows.map(r => Object.values(r));
-      }
+    if (query.rows) {
+      query.rows = JSON.parse(query.rows);
+    }
 
-      return query;
-    });
+    // For backword compatibility with beta version data structure.
+    if (query.fields && typeof query.fields[0] === 'object') {
+      query.fields = query.fields.map(f => f.name);
+    }
+    if (query.rows && typeof query.rows[0] === 'object' && !Array.isArray(query.rows[0])) {
+      query.rows = query.rows.map(r => Object.values(r));
+    }
+
+    return query;
   }
 
-  static create({ title, dataSourceId }) {
+  static async create({ title, dataSourceId }) {
     let sql = `
       insert into queries
       (dataSourceId, title, updatedAt, createdAt)
       values (?, ?, datetime('now'), datetime('now'))
     `;
+    let id = await connection.insert(sql, dataSourceId, title);
 
-    return connection.insert(sql, dataSourceId, title).then(id => {
-      return { id, dataSourceId, title };
-    });
+    return { id, dataSourceId, title };
   }
 
   static update(id, params) {

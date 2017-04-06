@@ -1,20 +1,26 @@
 import { connection } from './Connection';
 
 export default class DataSource {
-  static getAll() {
+  static async getAll() {
     let sql = 'select id, name, type, config from data_sources order by createdAt desc';
-    return connection.all(sql).then(rows => rows.map(convert));
+    let rows = await connection.all(sql);
+
+    return rows.map(convert);
   }
 
-  static find(id) {
-    return connection.get('select * from data_sources where id = ?', id).then(convert);
+  static async find(id) {
+    let row = await connection.get('select * from data_sources where id = ?', id);
+
+    return convert(row);
   }
 
-  static count() {
-    return connection.get('select count(*) as count from data_sources').then(row => row.count);
+  static async count() {
+    let row = await connection.get('select count(*) as count from data_sources');
+
+    return row.count;
   }
 
-  static create(params) {
+  static async create(params) {
     let sql = `
       insert into data_sources
       (name, type, config, createdAt, updatedAt)
@@ -22,11 +28,12 @@ export default class DataSource {
     `;
     let { name, type } = params;
     let config = JSON.stringify(params.config);
+    let id = await connection.insert(sql, name, type, config);
 
-    return connection.insert(sql, name, type, config).then(id => this.find(id));
+    return this.find(id);
   }
 
-  static update(id, params) {
+  static async update(id, params) {
     let sql = `
       update data_sources
       set name = ?, type = ?, config = ?, updatedAt = datetime('now')
@@ -34,8 +41,9 @@ export default class DataSource {
     `;
     let { name, type } = params;
     let config = JSON.stringify(params.config);
+    await connection.run(sql, name, type, config, id);
 
-    return connection.run(sql, name, type, config, id).then(() => this.find(id));
+    return this.find(id);
   }
 
   static del(id) {

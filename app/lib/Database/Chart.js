@@ -1,33 +1,36 @@
 import { connection } from './Connection';
 
 export default class Chart {
-  static getAll() {
-    return connection.all('select * from charts').then(charts => {
-      return charts.map(convert);
-    });
+  static async getAll() {
+    let charts = await connection.all('select * from charts');
+
+    return charts.map(convert);
   }
 
-  static get(id) {
-    return connection.get('select * from charts where id = ?', id).then(convert);
+  static async get(id) {
+    let row = await connection.get('select * from charts where id = ?', id);
+
+    return convert(row);
   }
 
-  static findOrCreateByQueryId({ queryId, type = 'line' }) {
-    return connection.get('select * from charts where queryId = ?', queryId).then(chart => {
-      return chart ? convert(chart) : Chart.create({ queryId, type });
-    });
+  static async findOrCreateByQueryId({ queryId, type = 'line' }) {
+    let chart = await connection.get('select * from charts where queryId = ?', queryId);
+
+    return chart ? convert(chart) : Chart.create({ queryId, type });
   }
 
-  static create({ queryId, type = 'line' }) {
+  static async create({ queryId, type = 'line' }) {
     let sql = `
       insert into charts
       (queryId, type, updatedAt, createdAt)
       values (?, ?, datetime('now'), datetime('now'))
     `;
+    let id = await connection.insert(sql, queryId, type);
 
-    return connection.insert(sql, queryId, type).then(id => this.get(id));
+    return this.get(id);
   }
 
-  static update(id, params) {
+  static async update(id, params) {
     let fields = [];
     let values = [];
 
@@ -42,8 +45,9 @@ export default class Chart {
       set ${fields.map(f => `${f} = ?`).join(', ')}, updatedAt = datetime('now')
       where id = ?
     `;
+    await connection.run(sql, values);
 
-    return connection.run(sql, values).then(() => this.get(id));
+    return this.get(id);
   }
 }
 
