@@ -18,8 +18,9 @@ export default class BigQuery extends Base {
       bigquery(this.config).startQuery(query, (err, job) => {
         if (err) return reject(err);
 
-        this._cancel = () => {
-          job.cancel().then(() => reject(new Error('Query is canceled')));
+        this._cancel = async () => {
+          await job.cancel();
+          reject(new Error('Query is canceled'));
         };
 
         job.getQueryResults((err, rows) => {
@@ -39,32 +40,32 @@ export default class BigQuery extends Base {
     return this._cancel && this._cancel();
   }
 
-  connectionTest() {
-    return bigquery(this.config).query('select 1').then(() => true);
+  async connectionTest() {
+    await bigquery(this.config).query('select 1');
+    return true;
   }
 
-  fetchTables() {
-    return bigquery(this.config).getDatasets().then(([datasets]) => {
-      return Promise.all(datasets.map(dataset => {
-        return dataset.getTables().then(([tables]) => {
-          return tables.map(table => ({
-            schema: dataset.id,
-            name: table.id,
-            type: table.metadata.type.toLowerCase(),
-          }));
-        });
+  async fetchTables() {
+    let [datasets] = await bigquery(this.config).getDatasets();
+    let promises = datasets.map(async dataset => {
+      let [tables] = await dataset.getTables();
+      return tables.map(table => ({
+        schema: dataset.id,
+        name: table.id,
+        type: table.metadata.type.toLowerCase(),
       }));
-    }).then(flatten);
+    });
+    let results = await Promise.all(promises);
+    return flatten(results);
   }
 
-  fetchTableSummary({ schema, name }) {
-    return bigquery(this.config).dataset(schema).table(name).getMetadata().then(([metadata]) => {
-      let schemaFields = metadata.schema.fields;
-      let defs = {
-        fields: Object.keys(schemaFields[0]),
-        rows: schemaFields.map(Object.values),
-      };
-      return { schema, name, defs };
-    });
+  async fetchTableSummary({ schema, name }) {
+    let [metadata] = await bigquery(this.config).dataset(schema).table(name).getMetadata();
+    let schemaFields = metadata.schema.fields;
+    let defs = {
+      fields: Object.keys(schemaFields[0]),
+      rows: schemaFields.map(Object.values),
+    };
+    return { schema, name, defs };
   }
 }

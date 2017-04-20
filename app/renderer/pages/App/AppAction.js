@@ -7,7 +7,7 @@ import { dispatch } from './AppStore';
 import DataSourceAction from '../DataSource/DataSourceAction';
 
 const AppAction = {
-  initialize() {
+  async initialize() {
     if (!fs.existsSync(Config.bdashRoot)) {
       ensureDirSync(Config.bdashRoot);
     }
@@ -17,17 +17,15 @@ const AppAction = {
 
     setting.initialize(Config.settingPath);
 
-    Database.connection.initialize({ databasePath, schema }).then(() => {
-      dispatch('initialize');
-    });
+    await Database.connection.initialize({ databasePath, schema });
+    dispatch('initialize');
 
     // on boarding
-    Database.DataSource.count().then(count => {
-      if (count === 0) {
-        dispatch('selectPage', { page: 'dataSource' });
-        DataSourceAction.showForm();
-      }
-    });
+    let count = await Database.DataSource.count();
+    if (count === 0) {
+      dispatch('selectPage', { page: 'dataSource' });
+      DataSourceAction.showForm();
+    }
   },
 
   selectPage(page) {

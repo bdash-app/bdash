@@ -5,25 +5,26 @@ import GitHubApiClient from './GitHubApiClient';
 import Chart from './Chart';
 
 export default {
-  shareOnGist({ query, chart, setting }) {
-    return Promise.all([
+  async shareOnGist({ query, chart, setting }) {
+    let [tsv, svg] = await Promise.all([
       getTableDataAsTsv(query),
       getChartAsSvg(query, chart),
-    ]).then(([tsv, svg]) => {
-      let description = query.title;
-      let files = {
-        'query.sql': { content: query.body },
-        'result.tsv': { content: tsv },
-      };
+    ]);
 
-      if (svg) {
-        files['result2.svg'] = { content: svg };
-      }
+    let description = query.title;
+    let files = {
+      'query.sql': { content: query.body },
+      'result.tsv': { content: tsv },
+    };
 
-      return new GitHubApiClient(setting).postToGist({ description, files });
-    }).then(result => {
-      electron.shell.openExternal(result.html_url);
-    });
+    if (svg) {
+      files['result2.svg'] = { content: svg };
+    }
+
+    let client = new GitHubApiClient(setting);
+    let result = await client.postToGist({ description, files });
+
+    electron.shell.openExternal(result.html_url);
   },
 
   copyAsMarkdown(query) {
@@ -31,16 +32,14 @@ export default {
     electron.clipboard.writeText(markdown);
   },
 
-  copyAsTsv(query) {
-    return getTableDataAsTsv(query).then(tsv => {
-      electron.clipboard.writeText(tsv);
-    });
+  async copyAsTsv(query) {
+    let tsv = await getTableDataAsTsv(query);
+    return electron.clipboard.writeText(tsv);
   },
 
-  copyAsCsv(query) {
-    return getTableDataAsCsv(query).then(csv => {
-      electron.clipboard.writeText(csv);
-    });
+  async copyAsCsv(query) {
+    let csv = await getTableDataAsCsv(query);
+    return electron.clipboard.writeText(csv);
   },
 };
 

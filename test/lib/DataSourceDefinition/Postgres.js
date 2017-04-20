@@ -12,39 +12,41 @@ let config = {
   database: 'bdash_test',
 };
 
-test('execute', t => {
-  return new Postgres(config).execute('select id, text from test order by id').then(result => {
-    t.deepEqual(result, {
-      fields: ['id', 'text'],
-      rows: [['1', 'foo'], ['2', 'bar'], ['3', 'baz']],
-    });
+test('execute', async t => {
+  let result = await new Postgres(config).execute('select id, text from test order by id');
+  t.deepEqual(result, {
+    fields: ['id', 'text'],
+    rows: [['1', 'foo'], ['2', 'bar'], ['3', 'baz']],
   });
 });
 
-test('cancel', t => {
+test('cancel', async t => {
   let connection = new Postgres(config);
   let timer = setTimeout(() => t.fail('can not cancel'), 2000);
   setTimeout(() => connection.cancel(), 500);
 
-  return connection.execute('select pg_sleep(5)').then(() => {
+  try {
+    await connection.execute('select pg_sleep(5)');
     clearTimeout(timer);
     t.fail();
-  }).catch(err => {
+  }
+  catch (err) {
     t.regex(err.message, /canceling statement due to user request/);
-  });
+  }
 });
 
-test('connectionTest successful', t => {
+test('connectionTest successful', async t => {
   t.plan(1);
-  return new Postgres(config).connectionTest().then(() => {
-    t.pass();
-  });
+  await new Postgres(config).connectionTest();
+  t.pass();
 });
 
-test('connectionTest failed', t => {
-  return new Postgres({ host: 'x' }).connectionTest().then(() => {
+test('connectionTest failed', async t => {
+  try {
+    await new Postgres({ host: 'x' }).connectionTest();
     t.fail();
-  }).catch(err => {
+  }
+  catch (err) {
     t.regex(err.message, /getaddrinfo ENOTFOUND/);
-  });
+  }
 });

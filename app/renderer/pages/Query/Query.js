@@ -36,17 +36,21 @@ class Query extends React.Component {
     }
   }
 
-  handleShareOnGist(query) {
+  async handleShareOnGist(query) {
     let chart = this.state.charts.find(chart => chart.queryId === query.id);
     let setting = this.state.setting.github;
+
     if (!setting.token) {
       alert('Set your Github token');
       return;
     }
 
-    QuerySharing.shareOnGist({ query, chart, setting }).catch(err => {
+    try {
+      await QuerySharing.shareOnGist({ query, chart, setting });
+    }
+    catch (err) {
       alert(err.message);
-    });
+    }
   }
 
   renderMain() {

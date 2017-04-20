@@ -57,28 +57,27 @@ export default class Mysql extends Base {
     return new Mysql(this.config).execute(`kill query ${tid}`);
   }
 
-  connectionTest() {
-    return this.execute('select 1').then(() => true);
+  async connectionTest() {
+    await this.execute('select 1');
+    return true;
   }
 
-  fetchTables() {
+  async fetchTables() {
     let query = Util.stripHeredoc(`
       select table_name as name, table_type as type
       from information_schema.tables
       where table_schema = ?
       order by table_name
     `);
+    let { fields, rows } = await this.execute(query, this.config.database);
 
-    return this.execute(query, this.config.database).then(({ fields, rows }) => {
-      return rows.map(row => zipObject(fields, row));
-    });
+    return rows.map(row => zipObject(fields, row));
   }
 
-  fetchTableSummary({ name }) {
+  async fetchTableSummary({ name }) {
     let sql = 'show columns from ??';
+    let defs = await this.execute(sql, name);
 
-    return this.execute(sql, name).then(defs => {
-      return { name, defs };
-    });
+    return { name, defs };
   }
 }

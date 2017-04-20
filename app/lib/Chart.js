@@ -10,7 +10,7 @@ export default class Chart {
     Plotly.newPlot(dom, this.getData(), this.getLayout(), { displayModeBar: false });
   }
 
-  toSVG() {
+  async toSVG() {
     let data = this.getData();
     let layout = this.getLayout();
     let div = document.createElement('div');
@@ -19,9 +19,8 @@ export default class Chart {
       return Promise.resolve(null);
     }
 
-    return Plotly.plot(div, data, layout).then(gd => {
-      return Plotly.Snapshot.toSVG(gd).replace(/"Open Sans"/g, "'Open Sans'");
-    });
+    let gd = await Plotly.plot(div, data, layout);
+    return Plotly.Snapshot.toSVG(gd).replace(/"Open Sans"/g, "'Open Sans'");
   }
 
   getData() {
