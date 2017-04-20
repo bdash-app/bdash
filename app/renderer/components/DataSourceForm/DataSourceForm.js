@@ -56,15 +56,19 @@ export default class DataSourceForm extends React.Component {
     this.setState({ selectedType: e.target.value });
   }
 
-  handleConnectionTest() {
+  async handleConnectionTest() {
     let type = this.state.selectedType;
     let config = this.getConfigValues();
     this.setState({ connectionTestStatus: 'working', connectionTestMessage: null });
-    DataSource.create({ type, config }).connectionTest().then(() => {
-      this.setState({ connectionTestStatus: 'success' });
-    }).catch(err => {
+
+    try {
+      await DataSource.create({ type, config }).connectionTest();
+    }
+    catch (err) {
       this.setState({ connectionTestStatus: 'failure', connectionTestMessage: err.message });
-    });
+    }
+
+    this.setState({ connectionTestStatus: 'success' });
   }
 
   renderConfigCheckbox(i, value, schema) {

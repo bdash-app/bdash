@@ -64,24 +64,24 @@ export default class Postgres extends Base {
     return new Postgres(this.config).execute(`select pg_cancel_backend(${pid})`);
   }
 
-  connectionTest() {
-    return this.execute('select 1').then(() => true);
+  async connectionTest() {
+    await this.execute('select 1');
+    return true;
   }
 
-  fetchTables() {
+  async fetchTables() {
     let query = Util.stripHeredoc(`
       select table_schema as schema, table_name as name, table_type as type
       from information_schema.tables
       where table_schema not in ('information_schema', 'pg_catalog', 'pg_internal')
       order by table_schema, table_name
     `);
+    let { fields, rows } = await this.execute(query);
 
-    return this.execute(query).then(({ fields, rows }) => {
-      return rows.map(row => zipObject(fields, row));
-    });
+    return rows.map(row => zipObject(fields, row));
   }
 
-  fetchTableSummary({ schema, name }) {
+  async fetchTableSummary({ schema, name }) {
     let query = Util.stripHeredoc(`
       select
           pg_attribute.attname as name,
@@ -103,10 +103,9 @@ export default class Postgres extends Base {
           and pg_attribute.attnum > 0
       order by pg_attribute.attnum`
     );
+    let defs = await this.execute(query, `${schema}.${name}`);
 
-    return this.execute(query, `${schema}.${name}`).then(defs => {
-      return { schema, name, defs };
-    });
+    return { schema, name, defs };
   }
 
   _createError(query, err) {

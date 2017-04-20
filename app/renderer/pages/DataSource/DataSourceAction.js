@@ -3,10 +3,9 @@ import Database from '../../../lib/Database';
 import DataSource from '../../../lib/DataSource';
 
 const DataSourceAction = {
-  initialize() {
-    Database.DataSource.getAll().then(dataSources => {
-      dispatch('initialize', { dataSources });
-    });
+  async initialize() {
+    let dataSources = await Database.DataSource.getAll();
+    dispatch('initialize', { dataSources });
   },
 
   selectDataSource(dataSource) {
@@ -14,40 +13,35 @@ const DataSourceAction = {
     DataSourceAction.loadTables(dataSource);
   },
 
-  loadTables(dataSource) {
-    DataSource.create(dataSource).fetchTables().then(tables => {
-      dispatch('reloadTables', { id: dataSource.id, tables });
-    });
+  async loadTables(dataSource) {
+    let tables = await DataSource.create(dataSource).fetchTables();
+    dispatch('reloadTables', { id: dataSource.id, tables });
   },
 
-  selectTable(dataSource, table) {
-    DataSource.create(dataSource).fetchTableSummary(table).then(tableSummary => {
-      dispatch('selectTable', { id: dataSource.id, selectedTable: table, tableSummary });
-    });
+  async selectTable(dataSource, table) {
+    let tableSummary = await DataSource.create(dataSource).fetchTableSummary(table);
+    dispatch('selectTable', { id: dataSource.id, selectedTable: table, tableSummary });
   },
 
   changeTableFilter(dataSource, value) {
     dispatch('changeTableFilter', { id: dataSource.id, value });
   },
 
-  createDataSource({ name, type, config }) {
-    Database.DataSource.create({ name, type, config }).then(dataSource => {
-      dispatch('createDataSource', { dataSource });
-      DataSourceAction.selectDataSource(dataSource);
-    });
+  async createDataSource({ name, type, config }) {
+    let dataSource = await Database.DataSource.create({ name, type, config });
+    dispatch('createDataSource', { dataSource });
+    DataSourceAction.selectDataSource(dataSource);
   },
 
-  updateDataSource({ id, name, type, config }) {
-    Database.DataSource.update(id, { name, type, config }).then(dataSource => {
-      dispatch('updateDataSource', { dataSource });
-      DataSourceAction.loadTables(dataSource);
-    });
+  async updateDataSource({ id, name, type, config }) {
+    let dataSource = await Database.DataSource.update(id, { name, type, config });
+    dispatch('updateDataSource', { dataSource });
+    DataSourceAction.loadTables(dataSource);
   },
 
-  deleteDataSource(id) {
-    Database.DataSource.del(id).then(() => {
-      dispatch('deleteDataSource', { id });
-    });
+  async deleteDataSource(id) {
+    await Database.DataSource.del(id);
+    dispatch('deleteDataSource', { id });
   },
 
   showForm(dataSource = null) {

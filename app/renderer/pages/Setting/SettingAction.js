@@ -12,14 +12,18 @@ const SettingAction = {
     dispatch('update', { setting: params });
   },
 
-  validateGithubToken({ url, token }) {
+  async validateGithubToken({ url, token }) {
     dispatch('githubValidateTokenWorking');
 
-    new GitHubApiClient({ url, token }).validateToken().then(() => {
-      dispatch('githubValidateTokenSuccess');
-    }).catch(err => {
+    try {
+      await new GitHubApiClient({ url, token }).validateToken();
+    }
+    catch (err) {
       dispatch('githubValidateTokenError', { message: err.message });
-    });
+      return;
+    }
+
+    dispatch('githubValidateTokenSuccess');
   },
 };
 
