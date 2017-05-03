@@ -29,15 +29,16 @@ export default class DataSourceForm extends React.Component {
   getConfigValues() {
     // TODO: validation
     let form = ReactDOM.findDOMNode(this.refs.form);
-    let inputs = form.querySelectorAll('.DataSourceForm-configInput');
-    let checkboxes = form.querySelectorAll('.DataSourceForm-configCheckbox');
+    let inputs = form.querySelectorAll([
+      '.DataSourceForm-configInput',
+      '.DataSourceForm-configCheckbox:checked',
+      '.DataSourceForm-configRadio:checked',
+    ].join(','));
 
     return Array.from(inputs).reduce((acc, el) => {
-      return Object.assign(acc, { [el.name]: el.value });
-    }, Array.from(checkboxes).reduce((acc, el) => {
-      let value = el.checked ? el.value : "";
+      let value = el.getAttribute('type') === 'checkbox' ? true : el.value;
       return Object.assign(acc, { [el.name]: value });
-    }, {}));
+    }, {});
   }
 
   handleSave() {
@@ -66,6 +67,7 @@ export default class DataSourceForm extends React.Component {
     }
     catch (err) {
       this.setState({ connectionTestStatus: 'failure', connectionTestMessage: err.message });
+      return;
     }
 
     this.setState({ connectionTestStatus: 'success' });
@@ -78,11 +80,29 @@ export default class DataSourceForm extends React.Component {
         <input
           className="DataSourceForm-configCheckbox"
           type="checkbox"
-          value={schema.value}
+          value={true}
           name={schema.name}
-          defaultChecked={schema.value == value ? 'checked' : ''}
+          defaultChecked={value ? 'checked' : ''}
           />
       </td>
+    </tr>;
+  }
+
+  renderConfigRadio(i, value, schema) {
+    let radios = schema.values.map(v => {
+      return <label key={v} className="DataSourceForm-configRadioLabel">
+        <input
+          className="DataSourceForm-configRadio"
+          type="radio"
+          value={v}
+          name={schema.name}
+          defaultChecked={value ? value === v : schema.default === v}
+        />{v}
+      </label>;
+    });
+    return <tr key={i} className={schema.required ? 'is-required' : ''}>
+      <th>{schema.label}</th>
+      <td>{radios}</td>
     </tr>;
   }
 
@@ -110,7 +130,9 @@ export default class DataSourceForm extends React.Component {
       let dataSource = this.props.dataSource || {};
       let config = dataSource.config || {};
       let value = config[schema.name];
-      switch(schema.type) {
+      switch (schema.type) {
+        case 'radio':
+          return this.renderConfigRadio(i, value, schema);
         case 'checkbox':
           return this.renderConfigCheckbox(i, value, schema);
         default:
@@ -118,7 +140,6 @@ export default class DataSourceForm extends React.Component {
       }
     });
   }
-
 
   render() {
     let dataSource = this.props.dataSource || {};
