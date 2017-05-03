@@ -29,7 +29,7 @@
   color: #C00;
 }
 
-.DataSourceForm td input {
+.DataSourceForm td input[type="text"] {
   padding: 3px 5px;
   width: 260px;
   font-size: 14px;
@@ -44,6 +44,15 @@
   border: 1px solid #DFDFDF;
   font-size: 14px;
   background-color: #FFF;
+}
+
+.DataSourceForm-configRadioLabel {
+  white-space: nowrap;
+  margin-right: 10px;
+}
+
+.DataSourceForm-configRadio {
+  margin-right: 5px;
 }
 
 .DataSourceForm-bottom {
