@@ -1,6 +1,7 @@
 import Mysql from './DataSourceDefinition/Mysql';
 import Postgres from './DataSourceDefinition/Postgres';
 import BigQuery from './DataSourceDefinition/BigQuery';
+import TreasureData from './DataSourceDefinition/TreasureData';
 
 export default class DataSource {
   static register(...classes) {
@@ -29,5 +30,6 @@ export default class DataSource {
 DataSource.register(
   Mysql,
   Postgres,
-  BigQuery
+  BigQuery,
+  TreasureData
 );
