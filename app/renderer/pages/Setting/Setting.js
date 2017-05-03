@@ -11,7 +11,7 @@ class Setting extends React.Component {
     Action.initialize();
   }
 
-  renderGithubVlidateTokenResult() {
+  renderGithubValidateTokenResult() {
     let { status, error } = this.state.githubValidateToken;
     return (status === null) ? null : <ProgressIcon status={status} message={error} />;
   }
@@ -47,7 +47,7 @@ class Setting extends React.Component {
         </div>
         <div className="page-Setting-validateToken">
           <Button onClick={() => Action.validateGithubToken(github)}>Validate Token</Button>
-          {this.renderGithubVlidateTokenResult()}
+          {this.renderGithubValidateTokenResult()}
         </div>
       </div>
     </div>;
