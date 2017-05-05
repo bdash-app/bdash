@@ -1,7 +1,7 @@
-import { execSync } from 'child_process';
+import { shell } from 'execa';
 
 export default function initialize() {
-  return execSync(`
+  return shell(`
 dropdb bdash_test;
 createdb bdash_test;
 psql bdash_test <<EOF

@@ -1,7 +1,7 @@
-import { execSync } from 'child_process';
+import { shell } from 'execa';
 
 export default function initialize() {
-  return execSync(`
+  return shell(`
 mysql -u root -e 'create database if not exists bdash_test';
 mysql -u root bdash_test <<EOF
 drop table if exists test;

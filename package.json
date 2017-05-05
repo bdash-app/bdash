@@ -20,7 +20,7 @@
     "csv-stringify": "^1.0.4",
     "dotenv": "^4.0.0",
     "font-awesome": "^4.5.0",
-    "fs-extra": "^2.1.2",
+    "fs-extra": "^3.0.1",
     "immup": "^3.0.0",
     "js-yaml": "^3.6.1",
     "lodash": "^4.15.0",
@@ -48,6 +48,7 @@
     "electron-rebuild": "^1.5.7",
     "eslint": "^3.14.1",
     "eslint-plugin-react": "^6.9.0",
+    "execa": "^0.6.3",
     "spectron": "^3.6.0"
   },
   "ava": {
