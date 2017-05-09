@@ -21,8 +21,8 @@ function setValueToEditor(text) {
 
 test.before(async () => {
   app = new Application({ path: TEST_APP_PATH });
-  fse.removeSync(BDASH_ROOT);
-  initializeMysql();
+  await fse.remove(BDASH_ROOT);
+  await initializeMysql();
   await app.start();
   app.client.timeoutsImplicitWait(500);
 });

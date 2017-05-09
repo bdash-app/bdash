@@ -2,8 +2,8 @@ import test from 'ava';
 import initialize from '../../fixtures/postgres/initialize';
 import Postgres from '../../../app/lib/DataSourceDefinition/Postgres';
 
-test.before(() => {
-  initialize();
+test.before(async () => {
+  await initialize();
 });
 
 // TODO: Make it possible to change the config via enviroment variables

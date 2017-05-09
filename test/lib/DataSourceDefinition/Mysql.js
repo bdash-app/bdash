@@ -2,8 +2,8 @@ import test from 'ava';
 import initialize from '../../fixtures/mysql/initialize';
 import Mysql from '../../../app/lib/DataSourceDefinition/Mysql';
 
-test.before(() => {
-  initialize();
+test.before(async () => {
+  await initialize();
 });
 
 // TODO: Make it possible to change the config via enviroment variables
