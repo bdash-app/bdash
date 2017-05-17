@@ -20,6 +20,7 @@ class Setting extends React.Component {
     let keyBindOptions = ['default', 'vim'].map(v => ({ value: v, label: v }));
     let setting = this.state.setting;
     let github = setting.github || {};
+    let bdashServer = setting.bdashServer || {};
 
     return <div className="page-Setting">
       <div className="page-Setting-section1">
@@ -48,6 +49,16 @@ class Setting extends React.Component {
         <div className="page-Setting-validateToken">
           <Button onClick={() => Action.validateGithubToken(github)}>Validate Token</Button>
           {this.renderGithubValidateTokenResult()}
+        </div>
+      </div>
+
+      <div className="page-Setting-section1">
+        <h1>Bdash Server Setting</h1>
+        <div className="page-Setting-section2">
+          <h2>Endpoint</h2>
+          <input type="text" onChange={e => Action.update({ bdashServer: { endpoint: e.target.value } })} value={bdashServer.endpoint} />
+          <h2>Token</h2>
+          <input type="text" onChange={e => Action.update({ bdashServer: { token: e.target.value } })} value={bdashServer.token} />
         </div>
       </div>
     </div>;

@@ -2,6 +2,7 @@ import electron from 'electron';
 import markdownTable from 'markdown-table';
 import csvStringify from 'csv-stringify';
 import GitHubApiClient from './GitHubApiClient';
+import BdashServerClient from './BdashServerClient';
 import Chart from './Chart';
 
 export default {
@@ -40,6 +41,23 @@ export default {
   async copyAsCsv(query) {
     let csv = await getTableDataAsCsv(query);
     return electron.clipboard.writeText(csv);
+  },
+
+  async shareOnBdashServer({ query, chart, setting }) {
+    let [tsv, svg] = await Promise.all([
+      getTableDataAsTsv(query),
+      getChartAsSvg(query, chart),
+    ]);
+
+    let client = new BdashServerClient(setting);
+    let result = await client.post({
+      title: query.title,
+      body: query.body,
+      result: tsv,
+      charts: [svg],
+    });
+
+    electron.shell.openExternal(result.url);
   },
 };
 

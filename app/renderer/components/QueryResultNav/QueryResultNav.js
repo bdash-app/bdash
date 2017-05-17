@@ -32,6 +32,11 @@ export default class QueryResultNav extends React.Component {
     this.props.onClickShareOnGist();
   }
 
+  handleClickShareOnBdashServer() {
+    this.setState({ openShareFlyout: false });
+    this.props.onClickShareOnBdashServer();
+  }
+
   render() {
     return <div className="QueryResultNav">
       <span
@@ -56,6 +61,7 @@ export default class QueryResultNav extends React.Component {
             <li onClick={() => this.handleClickCopyAsCsv()}>Copy table as CSV</li>
             <li onClick={() => this.handleClickCopyAsMarkdown()}>Copy table as Markdown</li>
             <li onClick={() => this.handleClickShareOnGist()}>Share on gist</li>
+            <li onClick={() => this.handleClickShareOnBdashServer()}>Share on Bdash server</li>
           </ul>
         </Flyout>
       </div>

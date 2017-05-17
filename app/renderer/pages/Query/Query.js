@@ -53,6 +53,18 @@ class Query extends React.Component {
     }
   }
 
+  async handleShareOnBdashServer(query) {
+    let chart = this.state.charts.find(chart => chart.queryId === query.id);
+    let setting = this.state.setting.bdashServer;
+
+    try {
+      await QuerySharing.shareOnBdashServer({ query, chart, setting });
+    }
+    catch (err) {
+      alert(err.message);
+    }
+  }
+
   renderMain() {
     let query = this.state.queries.find(query => query.id === this.state.selectedQueryId);
     if (!query) return <div className="page-Query-main" />;
@@ -74,6 +86,7 @@ class Query extends React.Component {
         onClickCopyAsCsv={() => QuerySharing.copyAsCsv(query)}
         onClickCopyAsMarkdown={() => QuerySharing.copyAsMarkdown(query)}
         onClickShareOnGist={() => this.handleShareOnGist(query)}
+        onClickShareOnBdashServer={() => this.handleShareOnBdashServer(query)}
         onSelectTab={name => Action.selectResultTab(query, name)}
         onUpdateChart={Action.updateChart}
         />
