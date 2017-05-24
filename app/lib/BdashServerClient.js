@@ -9,7 +9,7 @@ export default class BdashServerClient {
   get headers() {
     return {
       'Content-Type': 'application/json',
-      'X-Bdash-API-Token': `token ${this.token}`,
+      'X-Bdash-API-Token': this.token,
       'X-Bdash-API-Version': API_VERSION,
     };
   }
