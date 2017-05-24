@@ -53,6 +53,7 @@ export default {
     let result = await client.post({
       title: query.title,
       body: query.body,
+      uuid: query.uuid,
       result: tsv,
       charts: [svg],
     });

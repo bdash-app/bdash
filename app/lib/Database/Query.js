@@ -1,4 +1,5 @@
 import { connection } from './Connection';
+import uuid from 'uuid';
 
 export default class Query {
   static getAll() {
@@ -24,16 +25,21 @@ export default class Query {
       query.rows = query.rows.map(r => Object.values(r));
     }
 
+    if (!query.uuid) {
+      query.uuid = uuid();
+      await this.update(query.id, { uuid: query.uuid });
+    }
+
     return query;
   }
 
   static async create({ title, dataSourceId }) {
     let sql = `
       insert into queries
-      (dataSourceId, title, updatedAt, createdAt)
-      values (?, ?, datetime('now'), datetime('now'))
+      (dataSourceId, title, uuid, updatedAt, createdAt)
+      values (?, ?, ? datetime('now'), datetime('now'))
     `;
-    let id = await connection.insert(sql, dataSourceId, title);
+    let id = await connection.insert(sql, dataSourceId, title, uuid());
 
     return { id, dataSourceId, title };
   }

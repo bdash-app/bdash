@@ -37,6 +37,7 @@
     "react-select": "^1.0.0-rc.1",
     "sqlite3": "^3.1.7",
     "td": "^0.2.7",
+    "uuid": "^3.0.1",
     "yamljs": "^0.2.8"
   },
   "devDependencies": {

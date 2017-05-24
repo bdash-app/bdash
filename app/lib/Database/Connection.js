@@ -9,9 +9,21 @@ export default class Connection {
     return this._db;
   }
 
-  initialize({ databasePath, schema }) {
+  async initialize({ databasePath, schema }) {
     this._db = new sqlite3.Database(databasePath);
-    return this.exec(schema);
+    await this.exec(schema);
+    await this.migrate();
+  }
+
+  async migrate() {
+    // TODO: Improve migration process
+    try {
+      await this.exec('alter table queries add column uuid text');
+    }
+    catch (e) {
+      // do nothing
+      console.log(e);
+    }
   }
 
   exec(sql) {

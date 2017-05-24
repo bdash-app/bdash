@@ -14,11 +14,11 @@ export default class BdashServerClient {
     };
   }
 
-  async post({ title, body, result, charts }) {
+  async post({ title, body, uuid, result, charts }) {
     let response = await fetch(this.endpoint, {
       method: 'POST',
       headers: this.headers,
-      body: JSON.stringify({ title, body, result, charts }),
+      body: JSON.stringify({ title, body, uuid, result, charts }),
     });
 
     if (response.ok) {
