@@ -23,11 +23,12 @@ https://gist.github.com/hokaccha/e128e1c3a68527ebf2c50d5e95a089b1
 - [x] MySQL
 - [x] PostgreSQL (Redshift)
 - [x] BigQuery
-- [ ] Athena
-- [ ] Treasure Data
+- [ ] Amazon Athena
+- [x] Treasure Data
 - [ ] Hive
 - [ ] Impala
 - [ ] Presto
+- [ ] Microsoft SQL Server
 - [ ] And more!
 
 ## Installation
