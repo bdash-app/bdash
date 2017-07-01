@@ -9,10 +9,15 @@ function createWindow() {
     width: 1280,
     height: 780,
     title: 'Bdash',
+    icon: `file://${__dirname}/../assets/icon.ico`,
   });
 
   mainWindow.loadURL(`file://${__dirname}/../renderer/index.html`);
   mainWindow.once('closed', () => { mainWindow = null; });
+}
+
+if (require('electron-squirrel-startup')) {
+  process.exit();
 }
 
 app.on('window-all-closed', () => {

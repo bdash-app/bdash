@@ -1,5 +1,6 @@
 {
-  "name": "bdash",
+  "name": "Bdash",
+  "description": "A simple business intelligence application.",
   "main": "./index.js",
   "private": true,
   "version": "1.2.0",
@@ -19,6 +20,7 @@
     "core-js": "^2.0.1",
     "csv-stringify": "^1.0.4",
     "dotenv": "^4.0.0",
+    "electron-squirrel-startup": "^1.0.0",
     "font-awesome": "^4.5.0",
     "fs-extra": "^2.1.2",
     "immup": "^3.0.0",
@@ -46,6 +48,7 @@
     "electron-osx-sign": "^0.4.4",
     "electron-packager": "^8.6.0",
     "electron-rebuild": "^1.5.7",
+    "electron-winstaller": "^2.6.3",
     "eslint": "^3.14.1",
     "eslint-plugin-react": "^6.9.0",
     "spectron": "^3.6.0"
