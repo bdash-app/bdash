@@ -1,8 +1,15 @@
 #!/bin/bash
 
 set -ex
-
 export NODE_ENV=production
+export npm_config_target=1.6.2
+export npm_config_arch=x64
+export npm_config_target_arch=x64
+export npm_config_target_platform=win32
+export npm_config_disturl=https://atom.io/download/electron
+export npm_config_runtime=electron
+export npm_config_build_from_source=true
+export npm_config_msvs_version=2015
 
 rm -rf out
 mkdir -p out/tmp
@@ -10,14 +17,14 @@ cp -a app db yarn.lock package.json index.js .babelrc out/tmp
 cd out/tmp
 yarn install --no-progress
 cd -
-./node_modules/.bin/electron-rebuild -p -m out/tmp -w sqlite3
 
 VERSION=$(node bin/print_version)
 ./node_modules/.bin/electron-packager out/tmp Bdash \
+  --version-string.ProductName=Bdash \
   --asar=true \
   --overwrite \
-  --icon=./assets/icon.icns \
-  --platform=darwin \
+  --icon=./assets/icon.ico \
+  --platform=win32 \
   --arch=x64 \
   --out=./out \
   --app-bundle-id=io.bdash \
@@ -25,7 +32,5 @@ VERSION=$(node bin/print_version)
   --app-version=$VERSION \
   --build-version=$VERSION \
   --app-copyright=hokaccha
-./node_modules/.bin/electron-osx-sign out/Bdash-darwin-x64/Bdash.app
 
-cd out/Bdash-darwin-x64
-zip -qry Bdash-$VERSION-macOS.zip Bdash.app
+node bin/package_win.js

@@ -42,7 +42,7 @@ Automatic update is not implemented yet. Download and override from [GitHub rele
 ## Support platform
 
 - [x] macOS
-- [ ] Windows
+- [x] Windows
 - [ ] Linux
 
 ## Development
