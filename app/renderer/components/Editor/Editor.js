@@ -16,6 +16,9 @@ export default class Editor extends React.Component {
       [process.platform === 'darwin' ? 'Cmd-Enter' : 'Alt-Enter']: () => {
         this.props.onSubmit();
       },
+      [process.platform === 'darwin' ? 'Cmd-A' : 'Ctrl-A']: () => {
+        this.codeMirror.execCommand('selectAll');
+      },
       'Tab': cm => {
         if (!cm.state.vim || cm.state.vim.insertMode) {
           cm.execCommand('insertSoftTab');
