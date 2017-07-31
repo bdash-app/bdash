@@ -16,7 +16,7 @@
     "babel-preset-react": "^6.3.13",
     "babel-register": "^6.18.0",
     "classnames": "^2.2.5",
-    "codemirror": "^5.10.0",
+    "codemirror": "^5.28.0",
     "core-js": "^2.0.1",
     "csv-stringify": "^1.0.4",
     "dotenv": "^4.0.0",
