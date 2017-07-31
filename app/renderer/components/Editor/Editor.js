@@ -28,7 +28,6 @@ export default class Editor extends React.Component {
     CodeMirror.Vim.defineAction('indent', cm => cm.indentLine(cm.getCursor().line, 'add'));
     CodeMirror.Vim.defineAction('unindent', cm => cm.indentLine(cm.getCursor().line, 'subtract'));
     CodeMirror.Vim.defineAction('delLineLeft', cm => cm.execCommand('delLineLeft'));
-    CodeMirror.Vim.map('<C-j>', '<Esc>', 'insert');
     CodeMirror.Vim._mapCommand({ keys: '<C-t>', type: 'action', action: 'indent', context: 'insert' });
     CodeMirror.Vim._mapCommand({ keys: '<C-d>', type: 'action', action: 'unindent', context: 'insert' });
     CodeMirror.Vim._mapCommand({ keys: '<C-u>', type: 'action', action: 'delLineLeft', context: 'insert' });
