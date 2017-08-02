@@ -41,3 +41,13 @@ test(t => {
   t.deepEqual(findQueryByLine(sql, 3), { query: sql2, startLine: 3 });
   t.deepEqual(findQueryByLine(sql, 4), { query: sql2, startLine: 3 });
 });
+
+test(t => {
+  let sql = 'select 1;';
+  t.deepEqual(findQueryByLine(sql, 1), { query: 'select 1;', startLine: 1 });
+});
+
+test(t => {
+  let sql = '\nselect 1;';
+  t.deepEqual(findQueryByLine(sql, 1), { query: 'select 1;', startLine: 2 });
+});

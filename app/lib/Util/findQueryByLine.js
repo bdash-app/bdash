@@ -2,10 +2,6 @@ import { find, last } from 'lodash';
 
 export default function findQueryByLine(sql, line) {
   let chunks = splitQuery(sql);
-
-  if (chunks.length === 0) return '';
-  if (chunks.length === 1) return chunks[0].query;
-
   let chunk = find(chunks, chunk => chunk.endLine >= line) || last(chunks);
 
   return { query: chunk.query, startLine: chunk.startLine };

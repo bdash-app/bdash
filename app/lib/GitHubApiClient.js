@@ -6,20 +6,28 @@ export default class GitHubApiClient {
     this.token = token;
   }
 
-  get headers() {
+  getHeaders() {
     return {
       'Content-Type': 'application/json',
       'Authorization': `token ${this.token}`,
     };
   }
 
-  getUrl(path) {
+  generateFullUrl(path) {
     let baseUrl =  this.baseUrl || GITHUB_COM_URL;
-    return baseUrl + path;
+    return baseUrl.replace(/\/+$/, '') + path;
+  }
+
+  getValidationTokenUrl() {
+    return this.generateFullUrl(`/?_=${Date.now()}`);
+  }
+
+  getGistUrl() {
+    return this.generateFullUrl('/gists');
   }
 
   async validateToken() {
-    let response = await fetch(this.getUrl(`/?_=${Date.now()}`), { headers: this.headers });
+    let response = await fetch(this.getValidationTokenUrl(), { headers: this.getHeaders() });
     let scopes = response.headers.get('X-OAuth-Scopes');
 
     if (!scopes) {
@@ -36,9 +44,9 @@ export default class GitHubApiClient {
   }
 
   async postToGist(contents) {
-    let response = await fetch(this.getUrl('/gists'), {
+    let response = await fetch(this.getGistUrl(), {
       method: 'POST',
-      headers: this.headers,
+      headers: this.getHeaders(),
       body: JSON.stringify(Object.assign({ public: false }, contents)),
     });
 
