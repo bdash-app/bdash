@@ -16,7 +16,42 @@ export default class Mysql extends Base {
     ];
   }
 
-  execute(query, ...args) {
+  execute(query) {
+    return this._execute(query);
+  }
+
+  cancel() {
+    let tid = this.currentConnection && this.currentConnection.threadId;
+    if (!tid) return Promise.resolve();
+
+    return new Mysql(this.config)._execute(`kill query ${tid}`);
+  }
+
+  async connectionTest() {
+    await this._execute('select 1');
+    return true;
+  }
+
+  async fetchTables() {
+    let query = Util.stripHeredoc(`
+      select table_name as name, table_type as type
+      from information_schema.tables
+      where table_schema = ?
+      order by table_name
+    `);
+    let { fields, rows } = await this._execute(query, this.config.database);
+
+    return rows.map(row => zipObject(fields, row));
+  }
+
+  async fetchTableSummary({ name }) {
+    let sql = 'show columns from ??';
+    let defs = await this._execute(sql, name);
+
+    return { name, defs };
+  }
+
+  _execute(query, ...args) {
     if (this.currentConnection) {
       return Promise.reject(new Error('A query is running'));
     }
@@ -48,36 +83,5 @@ export default class Mysql extends Base {
         });
       });
     });
-  }
-
-  cancel() {
-    let tid = this.currentConnection && this.currentConnection.threadId;
-    if (!tid) return Promise.resolve();
-
-    return new Mysql(this.config).execute(`kill query ${tid}`);
-  }
-
-  async connectionTest() {
-    await this.execute('select 1');
-    return true;
-  }
-
-  async fetchTables() {
-    let query = Util.stripHeredoc(`
-      select table_name as name, table_type as type
-      from information_schema.tables
-      where table_schema = ?
-      order by table_name
-    `);
-    let { fields, rows } = await this.execute(query, this.config.database);
-
-    return rows.map(row => zipObject(fields, row));
-  }
-
-  async fetchTableSummary({ name }) {
-    let sql = 'show columns from ??';
-    let defs = await this.execute(sql, name);
-
-    return { name, defs };
   }
 }

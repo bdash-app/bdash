@@ -45,7 +45,7 @@ const QueryAction = {
   },
 
   async executeQuery({ line, query, dataSource }) {
-    let queryBody = Util.findQueryByLine(query.body, line);
+    let { query: queryBody, startLine } = Util.findQueryByLine(query.body, line);
     let executor = DataSource.create(dataSource);
     let id = query.id;
     dispatch('updateQuery', { id, params: { status: 'working', executor } });
@@ -53,7 +53,7 @@ const QueryAction = {
     let start = Date.now();
     let result;
     try {
-      result = await executor.execute(queryBody);
+      result = await executor.execute(queryBody, { startLine });
     }
     catch (err) {
       let params = {

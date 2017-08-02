@@ -27,45 +27,24 @@ export default class Postgres extends Base {
     ];
   }
 
-  execute(query, ...args) {
-    if (this.currentClient) {
-      return Promise.reject(new Error('A query is running'));
+  async execute(query, options = {}) {
+    try {
+      return await this._execute(query);
     }
-
-    return new Promise((resolve, reject) => {
-      this.currentClient = new pg.Client(this.config);
-      this.currentClient.connect(err => {
-        if (err) {
-          this.currentClient.end();
-          this.currentClient = null;
-          return reject(err);
-        }
-
-        this.currentClient.query({ text: query, values: args, rowMode: 'array' }, (err, result) => {
-          this.currentClient.end();
-          this.currentClient = null;
-
-          if (err) {
-            reject(this._createError(query, err));
-          }
-          else {
-            let { rows, fields } = result;
-            resolve({ fields: fields.map(f => f.name), rows });
-          }
-        });
-      });
-    });
+    catch (err) {
+      throw this._errorWithLine(err, query, options.startLine || 1);
+    }
   }
 
   cancel() {
     let pid = this.currentClient && this.currentClient.processID;
     if (!pid) return Promise.resolve();
 
-    return new Postgres(this.config).execute(`select pg_cancel_backend(${pid})`);
+    return new Postgres(this.config)._execute(`select pg_cancel_backend(${pid})`);
   }
 
   async connectionTest() {
-    await this.execute('select 1');
+    await this._execute('select 1');
     return true;
   }
 
@@ -76,7 +55,7 @@ export default class Postgres extends Base {
       where table_schema not in ('information_schema', 'pg_catalog', 'pg_internal')
       order by table_schema, table_name
     `);
-    let { fields, rows } = await this.execute(query);
+    let { fields, rows } = await this._execute(query);
 
     return rows.map(row => zipObject(fields, row));
   }
@@ -103,16 +82,47 @@ export default class Postgres extends Base {
           and pg_attribute.attnum > 0
       order by pg_attribute.attnum`
     );
-    let defs = await this.execute(query, `${schema}.${name}`);
+    let defs = await this._execute(query, `${schema}.${name}`);
 
     return { schema, name, defs };
   }
 
-  _createError(query, err) {
-    let message = err.message;
+  _execute(query, ...args) {
+    if (this.currentClient) {
+      return Promise.reject(new Error('A query is running'));
+    }
 
+    return new Promise((resolve, reject) => {
+      this.currentClient = new pg.Client(this.config);
+      this.currentClient.connect(err => {
+        if (err) {
+          this.currentClient.end();
+          this.currentClient = null;
+          return reject(err);
+        }
+
+        this.currentClient.query({ text: query, values: args, rowMode: 'array' }, (err, result) => {
+          this.currentClient.end();
+          this.currentClient = null;
+
+          if (err) {
+            reject(err);
+          }
+          else {
+            let { rows, fields } = result;
+            resolve({ fields: fields.map(f => f.name), rows });
+          }
+        });
+      });
+    });
+  }
+
+  _errorWithLine(err, query, startLine) {
+    if (!err.position) return err;
+
+    let message = err.message;
     if (err.position) {
-      let line = (query.substring(0, err.position).match(/\n/g) || []).length + 1;
+      let line = (query.substring(0, err.position).match(/\n/g) || []).length + startLine;
       message += ` (line: ${line})`;
     }
 
