@@ -84,4 +84,8 @@ export default class Mysql extends Base {
       });
     });
   }
+
+  description() {
+    return `host: ${this.config.host}\nport: ${this.config.port}\nuser: ${this.config.user}\ndatabase: ${this.config.database}`;
+  }
 }

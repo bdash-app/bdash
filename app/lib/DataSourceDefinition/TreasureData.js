@@ -158,4 +158,8 @@ export default class TreasureData extends Base {
       });
     });
   }
+
+  description() {
+    return `database: ${this.config.database}\nqueryType: ${this.config.queryType}`;
+  }
 }

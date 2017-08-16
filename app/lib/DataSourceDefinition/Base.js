@@ -25,4 +25,8 @@ export default class Base {
   fetchTableSummary() {
     throw new Error('Not Implemented');
   }
+
+  description() {
+    throw new Error('Not Implemented');
+  }
 }

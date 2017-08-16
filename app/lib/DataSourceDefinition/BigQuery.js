@@ -68,4 +68,8 @@ export default class BigQuery extends Base {
     };
     return { schema, name, defs };
   }
+
+  description() {
+    return `project: ${this.config.project}`;
+  }
 }

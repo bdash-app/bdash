@@ -128,4 +128,8 @@ export default class Postgres extends Base {
 
     return new Error(message);
   }
+
+  description() {
+    return `host: ${this.config.host}\nport: ${this.config.port}\nuser: ${this.config.user}\ndatabase: ${this.config.database}`;
+  }
 }
