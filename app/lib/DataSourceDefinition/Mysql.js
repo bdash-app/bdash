@@ -86,6 +86,11 @@ export default class Mysql extends Base {
   }
 
   description() {
-    return `host: ${this.config.host}\nport: ${this.config.port}\nuser: ${this.config.user}\ndatabase: ${this.config.database}`;
+    return Util.stripHeredoc(`
+      host: ${this.config.host}
+      port: ${this.config.port}
+      user: ${this.config.user}
+      database: ${this.config.database}
+    `);
   }
 }

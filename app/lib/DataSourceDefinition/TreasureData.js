@@ -1,5 +1,6 @@
 import TD from 'td';
 import Base from './Base';
+import Util from '../Util';
 
 const WAIT_INTERVAL = 2000;
 
@@ -160,6 +161,9 @@ export default class TreasureData extends Base {
   }
 
   description() {
-    return `database: ${this.config.database}\nqueryType: ${this.config.queryType}`;
+    return Util.stripHeredoc(`
+      database: ${this.config.database}
+      queryType: ${this.config.queryType}
+    `);
   }
 }
