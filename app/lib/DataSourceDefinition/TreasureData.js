@@ -160,10 +160,10 @@ export default class TreasureData extends Base {
     });
   }
 
-  description() {
+  descriptionTable() {
     return Util.stripHeredoc(`
-      database: ${this.config.database}
-      queryType: ${this.config.queryType}
+      |database|${this.config.database}|
+      |queryType|${this.config.queryType}|
     `);
   }
 }

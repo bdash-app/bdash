@@ -26,7 +26,7 @@ export default class Base {
     throw new Error('Not Implemented');
   }
 
-  description() {
+  descriptionTable() {
     throw new Error('Not Implemented');
   }
 }
