@@ -84,4 +84,13 @@ export default class Mysql extends Base {
       });
     });
   }
+
+  descriptionTable() {
+    return Util.stripHeredoc(`
+      |host|${this.config.host}|
+      |port|${this.config.port}|
+      |user|${this.config.user}|
+      |database|${this.config.database}|
+    `);
+  }
 }

@@ -128,4 +128,13 @@ export default class Postgres extends Base {
 
     return new Error(message);
   }
+
+  descriptionTable() {
+    return Util.stripHeredoc(`
+      |host|${this.config.host}|
+      |port|${this.config.port}|
+      |user|${this.config.user}|
+      |database|${this.config.database}|
+    `);
+  }
 }
