@@ -55,7 +55,7 @@ export default class Chart {
       });
     }
 
-    let groupValues = _.uniq(this.dataByField(this.params.groupBy)).sort();
+    let groupValues = _.uniq(this.dataByField(this.params.groupBy));
     let idx = this.params.fields.findIndex(field => field === this.params.groupBy);
     let x = _.groupBy(this.params.rows, row => row[idx]);
 
