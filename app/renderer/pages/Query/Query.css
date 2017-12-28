@@ -1,37 +1,15 @@
-.page-Query {
-  display: flex;
-  --page-Query-headerHeight: 48px;
-}
-
 .page-Query-list {
-  width: 280px;
   border-right: 1px solid #CCC;
-  min-height: 100vh;
-}
-
-.page-Query-main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  width: 0;
-}
-
-.page-Query-main .QueryResult {
-  flex: 1 1 auto;
-  overflow: auto;
 }
 
 .page-Query-main .QueryHeader {
   z-index: 1;
-  height: var(--page-Query-headerHeight);
 }
 
 .page-Query-main .QueryEditor {
   z-index: 0;
 }
 
-.QueryEditor .Editor {
-  height: 40vh;
-  max-height: calc(100vh - var(--page-Query-headerHeight) - var(--QueryEditor-navbarHeight) - 2px); /* 2px == border width */
+.page-Query-editor {
+  min-height: 45px;
 }

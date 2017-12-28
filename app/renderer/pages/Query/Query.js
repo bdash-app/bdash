@@ -7,6 +7,7 @@ import QueryList from '../../components/QueryList';
 import QueryHeader from '../../components/QueryHeader';
 import QueryEditor from '../../components/QueryEditor';
 import QueryResult from '../../components/QueryResult';
+import { FrameSet, Frame } from '../../components/FlexibleFrame';
 
 class Query extends React.Component {
   componentDidMount() {
@@ -55,42 +56,48 @@ class Query extends React.Component {
 
   renderMain() {
     let query = this.state.queries.find(query => query.id === this.state.selectedQueryId);
-    if (!query) return <div className="page-Query-main" />;
+    if (!query) return <FrameSet direction="column" width="auto" className="page-Query-main" />;
 
-    return <div className="page-Query-main">
-      <QueryHeader query={query} {...this.state}
-        onChangeTitle={title => Action.updateQuery(query.id, { title })}
-        onChangeDataSource={dataSourceId => Action.updateQuery(query.id, { dataSourceId })}
-        />
-      <QueryEditor query={query} {...this.state}
-        onChangeQueryBody={body => Action.updateQuery(query.id, { body })}
-        onChangeCursorPosition={line => Action.updateEditor({ line })}
-        onChangeEditorHeight={height => Action.updateEditor({ height })}
-        onExecute={() => this.handleExecute(query)}
-        onCancel={() => this.handleCancel(query)}
-        />
-      <QueryResult query={query} {...this.state}
-        onClickCopyAsTsv={() => QuerySharing.copyAsTsv(query)}
-        onClickCopyAsCsv={() => QuerySharing.copyAsCsv(query)}
-        onClickCopyAsMarkdown={() => QuerySharing.copyAsMarkdown(query)}
-        onClickShareOnGist={() => this.handleShareOnGist(query)}
-        onSelectTab={name => Action.selectResultTab(query, name)}
-        onUpdateChart={Action.updateChart}
-        />
-    </div>;
+    return <FrameSet direction="col" width="auto" className="page-Query-main">
+      <Frame height="48">
+        <QueryHeader query={query} {...this.state}
+          onChangeTitle={title => Action.updateQuery(query.id, { title })}
+          onChangeDataSource={dataSourceId => Action.updateQuery(query.id, { dataSourceId })}
+          />
+      </Frame>
+      <Frame resizable={true} height="200">
+        <QueryEditor query={query} {...this.state}
+          onChangeQueryBody={body => Action.updateQuery(query.id, { body })}
+          onChangeCursorPosition={line => Action.updateEditor({ line })}
+          onChangeEditorHeight={height => Action.updateEditor({ height })}
+          onExecute={() => this.handleExecute(query)}
+          onCancel={() => this.handleCancel(query)}
+          />
+      </Frame>
+      <Frame height="auto">
+        <QueryResult query={query} {...this.state}
+          onClickCopyAsTsv={() => QuerySharing.copyAsTsv(query)}
+          onClickCopyAsCsv={() => QuerySharing.copyAsCsv(query)}
+          onClickCopyAsMarkdown={() => QuerySharing.copyAsMarkdown(query)}
+          onClickShareOnGist={() => this.handleShareOnGist(query)}
+          onSelectTab={name => Action.selectResultTab(query, name)}
+          onUpdateChart={Action.updateChart}
+          />
+      </Frame>
+    </FrameSet>;
   }
 
   render() {
-    return <div className="page-Query">
-      <div className="page-Query-list">
+    return <FrameSet direction="row" width="auto" className="page-Query">
+      <Frame width="280" resizable={true} className="page-Query-list">
         <QueryList {...this.state}
           onAddQuery={() => this.handleAddQuery()}
           onSelectQuery={Action.selectQuery}
           onDeleteQuery={Action.deleteQuery}
           />
-      </div>
+      </Frame>
       {this.renderMain()}
-    </div>;
+    </FrameSet>;
   }
 }
 
