@@ -1,6 +1,6 @@
-import React from 'react';
+import * as React from 'react';
 
-export default class Button extends React.Component {
+export default class Button extends React.Component<any, any> {
   handleClick(e) {
     if (this.props.onClick) {
       this.props.onClick(e);

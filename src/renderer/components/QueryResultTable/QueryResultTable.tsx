@@ -1,8 +1,8 @@
-import React from 'react';
+import * as React from 'react';
 
 const MAX_DISPLAY_ROWS_COUNT = 1000;
 
-export default class QueryResultTable extends React.Component {
+export default class QueryResultTable extends React.Component<any, any> {
   shouldComponentUpdate(nextProps) {
     let query = nextProps.query;
 

@@ -1,9 +1,10 @@
-import React from 'react';
+import * as React from 'react';
 import Flyout from 'react-micro-flyout';
-import classNames from 'classnames';
+import * as classNames from 'classnames';
 
-export default class QueryResultNav extends React.Component {
+export default class QueryResultNav extends React.Component<any, any> {
   constructor(...args) {
+    // @ts-ignore
     super(...args);
     this.state = { openShareFlyout: false };
   }

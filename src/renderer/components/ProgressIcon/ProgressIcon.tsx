@@ -1,7 +1,7 @@
-import React from 'react';
+import * as React from 'react';
 import LoadingIcon from '../LoadingIcon';
 
-export default class ProgressIcon extends React.Component {
+export default class ProgressIcon extends React.Component<any, any> {
   renderIcon() {
     switch (this.props.status) {
       case 'working': return <LoadingIcon />;

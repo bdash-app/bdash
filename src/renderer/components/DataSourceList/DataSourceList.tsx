@@ -1,8 +1,8 @@
-import React from 'react';
-import classNames from 'classnames';
+import * as React from 'react';
+import * as classNames from 'classnames';
 import { remote } from 'electron';
 
-export default class DataSourceList extends React.Component {
+export default class DataSourceList extends React.Component<any, any> {
   handleContextMenu(id) {
     if (id !== this.props.selectedDataSourceId) {
       this.props.onSelect(id);

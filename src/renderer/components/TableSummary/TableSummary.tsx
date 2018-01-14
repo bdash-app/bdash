@@ -1,6 +1,6 @@
-import React from 'react';
+import * as React from 'react';
 
-export default class TableSummary extends React.Component {
+export default class TableSummary extends React.Component<any, any> {
   render() {
     let dataSource = this.props.dataSource;
     if (!dataSource || !dataSource.tableSummary) return null;

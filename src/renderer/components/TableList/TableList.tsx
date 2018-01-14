@@ -1,7 +1,7 @@
-import React from 'react';
-import classNames from 'classnames';
+import * as React from 'react';
+import * as classNames from 'classnames';
 
-export default class TableList extends React.Component {
+export default class TableList extends React.Component<any, any> {
   handleClickTable(table) {
     this.props.onSelectTable(this.props.dataSource, table);
   }

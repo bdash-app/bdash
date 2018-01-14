@@ -1,6 +1,8 @@
-import sqlite3 from 'sqlite3';
+import * as sqlite3 from 'sqlite3';
 
 export default class Connection {
+  _db: any;
+
   get db() {
     if (!this._db) {
       throw new Error('Database is not initialized.');
@@ -14,7 +16,7 @@ export default class Connection {
     return this.exec(schema);
   }
 
-  exec(sql) {
+  exec(sql): Promise<any> {
     return new Promise((resolve, reject) => {
       this.db.exec(sql, err => {
         if (err) {
@@ -27,7 +29,7 @@ export default class Connection {
     });
   }
 
-  get(sql, ...params) {
+  get(sql, ...params): Promise<any> {
     return new Promise((resolve, reject) => {
       this.db.get(sql, ...params, (err, result) => {
         if (err) {
@@ -40,7 +42,7 @@ export default class Connection {
     });
   }
 
-  all(sql, ...params) {
+  all(sql, ...params): Promise<any> {
     return new Promise((resolve, reject) => {
       this.db.all(sql, ...params, (err, result) => {
         if (err) {
@@ -53,7 +55,7 @@ export default class Connection {
     });
   }
 
-  insert(sql, ...params) {
+  insert(sql, ...params): Promise<any> {
     return new Promise((resolve, reject) => {
       this.db.run(sql, ...params, function(err) {
         if (err) {
@@ -66,7 +68,7 @@ export default class Connection {
     });
   }
 
-  run(sql, ...params) {
+  run(sql, ...params): Promise<any> {
     return new Promise((resolve, reject) => {
       this.db.run(sql, ...params, err => {
         if (err) {

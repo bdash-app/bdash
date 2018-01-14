@@ -1,7 +1,7 @@
-import React from 'react';
-import Modal from 'react-modal';
+import * as React from 'react';
+import * as Modal from 'react-modal';
 
-export default class ModalDialog extends React.Component {
+export default class ModalDialog extends React.Component<any, any> {
   render() {
     let style = {
       overlay: { backgroundColor: 'transparent' },

@@ -1,4 +1,4 @@
-import immup from 'immup';
+import * as immup from 'immup';
 import { EventEmitter } from 'events';
 
 export default class Store {
@@ -9,9 +9,20 @@ export default class Store {
     return { store, dispatch };
   }
 
+  state: any;
+  _emitter: EventEmitter;
+
   constructor() {
     this.state = this.getInitialState();
     this._emitter = new EventEmitter();
+  }
+
+  getInitialState() {
+    throw new Error('Not Implemented');
+  }
+
+  reduce(type, payload) {
+    throw new Error('Not Implemented');
   }
 
   subscribe(fn) {
@@ -30,7 +41,7 @@ export default class Store {
   }
 
   getNextState(type, payload) {
-    let nextState = this.reduce(type, payload);
+    let nextState: any = this.reduce(type, payload);
 
     if (nextState === undefined) {
       throw new Error(`${this.constructor.name}.reduce returns undefined, action type: ${type}`);
@@ -41,6 +52,30 @@ export default class Store {
     }
 
     return nextState;
+  }
+
+  set(path, value) {
+    return new StateBuilder(this.state).set(path, value);
+  }
+
+  merge(path, value) {
+    return new StateBuilder(this.state).merge(path, value);
+  }
+
+  append(path, value) {
+    return new StateBuilder(this.state).append(path, value);
+  }
+
+  mergeList(path, value, comparator = null) {
+    if (comparator) {
+      return new StateBuilder(this.state).mergeList(path, value, comparator);
+    } else {
+      return new StateBuilder(this.state).mergeList(path, value);
+    }
+  }
+
+  del(path) {
+    return new StateBuilder(this.state).del(path);
   }
 }
 
@@ -63,9 +98,3 @@ class StateBuilder extends immup.Immup {
     });
   }
 }
-
-['set', 'del', 'merge', 'append', 'prepend', 'mergeList'].forEach(method => {
-  Store.prototype[method] = function(...args) {
-    return new StateBuilder(this.state)[method](...args);
-  };
-});

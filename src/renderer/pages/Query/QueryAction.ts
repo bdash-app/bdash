@@ -1,4 +1,4 @@
-import moment from 'moment';
+import * as moment from 'moment';
 import { dispatch } from './QueryStore';
 import { setting } from '../../../lib/Setting';
 import Database from '../../../lib/Database';

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import QuerySharing from '../../../lib/QuerySharing';
 import { store } from './QueryStore';
 import Action from './QueryAction';
@@ -8,7 +8,7 @@ import QueryHeader from '../../components/QueryHeader';
 import QueryEditor from '../../components/QueryEditor';
 import QueryResult from '../../components/QueryResult';
 
-class Query extends React.Component {
+class Query extends React.Component<any, any> {
   componentDidMount() {
     Action.initialize();
   }
@@ -39,7 +39,6 @@ class Query extends React.Component {
   async handleShareOnGist(query) {
     let chart = this.state.charts.find(chart => chart.queryId === query.id);
     let setting = this.state.setting.github;
-    let dataSource = this.state.dataSources.find(ds => ds.id === query.dataSourceId);
 
     if (!setting.token) {
       alert('Set your Github token');
@@ -47,7 +46,7 @@ class Query extends React.Component {
     }
 
     try {
-      await QuerySharing.shareOnGist({ query, chart, setting, dataSource });
+      await QuerySharing.shareOnGist({ query, chart, setting });
     }
     catch (err) {
       alert(err.message);

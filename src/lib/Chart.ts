@@ -1,7 +1,9 @@
-import Plotly from 'plotly.js/dist/plotly.js';
+import * as Plotly from 'plotly.js/dist/plotly.js';
 import _ from 'lodash';
 
 export default class Chart {
+  params: any;
+
   constructor(params) {
     this.params = params;
   }
@@ -28,7 +30,7 @@ export default class Chart {
   }
 
   getLayout() {
-    let layout = { showlegend: true, margin: { l: 50, r: 50, t: 10, b: 120, pad: 4 }, hoverlabel: { namelength: -1 } };
+    let layout: any = { showlegend: true, margin: { l: 50, r: 50, t: 10, b: 120, pad: 4 } };
 
     if (this.params.stacking === 'enable') {
       layout.barmode = 'stack';

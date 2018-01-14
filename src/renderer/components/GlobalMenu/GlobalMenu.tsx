@@ -1,7 +1,7 @@
-import React from 'react';
-import classNames from 'classnames';
+import * as React from 'react';
+import * as classNames from 'classnames';
 
-export default class GlobalMenu extends React.Component {
+export default class GlobalMenu extends React.Component<any, any> {
   get menuList() {
     return [
       { page: 'query', icon: 'terminal' },

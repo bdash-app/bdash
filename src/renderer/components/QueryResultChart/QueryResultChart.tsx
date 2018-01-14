@@ -1,9 +1,9 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import Select from 'react-select';
 import Chart from '../../../lib/Chart';
 
-export default class QueryResultChart extends React.Component {
+export default class QueryResultChart extends React.Component<any, any> {
   shouldComponentUpdate(nextProps) {
     let query = nextProps.query;
     let chart = nextProps.chart;

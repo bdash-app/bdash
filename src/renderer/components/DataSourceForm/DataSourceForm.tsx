@@ -1,11 +1,11 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import ModalDialog from '../ModalDialog';
 import Button from '../Button';
 import DataSource from '../../../lib/DataSource';
 import ProgressIcon from '../ProgressIcon';
 
-export default class DataSourceForm extends React.Component {
+export default class DataSourceForm extends React.Component<any, any> {
   constructor(props) {
     super(props);
 
@@ -19,11 +19,13 @@ export default class DataSourceForm extends React.Component {
   }
 
   getNameValue() {
-    return ReactDOM.findDOMNode(this.refs.name).value;
+    const el = ReactDOM.findDOMNode(this.refs.name) as HTMLInputElement;
+    return el.value;
   }
 
   getTypeValue() {
-    return ReactDOM.findDOMNode(this.refs.type).value;
+    const el = ReactDOM.findDOMNode(this.refs.type) as HTMLInputElement;
+    return el.value;
   }
 
   getConfigValues() {
@@ -33,7 +35,7 @@ export default class DataSourceForm extends React.Component {
       '.DataSourceForm-configInput',
       '.DataSourceForm-configCheckbox:checked',
       '.DataSourceForm-configRadio:checked',
-    ].join(','));
+    ].join(',')) as NodeListOf<HTMLInputElement>;
 
     return Array.from(inputs).reduce((acc, el) => {
       let value = el.getAttribute('type') === 'checkbox' ? true : el.value;
@@ -80,9 +82,9 @@ export default class DataSourceForm extends React.Component {
         <input
           className="DataSourceForm-configCheckbox"
           type="checkbox"
-          value={true}
+          value={'true'}
           name={schema.name}
-          defaultChecked={value ? 'checked' : ''}
+          defaultChecked={!!value}
           />
       </td>
     </tr>;

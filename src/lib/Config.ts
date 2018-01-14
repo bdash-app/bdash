@@ -1,8 +1,8 @@
-import electron from 'electron';
-import path from 'path';
-import dotenv from 'dotenv';
+import * as electron from 'electron';
+import * as path from 'path';
+import * as dotenv from 'dotenv';
 
-let appRoot = path.resolve(__dirname, '..', '..');
+let appRoot = path.resolve(__dirname, '..');
 dotenv.load({ path: path.join(appRoot, '.env') });
 
 let env = process.env.BDASH_ENV || 'development';

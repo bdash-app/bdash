@@ -4,6 +4,8 @@ import BigQuery from './DataSourceDefinition/BigQuery';
 import TreasureData from './DataSourceDefinition/TreasureData';
 
 export default class DataSource {
+  static dataSources: any;
+
   static register(...classes) {
     let dataSources = {};
 

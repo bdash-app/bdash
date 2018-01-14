@@ -1,14 +1,21 @@
-import React from 'react';
-import CodeMirror from 'codemirror';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import * as CodeMirror from 'codemirror';
 import 'codemirror/addon/search/search';
 import 'codemirror/addon/runmode/colorize';
 import 'codemirror/keymap/vim';
 import 'codemirror/mode/sql/sql';
+import 'codemirror/lib/codemirror.css';
+import 'codemirror/addon/dialog/dialog.css';
 import { isEqual } from 'lodash';
 
-export default class Editor extends React.Component {
+export default class Editor extends React.Component<any, any> {
+  codeMirror: CodeMirror.EditorFromTextArea;
+  currentValue: any;
+  currentOptions: any;
+
   componentDidMount() {
-    let textareaNode = this.refs.textarea;
+    let textareaNode = ReactDOM.findDOMNode(this.refs.textarea) as HTMLTextAreaElement;
     this.codeMirror = CodeMirror.fromTextArea(textareaNode, this.props.options);
     this.codeMirror.on('change', this.handleValueChange.bind(this));
     this.codeMirror.on('cursorActivity', this.handleCursorChange.bind(this));

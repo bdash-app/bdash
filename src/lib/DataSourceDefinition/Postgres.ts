@@ -1,4 +1,4 @@
-import pg from 'pg';
+import * as pg from 'pg';
 import Base from './Base';
 import Util from '../Util';
 import { zipObject } from 'lodash';
@@ -14,6 +14,8 @@ import { zipObject } from 'lodash';
 });
 
 export default class Postgres extends Base {
+  currentClient: any;
+
   static get key() { return 'postgres'; }
   static get label() { return 'PostgreSQL'; }
   static get configSchema() {
@@ -27,7 +29,7 @@ export default class Postgres extends Base {
     ];
   }
 
-  async execute(query, options = {}) {
+  async execute(query, options: any = {}) {
     try {
       return await this._execute(query);
     }
@@ -87,7 +89,7 @@ export default class Postgres extends Base {
     return { schema, name, defs };
   }
 
-  _execute(query, ...args) {
+  _execute(query, ...args): Promise<any> {
     if (this.currentClient) {
       return Promise.reject(new Error('A query is running'));
     }
@@ -127,14 +129,5 @@ export default class Postgres extends Base {
     }
 
     return new Error(message);
-  }
-
-  descriptionTable() {
-    return Util.stripHeredoc(`
-      |host|${this.config.host}|
-      |port|${this.config.port}|
-      |user|${this.config.user}|
-      |database|${this.config.database}|
-    `);
   }
 }

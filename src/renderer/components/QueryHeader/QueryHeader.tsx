@@ -1,7 +1,7 @@
-import React from 'react';
+import * as React from 'react';
 import Select from 'react-select';
 
-export default class QueryHeader extends React.Component {
+export default class QueryHeader extends React.Component<any, any> {
   handleChangeTitle(e) {
     this.props.onChangeTitle(e.target.value);
   }

@@ -1,6 +1,9 @@
 const GITHUB_COM_URL = 'https://api.github.com';
 
 export default class GitHubApiClient {
+  baseUrl: string;
+  token: string;
+
   constructor({ token, url }) {
     this.baseUrl = url;
     this.token = token;

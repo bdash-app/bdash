@@ -1,4 +1,4 @@
-import electron from 'electron';
+import * as electron from 'electron';
 import menu from './menu';
 
 let app = electron.app;
@@ -12,7 +12,7 @@ function createWindow() {
     icon: `file://${__dirname}/../assets/icon.ico`,
   });
 
-  mainWindow.loadURL(`file://${__dirname}/../renderer/index.html`);
+  mainWindow.loadURL(`file://${__dirname}/../html/index.html`);
   mainWindow.once('closed', () => { mainWindow = null; });
 }
 

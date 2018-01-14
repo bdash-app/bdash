@@ -1,12 +1,15 @@
-import TD from 'td';
+import * as TD from 'td';
 import Base from './Base';
-import Util from '../Util';
 
 const WAIT_INTERVAL = 2000;
 
 let cacheTableList;
 
 export default class TreasureData extends Base {
+  jobId: any;
+  _cancel: any;
+  _client: any;
+
   static get key() { return 'treasuredata'; }
   static get label() { return 'TreasureData'; }
   static get configSchema() {
@@ -87,7 +90,7 @@ export default class TreasureData extends Base {
     return { name, defs: { fields, rows } };
   }
 
-  async wait() {
+  async wait(): Promise<any> {
     let sleep = interval => new Promise(resolve => setTimeout(resolve, interval));
     let showJob = () => new Promise((resolve, reject) => {
       this.client.showJob(this.jobId, (err, result) => {
@@ -98,7 +101,7 @@ export default class TreasureData extends Base {
           resolve(result);
         }
       });
-    });
+    }) as Promise<any>;
     let jobResult = () => new Promise((resolve, reject) => {
       this.client.jobResult(this.jobId, 'json', (err, result) => {
         if (err) {
@@ -108,7 +111,7 @@ export default class TreasureData extends Base {
           resolve(result);
         }
       });
-    });
+    }) as Promise<any>;
 
     while (true) {
       let result = await showJob();
@@ -158,12 +161,5 @@ export default class TreasureData extends Base {
         }
       });
     });
-  }
-
-  descriptionTable() {
-    return Util.stripHeredoc(`
-      |database|${this.config.database}|
-      |queryType|${this.config.queryType}|
-    `);
   }
 }

@@ -1,9 +1,9 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import Button from '../Button';
 import Editor from '../Editor';
 
-export default class QueryEditor extends React.Component {
+export default class QueryEditor extends React.Component<any, any> {
   get options() {
     return {
       mode: 'text/x-sql',

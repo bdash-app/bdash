@@ -1,8 +1,10 @@
-import bigquery from '@google-cloud/bigquery';
+import * as bigquery from '@google-cloud/bigquery';
 import Base from './Base';
 import { flatten } from 'lodash';
 
 export default class BigQuery extends Base {
+  _cancel: any;
+
   static get key() { return 'bigquery'; }
   static get label() { return 'BigQuery'; }
   static get configSchema() {
@@ -67,9 +69,5 @@ export default class BigQuery extends Base {
       rows: schemaFields.map(Object.values),
     };
     return { schema, name, defs };
-  }
-
-  descriptionTable() {
-    return `|project|${this.config.project}|`;
   }
 }

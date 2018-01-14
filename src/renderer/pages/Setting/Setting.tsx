@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import Select from 'react-select';
 import Container from '../../flux/Container';
 import { store } from './SettingStore';
@@ -6,7 +6,7 @@ import Action from './SettingAction';
 import Button from '../../components/Button';
 import ProgressIcon from '../../components/ProgressIcon';
 
-class Setting extends React.Component {
+class Setting extends React.Component<any, any> {
   componentDidMount() {
     Action.initialize();
   }
@@ -29,7 +29,7 @@ class Setting extends React.Component {
           <Select
             value={setting.keyBind || 'default'}
             options={keyBindOptions}
-            onChange={e => Action.update({ keyBind: e.value })}
+            onChange={e => Action.update({ keyBind: (e as any).value })} // TODO: typing
             clearable={false}
             />
         </div>
@@ -39,11 +39,11 @@ class Setting extends React.Component {
         <h1>GitHub Access Token</h1>
         <div className="page-Setting-section2">
           <h2>Access Token (Required scope is only gist)</h2>
-          <input type="text" onChange={e => Action.update({ github: { token: e.target.value } })} value={github.token} />
+          <input type="text" onChange={e => Action.update({ github: { token: e.target.value } })} value={github.token || ''} />
         </div>
         <div className="page-Setting-section2">
           <h2>GitHub Enterprise URL (optional)</h2>
-          <input type="text" onChange={e => Action.update({ github: { url: e.target.value } })} value={github.url} placeholder="https://yourdomain/api/v3" />
+          <input type="text" onChange={e => Action.update({ github: { url: e.target.value } })} value={github.url || ''} placeholder="https://yourdomain/api/v3" />
         </div>
         <div className="page-Setting-validateToken">
           <Button onClick={() => Action.validateGithubToken(github)}>Validate Token</Button>

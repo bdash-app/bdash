@@ -1,9 +1,9 @@
-import React from 'react';
+import * as React from 'react';
 import QueryResultNav from '../QueryResultNav';
 import QueryResultTable from '../QueryResultTable';
 import QueryResultChart from '../QueryResultChart';
 
-export default class QueryResult extends React.Component {
+export default class QueryResult extends React.Component<any, any> {
   renderError() {
     return (
       <div className="QueryResult">

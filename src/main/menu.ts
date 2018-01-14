@@ -1,7 +1,7 @@
 import { app } from 'electron';
 import zoom from './zoom';
 
-export default [
+const menu: Electron.MenuItemConstructorOptions[] = [
   {
     label: 'Application',
     submenu: [
@@ -93,7 +93,7 @@ export default [
       {
         label: 'Toggle Developer Tools',
         accelerator: process.platform === 'darwin' ? 'Alt+Command+I' : 'Ctrl+Shift+I',
-        click: (item, focusedWindow) => {
+        click: (item, focusedWindow: any) => {
           if (focusedWindow) {
             focusedWindow.toggleDevTools();
           }
@@ -109,3 +109,5 @@ export default [
     ],
   },
 ];
+
+export default menu;

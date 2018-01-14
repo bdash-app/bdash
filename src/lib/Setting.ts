@@ -1,6 +1,6 @@
-import fs from 'fs';
-import yaml from 'js-yaml';
-import _ from 'lodash';
+import * as fs from 'fs';
+import * as yaml from 'js-yaml';
+import * as _ from 'lodash';
 
 export default class Setting {
   static getDefault() {
@@ -12,6 +12,9 @@ export default class Setting {
       },
     };
   }
+
+  filePath: string;
+  setting: any;
 
   initialize(filePath) {
     this.filePath = filePath;

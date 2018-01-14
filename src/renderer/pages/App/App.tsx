@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import Container from '../../flux/Container';
 import LoadingIcon from '../../components/LoadingIcon';
 import GlobalMenu from '../../components/GlobalMenu';
@@ -8,7 +8,7 @@ import Query from '../Query';
 import DataSource from '../DataSource';
 import Setting from '../Setting';
 
-class App extends React.Component {
+class App extends React.Component<any, any> {
   componentDidMount() {
     Action.initialize();
   }

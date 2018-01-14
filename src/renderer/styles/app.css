@@ -1,1 +1,9 @@
-@import './base.css';
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+[hidden] {
+  display: none !important;
+}

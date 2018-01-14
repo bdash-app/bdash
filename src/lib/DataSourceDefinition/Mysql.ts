@@ -1,9 +1,11 @@
-import mysql from 'mysql2';
+import * as mysql from 'mysql2';
 import Base from './Base';
 import Util from '../Util';
 import { zipObject } from 'lodash';
 
 export default class Mysql extends Base {
+  currentConnection: any;
+
   static get key() { return 'mysql'; }
   static get label() { return 'MySQL'; }
   static get configSchema() {
@@ -51,7 +53,7 @@ export default class Mysql extends Base {
     return { name, defs };
   }
 
-  _execute(query, ...args) {
+  _execute(query, ...args): Promise<any> {
     if (this.currentConnection) {
       return Promise.reject(new Error('A query is running'));
     }
@@ -83,14 +85,5 @@ export default class Mysql extends Base {
         });
       });
     });
-  }
-
-  descriptionTable() {
-    return Util.stripHeredoc(`
-      |host|${this.config.host}|
-      |port|${this.config.port}|
-      |user|${this.config.user}|
-      |database|${this.config.database}|
-    `);
   }
 }

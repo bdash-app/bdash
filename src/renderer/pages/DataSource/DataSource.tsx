@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { store } from './DataSourceStore';
 import Action from './DataSourceAction';
 import Container from '../../flux/Container';
@@ -7,7 +7,7 @@ import TableList from '../../components/TableList';
 import TableSummary from '../../components/TableSummary';
 import DataSourceForm from '../../components/DataSourceForm';
 
-class DataSource extends React.Component {
+class DataSource extends React.Component<any, any> {
   componentDidMount() {
     Action.initialize();
   }

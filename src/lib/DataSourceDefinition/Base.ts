@@ -1,12 +1,14 @@
 export default class Base {
-  static get key() { throw new Error('Not Implemented'); }
-  static get label() { throw new Error('Not Implemented'); }
+  config: any;
+
+  static get key(): string { throw new Error('Not Implemented'); }
+  static get label(): string { throw new Error('Not Implemented'); }
 
   constructor(config) {
     this.config = config;
   }
 
-  execute() {
+  execute(query) {
     throw new Error('Not Implemented');
   }
 
@@ -22,11 +24,7 @@ export default class Base {
     throw new Error('Not Implemented');
   }
 
-  fetchTableSummary() {
-    throw new Error('Not Implemented');
-  }
-
-  descriptionTable() {
+  fetchTableSummary(args) {
     throw new Error('Not Implemented');
   }
 }
