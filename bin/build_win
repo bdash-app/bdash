@@ -18,19 +18,17 @@ cd out/tmp
 yarn install --no-progress
 cd -
 
-VERSION=$(node bin/print_version)
 ./node_modules/.bin/electron-packager out/tmp Bdash \
   --version-string.ProductName=Bdash \
-  --asar=true \
+  --asar \
   --overwrite \
   --icon=./assets/icon.ico \
   --platform=win32 \
   --arch=x64 \
   --out=./out \
+  --no-prune \
   --app-bundle-id=io.bdash \
   --helper-bundle-id=io.bdash.helper \
-  --app-version=$VERSION \
-  --build-version=$VERSION \
   --app-copyright=hokaccha
 
 node bin/package_win.js

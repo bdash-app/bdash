@@ -3,6 +3,7 @@
 set -ex
 
 export NODE_ENV=production
+VERSION=$(node bin/print_version)
 
 rm -rf out
 mkdir -p out/tmp
@@ -12,20 +13,18 @@ yarn install --no-progress
 cd -
 ./node_modules/.bin/electron-rebuild -p -m out/tmp -w sqlite3
 
-VERSION=$(node bin/print_version)
 ./node_modules/.bin/electron-packager out/tmp Bdash \
-  --asar=true \
+  --asar \
   --overwrite \
   --icon=./assets/icon.icns \
   --platform=darwin \
   --arch=x64 \
   --out=./out \
+  --no-prune \
   --app-bundle-id=io.bdash \
   --helper-bundle-id=io.bdash.helper \
-  --app-version=$VERSION \
-  --build-version=$VERSION \
-  --app-copyright=hokaccha
-./node_modules/.bin/electron-osx-sign out/Bdash-darwin-x64/Bdash.app
+  --app-copyright=hokaccha \
+  --osx-sign
 
 cd out/Bdash-darwin-x64
 zip -qry Bdash-$VERSION-macOS.zip Bdash.app
