@@ -12,9 +12,6 @@
   },
   "dependencies": {
     "@google-cloud/bigquery": "0.7.0",
-    "babel-plugin-transform-es2015-modules-commonjs": "6.26.0",
-    "babel-preset-react": "6.24.1",
-    "babel-register": "6.26.0",
     "classnames": "2.2.5",
     "codemirror": "5.33.0",
     "csv-stringify": "2.0.1",
