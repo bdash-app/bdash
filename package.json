@@ -17,7 +17,6 @@
     "babel-register": "6.26.0",
     "classnames": "2.2.5",
     "codemirror": "5.33.0",
-    "core-js": "2.5.3",
     "csv-stringify": "2.0.1",
     "dotenv": "4.0.0",
     "electron-squirrel-startup": "1.0.0",
