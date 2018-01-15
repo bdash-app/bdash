@@ -75,6 +75,7 @@ function getTableDataAsCsv(query): Promise<string> {
       'header': true
     };
     const data = query.rows.map(row => Object.values(row));
+    // @ts-ignore
     csvStringify(data, csvOpts, (err, csv) => {
       if (err) {
         reject(err)
