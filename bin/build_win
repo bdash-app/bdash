@@ -2,7 +2,7 @@
 
 set -ex
 export NODE_ENV=production
-export npm_config_target=1.6.2
+export npm_config_target=1.7.10
 export npm_config_arch=x64
 export npm_config_target_arch=x64
 export npm_config_target_platform=win32
@@ -11,14 +11,17 @@ export npm_config_runtime=electron
 export npm_config_build_from_source=true
 export npm_config_msvs_version=2015
 
-rm -rf out
-mkdir -p out/tmp
-cp -a app db yarn.lock package.json index.js .babelrc out/tmp
-cd out/tmp
-yarn install --no-progress
+BUILD_DIR=tmp/build
+
+rm -rf $BUILD_DIR out
+mkdir -p $BUILD_DIR
+./node_modules/.bin/webpack
+cp -a html db package.json yarn.lock index.js $BUILD_DIR
+cd $BUILD_DIR
+yarn install
 cd -
 
-./node_modules/.bin/electron-packager out/tmp Bdash \
+./node_modules/.bin/electron-packager $BUILD_DIR Bdash \
   --version-string.ProductName=Bdash \
   --asar \
   --overwrite \

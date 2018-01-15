@@ -3,17 +3,22 @@
 set -ex
 
 export NODE_ENV=production
+export npm_config_target=1.7.10
+export npm_config_disturl=https://atom.io/download/electron
+export npm_config_runtime=electron
+
+BUILD_DIR=tmp/build
 VERSION=$(node bin/print_version)
 
-rm -rf out
-mkdir -p out/tmp
-cp -a app db yarn.lock package.json index.js .babelrc out/tmp
-cd out/tmp
-yarn install --no-progress
+rm -rf $BUILD_DIR out
+mkdir -p $BUILD_DIR
+./node_modules/.bin/webpack
+cp -a html db package.json yarn.lock index.js $BUILD_DIR
+cd $BUILD_DIR
+yarn install
 cd -
-./node_modules/.bin/electron-rebuild -p -m out/tmp -w sqlite3
 
-./node_modules/.bin/electron-packager out/tmp Bdash \
+./node_modules/.bin/electron-packager $BUILD_DIR Bdash \
   --asar \
   --overwrite \
   --icon=./assets/icon.icns \
