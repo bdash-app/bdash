@@ -1,7 +1,7 @@
 const nodeExternals = require('webpack-node-externals');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const isProduction = process.env.NODE_ENV === 'production';
-const distDir = isProduction ? './tmp/build/dist' : './dist';
+const distDir = process.env.DIST_DIR || './dist';
 
 const commonConfig = {
   resolve: { extensions: ['.ts', '.tsx'] },

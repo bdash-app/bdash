@@ -12,7 +12,7 @@ VERSION=$(node bin/print_version)
 
 rm -rf $BUILD_DIR out
 mkdir -p $BUILD_DIR
-./node_modules/.bin/webpack
+DIST_DIR=./tmp/build/dist ./node_modules/.bin/webpack
 cp -a html db package.json yarn.lock index.js $BUILD_DIR
 cd $BUILD_DIR
 yarn install
