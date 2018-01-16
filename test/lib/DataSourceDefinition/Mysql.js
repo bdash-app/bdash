@@ -1,6 +1,6 @@
 import test from 'ava';
 import initialize from '../../fixtures/mysql/initialize';
-import Mysql from '../../../app/lib/DataSourceDefinition/Mysql';
+import Mysql from '../../../src/lib/DataSourceDefinition/Mysql';
 
 test.before(async () => {
   await initialize();

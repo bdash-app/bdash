@@ -3,29 +3,34 @@
 set -ex
 
 export NODE_ENV=production
+export npm_config_target=1.7.10
+export npm_config_disturl=https://atom.io/download/electron
+export npm_config_runtime=electron
+
 ROOT_DIR=$(cd $(dirname $0)/.. && pwd)
 TEST_DIR=tmp/test
 TEST_SRC_DIR=tmp/test/src
 
 rm -rf $TEST_DIR
 mkdir -p $TEST_SRC_DIR
-cp -a app db yarn.lock package.json index.js .babelrc $TEST_SRC_DIR
+DIST_DIR=./tmp/test/src/dist ./node_modules/.bin/webpack
+cp -a html db package.json yarn.lock index.js $TEST_SRC_DIR
 cat <<EOF > $TEST_SRC_DIR/.env
 BDASH_ENV=test
 BDASH_ROOT=$ROOT_DIR/tmp/test/.bdash
 EOF
 cd $TEST_SRC_DIR
-yarn install --no-progress
+yarn install
 cd -
-./node_modules/.bin/electron-rebuild -p -m $TEST_SRC_DIR -w sqlite3
 
 ./node_modules/.bin/electron-packager $TEST_SRC_DIR Bdash \
-  --asar=true \
+  --asar \
   --overwrite \
   --icon=./assets/icon.icns \
   --platform=darwin \
   --arch=x64 \
   --out=$TEST_DIR \
+  --no-prune \
   --app-bundle-id=io.bdash \
   --helper-bundle-id=io.bdash.helper \
   --app-version=test \

@@ -1,6 +1,6 @@
 import test from 'ava';
 import initialize from '../../fixtures/postgres/initialize';
-import Postgres from '../../../app/lib/DataSourceDefinition/Postgres';
+import Postgres from '../../../src/lib/DataSourceDefinition/Postgres';
 
 test.before(async () => {
   await initialize();

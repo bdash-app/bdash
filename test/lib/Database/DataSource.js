@@ -1,13 +1,12 @@
 import test from 'ava';
 import DatabaseHelper from '../../helpers/DatabaseHelper';
-import DataSource from '../../../app/lib/Database/DataSource';
+import DataSource from '../../../src/lib/Database/DataSource';
+import { connection } from '../../../src/lib/Database/Connection';
 
-test.beforeEach(t => {
-  t.context.db = new DatabaseHelper();
-});
+test.beforeEach(t => DatabaseHelper.initialize());
 
 test('findAll', async t => {
-  await t.context.db.connection.exec(`
+  await connection.exec(`
     insert into data_sources
       (id, name, type, config, updatedAt, createdAt)
     values
@@ -22,7 +21,7 @@ test('findAll', async t => {
 });
 
 test('find', async t => {
-  await t.context.db.connection.exec(`
+  await connection.exec(`
     insert into data_sources
       (id, name, type, config, updatedAt, createdAt)
     values
@@ -40,7 +39,7 @@ test('find', async t => {
 });
 
 test('count', async t => {
-  await t.context.db.connection.exec(`
+  await connection.exec(`
     insert into data_sources
       (id, name, type, config, updatedAt, createdAt)
     values
@@ -63,7 +62,7 @@ test('create', async t => {
 });
 
 test('update', async t => {
-  await t.context.db.connection.exec(`
+  await connection.exec(`
     insert into data_sources
       (id, name, type, config, updatedAt, createdAt)
     values
@@ -77,7 +76,7 @@ test('update', async t => {
 });
 
 test('del', async t => {
-  await t.context.db.connection.exec(`
+  await connection.exec(`
     insert into data_sources
       (id, name, type, config, updatedAt, createdAt)
     values

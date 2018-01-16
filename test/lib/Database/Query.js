@@ -1,13 +1,12 @@
 import test from 'ava';
 import DatabaseHelper from '../../helpers/DatabaseHelper';
-import Query from '../../../app/lib/Database/Query';
+import Query from '../../../src/lib/Database/Query';
+import { connection } from '../../../src/lib/Database/Connection';
 
-test.beforeEach(t => {
-  t.context.db = new DatabaseHelper();
-});
+test.beforeEach(t => DatabaseHelper.initialize());
 
 test('getAll', async t => {
-  await t.context.db.connection.exec(`
+  await connection.exec(`
     insert into queries
       (id, dataSourceId, title, updatedAt, createdAt)
     values
@@ -22,7 +21,7 @@ test('getAll', async t => {
 });
 
 test('find', async t => {
-  await t.context.db.connection.exec(`
+  await connection.exec(`
     insert into queries
       (id, dataSourceId, title, body, runtime, status, fields, rows, runAt, updatedAt, createdAt)
     values
@@ -55,7 +54,7 @@ test('create', async t => {
 });
 
 test('update', async t => {
-  await t.context.db.connection.exec(`
+  await connection.exec(`
     insert into queries
       (id, dataSourceId, title, body, runtime, status, fields, rows, runAt, updatedAt, createdAt)
     values
@@ -67,13 +66,13 @@ test('update', async t => {
 });
 
 test('del', async t => {
-  await t.context.db.connection.exec(`
+  await connection.exec(`
     insert into queries
       (id, dataSourceId, title, body, runtime, status, fields, rows, runAt, updatedAt, createdAt)
     values
       (1, 2, 'title', 'select 1;', 100, 'success', '["id","name"]', '[[1, "a"], [2, "b"]]', '2017-01-03 00:00:00', '2017-01-02 00:00:00', '2017-01-01 00:00:00')
   `);
   await Query.del(1);
-  let row = await t.context.db.connection.get('select count(*) as count from queries');
+  let row = await connection.get('select count(*) as count from queries');
   t.is(row.count, 0);
 });

@@ -1,5 +1,5 @@
 import test from 'ava';
-import GitHubApiClient from '../../app/lib/GitHubApiClient';
+import GitHubApiClient from '../../src/lib/GitHubApiClient';
 
 test(t => {
   let url = 'https://ghe.example.com/api/v3';

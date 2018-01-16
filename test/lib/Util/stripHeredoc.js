@@ -1,5 +1,5 @@
 import test from 'ava';
-import stripHeredoc from '../../../app/lib/Util/stripHeredoc';
+import stripHeredoc from '../../../src/lib/Util/stripHeredoc';
 
 test('strip indentation in heredoc', t => {
   let str = `

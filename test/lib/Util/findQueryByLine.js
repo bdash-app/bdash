@@ -1,6 +1,6 @@
 import test from 'ava';
-import stripHeredoc from '../../../app/lib/Util/stripHeredoc';
-import findQueryByLine from '../../../app/lib/Util/findQueryByLine';
+import stripHeredoc from '../../../src/lib/Util/stripHeredoc';
+import findQueryByLine from '../../../src/lib/Util/findQueryByLine';
 
 test(t => {
   let sql = stripHeredoc(`

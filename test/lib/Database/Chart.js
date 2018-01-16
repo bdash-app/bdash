@@ -1,13 +1,12 @@
 import test from 'ava';
 import DatabaseHelper from '../../helpers/DatabaseHelper';
-import Chart from '../../../app/lib/Database/Chart';
+import Chart from '../../../src/lib/Database/Chart';
+import { connection } from '../../../src/lib/Database/Connection';
 
-test.beforeEach(t => {
-  t.context.db = new DatabaseHelper();
-});
+test.beforeEach(t => DatabaseHelper.initialize());
 
 test('findAll', async t => {
-  await t.context.db.connection.exec(`
+  await connection.exec(`
     insert into charts
       (id, queryId, type, xColumn, yColumns, groupColumn, stacking, updatedAt, createdAt)
     values
@@ -30,7 +29,7 @@ test('findAll', async t => {
 });
 
 test('get', async t => {
-  await t.context.db.connection.exec(`
+  await connection.exec(`
     insert into charts
       (id, queryId, type, xColumn, yColumns, groupColumn, stacking, updatedAt, createdAt)
     values
@@ -72,7 +71,7 @@ test('create', async t => {
 });
 
 test('update', async t => {
-  await t.context.db.connection.exec(`
+  await connection.exec(`
     insert into charts
       (id, queryId, type, xColumn, yColumns, groupColumn, stacking, updatedAt, createdAt)
     values

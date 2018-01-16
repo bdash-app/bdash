@@ -1,0 +1,104 @@
+import * as electron from 'electron';
+import * as markdownTable from 'markdown-table';
+import * as csvStringify from 'csv-stringify';
+import GitHubApiClient from './GitHubApiClient';
+import Chart from './Chart';
+
+export default {
+  async shareOnGist({ query, chart, setting }) {
+    let [tsv, svg] = await Promise.all([
+      getTableDataAsTsv(query),
+      getChartAsSvg(query, chart),
+    ]);
+
+    let description = query.title;
+    let files = {
+      'query.sql': { content: query.body },
+      'result.tsv': { content: tsv },
+    };
+
+    if (svg) {
+      files['result2.svg'] = { content: svg };
+    }
+
+    let client = new GitHubApiClient(setting);
+    let result = await client.postToGist({ description, files });
+
+    electron.shell.openExternal(result.html_url);
+  },
+
+  copyAsMarkdown(query) {
+    let markdown = markdownTable(getTableData(query));
+    electron.clipboard.writeText(markdown);
+  },
+
+  async copyAsTsv(query) {
+    let tsv = await getTableDataAsTsv(query);
+    return electron.clipboard.writeText(tsv);
+  },
+
+  async copyAsCsv(query) {
+    let csv = await getTableDataAsCsv(query);
+    return electron.clipboard.writeText(csv);
+  },
+};
+
+// private functions
+function getTableData(query) {
+  let rows = query.rows.map(row => Object.values(row));
+  return [query.fields].concat(rows);
+}
+
+function getTableDataAsTsv(query): Promise<string> {
+  return new Promise((resolve, reject) => {
+    csvStringify(getTableData(query), { delimiter: '\t' }, (err, tsv) => {
+      if (err) {
+        reject(err);
+      }
+      else {
+        resolve(tsv);
+      }
+    });
+  });
+}
+
+function getTableDataAsCsv(query): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const csvOpts = {
+      'eof': true,
+      'quote': '"',
+      'quoted': true,
+      'quotedEmpty': true,
+      'quotedString': true,
+      'escape': '"',
+      'columns': query.fields,
+      'header': true
+    };
+    const data = query.rows.map(row => Object.values(row));
+    // @ts-ignore
+    csvStringify(data, csvOpts, (err, csv) => {
+      if (err) {
+        reject(err)
+      }
+      else {
+        resolve(csv);
+      }
+    });
+  });
+}
+
+function getChartAsSvg(query, chart) {
+  if (!query || !chart) return Promise.resolve(null);
+
+  let params = {
+    type: chart.type,
+    x: chart.xColumn,
+    y: chart.yColumns,
+    stacking: chart.stacking,
+    groupBy: chart.groupColumn,
+    rows: query.rows,
+    fields: query.fields,
+  };
+
+  return new Chart(params).toSVG();
+}
