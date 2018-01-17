@@ -68,10 +68,5 @@
     "webpack": "3.10.0",
     "webpack-node-externals": "1.6.0"
   },
-  "ava": {
-    "require": [
-      "ts-node/register"
-    ]
-  },
   "license": "MIT"
 }
