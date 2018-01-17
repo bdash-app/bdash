@@ -6,7 +6,7 @@
   "version": "1.2.1",
   "scripts": {
     "build:sqlite3": "electron-rebuild -p -w sqlite3",
-    "test": "node --harmony-async-await ./node_modules/.bin/ava --serial",
+    "test": "mocha 'test/**/*.test.ts'",
     "lint": "eslint --max-warnings 0 --ignore-path .eslintignore .",
     "start": "electron ."
   },
