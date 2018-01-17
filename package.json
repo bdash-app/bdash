@@ -6,7 +6,7 @@
   "version": "1.2.1",
   "scripts": {
     "build:sqlite3": "electron-rebuild -p -w sqlite3",
-    "test": "node --harmony-async-await ./node_modules/.bin/ava --serial",
+    "test": "mocha 'test/**/*.test.ts'",
     "lint": "eslint --max-warnings 0 --ignore-path .eslintignore .",
     "start": "electron ."
   },
@@ -42,6 +42,7 @@
     "@types/classnames": "2.2.3",
     "@types/codemirror": "0.0.55",
     "@types/csv-stringify": "1.4.1",
+    "@types/mocha": "2.2.46",
     "@types/node": "9.3.0",
     "@types/plotly.js": "1.28.10",
     "@types/react": "16.0.34",
@@ -58,6 +59,7 @@
     "execa": "0.9.0",
     "extract-text-webpack-plugin": "3.0.2",
     "file-loader": "1.1.6",
+    "mocha": "4.1.0",
     "spectron": "3.7.2",
     "ts-loader": "3.2.0",
     "ts-node": "4.1.0",
@@ -65,11 +67,6 @@
     "url-loader": "0.6.2",
     "webpack": "3.10.0",
     "webpack-node-externals": "1.6.0"
-  },
-  "ava": {
-    "require": [
-      "ts-node/register"
-    ]
   },
   "license": "MIT"
 }
