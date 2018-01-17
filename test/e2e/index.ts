@@ -1,7 +1,7 @@
-import test from 'ava';
+import * as assert from 'assert';
+import * as path from 'path';
+import * as fse from 'fs-extra';
 import { Application } from 'spectron';
-import path from 'path';
-import fse from 'fs-extra';
 import initializeMysql from '../fixtures/mysql/initialize';
 
 const TEST_ROOT_DIR = path.join(__dirname, '../../tmp/test');
@@ -19,44 +19,48 @@ function setValueToEditor(text) {
   }, text);
 }
 
-test.before(async () => {
-  app = new Application({ path: TEST_APP_PATH });
-  await fse.remove(BDASH_ROOT);
-  await initializeMysql();
-  await app.start();
-  app.client.timeoutsImplicitWait(500);
-});
+suite('e2e test', function() {
+  this.timeout(10000);
 
-test.after(async () => {
-  await app.stop();
-});
+  suiteSetup(async () => {
+    app = new Application({ path: TEST_APP_PATH });
+    await fse.remove(BDASH_ROOT);
+    await initializeMysql();
+    await app.start();
+    app.client.timeoutsImplicitWait(500);
+  });
 
-test('Create a data source', async t => {
-  await app.client.setValue('.DataSourceForm input[name="name"]', 'Test Data Source');
-  await app.client.selectByValue('.DataSourceForm select[name="type"]', 'mysql');
-  await app.client.setValue('.DataSourceForm input[name="host"]', '127.0.0.1');
-  await app.client.setValue('.DataSourceForm input[name="user"]', 'root');
-  await app.client.setValue('.DataSourceForm input[name="database"]', 'bdash_test');
-  await app.client.click('.DataSourceForm-saveBtn');
+  suiteTeardown(async () => {
+    await app.stop();
+  });
 
-  let title = await app.client.getText('.DataSourceList-list li:first-child');
-  t.is(title, 'Test Data Source');
-});
+  test('Create a data source', async () => {
+    await app.client.setValue('.DataSourceForm input[name="name"]', 'Test Data Source');
+    await app.client.selectByValue('.DataSourceForm select[name="type"]', 'mysql');
+    await app.client.setValue('.DataSourceForm input[name="host"]', '127.0.0.1');
+    await app.client.setValue('.DataSourceForm input[name="user"]', 'root');
+    await app.client.setValue('.DataSourceForm input[name="database"]', 'bdash_test');
+    await app.client.click('.DataSourceForm-saveBtn');
 
-test('Create a query', async t => {
-  await app.client.click('.GlobalMenu-query');
-  let selectedQueryMenu = await app.client.isExisting('.GlobalMenu-query.is-selected');
-  t.true(selectedQueryMenu);
+    const title = await app.client.getText('.DataSourceList-list li:first-child');
+    assert.strictEqual(title, 'Test Data Source');
+  });
 
-  await app.client.click('.QueryList-new i');
-  let queryTitle = await app.client.getText('.QueryList-list li:first-child');
-  t.is(queryTitle, 'New Query');
+  test('Create a query', async () => {
+    await app.client.click('.GlobalMenu-query');
+    const selectedQueryMenu = await app.client.isExisting('.GlobalMenu-query.is-selected');
+    assert.ok(selectedQueryMenu);
 
-  setValueToEditor('select * from test');
-  await app.client.click('.QueryEditor-executeBtn');
-  let existingTable = await app.client.isExisting('.QueryResultTable');
-  t.true(existingTable);
+    await app.client.click('.QueryList-new i');
+    const queryTitle = await app.client.getText('.QueryList-list li:first-child');
+    assert.strictEqual(queryTitle, 'New Query');
 
-  let rows = await app.client.elements('.QueryResultTable-table tbody tr');
-  t.is(rows.value.length, 3);
+    setValueToEditor('select * from test');
+    await app.client.click('.QueryEditor-executeBtn');
+    const existingTable = await app.client.isExisting('.QueryResultTable');
+    assert.ok(existingTable);
+
+    const rows = await app.client.elements('.QueryResultTable-table tbody tr');
+    assert.strictEqual(rows.value.length, 3);
+  });
 });

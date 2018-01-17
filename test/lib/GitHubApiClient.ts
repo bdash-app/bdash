@@ -1,25 +1,27 @@
-import test from 'ava';
+import * as assert from 'assert';
 import GitHubApiClient from '../../src/lib/GitHubApiClient';
 
-test(t => {
-  let url = 'https://ghe.example.com/api/v3';
-  let client = new GitHubApiClient({ url });
+suite('GitHubApiClient', () => {
+  test('valid behavior', () => {
+    const url = 'https://ghe.example.com/api/v3';
+    const client = new GitHubApiClient({ url, token: null });
 
-  t.true(/^https:\/\/ghe\.example\.com\/api\/v3\/\?_=\d+$/.test(client.getValidationTokenUrl()));
-  t.is(client.getGistUrl(), 'https://ghe.example.com/api/v3/gists');
-});
+    assert.ok(/^https:\/\/ghe\.example\.com\/api\/v3\/\?_=\d+$/.test(client.getValidationTokenUrl()));
+    assert.strictEqual(client.getGistUrl(), 'https://ghe.example.com/api/v3/gists');
+  });
 
-test(t => {
-  let url = 'https://ghe.example.com/api/v3///';
-  let client = new GitHubApiClient({ url });
+  test('trailing slash', () => {
+    const url = 'https://ghe.example.com/api/v3///';
+    const client = new GitHubApiClient({ url, token: null });
 
-  t.true(/^https:\/\/ghe\.example\.com\/api\/v3\/\?_=\d+$/.test(client.getValidationTokenUrl()));
-  t.is(client.getGistUrl(), 'https://ghe.example.com/api/v3/gists');
-});
+    assert.ok(/^https:\/\/ghe\.example\.com\/api\/v3\/\?_=\d+$/.test(client.getValidationTokenUrl()));
+    assert.strictEqual(client.getGistUrl(), 'https://ghe.example.com/api/v3/gists');
+  });
 
-test(t => {
-  let client = new GitHubApiClient({});
+  test('default url', () => {
+    const client = new GitHubApiClient({ url: null, token: null });
 
-  t.true(/^https:\/\/api\.github\.com\/\?_=\d+$/.test(client.getValidationTokenUrl()));
-  t.is(client.getGistUrl(), 'https://api.github.com/gists');
+    assert.ok(/^https:\/\/api\.github\.com\/\?_=\d+$/.test(client.getValidationTokenUrl()));
+    assert.strictEqual(client.getGistUrl(), 'https://api.github.com/gists');
+  });
 });

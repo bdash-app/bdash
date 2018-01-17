@@ -1,12 +1,14 @@
-import test from 'ava';
+import * as assert from 'assert';
 import stripHeredoc from '../../../src/lib/Util/stripHeredoc';
 
-test('strip indentation in heredoc', t => {
-  let str = `
-    foo
-      bar
-    baz
-  `;
-  let expected = 'foo\n  bar\nbaz';
-  t.is(stripHeredoc(str), expected);
+suite('Util/stripHeredoc', () => {
+  test('valid behavir', () => {
+    const str = `
+      foo
+        bar
+      baz
+    `;
+    const expected = 'foo\n  bar\nbaz';
+    assert.strictEqual(stripHeredoc(str), expected);
+  });
 });
