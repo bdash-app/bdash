@@ -8,6 +8,7 @@
     "build:sqlite3": "electron-rebuild -p -w sqlite3",
     "test": "mocha 'test/**/*.test.ts'",
     "lint": "eslint --max-warnings 0 --ignore-path .eslintignore .",
+    "build": "webpack",
     "watch": "webpack --watch",
     "start": "electron ."
   },
