@@ -54,6 +54,9 @@ $ npm install -g yarn
 $ cd bdash
 $ yarn
 $ npm run build:sqlite3
+
+# Run following commands with different shell processes.
+$ npm run watch
 $ npm start
 ```
 
