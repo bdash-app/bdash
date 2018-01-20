@@ -159,7 +159,7 @@ export default class DataSourceForm extends React.Component<any, any> {
           <tr className="is-required">
             <th>Type</th>
             <td>
-              <select value={this.state.selectedType} name="type" onChange={this.handleChangeType.bind(this)}>
+              <select value={this.state.selectedType || ''} name="type" onChange={this.handleChangeType.bind(this)}>
                 {options}
               </select>
             </td>
