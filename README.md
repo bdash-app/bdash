@@ -50,9 +50,8 @@ Automatic update is not implemented yet. Download and override from [GitHub rele
 You can start the application with following commands.
 
 ```
-$ npm install -g yarn
 $ cd bdash
-$ yarn
+$ npm install
 $ npm run build:sqlite3
 
 # Run following commands with different shell processes.

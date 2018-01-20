@@ -14,13 +14,13 @@ TEST_SRC_DIR=tmp/test/src
 rm -rf $TEST_DIR
 mkdir -p $TEST_SRC_DIR
 DIST_DIR=./tmp/test/src/dist ./node_modules/.bin/webpack
-cp -a html db package.json yarn.lock index.js $TEST_SRC_DIR
+cp -a html db package.json package-lock.json index.js $TEST_SRC_DIR
 cat <<EOF > $TEST_SRC_DIR/.env
 BDASH_ENV=test
 BDASH_ROOT=$ROOT_DIR/tmp/test/.bdash
 EOF
 cd $TEST_SRC_DIR
-yarn install
+npm install
 cd -
 
 ./node_modules/.bin/electron-packager $TEST_SRC_DIR Bdash \

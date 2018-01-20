@@ -13,9 +13,9 @@ VERSION=$(node bin/print_version)
 rm -rf $BUILD_DIR out
 mkdir -p $BUILD_DIR
 DIST_DIR=./tmp/build/dist ./node_modules/.bin/webpack
-cp -a html db package.json yarn.lock index.js $BUILD_DIR
+cp -a html db package.json package-lock.json index.js $BUILD_DIR
 cd $BUILD_DIR
-yarn install
+npm install
 cd -
 
 ./node_modules/.bin/electron-packager $BUILD_DIR Bdash \
