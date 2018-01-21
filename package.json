@@ -9,7 +9,8 @@
     "lint": "eslint --max-warnings 0 --ignore-path .eslintignore .",
     "build:sqlite3": "electron-rebuild -p -w sqlite3",
     "watch": "webpack --watch",
-    "start": "electron ."
+    "start": "electron .",
+    "format": "prettier --write '**/*.{js,ts,tsx,css}'"
   },
   "dependencies": {
     "@google-cloud/bigquery": "0.7.0",
@@ -60,6 +61,7 @@
     "extract-text-webpack-plugin": "3.0.2",
     "file-loader": "1.1.6",
     "mocha": "4.1.0",
+    "prettier": "1.10.2",
     "spectron": "3.7.2",
     "ts-loader": "3.2.0",
     "ts-node": "4.1.0",
