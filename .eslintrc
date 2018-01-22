@@ -1,6 +1,0 @@
-{
-  "extends": [
-    "@hokaccha/eslint-config",
-    "@hokaccha/eslint-config/react"
-  ]
-}
