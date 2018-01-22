@@ -1,12 +1,14 @@
-import { connection } from './Connection';
+import { connection } from "./Connection";
 
 export default class Query {
   static getAll() {
-    return connection.all('select id, title from queries order by createdAt desc');
+    return connection.all(
+      "select id, title from queries order by createdAt desc"
+    );
   }
 
   static async find(id) {
-    let query = await connection.get('select * from queries where id = ?', id);
+    let query = await connection.get("select * from queries where id = ?", id);
 
     if (query.fields) {
       query.fields = JSON.parse(query.fields);
@@ -17,10 +19,14 @@ export default class Query {
     }
 
     // For backword compatibility with beta version data structure.
-    if (query.fields && typeof query.fields[0] === 'object') {
+    if (query.fields && typeof query.fields[0] === "object") {
       query.fields = query.fields.map(f => f.name);
     }
-    if (query.rows && typeof query.rows[0] === 'object' && !Array.isArray(query.rows[0])) {
+    if (
+      query.rows &&
+      typeof query.rows[0] === "object" &&
+      !Array.isArray(query.rows[0])
+    ) {
       query.rows = query.rows.map(r => Object.values(r));
     }
 
@@ -50,7 +56,7 @@ export default class Query {
 
     let sql = `
       update queries
-      set ${fields.map(f => `${f} = ?`).join(', ')}, updatedAt = datetime('now')
+      set ${fields.map(f => `${f} = ?`).join(", ")}, updatedAt = datetime('now')
       where id = ?
     `;
 
@@ -58,6 +64,6 @@ export default class Query {
   }
 
   static del(id) {
-    return connection.run('delete from queries where id = ?', id);
+    return connection.run("delete from queries where id = ?", id);
   }
 }

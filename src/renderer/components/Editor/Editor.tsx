@@ -1,13 +1,13 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import * as CodeMirror from 'codemirror';
-import 'codemirror/addon/search/search';
-import 'codemirror/addon/runmode/colorize';
-import 'codemirror/keymap/vim';
-import 'codemirror/mode/sql/sql';
-import 'codemirror/lib/codemirror.css';
-import 'codemirror/addon/dialog/dialog.css';
-import { isEqual } from 'lodash';
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+import * as CodeMirror from "codemirror";
+import "codemirror/addon/search/search";
+import "codemirror/addon/runmode/colorize";
+import "codemirror/keymap/vim";
+import "codemirror/mode/sql/sql";
+import "codemirror/lib/codemirror.css";
+import "codemirror/addon/dialog/dialog.css";
+import { isEqual } from "lodash";
 
 export default class Editor extends React.Component<any, any> {
   codeMirror: CodeMirror.EditorFromTextArea;
@@ -15,28 +15,37 @@ export default class Editor extends React.Component<any, any> {
   currentOptions: any;
 
   componentDidMount() {
-    let textareaNode = ReactDOM.findDOMNode(this.refs.textarea) as HTMLTextAreaElement;
+    let textareaNode = ReactDOM.findDOMNode(
+      this.refs.textarea
+    ) as HTMLTextAreaElement;
     this.codeMirror = CodeMirror.fromTextArea(textareaNode, this.props.options);
-    this.codeMirror.on('change', this.handleValueChange.bind(this));
-    this.codeMirror.on('cursorActivity', this.handleCursorChange.bind(this));
-    this.codeMirror.setOption('extraKeys', {
-      [process.platform === 'darwin' ? 'Cmd-Enter' : 'Alt-Enter']: () => {
+    this.codeMirror.on("change", this.handleValueChange.bind(this));
+    this.codeMirror.on("cursorActivity", this.handleCursorChange.bind(this));
+    this.codeMirror.setOption("extraKeys", {
+      [process.platform === "darwin" ? "Cmd-Enter" : "Alt-Enter"]: () => {
         this.props.onSubmit();
       },
-      [process.platform === 'darwin' ? 'Cmd-A' : 'Ctrl-A']: () => {
-        this.codeMirror.execCommand('selectAll');
+      [process.platform === "darwin" ? "Cmd-A" : "Ctrl-A"]: () => {
+        this.codeMirror.execCommand("selectAll");
       },
-      'Tab': cm => {
+      Tab: cm => {
         if (!cm.state.vim || cm.state.vim.insertMode) {
-          cm.execCommand('insertSoftTab');
+          cm.execCommand("insertSoftTab");
         }
-      },
+      }
     });
-    this.currentValue = this.props.value || '';
+    this.currentValue = this.props.value || "";
     this.currentOptions = this.props.options || {};
     this.codeMirror.setValue(this.currentValue);
-    CodeMirror.Vim.defineAction('delLineLeft', cm => cm.execCommand('delLineLeft'));
-    CodeMirror.Vim._mapCommand({ keys: '<C-u>', type: 'action', action: 'delLineLeft', context: 'insert' });
+    CodeMirror.Vim.defineAction("delLineLeft", cm =>
+      cm.execCommand("delLineLeft")
+    );
+    CodeMirror.Vim._mapCommand({
+      keys: "<C-u>",
+      type: "action",
+      action: "delLineLeft",
+      context: "insert"
+    });
   }
 
   componentWillUnmount() {
@@ -47,11 +56,17 @@ export default class Editor extends React.Component<any, any> {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.value !== undefined && this.currentValue !== nextProps.value) {
+    if (
+      nextProps.value !== undefined &&
+      this.currentValue !== nextProps.value
+    ) {
       this.codeMirror.setValue(nextProps.value);
     }
 
-    if (typeof nextProps.options === 'object' && !isEqual(nextProps.options, this.currentOptions)) {
+    if (
+      typeof nextProps.options === "object" &&
+      !isEqual(nextProps.options, this.currentOptions)
+    ) {
       this.currentOptions = nextProps.options;
       for (let optionName in nextProps.options) {
         if (nextProps.options.hasOwnProperty(optionName)) {
@@ -79,8 +94,13 @@ export default class Editor extends React.Component<any, any> {
 
   render() {
     let height = this.props.height;
-    return <div className="Editor" style={height != null ? { height: `${height}px` } : {}}>
-      <textarea ref="textarea" defaultValue="" autoComplete="off" />
-    </div>;
+    return (
+      <div
+        className="Editor"
+        style={height != null ? { height: `${height}px` } : {}}
+      >
+        <textarea ref="textarea" defaultValue="" autoComplete="off" />
+      </div>
+    );
   }
 }

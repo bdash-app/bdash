@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 
 export default {
   create(Component: React.ComponentClass, store) {
@@ -20,5 +20,5 @@ export default {
         this._unsubscribe();
       }
     };
-  },
+  }
 };

@@ -1,21 +1,27 @@
-import { connection } from './Connection';
+import { connection } from "./Connection";
 
 export default class DataSource {
   static async getAll() {
-    let sql = 'select id, name, type, config from data_sources order by createdAt desc';
+    let sql =
+      "select id, name, type, config from data_sources order by createdAt desc";
     let rows = await connection.all(sql);
 
     return rows.map(convert);
   }
 
   static async find(id) {
-    let row = await connection.get('select * from data_sources where id = ?', id);
+    let row = await connection.get(
+      "select * from data_sources where id = ?",
+      id
+    );
 
     return convert(row);
   }
 
   static async count() {
-    let row = await connection.get('select count(*) as count from data_sources');
+    let row = await connection.get(
+      "select count(*) as count from data_sources"
+    );
 
     return row.count;
   }
@@ -47,11 +53,11 @@ export default class DataSource {
   }
 
   static del(id) {
-    return connection.run('delete from data_sources where id = ?', id);
+    return connection.run("delete from data_sources where id = ?", id);
   }
 }
 
 function convert(row) {
-  let config = JSON.parse(row.config || '{}');
+  let config = JSON.parse(row.config || "{}");
   return Object.assign(row, { config });
 }

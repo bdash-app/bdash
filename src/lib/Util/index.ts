@@ -1,7 +1,7 @@
-import stripHeredoc from './stripHeredoc';
-import findQueryByLine from './findQueryByLine';
+import stripHeredoc from "./stripHeredoc";
+import findQueryByLine from "./findQueryByLine";
 
 export default {
   stripHeredoc,
-  findQueryByLine,
+  findQueryByLine
 };

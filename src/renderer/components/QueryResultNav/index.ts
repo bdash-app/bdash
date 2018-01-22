@@ -1,3 +1,3 @@
-import './QueryResultNav.css';
-import QueryResultNav from './QueryResultNav';
+import "./QueryResultNav.css";
+import QueryResultNav from "./QueryResultNav";
 export default QueryResultNav;

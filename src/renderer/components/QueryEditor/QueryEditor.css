@@ -1,6 +1,6 @@
 .QueryEditor {
-  border-top: 1px solid #CCC;
-  border-bottom: 1px solid #CCC;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
   --QueryEditor-navbarHeight: 45px;
 }
 
@@ -11,9 +11,9 @@
 .QueryEditor-navbar {
   box-sizing: border-box;
   padding: 10px;
-  background-color: #F7F7F7;
+  background-color: #f7f7f7;
   position: relative;
-  border-top: 1px solid #CCC;
+  border-top: 1px solid #ccc;
   height: var(--QueryEditor-navbarHeight);
 }
 

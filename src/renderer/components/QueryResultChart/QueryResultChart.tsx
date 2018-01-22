@@ -1,7 +1,7 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import Select from 'react-select';
-import Chart from '../../../lib/Chart';
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+import Select from "react-select";
+import Chart from "../../../lib/Chart";
 
 export default class QueryResultChart extends React.Component<any, any> {
   shouldComponentUpdate(nextProps) {
@@ -31,7 +31,7 @@ export default class QueryResultChart extends React.Component<any, any> {
       stacking: chart.stacking,
       groupBy: chart.groupColumn,
       rows: query.rows,
-      fields: query.fields,
+      fields: query.fields
     };
 
     new Chart(params).drawTo(dom);
@@ -70,10 +70,12 @@ export default class QueryResultChart extends React.Component<any, any> {
   }
 
   renderLabel(option) {
-    return <span>
-      <i className={`fa fa-${option.value}-chart`} />
-      <span>{option.label}</span>
-    </span>;
+    return (
+      <span>
+        <i className={`fa fa-${option.value}-chart`} />
+        <span>{option.label}</span>
+      </span>
+    );
   }
 
   render() {
@@ -83,62 +85,73 @@ export default class QueryResultChart extends React.Component<any, any> {
     let chart = this.props.chart;
     if (!chart) return null;
 
-    let options = ['line', 'bar', 'area', 'pie'].map(value => {
+    let options = ["line", "bar", "area", "pie"].map(value => {
       return { value, label: value[0].toUpperCase() + value.slice(1) };
     });
     let fieldOptions = query.fields.map(name => ({ value: name, label: name }));
-    let stackingOptions = ['disable', 'enable', 'percent'].map(o => ({ label: o, value: o }));
+    let stackingOptions = ["disable", "enable", "percent"].map(o => ({
+      label: o,
+      value: o
+    }));
 
-    return <div className="QueryResultChart">
-      <div className="QueryResultChart-edit">
-        <div className="QueryResultChart-item">
-          <div className="QueryResultChart-label">Chart Type</div>
-          <Select
-            className="QueryResultChart-selectType"
-            value={chart.type}
-            options={options}
-            optionRenderer={this.renderLabel}
-            valueRenderer={this.renderLabel}
-            onChange={(o) => this.handleSelectType(o)}
-            clearable={false}
+    return (
+      <div className="QueryResultChart">
+        <div className="QueryResultChart-edit">
+          <div className="QueryResultChart-item">
+            <div className="QueryResultChart-label">Chart Type</div>
+            <Select
+              className="QueryResultChart-selectType"
+              value={chart.type}
+              options={options}
+              optionRenderer={this.renderLabel}
+              valueRenderer={this.renderLabel}
+              onChange={o => this.handleSelectType(o)}
+              clearable={false}
             />
+          </div>
+          <div className="QueryResultChart-item">
+            <div className="QueryResultChart-label">
+              {chart.type === "pie" ? "Label Column" : "X Column"}
+            </div>
+            <Select
+              options={fieldOptions}
+              value={chart.xColumn}
+              onChange={o => this.handleChangeX(o)}
+            />
+          </div>
+          <div className="QueryResultChart-item">
+            <div className="QueryResultChart-label">
+              {chart.type === "pie" ? "Value Column" : "Y Column"}
+            </div>
+            <Select
+              multi={true}
+              options={fieldOptions}
+              value={chart.yColumns}
+              onChange={o => this.handleChangeY(o)}
+            />
+          </div>
+          <div className="QueryResultChart-item" hidden={chart.type !== "bar"}>
+            <div className="QueryResultChart-label">Stacking</div>
+            <Select
+              value={chart.stacking}
+              onChange={o => this.handleSelectStacking(o)}
+              options={stackingOptions}
+              clearable={false}
+            />
+          </div>
+          <div className="QueryResultChart-item" hidden={chart.type === "pie"}>
+            <div className="QueryResultChart-label">Group By</div>
+            <Select
+              options={fieldOptions}
+              value={chart.groupColumn}
+              onChange={o => this.handleChangeGroup(o)}
+            />
+          </div>
         </div>
-        <div className="QueryResultChart-item">
-          <div className="QueryResultChart-label">{chart.type === 'pie' ? 'Label Column' : 'X Column'}</div>
-          <Select
-            options={fieldOptions}
-            value={chart.xColumn}
-            onChange={(o) => this.handleChangeX(o)}
-            />
-        </div>
-        <div className="QueryResultChart-item">
-          <div className="QueryResultChart-label">{chart.type === 'pie' ? 'Value Column' : 'Y Column'}</div>
-          <Select
-            multi={true}
-            options={fieldOptions}
-            value={chart.yColumns}
-            onChange={(o) => this.handleChangeY(o)}
-            />
-        </div>
-        <div className="QueryResultChart-item" hidden={chart.type !== 'bar'}>
-          <div className="QueryResultChart-label">Stacking</div>
-          <Select
-            value={chart.stacking}
-            onChange={o => this.handleSelectStacking(o)}
-            options={stackingOptions}
-            clearable={false}
-            />
-        </div>
-        <div className="QueryResultChart-item" hidden={chart.type === 'pie'}>
-          <div className="QueryResultChart-label">Group By</div>
-          <Select
-            options={fieldOptions}
-            value={chart.groupColumn}
-            onChange={(o) => this.handleChangeGroup(o)}
-            />
+        <div className="QueryResultChart-chart">
+          <div ref="chart" />
         </div>
       </div>
-      <div className="QueryResultChart-chart"><div ref="chart" /></div>
-    </div>;
+    );
   }
 }

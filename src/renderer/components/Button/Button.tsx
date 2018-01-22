@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 
 export default class Button extends React.Component<any, any> {
   handleClick(e) {
@@ -8,7 +8,11 @@ export default class Button extends React.Component<any, any> {
   }
 
   render() {
-    let className = `${this.props.className || ''} Button`.trim();
-    return <span className={className} onClick={this.handleClick.bind(this)}>{this.props.children}</span>;
+    let className = `${this.props.className || ""} Button`.trim();
+    return (
+      <span className={className} onClick={this.handleClick.bind(this)}>
+        {this.props.children}
+      </span>
+    );
   }
 }

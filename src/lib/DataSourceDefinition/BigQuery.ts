@@ -1,16 +1,30 @@
-import * as bigquery from '@google-cloud/bigquery';
-import Base from './Base';
-import { flatten } from 'lodash';
+import * as bigquery from "@google-cloud/bigquery";
+import Base from "./Base";
+import { flatten } from "lodash";
 
 export default class BigQuery extends Base {
   _cancel: any;
 
-  static get key() { return 'bigquery'; }
-  static get label() { return 'BigQuery'; }
+  static get key() {
+    return "bigquery";
+  }
+  static get label() {
+    return "BigQuery";
+  }
   static get configSchema() {
     return [
-      { name: 'project', label: 'Project', type: 'string', placeholder: 'your-project-id' },
-      { name: 'keyFilename', label: 'JSON Key File', type: 'string', placeholder: '/path/to/keyfile.json' },
+      {
+        name: "project",
+        label: "Project",
+        type: "string",
+        placeholder: "your-project-id"
+      },
+      {
+        name: "keyFilename",
+        label: "JSON Key File",
+        type: "string",
+        placeholder: "/path/to/keyfile.json"
+      }
     ];
   }
 
@@ -22,7 +36,7 @@ export default class BigQuery extends Base {
 
         this._cancel = async () => {
           await job.cancel();
-          reject(new Error('Query is canceled'));
+          reject(new Error("Query is canceled"));
         };
 
         job.getQueryResults((err, rows) => {
@@ -31,7 +45,7 @@ export default class BigQuery extends Base {
 
           resolve({
             fields: Object.keys(rows[0]),
-            rows: rows.map(Object.values),
+            rows: rows.map(Object.values)
           });
         });
       });
@@ -43,7 +57,7 @@ export default class BigQuery extends Base {
   }
 
   async connectionTest() {
-    await bigquery(this.config).query('select 1');
+    await bigquery(this.config).query("select 1");
     return true;
   }
 
@@ -54,7 +68,7 @@ export default class BigQuery extends Base {
       return tables.map(table => ({
         schema: dataset.id,
         name: table.id,
-        type: table.metadata.type.toLowerCase(),
+        type: table.metadata.type.toLowerCase()
       }));
     });
     let results = await Promise.all(promises);
@@ -62,11 +76,14 @@ export default class BigQuery extends Base {
   }
 
   async fetchTableSummary({ schema, name }) {
-    let [metadata] = await bigquery(this.config).dataset(schema).table(name).getMetadata();
+    let [metadata] = await bigquery(this.config)
+      .dataset(schema)
+      .table(name)
+      .getMetadata();
     let schemaFields = metadata.schema.fields;
     let defs = {
       fields: Object.keys(schemaFields[0]),
-      rows: schemaFields.map(Object.values),
+      rows: schemaFields.map(Object.values)
     };
     return { schema, name, defs };
   }

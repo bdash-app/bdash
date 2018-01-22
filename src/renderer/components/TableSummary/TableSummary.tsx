@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 
 export default class TableSummary extends React.Component<any, any> {
   render() {
@@ -12,15 +12,19 @@ export default class TableSummary extends React.Component<any, any> {
       return <tr key={i}>{cols}</tr>;
     });
 
-    let schema = tableSummary.schema ? `${tableSummary.schema}.` : '';
+    let schema = tableSummary.schema ? `${tableSummary.schema}.` : "";
     let tableName = schema + tableSummary.name;
 
-    return <div className="TableSummary">
-      <h1 className="TableSummary-name">{tableName}</h1>
-      <table>
-        <thead><tr>{heads}</tr></thead>
-        <tbody>{rows}</tbody>
-      </table>
-    </div>;
+    return (
+      <div className="TableSummary">
+        <h1 className="TableSummary-name">{tableName}</h1>
+        <table>
+          <thead>
+            <tr>{heads}</tr>
+          </thead>
+          <tbody>{rows}</tbody>
+        </table>
+      </div>
+    );
   }
 }

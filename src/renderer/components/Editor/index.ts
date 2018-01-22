@@ -1,3 +1,3 @@
-import './Editor.css';
-import Editor from './Editor';
+import "./Editor.css";
+import Editor from "./Editor";
 export default Editor;

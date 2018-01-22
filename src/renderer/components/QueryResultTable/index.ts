@@ -1,3 +1,3 @@
-import './QueryResultTable.css';
-import QueryResultTable from './QueryResultTable';
+import "./QueryResultTable.css";
+import QueryResultTable from "./QueryResultTable";
 export default QueryResultTable;

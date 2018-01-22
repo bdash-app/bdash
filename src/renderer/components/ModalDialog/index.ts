@@ -1,3 +1,3 @@
-import './ModalDialog.css';
-import ModalDialog from './ModalDialog';
+import "./ModalDialog.css";
+import ModalDialog from "./ModalDialog";
 export default ModalDialog;

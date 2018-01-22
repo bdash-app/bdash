@@ -1,4 +1,4 @@
-import { shell } from 'execa';
+import { shell } from "execa";
 
 export default function initialize() {
   return shell(`

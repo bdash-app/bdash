@@ -2,7 +2,7 @@
   background-color: #f7f7f7;
   height: 100vh;
   overflow: auto;
-  border-right: 1px solid #CCC;
+  border-right: 1px solid #ccc;
 }
 
 .TableList-filter {
@@ -46,14 +46,13 @@
 }
 
 .TableList > ul > li:hover {
-  background-color: #EFEFEF;
+  background-color: #efefef;
 }
 
 .TableList > ul > li.is-selected {
-  background-color: #2673E8;
-  color: #FFF;
+  background-color: #2673e8;
+  color: #fff;
 }
-
 
 .TableList > ul > li.is-selected > i {
   color: #e2ce57;
@@ -64,9 +63,9 @@
 }
 
 .TableList > ul > li > i {
-  color: #BBA41D;
+  color: #bba41d;
 }
 
 .TableList > ul > li.is-view > i {
-  color: #4B89BB;
+  color: #4b89bb;
 }

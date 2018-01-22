@@ -1,6 +1,6 @@
-import * as React from 'react';
-import Flyout from 'react-micro-flyout';
-import * as classNames from 'classnames';
+import * as React from "react";
+import Flyout from "react-micro-flyout";
+import * as classNames from "classnames";
 
 export default class QueryResultNav extends React.Component<any, any> {
   constructor(...args) {
@@ -10,7 +10,7 @@ export default class QueryResultNav extends React.Component<any, any> {
   }
 
   selectedTab(name) {
-    return (this.props.query.selectedTab || 'table') === name;
+    return (this.props.query.selectedTab || "table") === name;
   }
 
   handleClickCopyAsTsv() {
@@ -34,32 +34,53 @@ export default class QueryResultNav extends React.Component<any, any> {
   }
 
   render() {
-    return <div className="QueryResultNav">
-      <span
-        className={classNames('QueryResultNav-tabMenu', { 'is-selected': this.selectedTab('table') })}
-        onClick={() => this.props.onSelectTab('table')}
-        ><i className="fa fa-table" /></span>
-      <span
-        className={classNames('QueryResultNav-tabMenu', { 'is-selected': this.selectedTab('chart') })}
-        onClick={() => this.props.onSelectTab('chart')}>
-        <i className="fa fa-bar-chart" /></span>
-      <div className="QueryResultNav-share">
+    return (
+      <div className="QueryResultNav">
         <span
-          className="QueryResultNav-shareBtn"
-          onClick={() => this.setState({ openShareFlyout: true })}>
-          <i className="fa fa-share-alt" /></span>
-        <Flyout
-          open={this.state.openShareFlyout}
-          className="QueryResultNav-shareFlyout"
-          onRequestClose={() => this.setState({ openShareFlyout: false })}>
-          <ul>
-            <li onClick={() => this.handleClickCopyAsTsv()}>Copy table as TSV</li>
-            <li onClick={() => this.handleClickCopyAsCsv()}>Copy table as CSV</li>
-            <li onClick={() => this.handleClickCopyAsMarkdown()}>Copy table as Markdown</li>
-            <li onClick={() => this.handleClickShareOnGist()}>Share on gist</li>
-          </ul>
-        </Flyout>
+          className={classNames("QueryResultNav-tabMenu", {
+            "is-selected": this.selectedTab("table")
+          })}
+          onClick={() => this.props.onSelectTab("table")}
+        >
+          <i className="fa fa-table" />
+        </span>
+        <span
+          className={classNames("QueryResultNav-tabMenu", {
+            "is-selected": this.selectedTab("chart")
+          })}
+          onClick={() => this.props.onSelectTab("chart")}
+        >
+          <i className="fa fa-bar-chart" />
+        </span>
+        <div className="QueryResultNav-share">
+          <span
+            className="QueryResultNav-shareBtn"
+            onClick={() => this.setState({ openShareFlyout: true })}
+          >
+            <i className="fa fa-share-alt" />
+          </span>
+          <Flyout
+            open={this.state.openShareFlyout}
+            className="QueryResultNav-shareFlyout"
+            onRequestClose={() => this.setState({ openShareFlyout: false })}
+          >
+            <ul>
+              <li onClick={() => this.handleClickCopyAsTsv()}>
+                Copy table as TSV
+              </li>
+              <li onClick={() => this.handleClickCopyAsCsv()}>
+                Copy table as CSV
+              </li>
+              <li onClick={() => this.handleClickCopyAsMarkdown()}>
+                Copy table as Markdown
+              </li>
+              <li onClick={() => this.handleClickShareOnGist()}>
+                Share on gist
+              </li>
+            </ul>
+          </Flyout>
+        </div>
       </div>
-    </div>;
+    );
   }
 }

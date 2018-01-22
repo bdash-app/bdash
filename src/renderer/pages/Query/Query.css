@@ -5,7 +5,7 @@
 
 .page-Query-list {
   width: 280px;
-  border-right: 1px solid #CCC;
+  border-right: 1px solid #ccc;
   min-height: 100vh;
 }
 
@@ -33,5 +33,8 @@
 
 .QueryEditor .Editor {
   height: 40vh;
-  max-height: calc(100vh - var(--page-Query-headerHeight) - var(--QueryEditor-navbarHeight) - 2px); /* 2px == border width */
+  max-height: calc(
+    100vh - var(--page-Query-headerHeight) - var(--QueryEditor-navbarHeight) -
+      2px
+  ); /* 2px == border width */
 }

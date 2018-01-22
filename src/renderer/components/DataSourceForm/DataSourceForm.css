@@ -22,11 +22,11 @@
 }
 
 .DataSourceForm tr.is-required th:after {
-  content: '*';
+  content: "*";
   position: absolute;
-  right : 3px;
+  right: 3px;
   top: 12px;
-  color: #C00;
+  color: #c00;
 }
 
 .DataSourceForm td input[type="text"] {
@@ -41,9 +41,9 @@
 }
 
 .DataSourceForm td select {
-  border: 1px solid #DFDFDF;
+  border: 1px solid #dfdfdf;
   font-size: 14px;
-  background-color: #FFF;
+  background-color: #fff;
 }
 
 .DataSourceForm-configRadioLabel {

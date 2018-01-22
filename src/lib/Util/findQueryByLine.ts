@@ -1,4 +1,4 @@
-import { find, last } from 'lodash';
+import { find, last } from "lodash";
 
 export default function findQueryByLine(sql, line) {
   let chunks = splitQuery(sql);
@@ -8,13 +8,13 @@ export default function findQueryByLine(sql, line) {
 }
 
 function splitQuery(sql) {
-  let lines = sql.replace(/\s+$/, '').split('\n');
+  let lines = sql.replace(/\s+$/, "").split("\n");
   let chunks = [];
   let chunk = null;
 
   lines.forEach((line, i) => {
     if (!chunk) {
-      chunk = { query: '', startLine: i + 1, endLine: null };
+      chunk = { query: "", startLine: i + 1, endLine: null };
       chunks.push(chunk);
     }
 
@@ -32,13 +32,13 @@ function splitQuery(sql) {
     let m = query.match(/^\s+/g);
 
     if (m) {
-      startLine += m[0].split('\n').length - 1;
+      startLine += m[0].split("\n").length - 1;
     }
 
     return {
       query: query.trim(),
       startLine: startLine,
-      endLine: chunk.endLine,
+      endLine: chunk.endLine
     };
   });
 }

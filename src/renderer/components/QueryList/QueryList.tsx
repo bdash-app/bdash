@@ -1,6 +1,6 @@
-import * as React from 'react';
-import * as classNames from 'classnames';
-import { remote } from 'electron';
+import * as React from "react";
+import * as classNames from "classnames";
+import { remote } from "electron";
 
 export default class QueryList extends React.Component<any, any> {
   handleClickNew() {
@@ -16,13 +16,13 @@ export default class QueryList extends React.Component<any, any> {
     setImmediate(() => {
       let menu = remote.Menu.buildFromTemplate([
         {
-          label: 'Delete',
+          label: "Delete",
           click: () => {
-            if (window.confirm('Are you sure?')) {
+            if (window.confirm("Are you sure?")) {
               this.props.onDeleteQuery(query.id);
             }
-          },
-        },
+          }
+        }
       ]);
       menu.popup(remote.getCurrentWindow());
     });
@@ -30,13 +30,19 @@ export default class QueryList extends React.Component<any, any> {
 
   render() {
     let items = this.props.queries.map(query => {
-      let className = classNames({ 'is-selected': this.props.selectedQueryId === query.id });
-      return <li
-        key={query.id}
-        className={className}
-        onClick={() => this.handleClickItem(query)}
-        onContextMenu={() => this.handleContextMenu(query)}
-      >{query.title}</li>;
+      let className = classNames({
+        "is-selected": this.props.selectedQueryId === query.id
+      });
+      return (
+        <li
+          key={query.id}
+          className={className}
+          onClick={() => this.handleClickItem(query)}
+          onContextMenu={() => this.handleContextMenu(query)}
+        >
+          {query.title}
+        </li>
+      );
     });
 
     return (

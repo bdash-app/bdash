@@ -16,10 +16,10 @@
 .TableSummary table th,
 .TableSummary table td {
   text-align: left;
-  border-bottom: 1px solid #CCC;
+  border-bottom: 1px solid #ccc;
   padding: 10px 5px;
 }
 
 .TableSummary table th {
-  border-bottom: 3px double #CCC;
+  border-bottom: 3px double #ccc;
 }

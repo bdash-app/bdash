@@ -1,10 +1,10 @@
-import * as fs from 'fs';
-import { ensureDirSync } from 'fs-extra';
-import Database from '../../../lib/Database';
-import { setting } from '../../../lib/Setting';
-import Config from '../../../lib/Config';
-import { dispatch } from './AppStore';
-import DataSourceAction from '../DataSource/DataSourceAction';
+import * as fs from "fs";
+import { ensureDirSync } from "fs-extra";
+import Database from "../../../lib/Database";
+import { setting } from "../../../lib/Setting";
+import Config from "../../../lib/Config";
+import { dispatch } from "./AppStore";
+import DataSourceAction from "../DataSource/DataSourceAction";
 
 const AppAction = {
   async initialize() {
@@ -18,19 +18,19 @@ const AppAction = {
     setting.initialize(Config.settingPath);
 
     await Database.connection.initialize({ databasePath, schema });
-    dispatch('initialize');
+    dispatch("initialize");
 
     // on boarding
     let count = await Database.DataSource.count();
     if (count === 0) {
-      dispatch('selectPage', { page: 'dataSource' });
+      dispatch("selectPage", { page: "dataSource" });
       DataSourceAction.showForm();
     }
   },
 
   selectPage(page) {
-    dispatch('selectPage', { page });
-  },
+    dispatch("selectPage", { page });
+  }
 };
 
 export default AppAction;

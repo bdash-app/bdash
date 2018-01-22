@@ -1,4 +1,4 @@
-declare module 'immup' {
+declare module "immup" {
   class Immup {
     constructor(state: any);
     set(path: string, value: any);

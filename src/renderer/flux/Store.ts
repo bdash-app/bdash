@@ -1,5 +1,5 @@
-import * as immup from 'immup';
-import { EventEmitter } from 'events';
+import * as immup from "immup";
+import { EventEmitter } from "events";
 
 export default class Store {
   static create(StoreClass) {
@@ -18,21 +18,23 @@ export default class Store {
   }
 
   getInitialState() {
-    throw new Error('Not Implemented');
+    throw new Error("Not Implemented");
   }
 
   reduce(type, payload) {
-    throw new Error('Not Implemented');
+    throw new Error("Not Implemented");
   }
 
   subscribe(fn) {
-    this._emitter.on('update', fn);
-    let unsubscribe = () => { this._emitter.removeListener('update', fn); };
+    this._emitter.on("update", fn);
+    let unsubscribe = () => {
+      this._emitter.removeListener("update", fn);
+    };
     return unsubscribe;
   }
 
   emit() {
-    this._emitter.emit('update', this.state);
+    this._emitter.emit("update", this.state);
   }
 
   dispatch(type, payload) {
@@ -44,7 +46,11 @@ export default class Store {
     let nextState: any = this.reduce(type, payload);
 
     if (nextState === undefined) {
-      throw new Error(`${this.constructor.name}.reduce returns undefined, action type: ${type}`);
+      throw new Error(
+        `${
+          this.constructor.name
+        }.reduce returns undefined, action type: ${type}`
+      );
     }
 
     if (nextState instanceof StateBuilder) {
@@ -83,15 +89,14 @@ class StateBuilder extends immup.Immup {
   mergeList(path, value, comparator = (a, b) => a.id === b.id) {
     return this.set(path, arr => {
       if (!Array.isArray(arr)) {
-        throw new Error('target is not an array');
+        throw new Error("target is not an array");
       }
 
       return value.map(v => {
         let target = arr.find(v2 => comparator(v, v2));
         if (target === undefined) {
           return v;
-        }
-        else {
+        } else {
           return immup.merge(target, null, v);
         }
       });

@@ -1,11 +1,11 @@
-import * as sqlite3 from 'sqlite3';
+import * as sqlite3 from "sqlite3";
 
 export default class Connection {
   _db: any;
 
   get db() {
     if (!this._db) {
-      throw new Error('Database is not initialized.');
+      throw new Error("Database is not initialized.");
     }
 
     return this._db;
@@ -21,8 +21,7 @@ export default class Connection {
       this.db.exec(sql, err => {
         if (err) {
           reject(err);
-        }
-        else {
+        } else {
           resolve();
         }
       });
@@ -34,8 +33,7 @@ export default class Connection {
       this.db.get(sql, ...params, (err, result) => {
         if (err) {
           reject(err);
-        }
-        else {
+        } else {
           resolve(result);
         }
       });
@@ -47,8 +45,7 @@ export default class Connection {
       this.db.all(sql, ...params, (err, result) => {
         if (err) {
           reject(err);
-        }
-        else {
+        } else {
           resolve(result);
         }
       });
@@ -60,8 +57,7 @@ export default class Connection {
       this.db.run(sql, ...params, function(err) {
         if (err) {
           reject(err);
-        }
-        else {
+        } else {
           resolve(this.lastID); // eslint-disable-line no-invalid-this
         }
       });
@@ -73,8 +69,7 @@ export default class Connection {
       this.db.run(sql, ...params, err => {
         if (err) {
           reject(err);
-        }
-        else {
+        } else {
           resolve();
         }
       });

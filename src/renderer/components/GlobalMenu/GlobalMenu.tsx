@@ -1,18 +1,24 @@
-import * as React from 'react';
-import * as classNames from 'classnames';
+import * as React from "react";
+import * as classNames from "classnames";
 
 export default class GlobalMenu extends React.Component<any, any> {
   get menuList() {
     return [
-      { page: 'query', icon: 'terminal' },
-      { page: 'dataSource', icon: 'database' },
-      { page: 'setting', icon: 'cog' },
+      { page: "query", icon: "terminal" },
+      { page: "dataSource", icon: "database" },
+      { page: "setting", icon: "cog" }
     ].map((item, idx) => {
       let selected = this.props.selectedPage === item.page;
-      let className = classNames('GlobalMenu-item', `GlobalMenu-${item.page}`, { 'is-selected': selected });
+      let className = classNames("GlobalMenu-item", `GlobalMenu-${item.page}`, {
+        "is-selected": selected
+      });
 
       return (
-        <span className={className} onClick={() => this.handleClick(item.page)} key={idx}>
+        <span
+          className={className}
+          onClick={() => this.handleClick(item.page)}
+          key={idx}
+        >
           <i className={`fa fa-${item.icon}`} />
         </span>
       );

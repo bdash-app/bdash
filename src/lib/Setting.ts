@@ -1,15 +1,15 @@
-import * as fs from 'fs';
-import * as yaml from 'js-yaml';
-import * as _ from 'lodash';
+import * as fs from "fs";
+import * as yaml from "js-yaml";
+import * as _ from "lodash";
 
 export default class Setting {
   static getDefault() {
     return {
-      keyBind: 'default',
+      keyBind: "default",
       github: {
         token: null,
-        url: null,
-      },
+        url: null
+      }
     };
   }
 
@@ -20,7 +20,7 @@ export default class Setting {
     this.filePath = filePath;
 
     if (!fs.existsSync(filePath)) {
-      fs.writeFileSync(filePath, '', { mode: 0o600 });
+      fs.writeFileSync(filePath, "", { mode: 0o600 });
     }
 
     this.setting = yaml.safeLoad(fs.readFileSync(filePath).toString()) || {};

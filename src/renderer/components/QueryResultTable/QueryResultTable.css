@@ -5,13 +5,13 @@
 
 .QueryResultTable-table th,
 .QueryResultTable-table td {
-  border-bottom: 1px solid #DDD;
+  border-bottom: 1px solid #ddd;
   padding: 10px;
   font-size: 13px;
 }
 
 .QueryResultTable-table th {
-  border-bottom: 3px double #CCC;
+  border-bottom: 3px double #ccc;
   text-align: left;
   font-weight: bold;
 }

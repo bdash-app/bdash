@@ -1,3 +1,3 @@
-import './QueryResult.css';
-import QueryResult from './QueryResult';
+import "./QueryResult.css";
+import QueryResult from "./QueryResult";
 export default QueryResult;

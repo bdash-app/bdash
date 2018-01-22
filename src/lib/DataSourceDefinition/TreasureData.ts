@@ -1,5 +1,5 @@
-import * as TD from 'td';
-import Base from './Base';
+import * as TD from "td";
+import Base from "./Base";
 
 const WAIT_INTERVAL = 2000;
 
@@ -10,26 +10,42 @@ export default class TreasureData extends Base {
   _cancel: any;
   _client: any;
 
-  static get key() { return 'treasuredata'; }
-  static get label() { return 'TreasureData'; }
+  static get key() {
+    return "treasuredata";
+  }
+  static get label() {
+    return "TreasureData";
+  }
   static get configSchema() {
     return [
-      { name: 'database', label: 'Database', type: 'string', required: true },
-      { name: 'apiKey', label: 'API key', type: 'string', placeholder: 'Your API key', required: true },
-      { name: 'queryType', label: 'Query Type', type: 'radio', values: ['hive', 'presto'], default: 'hive' },
+      { name: "database", label: "Database", type: "string", required: true },
+      {
+        name: "apiKey",
+        label: "API key",
+        type: "string",
+        placeholder: "Your API key",
+        required: true
+      },
+      {
+        name: "queryType",
+        label: "Query Type",
+        type: "radio",
+        values: ["hive", "presto"],
+        default: "hive"
+      }
     ];
   }
 
   execute(query) {
     if (this.jobId) {
-      return Promise.reject(new Error('A query is running'));
+      return Promise.reject(new Error("A query is running"));
     }
 
     return new Promise(async (resolve, reject) => {
       let canceled = false;
       this._cancel = () => {
         canceled = true;
-        reject(new Error('Killed query'));
+        reject(new Error("Killed query"));
       };
 
       this.jobId = await this._execQuery(query);
@@ -45,8 +61,7 @@ export default class TreasureData extends Base {
 
       if (err) {
         reject(new Error(err));
-      }
-      else {
+      } else {
         resolve({ fields, rows });
       }
     });
@@ -65,7 +80,7 @@ export default class TreasureData extends Base {
   }
 
   async connectionTest() {
-    await this._execQuery('select 1');
+    await this._execQuery("select 1");
     return true;
   }
 
@@ -74,65 +89,70 @@ export default class TreasureData extends Base {
       return this.client.listTables(this.config.database, (err, list) => {
         if (err) {
           reject(err);
-        }
-        else {
+        } else {
           cacheTableList = list;
-          resolve(list.tables.map(v => ({ name: v.name, type: 'table' })));
+          resolve(list.tables.map(v => ({ name: v.name, type: "table" })));
         }
       });
     });
   }
 
   async fetchTableSummary({ name }) {
-    let table = cacheTableList.tables.find( t => t.name === name);
-    let fields = ['column', 'type'];
-    let rows =  JSON.parse(table.schema);
+    let table = cacheTableList.tables.find(t => t.name === name);
+    let fields = ["column", "type"];
+    let rows = JSON.parse(table.schema);
     return { name, defs: { fields, rows } };
   }
 
   async wait(): Promise<any> {
-    let sleep = interval => new Promise(resolve => setTimeout(resolve, interval));
-    let showJob = () => new Promise((resolve, reject) => {
-      this.client.showJob(this.jobId, (err, result) => {
-        if (err) {
-          reject(err);
-        }
-        else {
-          resolve(result);
-        }
-      });
-    }) as Promise<any>;
-    let jobResult = () => new Promise((resolve, reject) => {
-      this.client.jobResult(this.jobId, 'json', (err, result) => {
-        if (err) {
-          reject(err);
-        }
-        else {
-          resolve(result);
-        }
-      });
-    }) as Promise<any>;
+    let sleep = interval =>
+      new Promise(resolve => setTimeout(resolve, interval));
+    let showJob = () =>
+      new Promise((resolve, reject) => {
+        this.client.showJob(this.jobId, (err, result) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(result);
+          }
+        });
+      }) as Promise<any>;
+    let jobResult = () =>
+      new Promise((resolve, reject) => {
+        this.client.jobResult(this.jobId, "json", (err, result) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(result);
+          }
+        });
+      }) as Promise<any>;
 
     while (true) {
       let result = await showJob();
       let status = result.status;
 
       switch (status) {
-        case 'success': {
+        case "success": {
           let rowsString = await jobResult();
-          let rows = rowsString.trim().split('\n').map(line => {
-            return JSON.parse(line).map(v => {
-              return v === null || typeof v !== 'object' ? v : JSON.stringify(v);
+          let rows = rowsString
+            .trim()
+            .split("\n")
+            .map(line => {
+              return JSON.parse(line).map(v => {
+                return v === null || typeof v !== "object"
+                  ? v
+                  : JSON.stringify(v);
+              });
             });
-          });
           let fields = JSON.parse(result.hive_result_schema).map(f => f[0]);
           return { fields, rows, status };
         }
-        case 'error': {
+        case "error": {
           return { err: result.debug.stderr };
         }
-        case 'killed': {
-          return { err: 'Killed query' };
+        case "killed": {
+          return { err: "Killed query" };
         }
         default: {
           await sleep(WAIT_INTERVAL);
@@ -151,12 +171,12 @@ export default class TreasureData extends Base {
 
   _execQuery(query) {
     return new Promise((resolve, reject) => {
-      let method = this.config.queryType === 'presto' ? 'prestoQuery' : 'hiveQuery';
+      let method =
+        this.config.queryType === "presto" ? "prestoQuery" : "hiveQuery";
       this.client[method](this.config.database, query, (err, result) => {
         if (err) {
           reject(err);
-        }
-        else {
+        } else {
           resolve(result.job_id);
         }
       });

@@ -1,3 +1,3 @@
-import './Setting.css';
-import Setting from './Setting';
+import "./Setting.css";
+import Setting from "./Setting";
 export default Setting;

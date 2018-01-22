@@ -1,3 +1,3 @@
-import './ProgressIcon.css';
-import ProgressIcon from './ProgressIcon';
+import "./ProgressIcon.css";
+import ProgressIcon from "./ProgressIcon";
 export default ProgressIcon;

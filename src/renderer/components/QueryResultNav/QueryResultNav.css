@@ -20,11 +20,11 @@
 }
 
 .QueryResultNav-tabMenu.is-selected::after {
-  content: '';
+  content: "";
   position: absolute;
   width: 30px;
   height: 4px;
-  background-color: #2673E8;
+  background-color: #2673e8;
   bottom: -5px;
   left: -2px;
   border-radius: 3px 3px 0 0;
@@ -52,8 +52,8 @@
   top: 28px;
   width: 180px;
   right: 0;
-  border: 1px solid #CCC;
-  background-color: #FFF;
+  border: 1px solid #ccc;
+  background-color: #fff;
   border-radius: 4px;
   z-index: 1;
 }
@@ -72,5 +72,5 @@
 }
 
 .QueryResultNav-shareFlyout li:hover {
-  background-color: #EFEFEF;
+  background-color: #efefef;
 }

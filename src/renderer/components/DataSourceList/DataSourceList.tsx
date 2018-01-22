@@ -1,6 +1,6 @@
-import * as React from 'react';
-import * as classNames from 'classnames';
-import { remote } from 'electron';
+import * as React from "react";
+import * as classNames from "classnames";
+import { remote } from "electron";
 
 export default class DataSourceList extends React.Component<any, any> {
   handleContextMenu(id) {
@@ -11,25 +11,25 @@ export default class DataSourceList extends React.Component<any, any> {
     setImmediate(() => {
       let menu = remote.Menu.buildFromTemplate([
         {
-          label: 'Edit',
+          label: "Edit",
           click: () => {
             this.props.onEdit(id);
-          },
+          }
         },
         {
-          label: 'Reload',
+          label: "Reload",
           click: () => {
             this.props.onReload(id);
-          },
+          }
         },
         {
-          label: 'Delete',
+          label: "Delete",
           click: () => {
-            if (window.confirm('Are you sure?')) {
+            if (window.confirm("Are you sure?")) {
               this.props.onDelete(id);
             }
-          },
-        },
+          }
+        }
       ]);
       menu.popup(remote.getCurrentWindow());
     });
@@ -37,13 +37,19 @@ export default class DataSourceList extends React.Component<any, any> {
 
   render() {
     let items = this.props.dataSources.map(dataSource => {
-      let className = classNames({ 'is-selected': this.props.selectedDataSourceId === dataSource.id });
-      return <li
-        key={dataSource.id}
-        className={className}
-        onContextMenu={() => this.handleContextMenu(dataSource.id)}
-        onClick={() => this.props.onSelect(dataSource.id)}
-      >{dataSource.name}</li>;
+      let className = classNames({
+        "is-selected": this.props.selectedDataSourceId === dataSource.id
+      });
+      return (
+        <li
+          key={dataSource.id}
+          className={className}
+          onContextMenu={() => this.handleContextMenu(dataSource.id)}
+          onClick={() => this.props.onSelect(dataSource.id)}
+        >
+          {dataSource.name}
+        </li>
+      );
     });
 
     return (

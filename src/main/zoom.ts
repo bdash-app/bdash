@@ -1,4 +1,4 @@
-import { webContents } from 'electron';
+import { webContents } from "electron";
 
 const MAX_ZOOM_LEVEL = 2;
 const MIN_ZOOM_LEVEL = -2;
@@ -33,5 +33,5 @@ function reset() {
 export default {
   zoomIn,
   zoomOut,
-  reset,
+  reset
 };

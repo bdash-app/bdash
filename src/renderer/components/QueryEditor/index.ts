@@ -1,3 +1,3 @@
-import './QueryEditor.css';
-import QueryEditor from './QueryEditor';
+import "./QueryEditor.css";
+import QueryEditor from "./QueryEditor";
 export default QueryEditor;
