@@ -2,7 +2,7 @@ import * as Plotly from "plotly.js/dist/plotly.js";
 import _ from "lodash";
 
 export default class Chart {
-  params: any;
+  params: any; // eslint-disable-line no-undef
 
   constructor(params) {
     this.params = params;

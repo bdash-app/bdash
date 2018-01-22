@@ -6,9 +6,9 @@ const WAIT_INTERVAL = 2000;
 let cacheTableList;
 
 export default class TreasureData extends Base {
-  jobId: any;
-  _cancel: any;
-  _client: any;
+  jobId: any; // eslint-disable-line no-undef
+  _cancel: any; // eslint-disable-line no-undef
+  _client: any; // eslint-disable-line no-undef
 
   static get key() {
     return "treasuredata";
@@ -75,7 +75,7 @@ export default class TreasureData extends Base {
   kill() {
     if (!this.jobId) return;
     this.client.kill(this.jobId, err => {
-      if (err) console.error(err);
+      if (err) console.error(err); // eslint-disable-line no-console
     });
   }
 
@@ -128,6 +128,7 @@ export default class TreasureData extends Base {
         });
       }) as Promise<any>;
 
+    // eslint-disable-next-line no-constant-condition
     while (true) {
       const result = await showJob();
       const status = result.status;

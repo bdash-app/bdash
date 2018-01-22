@@ -13,8 +13,8 @@ export default class Setting {
     };
   }
 
-  filePath: string;
-  setting: any;
+  filePath: string; // eslint-disable-line no-undef
+  setting: any; // eslint-disable-line no-undef
 
   initialize(filePath) {
     this.filePath = filePath;
@@ -36,4 +36,4 @@ export default class Setting {
   }
 }
 
-export let setting = new Setting();
+export const setting = new Setting();

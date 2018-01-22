@@ -1,9 +1,10 @@
 import * as React from "react";
-import * as ReactDOM from "react-dom";
 import Select from "react-select";
 import Chart from "../../../lib/Chart";
 
 export default class QueryResultChart extends React.Component<any, any> {
+  chartElement: HTMLDivElement; // eslint-disable-line no-undef
+
   shouldComponentUpdate(nextProps) {
     const query = nextProps.query;
     const chart = nextProps.chart;
@@ -21,8 +22,7 @@ export default class QueryResultChart extends React.Component<any, any> {
   drawChart() {
     const query = this.props.query;
     const chart = this.props.chart;
-    const dom = ReactDOM.findDOMNode(this.refs.chart);
-    if (!query || !chart || !dom) return;
+    if (!query || !chart || !this.chartElement) return;
 
     const params = {
       type: chart.type,
@@ -34,7 +34,7 @@ export default class QueryResultChart extends React.Component<any, any> {
       fields: query.fields
     };
 
-    new Chart(params).drawTo(dom);
+    new Chart(params).drawTo(this.chartElement);
   }
 
   componentDidMount() {
@@ -88,7 +88,10 @@ export default class QueryResultChart extends React.Component<any, any> {
     const options = ["line", "bar", "area", "pie"].map(value => {
       return { value, label: value[0].toUpperCase() + value.slice(1) };
     });
-    const fieldOptions = query.fields.map(name => ({ value: name, label: name }));
+    const fieldOptions = query.fields.map(name => ({
+      value: name,
+      label: name
+    }));
     const stackingOptions = ["disable", "enable", "percent"].map(o => ({
       label: o,
       value: o
@@ -149,7 +152,7 @@ export default class QueryResultChart extends React.Component<any, any> {
           </div>
         </div>
         <div className="QueryResultChart-chart">
-          <div ref="chart" />
+          <div ref={node => (this.chartElement = node)} />
         </div>
       </div>
     );

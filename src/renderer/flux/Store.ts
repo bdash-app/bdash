@@ -9,8 +9,8 @@ export default class Store {
     return { store, dispatch };
   }
 
-  state: any;
-  _emitter: EventEmitter;
+  state: any; // eslint-disable-line no-undef
+  _emitter: EventEmitter; // eslint-disable-line no-undef
 
   constructor() {
     this.state = this.getInitialState();
@@ -21,6 +21,7 @@ export default class Store {
     throw new Error("Not Implemented");
   }
 
+  // eslint-disable-next-line no-unused-vars
   reduce(type, payload) {
     throw new Error("Not Implemented");
   }

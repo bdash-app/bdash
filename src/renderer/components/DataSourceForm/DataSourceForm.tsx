@@ -1,11 +1,13 @@
 import * as React from "react";
-import * as ReactDOM from "react-dom";
 import ModalDialog from "../ModalDialog";
 import Button from "../Button";
 import DataSource from "../../../lib/DataSource";
 import ProgressIcon from "../ProgressIcon";
 
 export default class DataSourceForm extends React.Component<any, any> {
+  formTableElement: HTMLTableElement; // eslint-disable-line no-undef
+  inputNameElement: HTMLInputElement; // eslint-disable-line no-undef
+
   constructor(props) {
     super(props);
 
@@ -18,26 +20,15 @@ export default class DataSourceForm extends React.Component<any, any> {
     };
   }
 
-  getNameValue() {
-    const el = ReactDOM.findDOMNode(this.refs.name) as HTMLInputElement;
-    return el.value;
-  }
-
-  getTypeValue() {
-    const el = ReactDOM.findDOMNode(this.refs.type) as HTMLInputElement;
-    return el.value;
-  }
-
   getConfigValues() {
     // TODO: validation
-    const form = ReactDOM.findDOMNode(this.refs.form);
-    const inputs = form.querySelectorAll(
+    const inputs = this.formTableElement.querySelectorAll(
       [
         ".DataSourceForm-configInput",
         ".DataSourceForm-configCheckbox:checked",
         ".DataSourceForm-configRadio:checked"
       ].join(",")
-    ) as NodeListOf<HTMLInputElement>;
+    ) as NodeListOf<HTMLInputElement>; // eslint-disable-line no-undef
 
     return Array.from(inputs).reduce((acc, el) => {
       const value = el.getAttribute("type") === "checkbox" ? true : el.value;
@@ -47,7 +38,7 @@ export default class DataSourceForm extends React.Component<any, any> {
 
   handleSave() {
     const id = this.props.dataSource ? this.props.dataSource.id : null;
-    const name = this.getNameValue();
+    const name = this.inputNameElement.value;
     const type = this.state.selectedType;
     const config = this.getConfigValues();
     this.props.onSave({ id, name, type, config });
@@ -173,13 +164,13 @@ export default class DataSourceForm extends React.Component<any, any> {
 
     return (
       <ModalDialog className="DataSourceForm">
-        <table ref="form">
+        <table ref={node => (this.formTableElement = node)}>
           <tbody>
             <tr className="is-required">
               <th>Name</th>
               <td>
                 <input
-                  ref="name"
+                  ref={node => (this.inputNameElement = node)}
                   type="text"
                   defaultValue={dataSource.name}
                   name="name"

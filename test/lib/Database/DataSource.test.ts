@@ -14,7 +14,7 @@ suite("Database/DataSource", () => {
         (1, 'name 1', 'mysql', '{"foo":"bar"}', '2017-02-01 00:00:00', '2017-01-01 00:00:00'),
         (2, 'name 2', 'mysql', '{"foo":"bar"}', '2017-02-02 00:00:00', '2017-01-02 00:00:00')
     `);
-    let rows = await DataSource.getAll();
+    const rows = await DataSource.getAll();
     assert.deepStrictEqual(rows, [
       { id: 2, name: "name 2", type: "mysql", config: { foo: "bar" } },
       { id: 1, name: "name 1", type: "mysql", config: { foo: "bar" } }
@@ -28,7 +28,7 @@ suite("Database/DataSource", () => {
       values
         (1, 'name 1', 'mysql', '{"foo":"bar"}', '2017-02-01 00:00:00', '2017-01-01 00:00:00')
     `);
-    let dataSource = await DataSource.find(1);
+    const dataSource = await DataSource.find(1);
     assert.deepStrictEqual(dataSource, {
       id: 1,
       name: "name 1",
@@ -47,15 +47,15 @@ suite("Database/DataSource", () => {
         (1, 'name 1', 'mysql', '{"foo":"bar"}', '2017-02-01 00:00:00', '2017-01-01 00:00:00'),
         (2, 'name 2', 'mysql', '{"foo":"bar"}', '2017-02-02 00:00:00', '2017-01-02 00:00:00')
     `);
-    let count = await DataSource.count();
+    const count = await DataSource.count();
     assert.strictEqual(count, 2);
   });
 
   test("create", async () => {
-    let name = "name";
-    let type = "mysql";
-    let config = { foo: "bar" };
-    let dataSource = await DataSource.create({ name, type, config });
+    const name = "name";
+    const type = "mysql";
+    const config = { foo: "bar" };
+    const dataSource = await DataSource.create({ name, type, config });
     assert.strictEqual(typeof dataSource.id, "number");
     assert.strictEqual(dataSource.name, name);
     assert.strictEqual(dataSource.type, type);
@@ -74,7 +74,7 @@ suite("Database/DataSource", () => {
       type: "postgres",
       config: { a: "b" }
     });
-    let dataSource = await DataSource.find(1);
+    const dataSource = await DataSource.find(1);
     assert.strictEqual(dataSource.name, "updated");
     assert.strictEqual(dataSource.type, "postgres");
     assert.deepStrictEqual(dataSource.config, { a: "b" });
@@ -88,7 +88,7 @@ suite("Database/DataSource", () => {
         (1, 'name 1', 'mysql', '{"foo":"bar"}', '2017-02-01 00:00:00', '2017-01-01 00:00:00')
     `);
     await DataSource.del(1);
-    let count = await DataSource.count();
+    const count = await DataSource.count();
     assert.strictEqual(count, 0);
   });
 });

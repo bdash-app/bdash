@@ -48,7 +48,7 @@ import { zipObject } from "lodash";
 });
 
 export default class Postgres extends Base {
-  currentClient: any;
+  currentClient: any; // eslint-disable-line no-undef
 
   static get key() {
     return "postgres";

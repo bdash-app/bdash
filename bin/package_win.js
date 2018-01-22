@@ -1,8 +1,8 @@
 const electronInstaller = require("electron-winstaller");
 const VERSION = require("../package.json").version;
 
-let exeFileName = `Bdash-Setup-${VERSION}.exe`;
-let outDir = "./out/bdash";
+const exeFileName = `Bdash-Setup-${VERSION}.exe`;
+const outDir = "./out/bdash";
 
 electronInstaller
   .createWindowsInstaller({
@@ -16,8 +16,8 @@ electronInstaller
     noMsi: true
   })
   .then(() => {
-    console.log(`Write ${exeFileName} to ${outDir}`);
+    console.log(`Write ${exeFileName} to ${outDir}`); // eslint-disable-line no-console
   })
   .catch(err => {
-    console.error(err);
+    console.error(err); // eslint-disable-line no-console
   });

@@ -1,9 +1,10 @@
 import * as React from "react";
-import * as ReactDOM from "react-dom";
 import Button from "../Button";
 import Editor from "../Editor";
 
 export default class QueryEditor extends React.Component<any, any> {
+  editorElement: HTMLDivElement; // eslint-disable-line no-undef
+
   get options() {
     return {
       mode: "text/x-sql",
@@ -16,17 +17,16 @@ export default class QueryEditor extends React.Component<any, any> {
   }
 
   get style() {
-    return this.props.editor.height == null
-      ? {}
-      : {
-          height: `${this.props.editor.height}px`
-        };
+    if (this.props.editor.height == null) {
+      return {};
+    } else {
+      return { height: `${this.props.editor.height}px` };
+    }
   }
 
   handleResizeStart(e) {
     e.preventDefault();
-    const editor = ReactDOM.findDOMNode(this.refs.Editor);
-    const height = editor.clientHeight;
+    const height = this.editorElement.clientHeight;
     const y = e.pageY;
     const handleResize = e => {
       let newHeight = height + (e.pageY - y);
@@ -117,7 +117,7 @@ export default class QueryEditor extends React.Component<any, any> {
         <Editor
           value={query.body || ""}
           height={this.props.editor.height}
-          ref="Editor"
+          rootRef={node => (this.editorElement = node)}
           onChange={body => this.props.onChangeQueryBody(body)}
           onChangeCursor={line => this.props.onChangeCursorPosition(line)}
           onSubmit={() => this.props.onExecute()}

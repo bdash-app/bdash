@@ -1,8 +1,8 @@
 const GITHUB_COM_URL = "https://api.github.com";
 
 export default class GitHubApiClient {
-  baseUrl: string;
-  token: string;
+  baseUrl: string; // eslint-disable-line no-undef
+  token: string; // eslint-disable-line no-undef
 
   constructor({ token, url }) {
     this.baseUrl = url;

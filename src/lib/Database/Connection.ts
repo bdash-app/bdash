@@ -1,7 +1,7 @@
 import * as sqlite3 from "sqlite3";
 
 export default class Connection {
-  _db: any;
+  _db: any; // eslint-disable-line no-undef
 
   get db() {
     if (!this._db) {
@@ -77,4 +77,4 @@ export default class Connection {
   }
 }
 
-export let connection = new Connection();
+export const connection = new Connection();
