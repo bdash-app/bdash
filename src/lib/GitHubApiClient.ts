@@ -17,7 +17,7 @@ export default class GitHubApiClient {
   }
 
   generateFullUrl(path) {
-    let baseUrl = this.baseUrl || GITHUB_COM_URL;
+    const baseUrl = this.baseUrl || GITHUB_COM_URL;
     return baseUrl.replace(/\/+$/, "") + path;
   }
 
@@ -30,16 +30,16 @@ export default class GitHubApiClient {
   }
 
   async validateToken() {
-    let response = await fetch(this.getValidationTokenUrl(), {
+    const response = await fetch(this.getValidationTokenUrl(), {
       headers: this.getHeaders()
     });
-    let scopes = response.headers.get("X-OAuth-Scopes");
+    const scopes = response.headers.get("X-OAuth-Scopes");
 
     if (!scopes) {
       throw new Error("Invalid");
     }
 
-    let isInclude = scopes
+    const isInclude = scopes
       .split(",")
       .map(s => s.trim())
       .includes("gist");
@@ -51,7 +51,7 @@ export default class GitHubApiClient {
   }
 
   async postToGist(contents) {
-    let response = await fetch(this.getGistUrl(), {
+    const response = await fetch(this.getGistUrl(), {
       method: "POST",
       headers: this.getHeaders(),
       body: JSON.stringify(Object.assign({ public: false }, contents))

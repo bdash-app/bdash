@@ -11,7 +11,7 @@ export default class QueryHeader extends React.Component<any, any> {
   }
 
   render() {
-    let options = this.props.dataSources.map(dataSource => {
+    const options = this.props.dataSources.map(dataSource => {
       return { value: dataSource.id, label: dataSource.name };
     });
 

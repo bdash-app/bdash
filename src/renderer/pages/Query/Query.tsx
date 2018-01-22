@@ -14,7 +14,7 @@ class Query extends React.Component<any, any> {
   }
 
   handleAddQuery() {
-    let ds = this.state.dataSources[0];
+    const ds = this.state.dataSources[0];
     if (ds) {
       Action.addNewQuery({ dataSourceId: ds.id });
     } else {
@@ -23,8 +23,8 @@ class Query extends React.Component<any, any> {
   }
 
   handleExecute(query) {
-    let line = this.state.editor.line;
-    let dataSource = this.state.dataSources.find(
+    const line = this.state.editor.line;
+    const dataSource = this.state.dataSources.find(
       ds => ds.id === query.dataSourceId
     );
 
@@ -38,8 +38,8 @@ class Query extends React.Component<any, any> {
   }
 
   async handleShareOnGist(query) {
-    let chart = this.state.charts.find(chart => chart.queryId === query.id);
-    let setting = this.state.setting.github;
+    const chart = this.state.charts.find(chart => chart.queryId === query.id);
+    const setting = this.state.setting.github;
 
     if (!setting.token) {
       alert("Set your Github token");
@@ -54,7 +54,7 @@ class Query extends React.Component<any, any> {
   }
 
   renderMain() {
-    let query = this.state.queries.find(
+    const query = this.state.queries.find(
       query => query.id === this.state.selectedQueryId
     );
     if (!query) return <div className="page-Query-main" />;

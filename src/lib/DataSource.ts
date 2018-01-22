@@ -7,7 +7,7 @@ export default class DataSource {
   static dataSources: any;
 
   static register(...classes) {
-    let dataSources = {};
+    const dataSources = {};
 
     classes.forEach(DataSource => {
       dataSources[DataSource.key] = DataSource;

@@ -32,7 +32,7 @@ export default class Mysql extends Base {
   }
 
   cancel() {
-    let tid = this.currentConnection && this.currentConnection.threadId;
+    const tid = this.currentConnection && this.currentConnection.threadId;
     if (!tid) return Promise.resolve();
 
     return new Mysql(this.config)._execute(`kill query ${tid}`);
@@ -44,20 +44,20 @@ export default class Mysql extends Base {
   }
 
   async fetchTables() {
-    let query = Util.stripHeredoc(`
+    const query = Util.stripHeredoc(`
       select table_name as name, table_type as type
       from information_schema.tables
       where table_schema = ?
       order by table_name
     `);
-    let { fields, rows } = await this._execute(query, this.config.database);
+    const { fields, rows } = await this._execute(query, this.config.database);
 
     return rows.map(row => zipObject(fields, row));
   }
 
   async fetchTableSummary({ name }) {
-    let sql = "show columns from ??";
-    let defs = await this._execute(sql, name);
+    const sql = "show columns from ??";
+    const defs = await this._execute(sql, name);
 
     return { name, defs };
   }
@@ -68,7 +68,7 @@ export default class Mysql extends Base {
     }
 
     return new Promise((resolve, reject) => {
-      let params = Object.assign({ dateStrings: true }, this.config);
+      const params = Object.assign({ dateStrings: true }, this.config);
       this.currentConnection = mysql.createConnection(params);
       this.currentConnection.connect(err => {
         if (err) {

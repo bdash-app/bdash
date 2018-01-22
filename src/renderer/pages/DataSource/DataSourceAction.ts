@@ -4,7 +4,7 @@ import DataSource from "../../../lib/DataSource";
 
 const DataSourceAction = {
   async initialize() {
-    let dataSources = await Database.DataSource.getAll();
+    const dataSources = await Database.DataSource.getAll();
     dispatch("initialize", { dataSources });
   },
 
@@ -14,12 +14,12 @@ const DataSourceAction = {
   },
 
   async loadTables(dataSource) {
-    let tables = await DataSource.create(dataSource).fetchTables();
+    const tables = await DataSource.create(dataSource).fetchTables();
     dispatch("reloadTables", { id: dataSource.id, tables });
   },
 
   async selectTable(dataSource, table) {
-    let tableSummary = await DataSource.create(dataSource).fetchTableSummary(
+    const tableSummary = await DataSource.create(dataSource).fetchTableSummary(
       table
     );
     dispatch("selectTable", {
@@ -34,13 +34,13 @@ const DataSourceAction = {
   },
 
   async createDataSource({ name, type, config }) {
-    let dataSource = await Database.DataSource.create({ name, type, config });
+    const dataSource = await Database.DataSource.create({ name, type, config });
     dispatch("createDataSource", { dataSource });
     DataSourceAction.selectDataSource(dataSource);
   },
 
   async updateDataSource({ id, name, type, config }) {
-    let dataSource = await Database.DataSource.update(id, {
+    const dataSource = await Database.DataSource.update(id, {
       name,
       type,
       config

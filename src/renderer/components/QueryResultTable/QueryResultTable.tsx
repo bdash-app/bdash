@@ -4,7 +4,7 @@ const MAX_DISPLAY_ROWS_COUNT = 1000;
 
 export default class QueryResultTable extends React.Component<any, any> {
   shouldComponentUpdate(nextProps) {
-    let query = nextProps.query;
+    const query = nextProps.query;
 
     if (!query || !query.fields) return true;
     if (this.props.query.id !== query.id) return true;
@@ -14,13 +14,13 @@ export default class QueryResultTable extends React.Component<any, any> {
   }
 
   render() {
-    let query = this.props.query;
-    let heads = query.fields.map((field, i) => (
+    const query = this.props.query;
+    const heads = query.fields.map((field, i) => (
       <th key={`head-${i}`}>{field}</th>
     ));
-    let rows = query.rows.slice(0, MAX_DISPLAY_ROWS_COUNT).map((row, i) => {
-      let cols = row.map((value, j) => {
-        let val = value === null ? "NULL" : value.toString();
+    const rows = query.rows.slice(0, MAX_DISPLAY_ROWS_COUNT).map((row, i) => {
+      const cols = row.map((value, j) => {
+        const val = value === null ? "NULL" : value.toString();
         return (
           <td key={`${i}-${j}`} className={value === null ? "is-null" : ""}>
             {val}

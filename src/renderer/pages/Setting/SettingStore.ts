@@ -40,5 +40,5 @@ export default class SettingStore extends Store {
   }
 }
 
-let { store, dispatch } = Store.create(SettingStore);
+const { store, dispatch } = Store.create(SettingStore);
 export { store, dispatch };

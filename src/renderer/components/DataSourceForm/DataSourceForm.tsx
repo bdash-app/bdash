@@ -9,7 +9,7 @@ export default class DataSourceForm extends React.Component<any, any> {
   constructor(props) {
     super(props);
 
-    let dataSource = props.dataSource || {};
+    const dataSource = props.dataSource || {};
 
     this.state = {
       selectedType: dataSource.type || null,
@@ -30,8 +30,8 @@ export default class DataSourceForm extends React.Component<any, any> {
 
   getConfigValues() {
     // TODO: validation
-    let form = ReactDOM.findDOMNode(this.refs.form);
-    let inputs = form.querySelectorAll(
+    const form = ReactDOM.findDOMNode(this.refs.form);
+    const inputs = form.querySelectorAll(
       [
         ".DataSourceForm-configInput",
         ".DataSourceForm-configCheckbox:checked",
@@ -40,16 +40,16 @@ export default class DataSourceForm extends React.Component<any, any> {
     ) as NodeListOf<HTMLInputElement>;
 
     return Array.from(inputs).reduce((acc, el) => {
-      let value = el.getAttribute("type") === "checkbox" ? true : el.value;
+      const value = el.getAttribute("type") === "checkbox" ? true : el.value;
       return Object.assign(acc, { [el.name]: value });
     }, {});
   }
 
   handleSave() {
-    let id = this.props.dataSource ? this.props.dataSource.id : null;
-    let name = this.getNameValue();
-    let type = this.state.selectedType;
-    let config = this.getConfigValues();
+    const id = this.props.dataSource ? this.props.dataSource.id : null;
+    const name = this.getNameValue();
+    const type = this.state.selectedType;
+    const config = this.getConfigValues();
     this.props.onSave({ id, name, type, config });
   }
 
@@ -62,8 +62,8 @@ export default class DataSourceForm extends React.Component<any, any> {
   }
 
   async handleConnectionTest() {
-    let type = this.state.selectedType;
-    let config = this.getConfigValues();
+    const type = this.state.selectedType;
+    const config = this.getConfigValues();
     this.setState({
       connectionTestStatus: "working",
       connectionTestMessage: null
@@ -100,7 +100,7 @@ export default class DataSourceForm extends React.Component<any, any> {
   }
 
   renderConfigRadio(i, value, schema) {
-    let radios = schema.values.map(v => {
+    const radios = schema.values.map(v => {
       return (
         <label key={v} className="DataSourceForm-configRadioLabel">
           <input
@@ -123,7 +123,7 @@ export default class DataSourceForm extends React.Component<any, any> {
   }
 
   renderConfigInput(i, value, schema) {
-    let type = schema.type === "password" ? "password" : "text";
+    const type = schema.type === "password" ? "password" : "text";
     return (
       <tr key={i} className={schema.required ? "is-required" : ""}>
         <th>{schema.label}</th>
@@ -141,13 +141,13 @@ export default class DataSourceForm extends React.Component<any, any> {
   }
 
   renderConfig() {
-    let ds = DataSource.get(this.state.selectedType);
+    const ds = DataSource.get(this.state.selectedType);
     if (!ds) return null;
 
     return ds.configSchema.map((schema, i) => {
-      let dataSource = this.props.dataSource || {};
-      let config = dataSource.config || {};
-      let value = config[schema.name];
+      const dataSource = this.props.dataSource || {};
+      const config = dataSource.config || {};
+      const value = config[schema.name];
       switch (schema.type) {
         case "radio":
           return this.renderConfigRadio(i, value, schema);
@@ -160,8 +160,8 @@ export default class DataSourceForm extends React.Component<any, any> {
   }
 
   render() {
-    let dataSource = this.props.dataSource || {};
-    let options = [{ key: "", label: "" }]
+    const dataSource = this.props.dataSource || {};
+    const options = [{ key: "", label: "" }]
       .concat(DataSource.list)
       .map(({ key, label }) => {
         return (

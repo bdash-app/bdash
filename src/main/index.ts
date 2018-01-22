@@ -1,7 +1,7 @@
 import * as electron from "electron";
 import menu from "./menu";
 
-let app = electron.app;
+const app = electron.app;
 let mainWindow;
 
 function createWindow() {

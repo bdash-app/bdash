@@ -25,7 +25,7 @@ export default class QueryStore extends Store {
           .mergeList("dataSources", payload.dataSources);
       }
       case "selectQuery": {
-        let idx = this.findQueryIndex(payload.id);
+        const idx = this.findQueryIndex(payload.id);
         return this.set("selectedQueryId", payload.id)
           .set("editor.line", null)
           .merge(`queries.${idx}`, payload.query);
@@ -36,11 +36,11 @@ export default class QueryStore extends Store {
           .prepend("queries", payload.query);
       }
       case "updateQuery": {
-        let idx = this.findQueryIndex(payload.id);
+        const idx = this.findQueryIndex(payload.id);
         return this.merge(`queries.${idx}`, payload.params);
       }
       case "deleteQuery": {
-        let idx = this.findQueryIndex(payload.id);
+        const idx = this.findQueryIndex(payload.id);
         return this.set("selectedQueryId", null)
           .set("editor.line", null)
           .del(`queries.${idx}`, payload.id);
@@ -49,21 +49,21 @@ export default class QueryStore extends Store {
         return this.merge("editor", payload);
       }
       case "selectResultTab": {
-        let idx = this.findQueryIndex(payload.id);
+        const idx = this.findQueryIndex(payload.id);
         return this.set(`queries.${idx}.selectedTab`, payload.name);
       }
       case "addChart": {
         return this.append("charts", payload.chart);
       }
       case "updateChart": {
-        let idx = this.findChartIndex(payload.id);
+        const idx = this.findChartIndex(payload.id);
         return this.merge(`charts.${idx}`, payload.params);
       }
     }
   }
 
   findQueryIndex(id) {
-    let idx = this.state.queries.findIndex(q => q.id === id);
+    const idx = this.state.queries.findIndex(q => q.id === id);
 
     if (idx === -1) {
       throw new Error(`query id:${id} not found`);
@@ -73,7 +73,7 @@ export default class QueryStore extends Store {
   }
 
   findChartIndex(id) {
-    let idx = this.state.charts.findIndex(c => c.id === id);
+    const idx = this.state.charts.findIndex(c => c.id === id);
 
     if (idx === -1) {
       throw new Error(`chart id:${id} not found`);
@@ -83,5 +83,5 @@ export default class QueryStore extends Store {
   }
 }
 
-let { store, dispatch } = Store.create(QueryStore);
+const { store, dispatch } = Store.create(QueryStore);
 export { store, dispatch };

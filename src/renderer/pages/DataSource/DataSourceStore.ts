@@ -19,11 +19,11 @@ export default class DataSourceStore extends Store {
         return this.set("selectedDataSourceId", payload.id);
       }
       case "setTables": {
-        let idx = this.findDataSourceIndex(payload.id);
+        const idx = this.findDataSourceIndex(payload.id);
         return this.set(`dataSources.${idx}.tables`, payload.tables);
       }
       case "reloadTables": {
-        let idx = this.findDataSourceIndex(payload.id);
+        const idx = this.findDataSourceIndex(payload.id);
         return this.merge(`dataSources.${idx}`, {
           tables: payload.tables,
           selectedTable: null,
@@ -31,14 +31,14 @@ export default class DataSourceStore extends Store {
         });
       }
       case "selectTable": {
-        let idx = this.findDataSourceIndex(payload.id);
+        const idx = this.findDataSourceIndex(payload.id);
         return this.merge(`dataSources.${idx}`, {
           selectedTable: payload.selectedTable,
           tableSummary: payload.tableSummary
         });
       }
       case "changeTableFilter": {
-        let idx = this.findDataSourceIndex(payload.id);
+        const idx = this.findDataSourceIndex(payload.id);
         return this.set(`dataSources.${idx}.tableFilter`, payload.value);
       }
       case "showForm": {
@@ -54,21 +54,21 @@ export default class DataSourceStore extends Store {
         );
       }
       case "updateDataSource": {
-        let idx = this.findDataSourceIndex(payload.dataSource.id);
+        const idx = this.findDataSourceIndex(payload.dataSource.id);
         return this.set("showForm", false).set(
           `dataSources.${idx}`,
           payload.dataSource
         );
       }
       case "deleteDataSource": {
-        let idx = this.findDataSourceIndex(payload.id);
+        const idx = this.findDataSourceIndex(payload.id);
         return this.del(`dataSources.${idx}`);
       }
     }
   }
 
   findDataSourceIndex(id) {
-    let idx = this.state.dataSources.findIndex(q => q.id === id);
+    const idx = this.state.dataSources.findIndex(q => q.id === id);
 
     if (idx === -1) {
       throw new Error(`dataSource id:${id} not found`);
@@ -78,5 +78,5 @@ export default class DataSourceStore extends Store {
   }
 }
 
-let { store, dispatch } = Store.create(DataSourceStore);
+const { store, dispatch } = Store.create(DataSourceStore);
 export { store, dispatch };

@@ -3,8 +3,8 @@ import { EventEmitter } from "events";
 
 export default class Store {
   static create(StoreClass) {
-    let store = new StoreClass();
-    let dispatch = store.dispatch.bind(store);
+    const store = new StoreClass();
+    const dispatch = store.dispatch.bind(store);
 
     return { store, dispatch };
   }
@@ -27,7 +27,7 @@ export default class Store {
 
   subscribe(fn) {
     this._emitter.on("update", fn);
-    let unsubscribe = () => {
+    const unsubscribe = () => {
       this._emitter.removeListener("update", fn);
     };
     return unsubscribe;
@@ -93,7 +93,7 @@ class StateBuilder extends immup.Immup {
       }
 
       return value.map(v => {
-        let target = arr.find(v2 => comparator(v, v2));
+        const target = arr.find(v2 => comparator(v, v2));
         if (target === undefined) {
           return v;
         } else {

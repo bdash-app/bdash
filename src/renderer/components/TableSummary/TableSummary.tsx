@@ -2,18 +2,18 @@ import * as React from "react";
 
 export default class TableSummary extends React.Component<any, any> {
   render() {
-    let dataSource = this.props.dataSource;
+    const dataSource = this.props.dataSource;
     if (!dataSource || !dataSource.tableSummary) return null;
 
-    let tableSummary = dataSource.tableSummary;
-    let heads = tableSummary.defs.fields.map((f, i) => <th key={i}>{f}</th>);
-    let rows = tableSummary.defs.rows.map((row, i) => {
-      let cols = row.map((v, j) => <td key={j}>{v}</td>);
+    const tableSummary = dataSource.tableSummary;
+    const heads = tableSummary.defs.fields.map((f, i) => <th key={i}>{f}</th>);
+    const rows = tableSummary.defs.rows.map((row, i) => {
+      const cols = row.map((v, j) => <td key={j}>{v}</td>);
       return <tr key={i}>{cols}</tr>;
     });
 
-    let schema = tableSummary.schema ? `${tableSummary.schema}.` : "";
-    let tableName = schema + tableSummary.name;
+    const schema = tableSummary.schema ? `${tableSummary.schema}.` : "";
+    const tableName = schema + tableSummary.name;
 
     return (
       <div className="TableSummary">

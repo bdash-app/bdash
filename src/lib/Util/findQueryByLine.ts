@@ -1,15 +1,15 @@
 import { find, last } from "lodash";
 
 export default function findQueryByLine(sql, line) {
-  let chunks = splitQuery(sql);
-  let chunk = find(chunks, chunk => chunk.endLine >= line) || last(chunks);
+  const chunks = splitQuery(sql);
+  const chunk = find(chunks, chunk => chunk.endLine >= line) || last(chunks);
 
   return { query: chunk.query, startLine: chunk.startLine };
 }
 
 function splitQuery(sql) {
-  let lines = sql.replace(/\s+$/, "").split("\n");
-  let chunks = [];
+  const lines = sql.replace(/\s+$/, "").split("\n");
+  const chunks = [];
   let chunk = null;
 
   lines.forEach((line, i) => {
@@ -27,9 +27,9 @@ function splitQuery(sql) {
   });
 
   return chunks.map(chunk => {
-    let query = chunk.query;
+    const query = chunk.query;
     let startLine = chunk.startLine;
-    let m = query.match(/^\s+/g);
+    const m = query.match(/^\s+/g);
 
     if (m) {
       startLine += m[0].split("\n").length - 1;

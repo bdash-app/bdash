@@ -31,7 +31,7 @@ export default class Setting {
   }
 
   save(params) {
-    let setting = _.merge(this.setting, params);
+    const setting = _.merge(this.setting, params);
     fs.writeFileSync(this.filePath, yaml.safeDump(setting));
   }
 }

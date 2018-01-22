@@ -9,7 +9,7 @@ const DEFAULT_QUERY_TITLE = "New Query";
 
 const QueryAction = {
   async initialize() {
-    let [queries, dataSources, charts] = await Promise.all([
+    const [queries, dataSources, charts] = await Promise.all([
       Database.Query.getAll(),
       Database.DataSource.getAll(),
       Database.Chart.getAll()
@@ -24,9 +24,9 @@ const QueryAction = {
   },
 
   async selectQuery(query) {
-    let id = query.id;
+    const id = query.id;
     if (query.body === undefined) {
-      let query = await Database.Query.find(id);
+      const query = await Database.Query.find(id);
       dispatch("selectQuery", { id, query });
     } else {
       dispatch("selectQuery", { id, query: {} });
@@ -34,7 +34,7 @@ const QueryAction = {
   },
 
   async addNewQuery({ dataSourceId }) {
-    let query = await Database.Query.create({
+    const query = await Database.Query.create({
       title: DEFAULT_QUERY_TITLE,
       dataSourceId
     });
@@ -52,20 +52,20 @@ const QueryAction = {
   },
 
   async executeQuery({ line, query, dataSource }) {
-    let { query: queryBody, startLine } = Util.findQueryByLine(
+    const { query: queryBody, startLine } = Util.findQueryByLine(
       query.body,
       line
     );
-    let executor = DataSource.create(dataSource);
-    let id = query.id;
+    const executor = DataSource.create(dataSource);
+    const id = query.id;
     dispatch("updateQuery", { id, params: { status: "working", executor } });
 
-    let start = Date.now();
+    const start = Date.now();
     let result;
     try {
       result = await executor.execute(queryBody, { startLine });
     } catch (err) {
-      let params = {
+      const params = {
         status: "failure",
         fields: null,
         rows: null,
@@ -80,7 +80,7 @@ const QueryAction = {
       return;
     }
 
-    let params = {
+    const params = {
       status: "success",
       fields: result.fields,
       rows: result.rows,
@@ -116,7 +116,7 @@ const QueryAction = {
     dispatch("selectResultTab", { id: query.id, name });
 
     if (name === "chart" && !query.chart) {
-      let chart = await Database.Chart.findOrCreateByQueryId({
+      const chart = await Database.Chart.findOrCreateByQueryId({
         queryId: query.id
       });
       dispatch("addChart", { chart });
@@ -124,7 +124,7 @@ const QueryAction = {
   },
 
   async updateChart(id, params) {
-    let chart = await Database.Chart.update(id, params);
+    const chart = await Database.Chart.update(id, params);
     dispatch("updateChart", { id, params: chart });
   }
 };

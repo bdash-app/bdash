@@ -8,7 +8,7 @@ export default class Query {
   }
 
   static async find(id) {
-    let query = await connection.get("select * from queries where id = ?", id);
+    const query = await connection.get("select * from queries where id = ?", id);
 
     if (query.fields) {
       query.fields = JSON.parse(query.fields);
@@ -34,19 +34,19 @@ export default class Query {
   }
 
   static async create({ title, dataSourceId }) {
-    let sql = `
+    const sql = `
       insert into queries
       (dataSourceId, title, updatedAt, createdAt)
       values (?, ?, datetime('now'), datetime('now'))
     `;
-    let id = await connection.insert(sql, dataSourceId, title);
+    const id = await connection.insert(sql, dataSourceId, title);
 
     return { id, dataSourceId, title };
   }
 
   static update(id, params) {
-    let fields = [];
-    let values = [];
+    const fields = [];
+    const values = [];
 
     Object.keys(params).forEach(field => {
       fields.push(field);
@@ -54,7 +54,7 @@ export default class Query {
     });
     values.push(id);
 
-    let sql = `
+    const sql = `
       update queries
       set ${fields.map(f => `${f} = ?`).join(", ")}, updatedAt = datetime('now')
       where id = ?

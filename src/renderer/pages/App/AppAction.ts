@@ -12,8 +12,8 @@ const AppAction = {
       ensureDirSync(Config.bdashRoot);
     }
 
-    let databasePath = Config.databasePath;
-    let schema = fs.readFileSync(Config.schemaPath).toString();
+    const databasePath = Config.databasePath;
+    const schema = fs.readFileSync(Config.schemaPath).toString();
 
     setting.initialize(Config.settingPath);
 
@@ -21,7 +21,7 @@ const AppAction = {
     dispatch("initialize");
 
     // on boarding
-    let count = await Database.DataSource.count();
+    const count = await Database.DataSource.count();
     if (count === 0) {
       dispatch("selectPage", { page: "dataSource" });
       DataSourceAction.showForm();

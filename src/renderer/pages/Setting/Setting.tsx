@@ -12,16 +12,16 @@ class Setting extends React.Component<any, any> {
   }
 
   renderGithubValidateTokenResult() {
-    let { status, error } = this.state.githubValidateToken;
+    const { status, error } = this.state.githubValidateToken;
     return status === null ? null : (
       <ProgressIcon status={status} message={error} />
     );
   }
 
   render() {
-    let keyBindOptions = ["default", "vim"].map(v => ({ value: v, label: v }));
-    let setting = this.state.setting;
-    let github = setting.github || {};
+    const keyBindOptions = ["default", "vim"].map(v => ({ value: v, label: v }));
+    const setting = this.state.setting;
+    const github = setting.github || {};
 
     return (
       <div className="page-Setting">

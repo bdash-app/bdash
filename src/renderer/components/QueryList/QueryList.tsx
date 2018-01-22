@@ -14,7 +14,7 @@ export default class QueryList extends React.Component<any, any> {
   handleContextMenu(query) {
     this.props.onSelectQuery(query);
     setImmediate(() => {
-      let menu = remote.Menu.buildFromTemplate([
+      const menu = remote.Menu.buildFromTemplate([
         {
           label: "Delete",
           click: () => {
@@ -29,8 +29,8 @@ export default class QueryList extends React.Component<any, any> {
   }
 
   render() {
-    let items = this.props.queries.map(query => {
-      let className = classNames({
+    const items = this.props.queries.map(query => {
+      const className = classNames({
         "is-selected": this.props.selectedQueryId === query.id
       });
       return (

@@ -9,7 +9,7 @@ export default class DataSourceList extends React.Component<any, any> {
     }
 
     setImmediate(() => {
-      let menu = remote.Menu.buildFromTemplate([
+      const menu = remote.Menu.buildFromTemplate([
         {
           label: "Edit",
           click: () => {
@@ -36,8 +36,8 @@ export default class DataSourceList extends React.Component<any, any> {
   }
 
   render() {
-    let items = this.props.dataSources.map(dataSource => {
-      let className = classNames({
+    const items = this.props.dataSources.map(dataSource => {
+      const className = classNames({
         "is-selected": this.props.selectedDataSourceId === dataSource.id
       });
       return (

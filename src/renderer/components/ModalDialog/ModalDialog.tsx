@@ -3,7 +3,7 @@ import * as Modal from "react-modal";
 
 export default class ModalDialog extends React.Component<any, any> {
   render() {
-    let style = {
+    const style = {
       overlay: { backgroundColor: "transparent" }
     };
 

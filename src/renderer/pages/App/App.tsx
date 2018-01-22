@@ -37,7 +37,7 @@ class App extends React.Component<any, any> {
       );
     }
 
-    let Page = this.getSelectedPage();
+    const Page = this.getSelectedPage();
 
     return (
       <div className="page-app">

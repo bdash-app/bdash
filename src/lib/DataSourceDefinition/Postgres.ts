@@ -81,7 +81,7 @@ export default class Postgres extends Base {
   }
 
   cancel() {
-    let pid = this.currentClient && this.currentClient.processID;
+    const pid = this.currentClient && this.currentClient.processID;
     if (!pid) return Promise.resolve();
 
     return new Postgres(this.config)._execute(
@@ -95,19 +95,19 @@ export default class Postgres extends Base {
   }
 
   async fetchTables() {
-    let query = Util.stripHeredoc(`
+    const query = Util.stripHeredoc(`
       select table_schema as schema, table_name as name, table_type as type
       from information_schema.tables
       where table_schema not in ('information_schema', 'pg_catalog', 'pg_internal')
       order by table_schema, table_name
     `);
-    let { fields, rows } = await this._execute(query);
+    const { fields, rows } = await this._execute(query);
 
     return rows.map(row => zipObject(fields, row));
   }
 
   async fetchTableSummary({ schema, name }) {
-    let query = Util.stripHeredoc(`
+    const query = Util.stripHeredoc(`
       select
           pg_attribute.attname as name,
           pg_attribute.atttypid::regtype as type,
@@ -127,7 +127,7 @@ export default class Postgres extends Base {
           and not pg_attribute.attisdropped
           and pg_attribute.attnum > 0
       order by pg_attribute.attnum`);
-    let defs = await this._execute(query, `${schema}.${name}`);
+    const defs = await this._execute(query, `${schema}.${name}`);
 
     return { schema, name, defs };
   }
@@ -155,7 +155,7 @@ export default class Postgres extends Base {
             if (err) {
               reject(err);
             } else {
-              let { rows, fields } = result;
+              const { rows, fields } = result;
               resolve({ fields: fields.map(f => f.name), rows });
             }
           }
@@ -169,7 +169,7 @@ export default class Postgres extends Base {
 
     let message = err.message;
     if (err.position) {
-      let line =
+      const line =
         (query.substring(0, err.position).match(/\n/g) || []).length +
         startLine;
       message += ` (line: ${line})`;

@@ -20,5 +20,5 @@ export default class AppStore extends Store {
   }
 }
 
-let { store, dispatch } = Store.create(AppStore);
+const { store, dispatch } = Store.create(AppStore);
 export { store, dispatch };

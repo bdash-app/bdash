@@ -15,15 +15,15 @@ export default class Chart {
   }
 
   async toSVG() {
-    let data = this.getData();
-    let layout = this.getLayout();
-    let div = document.createElement("div");
+    const data = this.getData();
+    const layout = this.getLayout();
+    const div = document.createElement("div");
 
     if (data.length === 0) {
       return Promise.resolve(null);
     }
 
-    let gd = await Plotly.plot(div, data, layout);
+    const gd = await Plotly.plot(div, data, layout);
     return Plotly.Snapshot.toSVG(gd).replace(/"Open Sans"/g, "'Open Sans'");
   }
 
@@ -32,7 +32,7 @@ export default class Chart {
   }
 
   getLayout() {
-    let layout: any = {
+    const layout: any = {
       showlegend: true,
       margin: { l: 50, r: 50, t: 10, b: 120, pad: 4 }
     };
@@ -65,16 +65,16 @@ export default class Chart {
       });
     }
 
-    let groupValues = _.uniq(this.dataByField(this.params.groupBy)).sort();
-    let idx = this.params.fields.findIndex(
+    const groupValues = _.uniq(this.dataByField(this.params.groupBy)).sort();
+    const idx = this.params.fields.findIndex(
       field => field === this.params.groupBy
     );
-    let x = _.groupBy(this.params.rows, row => row[idx]);
+    const x = _.groupBy(this.params.rows, row => row[idx]);
 
     return _.flatMap(this.params.y, y => {
       return groupValues.map(g => {
-        let groupByIdx = this.rowIndexByFieldName(this.params.groupBy);
-        let yIdx = this.rowIndexByFieldName(y);
+        const groupByIdx = this.rowIndexByFieldName(this.params.groupBy);
+        const yIdx = this.rowIndexByFieldName(y);
         return {
           name: `${y} (${g})`,
           x: this.valuesByField(x[g], this.params.x),
@@ -91,7 +91,7 @@ export default class Chart {
   }
 
   valuesByField(rows, field) {
-    let idx = this.rowIndexByFieldName(field);
+    const idx = this.rowIndexByFieldName(field);
     return rows.map(row => row[idx]);
   }
 

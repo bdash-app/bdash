@@ -37,7 +37,7 @@ class DataSource extends React.Component<any, any> {
   }
 
   render() {
-    let dataSource = this.find(this.state.selectedDataSourceId);
+    const dataSource = this.find(this.state.selectedDataSourceId);
 
     return (
       <div className="page-DataSource">

@@ -8,8 +8,8 @@ export default class GlobalMenu extends React.Component<any, any> {
       { page: "dataSource", icon: "database" },
       { page: "setting", icon: "cog" }
     ].map((item, idx) => {
-      let selected = this.props.selectedPage === item.page;
-      let className = classNames("GlobalMenu-item", `GlobalMenu-${item.page}`, {
+      const selected = this.props.selectedPage === item.page;
+      const className = classNames("GlobalMenu-item", `GlobalMenu-${item.page}`, {
         "is-selected": selected
       });
 

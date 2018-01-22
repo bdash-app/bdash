@@ -8,7 +8,7 @@ export default class Button extends React.Component<any, any> {
   }
 
   render() {
-    let className = `${this.props.className || ""} Button`.trim();
+    const className = `${this.props.className || ""} Button`.trim();
     return (
       <span className={className} onClick={this.handleClick.bind(this)}>
         {this.props.children}

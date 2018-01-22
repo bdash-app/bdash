@@ -25,15 +25,15 @@ export default class QueryEditor extends React.Component<any, any> {
 
   handleResizeStart(e) {
     e.preventDefault();
-    let editor = ReactDOM.findDOMNode(this.refs.Editor);
-    let height = editor.clientHeight;
-    let y = e.pageY;
-    let handleResize = e => {
+    const editor = ReactDOM.findDOMNode(this.refs.Editor);
+    const height = editor.clientHeight;
+    const y = e.pageY;
+    const handleResize = e => {
       let newHeight = height + (e.pageY - y);
       if (newHeight < 0) newHeight = 0;
       this.props.onChangeEditorHeight(newHeight);
     };
-    let handleResizeStop = () => {
+    const handleResizeStop = () => {
       document.removeEventListener("mouseup", handleResizeStop);
       document.removeEventListener("mousemove", handleResize);
     };
@@ -77,7 +77,7 @@ export default class QueryEditor extends React.Component<any, any> {
   }
 
   renderSuccess() {
-    let query = this.props.query;
+    const query = this.props.query;
     return (
       <div className="QueryEditor-status">
         <span>
@@ -110,7 +110,7 @@ export default class QueryEditor extends React.Component<any, any> {
   }
 
   render() {
-    let query = this.props.query;
+    const query = this.props.query;
 
     return (
       <div className="QueryEditor">

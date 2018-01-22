@@ -1,7 +1,7 @@
 export default function stripHeredoc(str) {
   str = str.trim();
-  let margins = (str.match(/^ +/gm) || []).map(s => s.length);
-  let margin = Math.min(...margins);
+  const margins = (str.match(/^ +/gm) || []).map(s => s.length);
+  const margin = Math.min(...margins);
 
   return str.replace(new RegExp(`^ {${margin}}`, "gm"), "");
 }

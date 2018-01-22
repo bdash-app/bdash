@@ -15,7 +15,7 @@ export default class Editor extends React.Component<any, any> {
   currentOptions: any;
 
   componentDidMount() {
-    let textareaNode = ReactDOM.findDOMNode(
+    const textareaNode = ReactDOM.findDOMNode(
       this.refs.textarea
     ) as HTMLTextAreaElement;
     this.codeMirror = CodeMirror.fromTextArea(textareaNode, this.props.options);
@@ -68,7 +68,7 @@ export default class Editor extends React.Component<any, any> {
       !isEqual(nextProps.options, this.currentOptions)
     ) {
       this.currentOptions = nextProps.options;
-      for (let optionName in nextProps.options) {
+      for (const optionName in nextProps.options) {
         if (nextProps.options.hasOwnProperty(optionName)) {
           this.codeMirror.setOption(optionName, nextProps.options[optionName]);
         }
@@ -81,19 +81,19 @@ export default class Editor extends React.Component<any, any> {
   }
 
   handleValueChange(doc) {
-    let newValue = doc.getValue();
+    const newValue = doc.getValue();
     this.currentValue = newValue;
     this.props.onChange && this.props.onChange(newValue);
   }
 
   handleCursorChange(doc) {
-    let cursor = doc.getCursor();
-    let line = (cursor.line || 0) + 1;
+    const cursor = doc.getCursor();
+    const line = (cursor.line || 0) + 1;
     this.props.onChangeCursor(line);
   }
 
   render() {
-    let height = this.props.height;
+    const height = this.props.height;
     return (
       <div
         className="Editor"

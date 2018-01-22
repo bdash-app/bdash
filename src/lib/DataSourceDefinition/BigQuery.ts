@@ -62,26 +62,26 @@ export default class BigQuery extends Base {
   }
 
   async fetchTables() {
-    let [datasets] = await bigquery(this.config).getDatasets();
-    let promises = datasets.map(async dataset => {
-      let [tables] = await dataset.getTables();
+    const [datasets] = await bigquery(this.config).getDatasets();
+    const promises = datasets.map(async dataset => {
+      const [tables] = await dataset.getTables();
       return tables.map(table => ({
         schema: dataset.id,
         name: table.id,
         type: table.metadata.type.toLowerCase()
       }));
     });
-    let results = await Promise.all(promises);
+    const results = await Promise.all(promises);
     return flatten(results);
   }
 
   async fetchTableSummary({ schema, name }) {
-    let [metadata] = await bigquery(this.config)
+    const [metadata] = await bigquery(this.config)
       .dataset(schema)
       .table(name)
       .getMetadata();
-    let schemaFields = metadata.schema.fields;
-    let defs = {
+    const schemaFields = metadata.schema.fields;
+    const defs = {
       fields: Object.keys(schemaFields[0]),
       rows: schemaFields.map(Object.values)
     };

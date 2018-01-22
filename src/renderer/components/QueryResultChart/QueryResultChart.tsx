@@ -5,8 +5,8 @@ import Chart from "../../../lib/Chart";
 
 export default class QueryResultChart extends React.Component<any, any> {
   shouldComponentUpdate(nextProps) {
-    let query = nextProps.query;
-    let chart = nextProps.chart;
+    const query = nextProps.query;
+    const chart = nextProps.chart;
 
     if (!query || !query.fields) return true;
     if (!this.props.chart || !chart) return true;
@@ -19,12 +19,12 @@ export default class QueryResultChart extends React.Component<any, any> {
   }
 
   drawChart() {
-    let query = this.props.query;
-    let chart = this.props.chart;
-    let dom = ReactDOM.findDOMNode(this.refs.chart);
+    const query = this.props.query;
+    const chart = this.props.chart;
+    const dom = ReactDOM.findDOMNode(this.refs.chart);
     if (!query || !chart || !dom) return;
 
-    let params = {
+    const params = {
       type: chart.type,
       x: chart.xColumn,
       y: chart.yColumns,
@@ -79,17 +79,17 @@ export default class QueryResultChart extends React.Component<any, any> {
   }
 
   render() {
-    let query = this.props.query;
+    const query = this.props.query;
     if (!query.fields) return null;
 
-    let chart = this.props.chart;
+    const chart = this.props.chart;
     if (!chart) return null;
 
-    let options = ["line", "bar", "area", "pie"].map(value => {
+    const options = ["line", "bar", "area", "pie"].map(value => {
       return { value, label: value[0].toUpperCase() + value.slice(1) };
     });
-    let fieldOptions = query.fields.map(name => ({ value: name, label: name }));
-    let stackingOptions = ["disable", "enable", "percent"].map(o => ({
+    const fieldOptions = query.fields.map(name => ({ value: name, label: name }));
+    const stackingOptions = ["disable", "enable", "percent"].map(o => ({
       label: o,
       value: o
     }));

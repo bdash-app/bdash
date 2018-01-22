@@ -56,7 +56,7 @@ export default class TreasureData extends Base {
         return;
       }
 
-      let { fields, rows, err } = await this.wait();
+      const { fields, rows, err } = await this.wait();
       this.jobId = null;
 
       if (err) {
@@ -98,16 +98,16 @@ export default class TreasureData extends Base {
   }
 
   async fetchTableSummary({ name }) {
-    let table = cacheTableList.tables.find(t => t.name === name);
-    let fields = ["column", "type"];
-    let rows = JSON.parse(table.schema);
+    const table = cacheTableList.tables.find(t => t.name === name);
+    const fields = ["column", "type"];
+    const rows = JSON.parse(table.schema);
     return { name, defs: { fields, rows } };
   }
 
   async wait(): Promise<any> {
-    let sleep = interval =>
+    const sleep = interval =>
       new Promise(resolve => setTimeout(resolve, interval));
-    let showJob = () =>
+    const showJob = () =>
       new Promise((resolve, reject) => {
         this.client.showJob(this.jobId, (err, result) => {
           if (err) {
@@ -117,7 +117,7 @@ export default class TreasureData extends Base {
           }
         });
       }) as Promise<any>;
-    let jobResult = () =>
+    const jobResult = () =>
       new Promise((resolve, reject) => {
         this.client.jobResult(this.jobId, "json", (err, result) => {
           if (err) {
@@ -129,13 +129,13 @@ export default class TreasureData extends Base {
       }) as Promise<any>;
 
     while (true) {
-      let result = await showJob();
-      let status = result.status;
+      const result = await showJob();
+      const status = result.status;
 
       switch (status) {
         case "success": {
-          let rowsString = await jobResult();
-          let rows = rowsString
+          const rowsString = await jobResult();
+          const rows = rowsString
             .trim()
             .split("\n")
             .map(line => {
@@ -145,7 +145,7 @@ export default class TreasureData extends Base {
                   : JSON.stringify(v);
               });
             });
-          let fields = JSON.parse(result.hive_result_schema).map(f => f[0]);
+          const fields = JSON.parse(result.hive_result_schema).map(f => f[0]);
           return { fields, rows, status };
         }
         case "error": {
@@ -171,7 +171,7 @@ export default class TreasureData extends Base {
 
   _execQuery(query) {
     return new Promise((resolve, reject) => {
-      let method =
+      const method =
         this.config.queryType === "presto" ? "prestoQuery" : "hiveQuery";
       this.client[method](this.config.database, query, (err, result) => {
         if (err) {
