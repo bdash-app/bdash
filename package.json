@@ -5,12 +5,15 @@
   "private": true,
   "version": "1.2.1",
   "scripts": {
-    "test": "mocha 'test/**/*.test.ts'",
-    "lint": "eslint --ext '.js,.jsx,.ts,.tsx' .",
-    "build:sqlite3": "electron-rebuild -p -w sqlite3",
-    "watch": "webpack --watch",
     "start": "electron .",
-    "format": "prettier --write '**/*.{js,ts,tsx,css}'"
+    "watch": "webpack --watch",
+    "build:sqlite3": "electron-rebuild -p -w sqlite3",
+    "test": "mocha 'test/**/*.test.ts'",
+    "lint": "npm run lint:eslint && npm run lint:tsc && npm run lint:prettier",
+    "lint:eslint": "eslint --ext '.js,.jsx,.ts,.tsx' .",
+    "lint:tsc": "tsc --noEmit",
+    "lint:prettier": "prettier --list-different '**/*.{js,jsx,ts,tsx,css,json}'",
+    "format": "prettier --write '**/*.{js,jsx,ts,tsx,css,json}'"
   },
   "dependencies": {
     "@google-cloud/bigquery": "0.7.0",
