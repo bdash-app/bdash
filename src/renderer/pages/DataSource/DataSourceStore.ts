@@ -48,17 +48,11 @@ export default class DataSourceStore extends Store {
         return this.set("showForm", false).set("formValue", null);
       }
       case "createDataSource": {
-        return this.set("showForm", false).prepend(
-          "dataSources",
-          payload.dataSource
-        );
+        return this.set("showForm", false).prepend("dataSources", payload.dataSource);
       }
       case "updateDataSource": {
         const idx = this.findDataSourceIndex(payload.dataSource.id);
-        return this.set("showForm", false).set(
-          `dataSources.${idx}`,
-          payload.dataSource
-        );
+        return this.set("showForm", false).set(`dataSources.${idx}`, payload.dataSource);
       }
       case "deleteDataSource": {
         const idx = this.findDataSourceIndex(payload.id);

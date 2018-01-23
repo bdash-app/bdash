@@ -2,9 +2,7 @@ import { connection } from "./Connection";
 
 export default class Query {
   static getAll() {
-    return connection.all(
-      "select id, title from queries order by createdAt desc"
-    );
+    return connection.all("select id, title from queries order by createdAt desc");
   }
 
   static async find(id) {
@@ -22,11 +20,7 @@ export default class Query {
     if (query.fields && typeof query.fields[0] === "object") {
       query.fields = query.fields.map(f => f.name);
     }
-    if (
-      query.rows &&
-      typeof query.rows[0] === "object" &&
-      !Array.isArray(query.rows[0])
-    ) {
+    if (query.rows && typeof query.rows[0] === "object" && !Array.isArray(query.rows[0])) {
       query.rows = query.rows.map(r => Object.values(r));
     }
 

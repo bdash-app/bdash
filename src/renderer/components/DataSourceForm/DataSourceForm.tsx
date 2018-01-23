@@ -152,15 +152,13 @@ export default class DataSourceForm extends React.Component<any, any> {
 
   render() {
     const dataSource = this.props.dataSource || {};
-    const options = [{ key: "", label: "" }]
-      .concat(DataSource.list)
-      .map(({ key, label }) => {
-        return (
-          <option key={key} value={key}>
-            {label}
-          </option>
-        );
-      });
+    const options = [{ key: "", label: "" }].concat(DataSource.list).map(({ key, label }) => {
+      return (
+        <option key={key} value={key}>
+          {label}
+        </option>
+      );
+    });
 
     return (
       <ModalDialog className="DataSourceForm">
@@ -181,11 +179,7 @@ export default class DataSourceForm extends React.Component<any, any> {
             <tr className="is-required">
               <th>Type</th>
               <td>
-                <select
-                  value={this.state.selectedType || ""}
-                  name="type"
-                  onChange={this.handleChangeType.bind(this)}
-                >
+                <select value={this.state.selectedType || ""} name="type" onChange={this.handleChangeType.bind(this)}>
                   {options}
                 </select>
               </td>
@@ -196,29 +190,17 @@ export default class DataSourceForm extends React.Component<any, any> {
 
         <div className="DataSourceForm-bottom">
           <div className="DataSourceForm-connectionTest">
-            <Button onClick={() => this.handleConnectionTest()}>
-              Connection Test
-            </Button>
-            {this.state.connectionTestStatus ? (
-              <ProgressIcon status={this.state.connectionTestStatus} />
-            ) : null}
+            <Button onClick={() => this.handleConnectionTest()}>Connection Test</Button>
+            {this.state.connectionTestStatus ? <ProgressIcon status={this.state.connectionTestStatus} /> : null}
             {this.state.connectionTestMessage ? (
-              <div className="DataSourceForm-connectionTestMessage">
-                {this.state.connectionTestMessage}
-              </div>
+              <div className="DataSourceForm-connectionTestMessage">{this.state.connectionTestMessage}</div>
             ) : null}
           </div>
           <div className="DataSourceForm-buttons">
-            <Button
-              className="DataSourceForm-cancelBtn"
-              onClick={() => this.handleCancel()}
-            >
+            <Button className="DataSourceForm-cancelBtn" onClick={() => this.handleCancel()}>
               Cancel
             </Button>
-            <Button
-              className="DataSourceForm-saveBtn"
-              onClick={() => this.handleSave()}
-            >
+            <Button className="DataSourceForm-saveBtn" onClick={() => this.handleSave()}>
               Save
             </Button>
           </div>

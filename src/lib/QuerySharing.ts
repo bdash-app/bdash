@@ -6,10 +6,7 @@ import Chart from "./Chart";
 
 export default {
   async shareOnGist({ query, chart, setting }) {
-    const [tsv, svg] = await Promise.all([
-      getTableDataAsTsv(query),
-      getChartAsSvg(query, chart)
-    ]);
+    const [tsv, svg] = await Promise.all([getTableDataAsTsv(query), getChartAsSvg(query, chart)]);
 
     const description = query.title;
     const files = {

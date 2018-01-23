@@ -52,10 +52,7 @@ const QueryAction = {
   },
 
   async executeQuery({ line, query, dataSource }) {
-    const { query: queryBody, startLine } = Util.findQueryByLine(
-      query.body,
-      line
-    );
+    const { query: queryBody, startLine } = Util.findQueryByLine(query.body, line);
     const executor = DataSource.create(dataSource);
     const id = query.id;
     dispatch("updateQuery", { id, params: { status: "working", executor } });

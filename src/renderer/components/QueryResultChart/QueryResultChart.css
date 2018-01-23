@@ -29,16 +29,8 @@
   width: 14px;
 }
 
-.QueryResultChart
-  .has-value.Select--single
-  > .Select-control
-  .Select-value
-  .Select-value-label,
-.QueryResultChart
-  .has-value.is-pseudo-focused.Select--single
-  > .Select-control
-  .Select-value
-  .Select-value-label {
+.QueryResultChart .has-value.Select--single > .Select-control .Select-value .Select-value-label,
+.QueryResultChart .has-value.is-pseudo-focused.Select--single > .Select-control .Select-value .Select-value-label {
   color: #666;
 }
 

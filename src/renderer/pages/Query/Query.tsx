@@ -24,9 +24,7 @@ class Query extends React.Component<any, any> {
 
   handleExecute(query) {
     const line = this.state.editor.line;
-    const dataSource = this.state.dataSources.find(
-      ds => ds.id === query.dataSourceId
-    );
+    const dataSource = this.state.dataSources.find(ds => ds.id === query.dataSourceId);
 
     Action.executeQuery({ query, dataSource, line });
   }
@@ -54,9 +52,7 @@ class Query extends React.Component<any, any> {
   }
 
   renderMain() {
-    const query = this.state.queries.find(
-      query => query.id === this.state.selectedQueryId
-    );
+    const query = this.state.queries.find(query => query.id === this.state.selectedQueryId);
     if (!query) return <div className="page-Query-main" />;
 
     return (
@@ -65,9 +61,7 @@ class Query extends React.Component<any, any> {
           query={query}
           {...this.state}
           onChangeTitle={title => Action.updateQuery(query.id, { title })}
-          onChangeDataSource={dataSourceId =>
-            Action.updateQuery(query.id, { dataSourceId })
-          }
+          onChangeDataSource={dataSourceId => Action.updateQuery(query.id, { dataSourceId })}
         />
         <QueryEditor
           query={query}

@@ -15,10 +15,7 @@ export default class Editor extends React.Component<any, any> {
   textareaElement: HTMLTextAreaElement; // eslint-disable-line no-undef
 
   componentDidMount() {
-    this.codeMirror = CodeMirror.fromTextArea(
-      this.textareaElement,
-      this.props.options
-    );
+    this.codeMirror = CodeMirror.fromTextArea(this.textareaElement, this.props.options);
     this.codeMirror.on("change", this.handleValueChange.bind(this));
     this.codeMirror.on("cursorActivity", this.handleCursorChange.bind(this));
     this.codeMirror.setOption("extraKeys", {
@@ -37,9 +34,7 @@ export default class Editor extends React.Component<any, any> {
     this.currentValue = this.props.value || "";
     this.currentOptions = this.props.options || {};
     this.codeMirror.setValue(this.currentValue);
-    CodeMirror.Vim.defineAction("delLineLeft", cm =>
-      cm.execCommand("delLineLeft")
-    );
+    CodeMirror.Vim.defineAction("delLineLeft", cm => cm.execCommand("delLineLeft"));
     CodeMirror.Vim._mapCommand({
       keys: "<C-u>",
       type: "action",
@@ -56,17 +51,11 @@ export default class Editor extends React.Component<any, any> {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (
-      nextProps.value !== undefined &&
-      this.currentValue !== nextProps.value
-    ) {
+    if (nextProps.value !== undefined && this.currentValue !== nextProps.value) {
       this.codeMirror.setValue(nextProps.value);
     }
 
-    if (
-      typeof nextProps.options === "object" &&
-      !isEqual(nextProps.options, this.currentOptions)
-    ) {
+    if (typeof nextProps.options === "object" && !isEqual(nextProps.options, this.currentOptions)) {
       this.currentOptions = nextProps.options;
       for (const optionName in nextProps.options) {
         if (nextProps.options.hasOwnProperty(optionName)) {
@@ -95,16 +84,8 @@ export default class Editor extends React.Component<any, any> {
   render() {
     const height = this.props.height;
     return (
-      <div
-        className="Editor"
-        ref={this.props.rootRef}
-        style={height != null ? { height: `${height}px` } : {}}
-      >
-        <textarea
-          ref={node => (this.textareaElement = node)}
-          defaultValue=""
-          autoComplete="off"
-        />
+      <div className="Editor" ref={this.props.rootRef} style={height != null ? { height: `${height}px` } : {}}>
+        <textarea ref={node => (this.textareaElement = node)} defaultValue="" autoComplete="off" />
       </div>
     );
   }

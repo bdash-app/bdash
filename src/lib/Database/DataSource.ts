@@ -2,26 +2,20 @@ import { connection } from "./Connection";
 
 export default class DataSource {
   static async getAll() {
-    const sql =
-      "select id, name, type, config from data_sources order by createdAt desc";
+    const sql = "select id, name, type, config from data_sources order by createdAt desc";
     const rows = await connection.all(sql);
 
     return rows.map(convert);
   }
 
   static async find(id) {
-    const row = await connection.get(
-      "select * from data_sources where id = ?",
-      id
-    );
+    const row = await connection.get("select * from data_sources where id = ?", id);
 
     return convert(row);
   }
 
   static async count() {
-    const row = await connection.get(
-      "select count(*) as count from data_sources"
-    );
+    const row = await connection.get("select count(*) as count from data_sources");
 
     return row.count;
   }

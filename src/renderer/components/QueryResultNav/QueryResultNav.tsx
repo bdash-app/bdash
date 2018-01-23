@@ -53,10 +53,7 @@ export default class QueryResultNav extends React.Component<any, any> {
           <i className="fa fa-bar-chart" />
         </span>
         <div className="QueryResultNav-share">
-          <span
-            className="QueryResultNav-shareBtn"
-            onClick={() => this.setState({ openShareFlyout: true })}
-          >
+          <span className="QueryResultNav-shareBtn" onClick={() => this.setState({ openShareFlyout: true })}>
             <i className="fa fa-share-alt" />
           </span>
           <Flyout
@@ -65,18 +62,10 @@ export default class QueryResultNav extends React.Component<any, any> {
             onRequestClose={() => this.setState({ openShareFlyout: false })}
           >
             <ul>
-              <li onClick={() => this.handleClickCopyAsTsv()}>
-                Copy table as TSV
-              </li>
-              <li onClick={() => this.handleClickCopyAsCsv()}>
-                Copy table as CSV
-              </li>
-              <li onClick={() => this.handleClickCopyAsMarkdown()}>
-                Copy table as Markdown
-              </li>
-              <li onClick={() => this.handleClickShareOnGist()}>
-                Share on gist
-              </li>
+              <li onClick={() => this.handleClickCopyAsTsv()}>Copy table as TSV</li>
+              <li onClick={() => this.handleClickCopyAsCsv()}>Copy table as CSV</li>
+              <li onClick={() => this.handleClickCopyAsMarkdown()}>Copy table as Markdown</li>
+              <li onClick={() => this.handleClickShareOnGist()}>Share on gist</li>
             </ul>
           </Flyout>
         </div>

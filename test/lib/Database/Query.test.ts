@@ -15,10 +15,7 @@ suite("Database/Query", () => {
         (2, 0, 'title 2', datetime('now'), '2017-01-02 00:00:00')
     `);
     const rows = await Query.getAll();
-    assert.deepStrictEqual(rows, [
-      { id: 2, title: "title 2" },
-      { id: 1, title: "title 1" }
-    ]);
+    assert.deepStrictEqual(rows, [{ id: 2, title: "title 2" }, { id: 1, title: "title 1" }]);
   });
 
   test("find", async () => {

@@ -19,9 +19,7 @@ const DataSourceAction = {
   },
 
   async selectTable(dataSource, table) {
-    const tableSummary = await DataSource.create(dataSource).fetchTableSummary(
-      table
-    );
+    const tableSummary = await DataSource.create(dataSource).fetchTableSummary(table);
     dispatch("selectTable", {
       id: dataSource.id,
       selectedTable: table,

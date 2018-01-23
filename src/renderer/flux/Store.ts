@@ -47,11 +47,7 @@ export default class Store {
     let nextState: any = this.reduce(type, payload);
 
     if (nextState === undefined) {
-      throw new Error(
-        `${
-          this.constructor.name
-        }.reduce returns undefined, action type: ${type}`
-      );
+      throw new Error(`${this.constructor.name}.reduce returns undefined, action type: ${type}`);
     }
 
     if (nextState instanceof StateBuilder) {

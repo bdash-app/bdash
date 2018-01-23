@@ -13,9 +13,7 @@ class Setting extends React.Component<any, any> {
 
   renderGithubValidateTokenResult() {
     const { status, error } = this.state.githubValidateToken;
-    return status === null ? null : (
-      <ProgressIcon status={status} message={error} />
-    );
+    return status === null ? null : <ProgressIcon status={status} message={error} />;
   }
 
   render() {
@@ -44,9 +42,7 @@ class Setting extends React.Component<any, any> {
             <h2>Access Token (Required scope is only gist)</h2>
             <input
               type="text"
-              onChange={e =>
-                Action.update({ github: { token: e.target.value } })
-              }
+              onChange={e => Action.update({ github: { token: e.target.value } })}
               value={github.token || ""}
             />
           </div>
@@ -60,9 +56,7 @@ class Setting extends React.Component<any, any> {
             />
           </div>
           <div className="page-Setting-validateToken">
-            <Button onClick={() => Action.validateGithubToken(github)}>
-              Validate Token
-            </Button>
+            <Button onClick={() => Action.validateGithubToken(github)}>Validate Token</Button>
             {this.renderGithubValidateTokenResult()}
           </div>
         </div>

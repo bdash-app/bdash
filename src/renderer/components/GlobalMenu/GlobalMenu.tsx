@@ -14,11 +14,7 @@ export default class GlobalMenu extends React.Component<any, any> {
       });
 
       return (
-        <span
-          className={className}
-          onClick={() => this.handleClick(item.page)}
-          key={idx}
-        >
+        <span className={className} onClick={() => this.handleClick(item.page)} key={idx}>
           <i className={`fa fa-${item.icon}`} />
         </span>
       );

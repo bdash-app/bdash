@@ -106,8 +106,7 @@ const menu: Electron.MenuItemConstructorOptions[] = [
       },
       {
         label: "Toggle Developer Tools",
-        accelerator:
-          process.platform === "darwin" ? "Alt+Command+I" : "Ctrl+Shift+I",
+        accelerator: process.platform === "darwin" ? "Alt+Command+I" : "Ctrl+Shift+I",
         click: (item, focusedWindow: any) => {
           if (focusedWindow) {
             focusedWindow.toggleDevTools();

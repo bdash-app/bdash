@@ -105,8 +105,7 @@ export default class TreasureData extends Base {
   }
 
   async wait(): Promise<any> {
-    const sleep = interval =>
-      new Promise(resolve => setTimeout(resolve, interval));
+    const sleep = interval => new Promise(resolve => setTimeout(resolve, interval));
     const showJob = () =>
       new Promise((resolve, reject) => {
         this.client.showJob(this.jobId, (err, result) => {
@@ -141,9 +140,7 @@ export default class TreasureData extends Base {
             .split("\n")
             .map(line => {
               return JSON.parse(line).map(v => {
-                return v === null || typeof v !== "object"
-                  ? v
-                  : JSON.stringify(v);
+                return v === null || typeof v !== "object" ? v : JSON.stringify(v);
               });
             });
           const fields = JSON.parse(result.hive_result_schema).map(f => f[0]);
@@ -172,8 +169,7 @@ export default class TreasureData extends Base {
 
   _execQuery(query) {
     return new Promise((resolve, reject) => {
-      const method =
-        this.config.queryType === "presto" ? "prestoQuery" : "hiveQuery";
+      const method = this.config.queryType === "presto" ? "prestoQuery" : "hiveQuery";
       this.client[method](this.config.database, query, (err, result) => {
         if (err) {
           reject(err);

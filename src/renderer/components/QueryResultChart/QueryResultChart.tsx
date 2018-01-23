@@ -113,25 +113,12 @@ export default class QueryResultChart extends React.Component<any, any> {
             />
           </div>
           <div className="QueryResultChart-item">
-            <div className="QueryResultChart-label">
-              {chart.type === "pie" ? "Label Column" : "X Column"}
-            </div>
-            <Select
-              options={fieldOptions}
-              value={chart.xColumn}
-              onChange={o => this.handleChangeX(o)}
-            />
+            <div className="QueryResultChart-label">{chart.type === "pie" ? "Label Column" : "X Column"}</div>
+            <Select options={fieldOptions} value={chart.xColumn} onChange={o => this.handleChangeX(o)} />
           </div>
           <div className="QueryResultChart-item">
-            <div className="QueryResultChart-label">
-              {chart.type === "pie" ? "Value Column" : "Y Column"}
-            </div>
-            <Select
-              multi={true}
-              options={fieldOptions}
-              value={chart.yColumns}
-              onChange={o => this.handleChangeY(o)}
-            />
+            <div className="QueryResultChart-label">{chart.type === "pie" ? "Value Column" : "Y Column"}</div>
+            <Select multi={true} options={fieldOptions} value={chart.yColumns} onChange={o => this.handleChangeY(o)} />
           </div>
           <div className="QueryResultChart-item" hidden={chart.type !== "bar"}>
             <div className="QueryResultChart-label">Stacking</div>
@@ -144,11 +131,7 @@ export default class QueryResultChart extends React.Component<any, any> {
           </div>
           <div className="QueryResultChart-item" hidden={chart.type === "pie"}>
             <div className="QueryResultChart-label">Group By</div>
-            <Select
-              options={fieldOptions}
-              value={chart.groupColumn}
-              onChange={o => this.handleChangeGroup(o)}
-            />
+            <Select options={fieldOptions} value={chart.groupColumn} onChange={o => this.handleChangeGroup(o)} />
           </div>
         </div>
         <div className="QueryResultChart-chart">

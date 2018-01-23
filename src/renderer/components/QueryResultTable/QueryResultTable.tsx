@@ -15,9 +15,7 @@ export default class QueryResultTable extends React.Component<any, any> {
 
   render() {
     const query = this.props.query;
-    const heads = query.fields.map((field, i) => (
-      <th key={`head-${i}`}>{field}</th>
-    ));
+    const heads = query.fields.map((field, i) => <th key={`head-${i}`}>{field}</th>);
     const rows = query.rows.slice(0, MAX_DISPLAY_ROWS_COUNT).map((row, i) => {
       const cols = row.map((value, j) => {
         const val = value === null ? "NULL" : value.toString();
@@ -38,10 +36,7 @@ export default class QueryResultTable extends React.Component<any, any> {
           </thead>
           <tbody>{rows}</tbody>
         </table>
-        <div
-          className="QueryResultTable-more"
-          hidden={MAX_DISPLAY_ROWS_COUNT >= query.rows.length}
-        >
+        <div className="QueryResultTable-more" hidden={MAX_DISPLAY_ROWS_COUNT >= query.rows.length}>
           And more rows ...
         </div>
       </div>

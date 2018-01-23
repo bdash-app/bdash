@@ -52,10 +52,7 @@ export default class Chart {
   generateChartData() {
     if (!this.params.y) return [];
 
-    if (
-      !this.params.groupBy ||
-      !this.params.fields.includes(this.params.groupBy)
-    ) {
+    if (!this.params.groupBy || !this.params.fields.includes(this.params.groupBy)) {
       return this.params.y.map(y => {
         return {
           x: this.dataByField(this.params.x),
@@ -66,9 +63,7 @@ export default class Chart {
     }
 
     const groupValues = _.uniq(this.dataByField(this.params.groupBy)).sort();
-    const idx = this.params.fields.findIndex(
-      field => field === this.params.groupBy
-    );
+    const idx = this.params.fields.findIndex(field => field === this.params.groupBy);
     const x = _.groupBy(this.params.rows, row => row[idx]);
 
     return _.flatMap(this.params.y, y => {
@@ -78,9 +73,7 @@ export default class Chart {
         return {
           name: `${y} (${g})`,
           x: this.valuesByField(x[g], this.params.x),
-          y: this.params.rows
-            .filter(row => row[groupByIdx] === g)
-            .map(row => row[yIdx])
+          y: this.params.rows.filter(row => row[groupByIdx] === g).map(row => row[yIdx])
         };
       });
     });

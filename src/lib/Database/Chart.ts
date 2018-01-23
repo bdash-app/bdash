@@ -14,10 +14,7 @@ export default class Chart {
   }
 
   static async findOrCreateByQueryId({ queryId, type = "line" }) {
-    const chart = await connection.get(
-      "select * from charts where queryId = ?",
-      queryId
-    );
+    const chart = await connection.get("select * from charts where queryId = ?", queryId);
 
     return chart ? convert(chart) : Chart.create({ queryId, type });
   }
@@ -39,9 +36,7 @@ export default class Chart {
 
     Object.keys(params).forEach(field => {
       fields.push(field);
-      values.push(
-        field === "yColumns" ? JSON.stringify(params[field]) : params[field]
-      );
+      values.push(field === "yColumns" ? JSON.stringify(params[field]) : params[field]);
     });
     values.push(id);
 

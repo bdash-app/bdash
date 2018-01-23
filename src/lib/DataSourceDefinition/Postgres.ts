@@ -84,9 +84,7 @@ export default class Postgres extends Base {
     const pid = this.currentClient && this.currentClient.processID;
     if (!pid) return Promise.resolve();
 
-    return new Postgres(this.config)._execute(
-      `select pg_cancel_backend(${pid})`
-    );
+    return new Postgres(this.config)._execute(`select pg_cancel_backend(${pid})`);
   }
 
   async connectionTest() {
@@ -146,20 +144,17 @@ export default class Postgres extends Base {
           return reject(err);
         }
 
-        this.currentClient.query(
-          { text: query, values: args, rowMode: "array" },
-          (err, result) => {
-            this.currentClient.end();
-            this.currentClient = null;
+        this.currentClient.query({ text: query, values: args, rowMode: "array" }, (err, result) => {
+          this.currentClient.end();
+          this.currentClient = null;
 
-            if (err) {
-              reject(err);
-            } else {
-              const { rows, fields } = result;
-              resolve({ fields: fields.map(f => f.name), rows });
-            }
+          if (err) {
+            reject(err);
+          } else {
+            const { rows, fields } = result;
+            resolve({ fields: fields.map(f => f.name), rows });
           }
-        );
+        });
       });
     });
   }
@@ -169,9 +164,7 @@ export default class Postgres extends Base {
 
     let message = err.message;
     if (err.position) {
-      const line =
-        (query.substring(0, err.position).match(/\n/g) || []).length +
-        startLine;
+      const line = (query.substring(0, err.position).match(/\n/g) || []).length + startLine;
       message += ` (line: ${line})`;
     }
 

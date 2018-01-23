@@ -8,11 +8,7 @@
   white-space: nowrap;
   vertical-align: middle;
   cursor: pointer;
-  background-image: linear-gradient(
-    transparent,
-    rgba(0, 0, 0, 0.02),
-    rgba(0, 0, 0, 0.06)
-  );
+  background-image: linear-gradient(transparent, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.06));
   border: 1px solid #ccc;
   border-radius: 4px;
   color: #333;
@@ -22,9 +18,5 @@
 }
 
 .Button:hover {
-  background-image: linear-gradient(
-    transparent,
-    rgba(0, 0, 0, 0.05),
-    rgba(0, 0, 0, 0.1)
-  );
+  background-image: linear-gradient(transparent, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.1));
 }

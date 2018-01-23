@@ -44,19 +44,13 @@ export default class QueryEditor extends React.Component<any, any> {
   renderButton() {
     if (this.props.query.status === "working") {
       return (
-        <Button
-          className="QueryEditor-cancelBtn"
-          onClick={() => this.props.onCancel()}
-        >
+        <Button className="QueryEditor-cancelBtn" onClick={() => this.props.onCancel()}>
           Cancel
         </Button>
       );
     } else {
       return (
-        <Button
-          className="QueryEditor-executeBtn"
-          onClick={() => this.props.onExecute()}
-        >
+        <Button className="QueryEditor-executeBtn" onClick={() => this.props.onExecute()}>
           Execute
         </Button>
       );
@@ -126,10 +120,7 @@ export default class QueryEditor extends React.Component<any, any> {
         <div className="QueryEditor-navbar">
           {this.renderButton()}
           {this.renderStatus()}
-          <span
-            onMouseDown={this.handleResizeStart.bind(this)}
-            className="QueryEditor-resize"
-          >
+          <span onMouseDown={this.handleResizeStart.bind(this)} className="QueryEditor-resize">
             <i className="fa fa-arrows-v" />
           </span>
         </div>

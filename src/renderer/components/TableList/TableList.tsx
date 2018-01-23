@@ -20,18 +20,11 @@ export default class TableList extends React.Component<any, any> {
     }
     const className = classNames({
       "is-view": table.type.toLowerCase() === "view",
-      "is-selected":
-        selectedTable &&
-        selectedTable.name === table.name &&
-        selectedTable.schema === table.schema
+      "is-selected": selectedTable && selectedTable.name === table.name && selectedTable.schema === table.schema
     });
 
     return (
-      <li
-        className={className}
-        key={key}
-        onClick={() => this.handleClickTable(table)}
-      >
+      <li className={className} key={key} onClick={() => this.handleClickTable(table)}>
         <i className="fa fa-table" /> {`${schema}${table.name}`}
       </li>
     );
@@ -48,11 +41,7 @@ export default class TableList extends React.Component<any, any> {
     return (
       <div className="TableList">
         <div className="TableList-filter">
-          <input
-            type="search"
-            value={dataSource.tableFilter}
-            onChange={e => this.handleChangeTableFilter(e)}
-          />
+          <input type="search" value={dataSource.tableFilter} onChange={e => this.handleChangeTableFilter(e)} />
         </div>
         <ul>{items}</ul>
       </div>

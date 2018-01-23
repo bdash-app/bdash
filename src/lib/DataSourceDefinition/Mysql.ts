@@ -77,22 +77,19 @@ export default class Mysql extends Base {
           return reject(err);
         }
 
-        this.currentConnection.query(
-          { sql: query, values: args, rowsAsArray: true },
-          (err, rows, fields) => {
-            this.currentConnection.close();
-            this.currentConnection = null;
+        this.currentConnection.query({ sql: query, values: args, rowsAsArray: true }, (err, rows, fields) => {
+          this.currentConnection.close();
+          this.currentConnection = null;
 
-            if (err) {
-              reject(err);
-            } else if (fields && rows) {
-              resolve({ fields: fields.map(f => f.name), rows });
-            } else {
-              // cancel query does not have result
-              resolve();
-            }
+          if (err) {
+            reject(err);
+          } else if (fields && rows) {
+            resolve({ fields: fields.map(f => f.name), rows });
+          } else {
+            // cancel query does not have result
+            resolve();
           }
-        );
+        });
       });
     });
   }

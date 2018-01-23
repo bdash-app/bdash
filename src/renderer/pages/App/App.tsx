@@ -42,10 +42,7 @@ class App extends React.Component<any, any> {
     return (
       <div className="page-app">
         <div className="page-app-menu">
-          <GlobalMenu
-            selectedPage={this.state.selectedPage}
-            onSelect={Action.selectPage}
-          />
+          <GlobalMenu selectedPage={this.state.selectedPage} onSelect={Action.selectPage} />
         </div>
         <div className="page-app-main">
           <Page />

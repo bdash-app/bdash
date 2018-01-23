@@ -14,9 +14,7 @@ suite("DataSourceDefinition/Postgres", () => {
   };
 
   test("execute", async () => {
-    const result = await new Postgres(config).execute(
-      "select id, text from test order by id"
-    );
+    const result = await new Postgres(config).execute("select id, text from test order by id");
     assert.deepStrictEqual(result, {
       fields: ["id", "text"],
       rows: [["1", "foo"], ["2", "bar"], ["3", "baz"]]

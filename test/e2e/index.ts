@@ -5,10 +5,7 @@ import { Application } from "spectron";
 import initializeMysql from "../fixtures/mysql/initialize";
 
 const TEST_ROOT_DIR = path.join(__dirname, "../../tmp/test");
-const TEST_APP_PATH = path.join(
-  TEST_ROOT_DIR,
-  "Bdash-darwin-x64/Bdash.app/Contents/MacOS/Bdash"
-);
+const TEST_APP_PATH = path.join(TEST_ROOT_DIR, "Bdash-darwin-x64/Bdash.app/Contents/MacOS/Bdash");
 const BDASH_ROOT = path.join(TEST_ROOT_DIR, ".bdash");
 let app;
 
@@ -19,9 +16,7 @@ function wait(ms) {
 
 function setValueToEditor(text) {
   app.client.execute(text => {
-    document
-      .querySelector(".QueryEditor .CodeMirror")
-      .CodeMirror.setValue(text);
+    document.querySelector(".QueryEditor .CodeMirror").CodeMirror.setValue(text);
   }, text);
 }
 
@@ -41,42 +36,24 @@ suite("e2e test", function() {
   });
 
   test("Create a data source", async () => {
-    await app.client.setValue(
-      '.DataSourceForm input[name="name"]',
-      "Test Data Source"
-    );
-    await app.client.selectByValue(
-      '.DataSourceForm select[name="type"]',
-      "mysql"
-    );
-    await app.client.setValue(
-      '.DataSourceForm input[name="host"]',
-      "127.0.0.1"
-    );
+    await app.client.setValue('.DataSourceForm input[name="name"]', "Test Data Source");
+    await app.client.selectByValue('.DataSourceForm select[name="type"]', "mysql");
+    await app.client.setValue('.DataSourceForm input[name="host"]', "127.0.0.1");
     await app.client.setValue('.DataSourceForm input[name="user"]', "root");
-    await app.client.setValue(
-      '.DataSourceForm input[name="database"]',
-      "bdash_test"
-    );
+    await app.client.setValue('.DataSourceForm input[name="database"]', "bdash_test");
     await app.client.click(".DataSourceForm-saveBtn");
 
-    const title = await app.client.getText(
-      ".DataSourceList-list li:first-child"
-    );
+    const title = await app.client.getText(".DataSourceList-list li:first-child");
     assert.strictEqual(title, "Test Data Source");
   });
 
   test("Create a query", async () => {
     await app.client.click(".GlobalMenu-query");
-    const selectedQueryMenu = await app.client.isExisting(
-      ".GlobalMenu-query.is-selected"
-    );
+    const selectedQueryMenu = await app.client.isExisting(".GlobalMenu-query.is-selected");
     assert.ok(selectedQueryMenu);
 
     await app.client.click(".QueryList-new i");
-    const queryTitle = await app.client.getText(
-      ".QueryList-list li:first-child"
-    );
+    const queryTitle = await app.client.getText(".QueryList-list li:first-child");
     assert.strictEqual(queryTitle, "New Query");
 
     setValueToEditor("select * from test");
