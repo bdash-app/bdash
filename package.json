@@ -53,7 +53,7 @@
     "@types/react-dom": "16.0.3",
     "@types/react-select": "1.1.0",
     "css-loader": "0.28.8",
-    "electron": "1.7.10",
+    "electron": "1.7.11",
     "electron-packager": "10.1.1",
     "electron-rebuild": "1.7.3",
     "electron-winstaller": "2.6.3",
