@@ -2,23 +2,15 @@
 
 set -ex
 export NODE_ENV=production
-export npm_config_target=1.7.10
-export npm_config_arch=x64
-export npm_config_target_arch=x64
-export npm_config_target_platform=win32
-export npm_config_disturl=https://atom.io/download/electron
-export npm_config_runtime=electron
-export npm_config_build_from_source=true
-export npm_config_msvs_version=2015
 
 BUILD_DIR=tmp/build
 
 rm -rf $BUILD_DIR out
 mkdir -p $BUILD_DIR
 DIST_DIR=./tmp/build/dist ./node_modules/.bin/webpack
-cp -a html db package.json package-lock.json index.js $BUILD_DIR
+cp -a html db package.json yarn.lock .yarnrc index.js $BUILD_DIR
 cd $BUILD_DIR
-npm install
+yarn
 cd -
 
 ./node_modules/.bin/electron-packager $BUILD_DIR Bdash \

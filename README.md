@@ -51,7 +51,7 @@ You can start the application with following commands.
 
 ```
 $ cd bdash
-$ npm install
+$ yarn
 $ npm run build:sqlite3
 
 # Run following commands with different shell processes.

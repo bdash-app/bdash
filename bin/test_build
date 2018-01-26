@@ -3,9 +3,6 @@
 set -ex
 
 export NODE_ENV=production
-export npm_config_target=1.7.10
-export npm_config_disturl=https://atom.io/download/electron
-export npm_config_runtime=electron
 
 ROOT_DIR=$(cd $(dirname $0)/.. && pwd)
 TEST_DIR=tmp/test
@@ -14,13 +11,13 @@ TEST_SRC_DIR=tmp/test/src
 rm -rf $TEST_DIR
 mkdir -p $TEST_SRC_DIR
 DIST_DIR=./tmp/test/src/dist ./node_modules/.bin/webpack
-cp -a html db package.json package-lock.json index.js $TEST_SRC_DIR
+cp -a html db package.json yarn.lock .yarnrc index.js $TEST_SRC_DIR
 cat <<EOF > $TEST_SRC_DIR/.env
 BDASH_ENV=test
 BDASH_ROOT=$ROOT_DIR/tmp/test/.bdash
 EOF
 cd $TEST_SRC_DIR
-npm install
+yarn
 cd -
 
 ./node_modules/.bin/electron-packager $TEST_SRC_DIR Bdash \
