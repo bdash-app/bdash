@@ -57,7 +57,7 @@
     "electron-packager": "10.1.1",
     "electron-rebuild": "1.7.3",
     "electron-winstaller": "2.6.3",
-    "eslint": "3.11.0",
+    "eslint": "4.16.0",
     "eslint-config-prettier": "2.9.0",
     "eslint-plugin-react": "7.5.1",
     "execa": "0.9.0",
