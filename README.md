@@ -52,7 +52,6 @@ You can start the application with following commands.
 ```
 $ cd bdash
 $ yarn
-$ npm run build:sqlite3
 
 # Run following commands with different shell processes.
 $ npm run watch

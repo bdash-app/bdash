@@ -7,7 +7,6 @@
   "scripts": {
     "start": "electron .",
     "watch": "webpack --watch",
-    "build:sqlite3": "electron-rebuild -p -w sqlite3",
     "test": "electron-mocha 'test/**/*.test.ts'",
     "lint": "npm run lint:eslint && npm run lint:tsc && npm run lint:prettier",
     "lint:eslint": "eslint --ext '.js,.jsx,.ts,.tsx' .",
