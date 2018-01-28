@@ -1,5 +1,5 @@
 sudo: required
-dist: trusty
+dist: xenial
 
 language: node_js
 node_js:
@@ -11,11 +11,18 @@ cache:
   directories:
     - node_modules
     - $HOME/.electron
-    - .eslintcache
     - $HOME/.cache/electron-builder
 
 install:
   - yarn install --force
+  - export DISPLAY=':99.0'
+  - Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+
+# https://docs.travis-ci.com/user/gui-and-headless-browsers/#Using-xvfb-to-Run-Tests-That-Require-a-GUI
+before_script:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3
 
 script:
   - yarn lint
