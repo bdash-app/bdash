@@ -1,0 +1,22 @@
+sudo: required
+dist: trusty
+
+language: node_js
+node_js:
+  - "8.9.0"
+
+cache:
+  yarn: true
+  timeout: 600
+  directories:
+    - node_modules
+    - $HOME/.electron
+    - .eslintcache
+    - $HOME/.cache/electron-builder
+
+install:
+  - yarn install --force
+
+script:
+  - yarn lint
+  - yarn test
