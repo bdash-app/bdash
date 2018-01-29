@@ -20,16 +20,16 @@ https://gist.github.com/hokaccha/e128e1c3a68527ebf2c50d5e95a089b1
 
 ### Multiple data sources support
 
-- [x] MySQL
-- [x] PostgreSQL (Redshift)
-- [x] BigQuery
-- [ ] Amazon Athena
-- [x] Treasure Data
-- [ ] Hive
-- [ ] Impala
-- [ ] Presto
-- [ ] Microsoft SQL Server
-- [ ] And more!
+* [x] MySQL
+* [x] PostgreSQL (Redshift)
+* [x] BigQuery
+* [ ] Amazon Athena
+* [x] Treasure Data
+* [ ] Hive
+* [ ] Impala
+* [ ] Presto
+* [ ] Microsoft SQL Server
+* [ ] And more!
 
 ## Installation
 
@@ -41,9 +41,9 @@ Automatic update is not implemented yet. Download and override from [GitHub rele
 
 ## Support platform
 
-- [x] macOS
-- [x] Windows
-- [ ] Linux
+* [x] macOS
+* [x] Windows
+* [ ] Linux
 
 ## Development
 
@@ -54,8 +54,8 @@ $ cd bdash
 $ yarn
 
 # Run following commands with different shell processes.
-$ npm run watch
-$ npm start
+$ yarn watch
+$ yarn start
 ```
 
 After changing the code, you can reload with `⌘+R` to apply the change.
