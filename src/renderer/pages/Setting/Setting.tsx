@@ -17,7 +17,7 @@ class Setting extends React.Component<any, any> {
   }
 
   render() {
-    const keyBindOptions = ["default", "vim"].map(v => ({ value: v, label: v }));
+    const keyBindOptions: any[] = ["default", "vim"].map(v => ({ value: v, label: v }));
     const setting = this.state.setting;
     const github = setting.github || {};
 

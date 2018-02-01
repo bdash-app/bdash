@@ -152,7 +152,8 @@ export default class DataSourceForm extends React.Component<any, any> {
 
   render() {
     const dataSource = this.props.dataSource || {};
-    const options = [{ key: "", label: "" }].concat(DataSource.list).map(({ key, label }) => {
+    const list: any[] = DataSource.list;
+    const options = [{ key: "", label: "" }].concat(list).map(({ key, label }) => {
       return (
         <option key={key} value={key}>
           {label}

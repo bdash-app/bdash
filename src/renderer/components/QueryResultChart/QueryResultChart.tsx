@@ -85,14 +85,14 @@ export default class QueryResultChart extends React.Component<any, any> {
     const chart = this.props.chart;
     if (!chart) return null;
 
-    const options = ["line", "bar", "area", "pie"].map(value => {
+    const options: any[] = ["line", "bar", "area", "pie"].map(value => {
       return { value, label: value[0].toUpperCase() + value.slice(1) };
     });
     const fieldOptions = query.fields.map(name => ({
       value: name,
       label: name
     }));
-    const stackingOptions = ["disable", "enable", "percent"].map(o => ({
+    const stackingOptions: any[] = ["disable", "enable", "percent"].map(o => ({
       label: o,
       value: o
     }));
