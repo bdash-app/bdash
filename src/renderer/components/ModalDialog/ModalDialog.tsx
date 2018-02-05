@@ -1,5 +1,5 @@
-import * as React from "react";
-import * as Modal from "react-modal";
+import React from "react";
+import Modal from "react-modal";
 
 export default class ModalDialog extends React.Component<any, any> {
   render() {

@@ -1,6 +1,6 @@
-import * as fs from "fs";
-import * as yaml from "js-yaml";
-import * as _ from "lodash";
+import fs from "fs";
+import yaml from "js-yaml";
+import _ from "lodash";
 
 export default class Setting {
   static getDefault() {

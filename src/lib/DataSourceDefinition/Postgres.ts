@@ -1,4 +1,4 @@
-import * as pg from "pg";
+import pg from "pg";
 import Base from "./Base";
 import Util from "../Util";
 import { zipObject } from "lodash";

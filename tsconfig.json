@@ -3,7 +3,8 @@
     "module": "commonjs",
     "target": "es2017",
     "jsx": "react",
-    "sourceMap": true
+    "sourceMap": true,
+    "esModuleInterop": true
   },
   "include": ["src/**/*"]
 }

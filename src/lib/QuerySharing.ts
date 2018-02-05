@@ -1,6 +1,6 @@
-import * as electron from "electron";
-import * as markdownTable from "markdown-table";
-import * as csvStringify from "csv-stringify";
+import electron from "electron";
+import markdownTable from "markdown-table";
+import csvStringify from "csv-stringify";
 import GitHubApiClient from "./GitHubApiClient";
 import Chart from "./Chart";
 

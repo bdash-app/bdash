@@ -1,6 +1,6 @@
-import * as React from "react";
+import React from "react";
 import Flyout from "react-micro-flyout";
-import * as classNames from "classnames";
+import classNames from "classnames";
 
 export default class QueryResultNav extends React.Component<any, any> {
   constructor(...args) {

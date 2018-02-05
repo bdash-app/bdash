@@ -1,4 +1,4 @@
-import * as assert from "assert";
+import assert from "assert";
 import stripHeredoc from "../../../src/lib/Util/stripHeredoc";
 
 suite("Util/stripHeredoc", () => {

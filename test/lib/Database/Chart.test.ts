@@ -1,4 +1,4 @@
-import * as assert from "assert";
+import assert from "assert";
 import DatabaseHelper from "../../helpers/DatabaseHelper";
 import Chart from "../../../src/lib/Database/Chart";
 import { connection } from "../../../src/lib/Database/Connection";

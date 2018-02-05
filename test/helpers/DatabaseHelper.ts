@@ -1,5 +1,5 @@
 import { connection } from "../../src/lib/Database/Connection";
-import * as fs from "fs";
+import fs from "fs";
 
 export default class DatabaseHelper {
   static initialize() {

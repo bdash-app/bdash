@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import Container from "../../flux/Container";
 import LoadingIcon from "../../components/LoadingIcon";
 import GlobalMenu from "../../components/GlobalMenu";

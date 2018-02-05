@@ -1,4 +1,4 @@
-import * as assert from "assert";
+import assert from "assert";
 import initialize from "../../fixtures/postgres/initialize";
 import Postgres from "../../../src/lib/DataSourceDefinition/Postgres";
 

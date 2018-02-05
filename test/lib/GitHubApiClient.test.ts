@@ -1,4 +1,4 @@
-import * as assert from "assert";
+import assert from "assert";
 import GitHubApiClient from "../../src/lib/GitHubApiClient";
 
 suite("GitHubApiClient", () => {

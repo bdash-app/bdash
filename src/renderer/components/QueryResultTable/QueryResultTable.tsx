@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 
 const MAX_DISPLAY_ROWS_COUNT = 1000;
 

@@ -1,4 +1,4 @@
-import * as fs from "fs";
+import fs from "fs";
 import { ensureDirSync } from "fs-extra";
 import Database from "../../../lib/Database";
 import { setting } from "../../../lib/Setting";

@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import ModalDialog from "../ModalDialog";
 import Button from "../Button";
 import DataSource from "../../../lib/DataSource";

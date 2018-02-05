@@ -1,6 +1,6 @@
-import * as assert from "assert";
-import * as path from "path";
-import * as fse from "fs-extra";
+import assert from "assert";
+import path from "path";
+import fse from "fs-extra";
 import { Application } from "spectron";
 import initializeMysql from "../fixtures/mysql/initialize";
 

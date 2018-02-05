@@ -1,4 +1,4 @@
-import * as mysql from "mysql2";
+import mysql from "mysql2";
 import Base from "./Base";
 import Util from "../Util";
 import { zipObject } from "lodash";

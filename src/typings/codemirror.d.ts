@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars, no-undef */
-import * as CodeMirror from "codemirror";
+import CodeMirror from "codemirror";
 
 declare module "codemirror" {
   namespace Vim {

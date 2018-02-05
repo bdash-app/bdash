@@ -1,4 +1,4 @@
-import * as Plotly from "plotly.js/dist/plotly.js";
+import Plotly from "plotly.js/dist/plotly.js";
 import _ from "lodash";
 
 export default class Chart {

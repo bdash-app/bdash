@@ -1,4 +1,4 @@
-import * as bigquery from "@google-cloud/bigquery";
+import bigquery from "@google-cloud/bigquery";
 import Base from "./Base";
 import { flatten } from "lodash";
 

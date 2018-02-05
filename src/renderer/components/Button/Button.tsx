@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 
 export default class Button extends React.Component<any, any> {
   handleClick(e) {

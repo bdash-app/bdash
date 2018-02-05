@@ -1,6 +1,6 @@
-import * as electron from "electron";
-import * as path from "path";
-import * as dotenv from "dotenv";
+import electron from "electron";
+import path from "path";
+import dotenv from "dotenv";
 
 const appRoot = path.resolve(__dirname, "..");
 dotenv.load({ path: path.join(appRoot, ".env") });

@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import QueryResultNav from "../QueryResultNav";
 import QueryResultTable from "../QueryResultTable";
 import QueryResultChart from "../QueryResultChart";

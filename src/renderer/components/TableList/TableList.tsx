@@ -1,5 +1,5 @@
-import * as React from "react";
-import * as classNames from "classnames";
+import React from "react";
+import classNames from "classnames";
 
 export default class TableList extends React.Component<any, any> {
   handleClickTable(table) {

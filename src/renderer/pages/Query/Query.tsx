@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import QuerySharing from "../../../lib/QuerySharing";
 import { store } from "./QueryStore";
 import Action from "./QueryAction";

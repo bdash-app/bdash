@@ -1,4 +1,4 @@
-import * as TD from "td";
+import TD from "td";
 import Base from "./Base";
 
 const WAIT_INTERVAL = 2000;

@@ -1,4 +1,4 @@
-import * as immup from "immup";
+import immup from "immup";
 import { EventEmitter } from "events";
 
 export default class Store {

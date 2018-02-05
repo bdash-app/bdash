@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { store } from "./DataSourceStore";
 import Action from "./DataSourceAction";
 import Container from "../../flux/Container";

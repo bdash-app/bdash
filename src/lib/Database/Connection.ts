@@ -1,4 +1,4 @@
-import * as sqlite3 from "sqlite3";
+import sqlite3 from "sqlite3";
 
 export default class Connection {
   _db: any; // eslint-disable-line no-undef

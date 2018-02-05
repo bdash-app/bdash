@@ -1,4 +1,4 @@
-import * as electron from "electron";
+import electron from "electron";
 import menu from "./menu";
 
 const app = electron.app;

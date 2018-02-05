@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import LoadingIcon from "../LoadingIcon";
 
 export default class ProgressIcon extends React.Component<any, any> {
