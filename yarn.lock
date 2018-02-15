@@ -2321,7 +2321,7 @@ event-emitter@~0.3.5:
     d "1"
     es5-ext "~0.10.14"
 
-events@^1.0.0, events@^1.0.2, events@^1.1.0:
+events@^1.0.0, events@^1.0.2:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/events/-/events-1.1.1.tgz#9ebdb7635ad099c70dcc4c2a1f5004288e8bd924"
 
@@ -5891,12 +5891,6 @@ react-input-autosize@^2.1.2:
   resolved "https://registry.yarnpkg.com/react-input-autosize/-/react-input-autosize-2.2.1.tgz#ec428fa15b1592994fb5f9aa15bb1eb6baf420f8"
   dependencies:
     prop-types "^15.5.8"
-
-react-micro-container@^1.0.1:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/react-micro-container/-/react-micro-container-1.2.0.tgz#3853265d722a3b0add1c9794056f101f656878d6"
-  dependencies:
-    events "^1.1.0"
 
 react-micro-flyout@1.0.1:
   version "1.0.1"
