@@ -6,9 +6,9 @@ const WAIT_INTERVAL = 2000;
 let cacheTableList;
 
 export default class TreasureData extends Base {
-  jobId: any; // eslint-disable-line no-undef
-  _cancel: any; // eslint-disable-line no-undef
-  _client: any; // eslint-disable-line no-undef
+  jobId: any;
+  _cancel: any;
+  _client: any;
 
   static get key() {
     return "treasuredata";

@@ -13,8 +13,8 @@ export default class Setting {
     };
   }
 
-  filePath: string; // eslint-disable-line no-undef
-  setting: any; // eslint-disable-line no-undef
+  filePath: string;
+  setting: any;
 
   initialize(filePath) {
     this.filePath = filePath;

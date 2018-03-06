@@ -4,7 +4,7 @@ import Util from "../Util";
 import { zipObject } from "lodash";
 
 export default class Mysql extends Base {
-  currentConnection: any; // eslint-disable-line no-undef
+  currentConnection: any;
 
   static get key() {
     return "mysql";

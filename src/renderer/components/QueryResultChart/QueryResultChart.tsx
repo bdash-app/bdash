@@ -3,7 +3,7 @@ import Select from "react-select";
 import Chart from "../../../lib/Chart";
 
 export default class QueryResultChart extends React.Component<any, any> {
-  chartElement: HTMLDivElement; // eslint-disable-line no-undef
+  chartElement: HTMLDivElement;
 
   shouldComponentUpdate(nextProps) {
     const query = nextProps.query;

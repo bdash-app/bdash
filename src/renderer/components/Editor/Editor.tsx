@@ -9,10 +9,10 @@ import "codemirror/addon/dialog/dialog.css";
 import { isEqual } from "lodash";
 
 export default class Editor extends React.Component<any, any> {
-  codeMirror: CodeMirror.EditorFromTextArea; // eslint-disable-line no-undef
-  currentValue: any; // eslint-disable-line no-undef
-  currentOptions: any; // eslint-disable-line no-undef
-  textareaElement: HTMLTextAreaElement; // eslint-disable-line no-undef
+  codeMirror: CodeMirror.EditorFromTextArea;
+  currentValue: any;
+  currentOptions: any;
+  textareaElement: HTMLTextAreaElement;
 
   componentDidMount() {
     this.codeMirror = CodeMirror.fromTextArea(this.textareaElement, this.props.options);

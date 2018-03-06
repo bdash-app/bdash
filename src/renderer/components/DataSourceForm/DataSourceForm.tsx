@@ -5,8 +5,8 @@ import DataSource from "../../../lib/DataSource";
 import ProgressIcon from "../ProgressIcon";
 
 export default class DataSourceForm extends React.Component<any, any> {
-  formTableElement: HTMLTableElement; // eslint-disable-line no-undef
-  inputNameElement: HTMLInputElement; // eslint-disable-line no-undef
+  formTableElement: HTMLTableElement;
+  inputNameElement: HTMLInputElement;
 
   constructor(props) {
     super(props);
@@ -28,7 +28,7 @@ export default class DataSourceForm extends React.Component<any, any> {
         ".DataSourceForm-configCheckbox:checked",
         ".DataSourceForm-configRadio:checked"
       ].join(",")
-    ) as NodeListOf<HTMLInputElement>; // eslint-disable-line no-undef
+    ) as NodeListOf<HTMLInputElement>;
 
     return Array.from(inputs).reduce((acc, el) => {
       const value = el.getAttribute("type") === "checkbox" ? true : el.value;

@@ -1,5 +1,5 @@
 export default class Base {
-  config: any; // eslint-disable-line no-undef
+  config: any;
 
   static get key(): string {
     throw new Error("Not Implemented");

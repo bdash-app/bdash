@@ -9,8 +9,8 @@ export default class Store {
     return { store, dispatch };
   }
 
-  state: any; // eslint-disable-line no-undef
-  _emitter: EventEmitter; // eslint-disable-line no-undef
+  state: any;
+  _emitter: EventEmitter;
 
   constructor() {
     this.state = this.getInitialState();

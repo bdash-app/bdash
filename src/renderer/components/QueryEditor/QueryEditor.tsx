@@ -3,7 +3,7 @@ import Button from "../Button";
 import Editor from "../Editor";
 
 export default class QueryEditor extends React.Component<any, any> {
-  editorElement: HTMLDivElement; // eslint-disable-line no-undef
+  editorElement: HTMLDivElement;
 
   get options() {
     return {

@@ -1,7 +1,7 @@
 export default {
   create(Component: React.ComponentClass, store) {
     return class Container extends Component {
-      _unsubscribe: any; // eslint-disable-line no-undef
+      _unsubscribe: any;
 
       constructor(...args) {
         // @ts-ignore

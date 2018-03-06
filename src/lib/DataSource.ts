@@ -4,7 +4,7 @@ import BigQuery from "./DataSourceDefinition/BigQuery";
 import TreasureData from "./DataSourceDefinition/TreasureData";
 
 export default class DataSource {
-  static dataSources: any; // eslint-disable-line no-undef
+  static dataSources: any;
 
   static register(...classes) {
     const dataSources = {};

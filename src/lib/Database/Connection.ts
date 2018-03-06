@@ -1,7 +1,7 @@
 import sqlite3 from "sqlite3";
 
 export default class Connection {
-  _db: any; // eslint-disable-line no-undef
+  _db: any;
 
   get db() {
     if (!this._db) {

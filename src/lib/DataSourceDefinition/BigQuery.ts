@@ -3,7 +3,7 @@ import Base from "./Base";
 import { flatten } from "lodash";
 
 export default class BigQuery extends Base {
-  _cancel: any; // eslint-disable-line no-undef
+  _cancel: any;
 
   static get key() {
     return "bigquery";
