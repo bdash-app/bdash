@@ -9,7 +9,6 @@ const TEST_APP_PATH = path.join(TEST_ROOT_DIR, "Bdash-darwin-x64/Bdash.app/Conte
 const BDASH_ROOT = path.join(TEST_ROOT_DIR, ".bdash");
 let app;
 
-// eslint-disable-next-line no-unused-vars
 function wait(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }

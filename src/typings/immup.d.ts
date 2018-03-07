@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 declare module "immup" {
   class Immup {
     constructor(state: any);

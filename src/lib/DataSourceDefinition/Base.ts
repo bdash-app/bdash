@@ -12,7 +12,6 @@ export default class Base {
     this.config = config;
   }
 
-  // eslint-disable-next-line no-unused-vars
   execute(query) {
     throw new Error("Not Implemented");
   }
@@ -29,7 +28,6 @@ export default class Base {
     throw new Error("Not Implemented");
   }
 
-  // eslint-disable-next-line no-unused-vars
   fetchTableSummary(args) {
     throw new Error("Not Implemented");
   }

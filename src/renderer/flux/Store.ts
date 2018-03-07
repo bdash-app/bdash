@@ -21,7 +21,6 @@ export default class Store {
     throw new Error("Not Implemented");
   }
 
-  // eslint-disable-next-line no-unused-vars
   reduce(type, payload) {
     throw new Error("Not Implemented");
   }

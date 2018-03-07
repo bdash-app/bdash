@@ -4,7 +4,9 @@
     "target": "es2017",
     "jsx": "react",
     "sourceMap": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
   },
   "include": ["src/**/*"]
 }

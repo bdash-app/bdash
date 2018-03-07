@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import CodeMirror from "codemirror";
 
 declare module "codemirror" {
