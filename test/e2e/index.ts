@@ -9,12 +9,14 @@ const TEST_APP_PATH = path.join(TEST_ROOT_DIR, "Bdash-darwin-x64/Bdash.app/Conte
 const BDASH_ROOT = path.join(TEST_ROOT_DIR, ".bdash");
 let app;
 
+// @ts-ignore
 function wait(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 function setValueToEditor(text) {
   app.client.execute(text => {
+    // @ts-ignore
     document.querySelector(".QueryEditor .CodeMirror").CodeMirror.setValue(text);
   }, text);
 }
