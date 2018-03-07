@@ -98,7 +98,7 @@ const menu: Electron.MenuItemConstructorOptions[] = [
       {
         label: "Reload",
         accelerator: "CmdOrCtrl+R",
-        click: (item, focusedWindow) => {
+        click: (_, focusedWindow) => {
           if (focusedWindow) {
             focusedWindow.reload();
           }
@@ -107,7 +107,7 @@ const menu: Electron.MenuItemConstructorOptions[] = [
       {
         label: "Toggle Developer Tools",
         accelerator: process.platform === "darwin" ? "Alt+Command+I" : "Ctrl+Shift+I",
-        click: (item, focusedWindow: any) => {
+        click: (_, focusedWindow: any) => {
           if (focusedWindow) {
             focusedWindow.toggleDevTools();
           }

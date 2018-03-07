@@ -1,4 +1,4 @@
-export default class Base {
+export default abstract class Base {
   config: any;
 
   static get key(): string {
@@ -12,23 +12,13 @@ export default class Base {
     this.config = config;
   }
 
-  execute(query) {
-    throw new Error("Not Implemented");
-  }
+  abstract execute(query);
 
-  cancel() {
-    throw new Error("Not Implemented");
-  }
+  abstract cancel();
 
-  connectionTest() {
-    throw new Error("Not Implemented");
-  }
+  abstract connectionTest();
 
-  fetchTables() {
-    throw new Error("Not Implemented");
-  }
+  abstract fetchTables();
 
-  fetchTableSummary(args) {
-    throw new Error("Not Implemented");
-  }
+  abstract fetchTableSummary(args);
 }

@@ -21,6 +21,7 @@ export default class Store {
     throw new Error("Not Implemented");
   }
 
+  // @ts-ignore
   reduce(type, payload) {
     throw new Error("Not Implemented");
   }
