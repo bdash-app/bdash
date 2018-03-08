@@ -1,19 +1,29 @@
 import { find, last } from "lodash";
 
-export default function findQueryByLine(sql, line) {
+interface QueryChunk {
+  query: string;
+  startLine: number;
+  endLine: number;
+}
+
+export default function findQueryByLine(sql: string, line: number): QueryChunk {
   const chunks = splitQuery(sql);
   const chunk = find(chunks, chunk => chunk.endLine >= line) || last(chunks);
 
-  return { query: chunk.query, startLine: chunk.startLine };
+  return {
+    query: chunk.query,
+    startLine: chunk.startLine,
+    endLine: chunk.endLine
+  };
 }
 
-function splitQuery(sql) {
+function splitQuery(sql: string): QueryChunk[] {
   const lines = sql.replace(/\s+$/, "").split("\n");
-  const chunks = [];
-  let chunk = null;
+  const chunks: QueryChunk[] = [];
+  let chunk: any = null;
 
   lines.forEach((line, i) => {
-    if (!chunk) {
+    if (chunk === null) {
       chunk = { query: "", startLine: i + 1, endLine: null };
       chunks.push(chunk);
     }
@@ -29,16 +39,21 @@ function splitQuery(sql) {
   return chunks.map(chunk => {
     const query = chunk.query;
     let startLine = chunk.startLine;
+    let endLine = chunk.endLine;
     const m = query.match(/^\s+/g);
 
     if (m) {
       startLine += m[0].split("\n").length - 1;
     }
 
+    if (endLine === null) {
+      endLine = lines.length;
+    }
+
     return {
       query: query.trim(),
       startLine: startLine,
-      endLine: chunk.endLine
+      endLine: endLine
     };
   });
 }

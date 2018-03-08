@@ -31,8 +31,8 @@ export default class Chart {
   }
 
   static async update(id, params) {
-    const fields = [];
-    const values = [];
+    const fields: string[] = [];
+    const values: string[] = [];
 
     Object.keys(params).forEach(field => {
       fields.push(field);

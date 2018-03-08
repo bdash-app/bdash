@@ -23,39 +23,48 @@ suite("Util/findQueryByLine", () => {
 
     assert.deepStrictEqual(findQueryByLine(sql, 1), {
       query: sql1,
-      startLine: 1
+      startLine: 1,
+      endLine: 2
     });
     assert.deepStrictEqual(findQueryByLine(sql, 2), {
       query: sql1,
-      startLine: 1
+      startLine: 1,
+      endLine: 2
     });
     assert.deepStrictEqual(findQueryByLine(sql, 3), {
       query: sql2,
-      startLine: 3
+      startLine: 3,
+      endLine: 6
     });
     assert.deepStrictEqual(findQueryByLine(sql, 4), {
       query: sql2,
-      startLine: 3
+      startLine: 3,
+      endLine: 6
     });
     assert.deepStrictEqual(findQueryByLine(sql, 5), {
       query: sql2,
-      startLine: 3
+      startLine: 3,
+      endLine: 6
     });
     assert.deepStrictEqual(findQueryByLine(sql, 6), {
       query: sql2,
-      startLine: 3
+      startLine: 3,
+      endLine: 6
     });
     assert.deepStrictEqual(findQueryByLine(sql, 7), {
       query: sql3,
-      startLine: 9
+      startLine: 9,
+      endLine: 10
     });
     assert.deepStrictEqual(findQueryByLine(sql, 8), {
       query: sql3,
-      startLine: 9
+      startLine: 9,
+      endLine: 10
     });
     assert.deepStrictEqual(findQueryByLine(sql, 9), {
       query: sql3,
-      startLine: 9
+      startLine: 9,
+      endLine: 10
     });
   });
 
@@ -66,19 +75,23 @@ suite("Util/findQueryByLine", () => {
 
     assert.deepStrictEqual(findQueryByLine(sql, 1), {
       query: sql1,
-      startLine: 2
+      startLine: 2,
+      endLine: 2
     });
     assert.deepStrictEqual(findQueryByLine(sql, 2), {
       query: sql1,
-      startLine: 2
+      startLine: 2,
+      endLine: 2
     });
     assert.deepStrictEqual(findQueryByLine(sql, 3), {
       query: sql2,
-      startLine: 3
+      startLine: 3,
+      endLine: 3
     });
     assert.deepStrictEqual(findQueryByLine(sql, 4), {
       query: sql2,
-      startLine: 3
+      startLine: 3,
+      endLine: 3
     });
   });
 
@@ -86,7 +99,8 @@ suite("Util/findQueryByLine", () => {
     const sql = "select 1;";
     assert.deepStrictEqual(findQueryByLine(sql, 1), {
       query: "select 1;",
-      startLine: 1
+      startLine: 1,
+      endLine: 1
     });
   });
 
@@ -94,7 +108,8 @@ suite("Util/findQueryByLine", () => {
     const sql = "\nselect 1;";
     assert.deepStrictEqual(findQueryByLine(sql, 1), {
       query: "select 1;",
-      startLine: 2
+      startLine: 2,
+      endLine: 2
     });
   });
 });

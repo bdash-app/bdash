@@ -6,7 +6,8 @@
     "sourceMap": true,
     "esModuleInterop": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "strictNullChecks": true
   },
   "include": ["src/**/*", "test/**/*"]
 }

@@ -12,9 +12,13 @@ export default class Editor extends React.Component<any, any> {
   codeMirror: CodeMirror.EditorFromTextArea;
   currentValue: any;
   currentOptions: any;
-  textareaElement: HTMLTextAreaElement;
+  textareaElement: HTMLTextAreaElement | null;
 
   componentDidMount() {
+    if (this.textareaElement === null) {
+      return;
+    }
+
     this.codeMirror = CodeMirror.fromTextArea(this.textareaElement, this.props.options);
     this.codeMirror.on("change", this.handleValueChange.bind(this));
     this.codeMirror.on("cursorActivity", this.handleCursorChange.bind(this));

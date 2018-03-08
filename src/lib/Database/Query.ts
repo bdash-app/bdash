@@ -39,8 +39,8 @@ export default class Query {
   }
 
   static update(id, params) {
-    const fields = [];
-    const values = [];
+    const fields: string[] = [];
+    const values: string[] = [];
 
     Object.keys(params).forEach(field => {
       fields.push(field);

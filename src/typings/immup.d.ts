@@ -8,5 +8,5 @@ declare module "immup" {
     end();
   }
 
-  function merge(state: any, path: string, value: any);
+  function merge(state: any, path: string | null, value: any);
 }

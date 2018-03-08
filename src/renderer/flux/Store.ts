@@ -69,11 +69,11 @@ export default class Store {
     return new StateBuilder(this.state).append(path, value);
   }
 
-  mergeList(path, value, comparator = null) {
-    if (comparator) {
-      return new StateBuilder(this.state).mergeList(path, value, comparator);
-    } else {
+  mergeList(path, value, comparator: Comparator = null) {
+    if (comparator === null) {
       return new StateBuilder(this.state).mergeList(path, value);
+    } else {
+      return new StateBuilder(this.state).mergeList(path, value, comparator);
     }
   }
 
@@ -81,6 +81,8 @@ export default class Store {
     return new StateBuilder(this.state).del(path);
   }
 }
+
+type Comparator = ((a: any, b: any) => boolean) | null;
 
 class StateBuilder extends immup.Immup {
   mergeList(path, value, comparator = (a, b) => a.id === b.id) {

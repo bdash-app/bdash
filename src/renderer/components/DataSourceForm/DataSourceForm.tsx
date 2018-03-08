@@ -5,8 +5,8 @@ import DataSource from "../../../lib/DataSource";
 import ProgressIcon from "../ProgressIcon";
 
 export default class DataSourceForm extends React.Component<any, any> {
-  formTableElement: HTMLTableElement;
-  inputNameElement: HTMLInputElement;
+  formTableElement: HTMLTableElement | null;
+  inputNameElement: HTMLInputElement | null;
 
   constructor(props) {
     super(props);
@@ -21,6 +21,10 @@ export default class DataSourceForm extends React.Component<any, any> {
   }
 
   getConfigValues() {
+    if (this.formTableElement === null) {
+      return {};
+    }
+
     // TODO: validation
     const inputs = this.formTableElement.querySelectorAll(
       [
@@ -37,6 +41,10 @@ export default class DataSourceForm extends React.Component<any, any> {
   }
 
   handleSave() {
+    if (this.inputNameElement === null) {
+      return;
+    }
+
     const id = this.props.dataSource ? this.props.dataSource.id : null;
     const name = this.inputNameElement.value;
     const type = this.state.selectedType;
