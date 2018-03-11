@@ -5,6 +5,9 @@
     "jsx": "react",
     "sourceMap": true,
     "esModuleInterop": true,
+    "noImplicitThis": true,
+    "strictFunctionTypes": true,
+    "alwaysStrict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "strictNullChecks": true

@@ -58,6 +58,7 @@ export default class Connection {
         if (err) {
           reject(err);
         } else {
+          // @ts-ignore
           resolve(this.lastID); // eslint-disable-line no-invalid-this
         }
       });
