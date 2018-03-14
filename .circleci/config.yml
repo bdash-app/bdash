@@ -1,0 +1,25 @@
+version: 2
+jobs:
+  test:
+    working_directory: ~/workspace
+    docker:
+      - image: circleci/node:8.9.4-browsers
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "yarn.lock" }}
+      - run: yarn install
+      - run: yarn run lint
+      - run: yarn run test
+      - save_cache:
+          key: dependency-cache-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
+            - ~/.electron
+            - ~/.cache/yarn
+
+workflows:
+  version: 2
+  workflow:
+    jobs:
+      - test
