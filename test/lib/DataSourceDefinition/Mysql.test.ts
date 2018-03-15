@@ -7,11 +7,10 @@ suite("DataSourceDefinition/Mysql", () => {
     await initialize();
   });
 
-  // TODO: Make it possible to change the config via enviroment variables
   const config = {
-    host: process.env['MYSQL_HOST'] || "127.0.0.1",
-    user: process.env['MYSQL_USER'] || "root",
-    password: process.env['MYSQL_PASSWORD'],
+    host: process.env["MYSQL_HOST"] || "127.0.0.1",
+    user: process.env["MYSQL_USER"] || "root",
+    password: process.env["MYSQL_PASSWORD"],
     database: "bdash_test"
   };
 

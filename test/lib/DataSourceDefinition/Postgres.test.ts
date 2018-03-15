@@ -8,9 +8,9 @@ suite("DataSourceDefinition/Postgres", () => {
   });
 
   const config = {
-    host: process.env['POSTGRES_HOST'] || "127.0.0.1",
-    user: process.env['POSTGRES_USER'] || process.env['USER'],
-    password: process.env['POSTGRES_PASSWORD'],
+    host: process.env["POSTGRES_HOST"] || "127.0.0.1",
+    user: process.env["POSTGRES_USER"] || process.env["USER"],
+    password: process.env["POSTGRES_PASSWORD"],
     database: "bdash_test"
   };
 
