@@ -20,6 +20,7 @@ jobs:
       - checkout
       - restore_cache:
           key: dependency-cache-{{ checksum "yarn.lock" }}
+      - run: sudo apt-get update && sudo apt-get install -y mysql-client postgresql-client
       - run: yarn install
       - run: yarn run lint
       - run: yarn run test
