@@ -1,18 +1,14 @@
 import assert from "assert";
 import initialize from "../../fixtures/mysql/initialize";
 import Mysql from "../../../src/lib/DataSourceDefinition/Mysql";
+import DataSourceConfig from "../../helpers/DataSourceConfig";
 
 suite("DataSourceDefinition/Mysql", () => {
+  const config = DataSourceConfig.mysql;
+
   suiteSetup(async () => {
     await initialize();
   });
-
-  const config = {
-    host: process.env["MYSQL_HOST"] || "127.0.0.1",
-    user: process.env["MYSQL_USER"] || "root",
-    password: process.env["MYSQL_PASSWORD"],
-    database: "bdash_test"
-  };
 
   test("execute", async () => {
     const result = await new Mysql(config).execute("select id, text from test order by id");

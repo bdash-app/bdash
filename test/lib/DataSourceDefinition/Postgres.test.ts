@@ -1,18 +1,14 @@
 import assert from "assert";
 import initialize from "../../fixtures/postgres/initialize";
 import Postgres from "../../../src/lib/DataSourceDefinition/Postgres";
+import DataSourceConfig from "../../helpers/DataSourceConfig";
 
 suite("DataSourceDefinition/Postgres", () => {
+  const config = DataSourceConfig.postgres;
+
   suiteSetup(async () => {
     await initialize();
   });
-
-  const config = {
-    host: process.env["POSTGRES_HOST"] || "127.0.0.1",
-    user: process.env["POSTGRES_USER"] || process.env["USER"],
-    password: process.env["POSTGRES_PASSWORD"],
-    database: "bdash_test"
-  };
 
   test("execute", async () => {
     const result = await new Postgres(config).execute("select id, text from test order by id");
