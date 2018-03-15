@@ -7,9 +7,10 @@ suite("DataSourceDefinition/Postgres", () => {
     await initialize();
   });
 
-  // TODO: Make it possible to change the config via enviroment variables
   const config = {
-    host: "127.0.0.1",
+    host: process.env['POSTGRES_HOST'] || "127.0.0.1",
+    user: process.env['POSTGRES_USER'] || process.env['USER'],
+    password: process.env['POSTGRES_PASSWORD'],
     database: "bdash_test"
   };
 

@@ -4,6 +4,19 @@ jobs:
     working_directory: ~/workspace
     docker:
       - image: circleci/node:8.9.4-browsers
+        environment:
+          - MYSQL_USER=bdash
+          - MYSQL_DATABASE=bdash_test
+          - POSTGRES_USER=bdash
+          - POSTGRES_DB=bdash_test
+      - image: mysql:5.6
+        environment:
+          - MYSQL_USER=bdash
+          - MYSQL_DATABASE=bdash_test
+      - image: postgres:9.6
+        environment:
+          - POSTGRES_USER=bdash
+          - POSTGRES_DB=bdash_test
     steps:
       - checkout
       - restore_cache:
