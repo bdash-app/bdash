@@ -4,23 +4,10 @@ jobs:
     working_directory: ~/workspace
     docker:
       - image: circleci/node:8.9.4-browsers
-        environment:
-          MYSQL_USER: root
-          POSTGRES_USER: bdash
-      - image: circleci/mysql:5.7
-        environment:
-          MYSQL_USER: root
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-          MYSQL_DATABASE: bdash_test
-      - image: circleci/postgres:9.6-alpine-ram
-        environment:
-          - POSTGRES_USER: bdash
-          - POSTGRES_DB: bdash_test
     steps:
       - checkout
       - restore_cache:
           key: dependency-cache-{{ checksum "yarn.lock" }}
-      - run: sudo apt-get update && sudo apt-get install -y mysql-client postgresql-client
       - run: yarn install
       - run: yarn run lint
       - run: yarn run test

@@ -1,10 +1,6 @@
 os: osx
 osx_image: xcode9.2
 
-services:
-  - mysql
-  - postgresql
-
 language: node_js
 node_js:
   - "8.9.4"
