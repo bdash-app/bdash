@@ -10,6 +10,7 @@
     "test": "yarn run test:unit",
     "test:unit": "electron-mocha 'test/unit/**/*.test.ts'",
     "test:remote": "electron-mocha 'test/remote/**/*.test.ts'",
+    "test:integration": "mocha --exit test/integration/index.ts",
     "lint": "npm run lint:eslint && npm run lint:tsc && npm run lint:prettier",
     "lint:eslint": "eslint --ext '.js,.jsx,.ts,.tsx' .",
     "lint:tsc": "tsc --noEmit",

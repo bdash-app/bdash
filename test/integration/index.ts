@@ -21,7 +21,7 @@ function setValueToEditor(text) {
   }, text);
 }
 
-suite("e2e test", function() {
+suite("Launch and onboarding", function() {
   this.timeout(10000);
 
   suiteSetup(async () => {
