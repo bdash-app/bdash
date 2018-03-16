@@ -14,7 +14,7 @@
     "lint": "npm run lint:eslint && npm run lint:tsc && npm run lint:prettier",
     "lint:eslint": "eslint --ext '.js,.jsx,.ts,.tsx' .",
     "lint:tsc": "tsc --noEmit",
-    "lint:prettier": "prettier --list-different '**/*.{js,jsx,ts,tsx,css,json}'",
+    "lint:prettier": "prettier --list-different ./**/*.{js,jsx,ts,tsx,css,json}",
     "format": "prettier --write '**/*.{js,jsx,ts,tsx,css,json}'"
   },
   "dependencies": {
