@@ -1,5 +1,5 @@
 import assert from "assert";
-import GitHubApiClient from "../../src/lib/GitHubApiClient";
+import GitHubApiClient from "../../../src/lib/GitHubApiClient";
 
 suite("GitHubApiClient", () => {
   test("valid behavior", () => {

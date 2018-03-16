@@ -1,7 +1,7 @@
 import assert from "assert";
-import DatabaseHelper from "../../helpers/DatabaseHelper";
-import Chart from "../../../src/lib/Database/Chart";
-import { connection } from "../../../src/lib/Database/Connection";
+import DatabaseHelper from "../../../helpers/DatabaseHelper";
+import Chart from "../../../../src/lib/Database/Chart";
+import { connection } from "../../../../src/lib/Database/Connection";
 
 suite("Database/Chart", () => {
   setup(() => DatabaseHelper.initialize());

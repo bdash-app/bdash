@@ -1,5 +1,5 @@
 import assert from "assert";
-import stripHeredoc from "../../../src/lib/Util/stripHeredoc";
+import stripHeredoc from "../../../../src/lib/Util/stripHeredoc";
 
 suite("Util/stripHeredoc", () => {
   test("valid behavir", () => {

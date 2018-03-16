@@ -1,6 +1,6 @@
 import assert from "assert";
-import stripHeredoc from "../../../src/lib/Util/stripHeredoc";
-import findQueryByLine from "../../../src/lib/Util/findQueryByLine";
+import stripHeredoc from "../../../../src/lib/Util/stripHeredoc";
+import findQueryByLine from "../../../../src/lib/Util/findQueryByLine";
 
 suite("Util/findQueryByLine", () => {
   test("valid behavir", () => {
