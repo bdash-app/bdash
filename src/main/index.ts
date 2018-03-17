@@ -8,11 +8,10 @@ function createWindow() {
   mainWindow = new electron.BrowserWindow({
     width: 1280,
     height: 780,
-    title: "Bdash",
-    icon: `file://${__dirname}/../assets/icon.ico`
+    title: "Bdash"
   });
 
-  mainWindow.loadURL(`file://${__dirname}/../html/index.html`);
+  mainWindow.loadURL(`file://${__dirname}/../index.html`);
   mainWindow.once("closed", () => {
     mainWindow = null;
   });

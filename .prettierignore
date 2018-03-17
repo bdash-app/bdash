@@ -1,5 +1,6 @@
 node_modules/
 out/
+app/out/
 dist/
 tmp/
 package-lock.json

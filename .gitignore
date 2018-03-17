@@ -1,5 +1,5 @@
 node_modules
 *.sqlite3
-out/
 tmp/
 dist/
+app/out/

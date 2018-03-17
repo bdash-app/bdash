@@ -13,11 +13,10 @@ const AppAction = {
     }
 
     const databasePath = Config.databasePath;
-    const schema = fs.readFileSync(Config.schemaPath).toString();
 
     setting.initialize(Config.settingPath);
 
-    await Database.connection.initialize({ databasePath, schema });
+    await Database.connection.initialize({ databasePath });
     dispatch("initialize");
 
     // on boarding

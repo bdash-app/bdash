@@ -1,4 +1,5 @@
 import sqlite3 from "sqlite3";
+import schema from "./schema";
 
 export default class Connection {
   _db: any;
@@ -11,7 +12,7 @@ export default class Connection {
     return this._db;
   }
 
-  initialize({ databasePath, schema }) {
+  initialize({ databasePath }) {
     this._db = new sqlite3.Database(databasePath);
     return this.exec(schema);
   }

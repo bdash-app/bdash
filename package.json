@@ -1,11 +1,10 @@
 {
   "name": "Bdash",
   "description": "A simple business intelligence application.",
-  "main": "./index.js",
   "private": true,
   "version": "1.2.1",
   "scripts": {
-    "start": "electron .",
+    "start": "electron app",
     "watch": "webpack --watch",
     "test": "yarn run test:unit",
     "test:unit": "electron-mocha \"test/unit/**/*.test.ts\"",
@@ -15,7 +14,9 @@
     "lint:eslint": "eslint --ext '.js,.jsx,.ts,.tsx' .",
     "lint:tsc": "tsc --noEmit",
     "lint:prettier": "prettier --list-different ./**/*.{js,jsx,ts,tsx,css,json}",
-    "format": "prettier --write '**/*.{js,jsx,ts,tsx,css,json}'"
+    "format": "prettier --write '**/*.{js,jsx,ts,tsx,css,json}'",
+    "publish": "yarn run compile:prod && electron-builder build --publish always",
+    "compile:prod": "ts-node scripts/precompile.ts && webpack --env.NODE_ENV=production"
   },
   "dependencies": {
     "@google-cloud/bigquery": "0.7.0",
@@ -55,6 +56,7 @@
     "@types/react-select": "1.1.0",
     "css-loader": "0.28.8",
     "electron": "1.8.2",
+    "electron-builder": "20.5.1",
     "electron-mocha": "5.0.0",
     "electron-packager": "10.1.1",
     "electron-rebuild": "1.7.3",

@@ -1,3 +1,4 @@
+const schema = `
 create table if not exists data_sources (
   id integer primary key autoincrement,
   name text not null,
@@ -34,3 +35,6 @@ create table if not exists charts (
   updatedAt datetime not null
 );
 create index if not exists idx_query_id_on_charts on charts(queryId);
+`;
+
+export default schema;

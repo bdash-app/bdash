@@ -1,0 +1,27 @@
+appId: io.bdash
+
+directories:
+  output: dist
+  app: tmp/app
+
+publish:
+  provider: github
+  owner: bdash-app
+  repo: bdash
+
+win:
+  target:
+    - squirrel
+
+mac:
+  target:
+    - zip
+    - dmg
+  category: public.app-category.developer-tools
+
+linux:
+  target:
+    - AppImage
+    - deb
+    - rpm
+  category: Utility
