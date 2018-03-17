@@ -17,10 +17,6 @@ function createWindow() {
   });
 }
 
-if (require("electron-squirrel-startup")) {
-  process.exit();
-}
-
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
     app.quit();
