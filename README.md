@@ -1,6 +1,6 @@
 [![Travis](https://img.shields.io/travis/bdash-app/bdash.svg?style=flat-square&label=Travis+CI)](https://travis-ci.org/bdash-app/bdash)
 [![CircleCI](https://img.shields.io/circleci/project/github/bdash-app/bdash.svg?style=flat-square&label=CircleCI)](https://circleci.com/gh/bdash-app/bdash)
-[![AppVeyor Build Status](https://img.shields.io/appveyor/ci/bdash-app/bdash/master.svg?style=flat-square&label=AppVeyor&logo=appveyor)](https://ci.appveyor.com/project/bdash-app/bdash/branch/master)
+[![AppVeyor Build Status](https://img.shields.io/appveyor/ci/hokaccha/bdash/master.svg?style=flat-square&label=AppVeyor&logo=appveyor)](https://ci.appveyor.com/project/hokaccha/bdash/branch/master)
 
 # Bdash
 
@@ -10,11 +10,11 @@ A modern SQL client application.
 
 ### Saving query
 
-<img width="600" src="./assets/capture1.png">
+<img width="600" src="https://raw.githubusercontent.com/bdash-app/bdash/1.2.2/assets/capture1.png">
 
 ### Drawing chart
 
-<img width="600" src="./assets/capture2.png">
+<img width="600" src="https://raw.githubusercontent.com/bdash-app/bdash/1.2.2/assets/capture2.png">
 
 ### Sharing result
 
