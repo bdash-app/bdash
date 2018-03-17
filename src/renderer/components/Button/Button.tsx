@@ -1,6 +1,11 @@
 import React from "react";
 
-export default class Button extends React.Component<any, any> {
+interface ButtonProps {
+  onClick: (event: React.MouseEvent<HTMLSpanElement>) => void;
+  className?: string;
+}
+
+export default class Button extends React.Component<ButtonProps> {
   handleClick(e) {
     if (this.props.onClick) {
       this.props.onClick(e);
