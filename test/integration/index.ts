@@ -4,9 +4,6 @@ import fse from "fs-extra";
 import { Application } from "spectron";
 import initializeMysql from "../fixtures/mysql/initialize";
 
-const TEST_ROOT_DIR = path.join(__dirname, "../../tmp/test");
-const TEST_APP_PATH = path.join(TEST_ROOT_DIR, "Bdash-darwin-x64/Bdash.app/Contents/MacOS/Bdash");
-const BDASH_ROOT = path.join(TEST_ROOT_DIR, ".bdash");
 let app;
 
 // @ts-ignore
@@ -25,8 +22,18 @@ suite("Launch and onboarding", function() {
   this.timeout(10000);
 
   suiteSetup(async () => {
-    app = new Application({ path: TEST_APP_PATH });
-    await fse.remove(BDASH_ROOT);
+    const rootDir = path.join(__dirname, "..", "..");
+    const bdashRootDir = path.join(rootDir, "tmp", "test", ".bdash");
+    let appPath = path.join(rootDir, "node_modules", ".bin", "electron");
+    if (process.platform === "win32") {
+      appPath += ".cmd";
+    }
+    app = new Application({
+      path: appPath,
+      args: [path.join(rootDir, "tmp", "app")],
+      env: { BDASH_ROOT: bdashRootDir }
+    });
+    await fse.remove(bdashRootDir);
     await initializeMysql();
     await app.start();
     app.client.timeoutsImplicitWait(500);
