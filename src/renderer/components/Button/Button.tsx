@@ -1,8 +1,8 @@
 import React from "react";
 
 interface ButtonProps {
-  onClick: (event: React.MouseEvent<HTMLSpanElement>) => void;
-  className?: string;
+  readonly onClick: (event: React.MouseEvent<HTMLSpanElement>) => void;
+  readonly className?: string;
 }
 
 export default class Button extends React.Component<ButtonProps> {
