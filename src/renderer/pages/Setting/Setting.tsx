@@ -1,12 +1,12 @@
 import React from "react";
 import Select from "react-select";
 import Container from "../../flux/Container";
-import { store } from "./SettingStore";
+import { store, SettingState } from "./SettingStore";
 import Action from "./SettingAction";
 import Button from "../../components/Button";
 import ProgressIcon from "../../components/ProgressIcon";
 
-class Setting extends React.Component<any, any> {
+class Setting extends React.Component<any, SettingState> {
   componentDidMount() {
     Action.initialize();
   }

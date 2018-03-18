@@ -1,8 +1,13 @@
 import Store from "../../flux/Store";
 
-export default class AppStore extends Store {
-  getInitialState() {
-    return {
+export interface AppState {
+  selectedPage: string;
+}
+
+export default class AppStore extends Store<AppState> {
+  constructor() {
+    super();
+    this.state = {
       selectedPage: "query"
     };
   }

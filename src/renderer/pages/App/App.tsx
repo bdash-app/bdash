@@ -1,13 +1,13 @@
 import React from "react";
 import Container from "../../flux/Container";
 import GlobalMenu from "../../components/GlobalMenu";
-import { store } from "./AppStore";
+import { store, AppState } from "./AppStore";
 import Action from "./AppAction";
 import Query from "../Query";
 import DataSource from "../DataSource";
 import Setting from "../Setting";
 
-class App extends React.Component<any, any> {
+class App extends React.Component<any, AppState> {
   componentDidMount() {
     Action.initialize();
   }
@@ -21,7 +21,7 @@ class App extends React.Component<any, any> {
       case "setting":
         return Setting;
       default:
-        throw new Error(`Unknown page: ${this.state.page}`);
+        throw new Error(`Unknown page: ${this.state.selectedPage}`);
     }
   }
 

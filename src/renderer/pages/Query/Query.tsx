@@ -1,6 +1,6 @@
 import React from "react";
 import QuerySharing from "../../../lib/QuerySharing";
-import { store } from "./QueryStore";
+import { store, QueryState } from "./QueryStore";
 import Action from "./QueryAction";
 import Container from "../../flux/Container";
 import QueryList from "../../components/QueryList";
@@ -8,7 +8,7 @@ import QueryHeader from "../../components/QueryHeader";
 import QueryEditor from "../../components/QueryEditor";
 import QueryResult from "../../components/QueryResult";
 
-class Query extends React.Component<any, any> {
+class Query extends React.Component<any, QueryState> {
   componentDidMount() {
     Action.initialize();
   }

@@ -1,9 +1,22 @@
 import Setting from "../../../lib/Setting";
 import Store from "../../flux/Store";
 
-export default class QueryStore extends Store {
-  getInitialState() {
-    return {
+export interface QueryState {
+  setting: any;
+  queries: any[];
+  dataSources: any[];
+  charts: any[];
+  selectedQueryId: number | null;
+  editor: {
+    height: number | null;
+    line: number | null;
+  };
+}
+
+export default class QueryStore extends Store<QueryState> {
+  constructor() {
+    super();
+    this.state = {
       setting: Setting.getDefault(),
       queries: [],
       dataSources: [],

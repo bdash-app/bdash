@@ -1,9 +1,18 @@
 import Setting from "../../../lib/Setting";
 import Store from "../../flux/Store";
 
-export default class SettingStore extends Store {
-  getInitialState() {
-    return {
+export interface SettingState {
+  githubValidateToken: {
+    status: string | null;
+    error: string | null;
+  };
+  setting: any;
+}
+
+export default class SettingStore extends Store<SettingState> {
+  constructor() {
+    super();
+    this.state = {
       githubValidateToken: {
         status: null,
         error: null

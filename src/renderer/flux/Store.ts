@@ -1,7 +1,7 @@
 import immup from "immup";
 import { EventEmitter } from "events";
 
-export default class Store {
+export default class Store<T> {
   static create(StoreClass) {
     const store = new StoreClass();
     const dispatch = store.dispatch.bind(store);
@@ -9,11 +9,10 @@ export default class Store {
     return { store, dispatch };
   }
 
-  state: any;
+  state: T;
   _emitter: EventEmitter;
 
   constructor() {
-    this.state = this.getInitialState();
     this._emitter = new EventEmitter();
   }
 

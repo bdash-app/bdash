@@ -1,8 +1,16 @@
 import Store from "../../flux/Store";
 
-export default class DataSourceStore extends Store {
-  getInitialState() {
-    return {
+export interface DataSourceState {
+  dataSources: any[];
+  selectedDataSourceId: number | null;
+  showForm: boolean;
+  formValue: any;
+}
+
+export default class DataSourceStore extends Store<DataSourceState> {
+  constructor() {
+    super();
+    this.state = {
       dataSources: [],
       selectedDataSourceId: null,
       showForm: false,
