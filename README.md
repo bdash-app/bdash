@@ -62,7 +62,7 @@ $ yarn watch
 $ yarn start
 ```
 
-After changing the code, you can reload with `⌘+R` to apply the change.
+After changing the code, you can reload with `⌘+Alt+R` to apply the change.
 
 ## License
 
