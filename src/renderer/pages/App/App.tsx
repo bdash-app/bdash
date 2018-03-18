@@ -1,6 +1,5 @@
 import React from "react";
 import Container from "../../flux/Container";
-import SplashScreen from "../../components/SplashScreen";
 import GlobalMenu from "../../components/GlobalMenu";
 import { store } from "./AppStore";
 import Action from "./AppAction";
@@ -27,10 +26,6 @@ class App extends React.Component<any, any> {
   }
 
   render() {
-    if (!this.state.initialized) {
-      return <SplashScreen />;
-    }
-
     const Page = this.getSelectedPage();
 
     return (

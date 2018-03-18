@@ -3,6 +3,10 @@ import "react-select/dist/react-select.css";
 import "./styles/app.css";
 import React from "react";
 import ReactDOM from "react-dom";
+import Bdash from "../lib/Bdash";
+import "./components/SplashScreen";
 import App from "./pages/App";
 
-ReactDOM.render(<App />, document.getElementById("app"));
+Bdash.initialize().then(() => {
+  ReactDOM.render(<App />, document.getElementById("app"));
+});
