@@ -97,7 +97,7 @@ const menu: Electron.MenuItemConstructorOptions[] = [
       { type: "separator" },
       {
         label: "Reload",
-        accelerator: "CmdOrCtrl+R",
+        accelerator: "CmdOrCtrl+Alt+R",
         click: (_, focusedWindow) => {
           if (focusedWindow) {
             focusedWindow.reload();
