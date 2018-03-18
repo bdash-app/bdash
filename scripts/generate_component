@@ -1,0 +1,34 @@
+#!/bin/bash
+
+set -e
+
+COMPONENT_NAME=$1
+CONPONENT_DIR=src/renderer/components/$COMPONENT_NAME
+mkdir $CONPONENT_DIR
+
+cat << EOF > $CONPONENT_DIR/$COMPONENT_NAME.tsx
+import React from 'react';
+
+interface ${COMPONENT_NAME}Props {}
+
+export default class $COMPONENT_NAME extends React.Component<${COMPONENT_NAME}Props> {
+  render() {
+    return <div className="$COMPONENT_NAME">$COMPONENT_NAME compoment!</div>;
+  }
+}
+EOF
+
+cat << EOF > $CONPONENT_DIR/$COMPONENT_NAME.css
+.$COMPONENT_NAME {
+}
+EOF
+
+cat << EOF > $CONPONENT_DIR/index.ts
+import './$COMPONENT_NAME.css';
+import $COMPONENT_NAME from './$COMPONENT_NAME';
+export default $COMPONENT_NAME;
+EOF
+
+echo "Created: $CONPONENT_DIR/$COMPONENT_NAME.tsx"
+echo "Created: $CONPONENT_DIR/$COMPONENT_NAME.css"
+echo "Created: $CONPONENT_DIR/index.ts"
