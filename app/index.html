@@ -8,9 +8,13 @@
 </head>
 
 <body>
-  <div id="app"></div>
+  <div id="app">
+    <div class="SplashScreen">
+      <div class="SplashScreen-text">Loading...</div>
+    </div>
+  </div>
   <script>
-    require("./out/app");
+    setImmediate(() => require("./out/app"));
   </script>
 </body>
 

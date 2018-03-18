@@ -13,13 +13,3 @@
   flex: 1;
   width: 0;
 }
-
-.page-app.is-loading {
-  display: block;
-  padding-top: calc(50vh - 24px);
-}
-
-.page-app-loading {
-  text-align: center;
-  --LoadingIcon-font-size: 24px;
-}

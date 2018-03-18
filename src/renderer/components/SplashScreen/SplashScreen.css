@@ -1,0 +1,27 @@
+.SplashScreen {
+  text-align: center;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.SplashScreen-text {
+  font-style: italic;
+  font-weight: bold;
+  font-size: 32px;
+  color: #68b82d;
+}
+
+.SplashScreen-text::before {
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+  width: 80px;
+  height: 80px;
+  background-size: 80px;
+  background-image: url("./SplashScreen.png");
+  background-repeat: no-repeat;
+  margin-right: 10px;
+  margin-top: -10px;
+}

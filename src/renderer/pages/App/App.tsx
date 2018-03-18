@@ -1,6 +1,6 @@
 import React from "react";
 import Container from "../../flux/Container";
-import LoadingIcon from "../../components/LoadingIcon";
+import SplashScreen from "../../components/SplashScreen";
 import GlobalMenu from "../../components/GlobalMenu";
 import { store } from "./AppStore";
 import Action from "./AppAction";
@@ -28,13 +28,7 @@ class App extends React.Component<any, any> {
 
   render() {
     if (!this.state.initialized) {
-      return (
-        <div className="page-app is-loading">
-          <div className="page-app-loading">
-            <LoadingIcon />
-          </div>
-        </div>
-      );
+      return <SplashScreen />;
     }
 
     const Page = this.getSelectedPage();

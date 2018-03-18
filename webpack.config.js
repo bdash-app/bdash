@@ -58,7 +58,7 @@ module.exports = env => {
             })
           },
           {
-            test: /\.(ttf|eot|svg|woff|woff2)(\?.+)?$/,
+            test: /\.(png|ttf|eot|svg|woff|woff2)(\?.+)?$/,
             loader: "url-loader"
           }
         ]
