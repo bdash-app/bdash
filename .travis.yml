@@ -20,3 +20,4 @@ cache:
 script:
   - yarn run lint
   - yarn run test
+  - if [[ $TRAVIS_BRANCH =~ release/.+ ]]; then yarn run publish; fi

@@ -22,3 +22,12 @@ install:
 test_script:
   - yarn run lint
   - yarn run test
+
+for:
+  - configuration: Test
+  - configuration: Release
+    branches:
+      only:
+        - /^release\/.+/
+    deploy_script:
+      - yarn run publish
