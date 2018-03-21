@@ -6,7 +6,7 @@
   "scripts": {
     "start": "electron app",
     "watch": "webpack --watch",
-    "test": "yarn run test:unit && yarn run test:remote && test:integration",
+    "test": "yarn run test:unit && yarn run test:remote && yarn run test:integration",
     "test:unit": "electron-mocha \"test/unit/**/*.test.ts\"",
     "test:remote": "electron-mocha \"test/remote/**/*.test.ts\"",
     "test:integration": "yarn run compile:prod && mocha --exit test/integration/index.ts",
