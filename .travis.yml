@@ -18,6 +18,5 @@ cache:
     - $HOME/Library/Caches/Yarn/v1
 
 script:
-  - yarn run lint
-  - yarn run test
+  - yarn run ci
   - if [[ $TRAVIS_BRANCH =~ release/.+ ]]; then yarn run publish; fi

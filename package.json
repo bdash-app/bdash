@@ -6,7 +6,7 @@
   "scripts": {
     "start": "electron app",
     "watch": "webpack --watch",
-    "test": "yarn run test:unit",
+    "test": "yarn run test:unit && yarn run test:remote && test:integration",
     "test:unit": "electron-mocha \"test/unit/**/*.test.ts\"",
     "test:remote": "electron-mocha \"test/remote/**/*.test.ts\"",
     "test:integration": "yarn run compile:prod && mocha --exit test/integration/index.ts",
@@ -14,6 +14,7 @@
     "lint:eslint": "eslint --ext '.js,.jsx,.ts,.tsx' .",
     "lint:tsc": "tsc --noEmit",
     "lint:prettier": "prettier --list-different ./**/*.{js,jsx,ts,tsx,css,json}",
+    "ci": "yarn run lint && yarn run test:unit",
     "format": "prettier --write '**/*.{js,jsx,ts,tsx,css,json}'",
     "publish": "yarn run compile:prod && electron-builder build --publish always",
     "compile:prod": "ts-node scripts/precompile.ts && webpack --env.NODE_ENV=production"
