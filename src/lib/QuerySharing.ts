@@ -19,13 +19,13 @@ export default {
       ${DataSource.create(dataSource).descriptionTable()}
     `);
     const files = {
-      "00_bdash.sql": { content: query.body },
-      "01_table.tsv": { content: tsv },
-      "03_info.md": { content: queryDescription }
+      "bdash.sql": { content: query.body },
+      "bdash_01.tsv": { content: tsv },
+      "bdash_03.md": { content: queryDescription }
     };
 
     if (svg) {
-      files["02_chart.svg"] = { content: svg };
+      files["bdash_02.svg"] = { content: svg };
     }
 
     const client = new GitHubApiClient(setting);
