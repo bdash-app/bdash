@@ -11,17 +11,20 @@ export default {
     const [tsv, svg] = await Promise.all([getTableDataAsTsv(query), getChartAsSvg(query, chart)]);
 
     const description = query.title;
-    const queryDescription = Util.stripHeredoc(`
+    const infoMd = Util.stripHeredoc(`
       ## Data source
       |key|value|
       |---|---|
       |type|${dataSource.type}
       ${DataSource.create(dataSource).descriptionTable()}
+
+      ## Created by
+      [Bdash](https://github.com/bdash-app/bdash)
     `);
     const files = {
       "bdash.sql": { content: query.body },
       "bdash_01.tsv": { content: tsv },
-      "bdash_03.md": { content: queryDescription }
+      "bdash_03.md": { content: infoMd }
     };
 
     if (svg) {
