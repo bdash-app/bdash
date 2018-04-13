@@ -1,5 +1,6 @@
 import TD from "td";
 import Base from "./Base";
+import Util from "../Util";
 
 const WAIT_INTERVAL = 2000;
 
@@ -102,6 +103,13 @@ export default class TreasureData extends Base {
     const fields = ["column", "type"];
     const rows = JSON.parse(table.schema);
     return { name, defs: { fields, rows } };
+  }
+
+  descriptionTable() {
+    return Util.stripHeredoc(`
+      |database|${this.config.database}|
+      |queryType|${this.config.queryType}|
+    `);
   }
 
   async wait(): Promise<any> {

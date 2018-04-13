@@ -3,19 +3,29 @@ import markdownTable from "markdown-table";
 import csvStringify from "csv-stringify";
 import GitHubApiClient from "./GitHubApiClient";
 import Chart from "./Chart";
+import DataSource from "./DataSource";
+import Util from "./Util";
 
 export default {
-  async shareOnGist({ query, chart, setting }) {
+  async shareOnGist({ query, chart, setting, dataSource }) {
     const [tsv, svg] = await Promise.all([getTableDataAsTsv(query), getChartAsSvg(query, chart)]);
 
     const description = query.title;
+    const queryDescription = Util.stripHeredoc(`
+      ## Data source
+      |key|value|
+      |---|---|
+      |type|${dataSource.type}
+      ${DataSource.create(dataSource).descriptionTable()}
+    `);
     const files = {
-      "query.sql": { content: query.body },
-      "result.tsv": { content: tsv }
+      "00_bdash.sql": { content: query.body },
+      "01_table.tsv": { content: tsv },
+      "03_info.md": { content: queryDescription }
     };
 
     if (svg) {
-      files["result2.svg"] = { content: svg };
+      files["02_chart.svg"] = { content: svg };
     }
 
     const client = new GitHubApiClient(setting);

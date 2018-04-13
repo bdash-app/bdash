@@ -130,6 +130,15 @@ export default class Postgres extends Base {
     return { schema, name, defs };
   }
 
+  descriptionTable() {
+    return Util.stripHeredoc(`
+      |host|${this.config.host}|
+      |port|${this.config.port}|
+      |user|${this.config.user}|
+      |database|${this.config.database}|
+    `);
+  }
+
   _execute(query, ...args): Promise<any> {
     if (this.currentClient) {
       return Promise.reject(new Error("A query is running"));

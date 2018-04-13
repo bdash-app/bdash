@@ -34,7 +34,8 @@ export default class Chart {
   getLayout() {
     const layout: any = {
       showlegend: true,
-      margin: { l: 50, r: 50, t: 10, b: 120, pad: 4 }
+      margin: { l: 50, r: 50, t: 10, b: 120, pad: 4 },
+      hoverlabel: { namelength: -1 }
     };
 
     if (this.params.stacking === "enable") {

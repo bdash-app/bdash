@@ -38,6 +38,7 @@ class Query extends React.Component<any, QueryState> {
   async handleShareOnGist(query) {
     const chart = this.state.charts.find(chart => chart.queryId === query.id);
     const setting = this.state.setting.github;
+    const dataSource = this.state.dataSources.find(ds => ds.id === query.dataSourceId);
 
     if (!setting.token) {
       alert("Set your Github token");
@@ -45,7 +46,7 @@ class Query extends React.Component<any, QueryState> {
     }
 
     try {
-      await QuerySharing.shareOnGist({ query, chart, setting });
+      await QuerySharing.shareOnGist({ query, chart, setting, dataSource });
     } catch (err) {
       alert(err.message);
     }

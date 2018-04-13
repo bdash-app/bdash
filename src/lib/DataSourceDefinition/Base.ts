@@ -20,5 +20,7 @@ export default abstract class Base {
 
   abstract fetchTables();
 
+  abstract descriptionTable();
+
   abstract fetchTableSummary(args);
 }
