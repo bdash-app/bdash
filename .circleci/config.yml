@@ -17,16 +17,16 @@ jobs:
             - ~/.electron
             - ~/.cache/yarn
 
-publish:
-  working_directory: ~/workspace
-  docker:
-    - image: circleci/node:8.9.4-browsers
-  steps:
-    - checkout
-    - restore_cache:
-        key: dependency-cache-{{ checksum "yarn.lock" }}
-    - run: sudo apt-get update && sudo apt-get install rpm
-    - run: yarn run publish
+  publish:
+    working_directory: ~/workspace
+    docker:
+      - image: circleci/node:8.9.4-browsers
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "yarn.lock" }}
+      - run: sudo apt-get update && sudo apt-get install rpm
+      - run: yarn run publish
 
 workflows:
   version: 2
