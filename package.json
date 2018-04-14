@@ -1,8 +1,14 @@
 {
-  "name": "Bdash",
-  "description": "A simple business intelligence application.",
   "private": true,
+  "name": "Bdash",
   "version": "1.2.1",
+  "productName": "Bdash",
+  "description": "A simple business intelligence application.",
+  "homepage": "https://github.com/bdash-app/bdash",
+  "author": {
+    "name": "Kazuhito Hokamura",
+    "email": "k.hokamura@gmail.com"
+  },
   "scripts": {
     "start": "electron app",
     "watch": "webpack --watch",
