@@ -3,4 +3,5 @@ out/
 app/out/
 dist/
 tmp/
+package.json
 package-lock.json
