@@ -11,7 +11,7 @@ publish:
 
 win:
   target:
-    - squirrel
+    - nsis
 
 mac:
   target:
