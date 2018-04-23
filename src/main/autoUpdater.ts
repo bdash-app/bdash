@@ -3,7 +3,7 @@ import log from "electron-log";
 
 const WATCH_INTERVAL = 60 * 60 * 1000; // 1 hour
 
-log.transports.file.level = "debug";
+log.transports.file.level = "info";
 autoUpdater.logger = log;
 
 export function watchUpdate() {
