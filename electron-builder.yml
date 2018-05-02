@@ -1,8 +1,8 @@
 appId: io.bdash
 
 directories:
-  output: dist
-  app: tmp/app
+  output: dist/production
+  app: app/production
 
 publish:
   provider: github

@@ -10,20 +10,19 @@
     "email": "k.hokamura@gmail.com"
   },
   "scripts": {
-    "start": "electron app",
+    "start": "electron app/development",
     "watch": "webpack --watch",
-    "test": "yarn run test:unit && yarn run test:remote && yarn run test:integration",
-    "test:unit": "electron-mocha \"test/unit/**/*.test.ts\"",
-    "test:remote": "electron-mocha \"test/remote/**/*.test.ts\"",
-    "test:integration": "yarn run compile:prod && mocha --exit test/integration/index.ts",
+    "test": "yarn run test:unit && yarn run test:integration",
+    "test:unit": "electron-mocha --grep @remote --invert \"./test/unit/**/*.test.{ts,tsx}\"",
+    "test:build": "webpack --env.BUILD_ENV=test && electron-builder build --config electron-builder.test.yml --publish never --dir",
+    "test:integration": "yarn run test:build && mocha --exit --grep @remote --invert test/integration/test.ts",
     "lint": "yarn run lint:eslint && yarn run lint:tsc && yarn run lint:prettier",
     "lint:eslint": "eslint --ext '.js,.jsx,.ts,.tsx' .",
     "lint:tsc": "tsc --noEmit",
     "lint:prettier": "prettier --list-different ./**/*.{js,jsx,ts,tsx,css,json}",
-    "ci": "yarn run lint && yarn run test:unit",
     "format": "prettier --write '**/*.{js,jsx,ts,tsx,css,json}'",
-    "publish": "yarn run compile:prod && electron-builder build --publish always",
-    "compile:prod": "ts-node scripts/precompile.ts && webpack --env.NODE_ENV=production"
+    "publish": "webpack --env.BUILD_ENV=production && electron-builder build --publish always",
+    "ci": "yarn run lint && yarn run test"
   },
   "dependencies": {
     "@google-cloud/bigquery": "0.7.0",
@@ -60,6 +59,8 @@
     "@types/react": "16.0.34",
     "@types/react-dom": "16.0.3",
     "@types/react-select": "1.1.0",
+    "clean-webpack-plugin": "0.1.19",
+    "copy-webpack-plugin": "4.5.1",
     "css-loader": "0.28.8",
     "electron": "1.8.2",
     "electron-builder": "20.8.1",

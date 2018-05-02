@@ -1,10 +1,25 @@
 import assert from "assert";
 import path from "path";
-import fse from "fs-extra";
+import os from "os";
 import { Application } from "spectron";
 import initializeMysql from "../fixtures/mysql/initialize";
+import fse from "fs-extra";
 
 let app;
+
+function appPath() {
+  const distDir = path.join(__dirname, "../../dist/test");
+  switch (process.platform) {
+    case "linux":
+      return `${distDir}/linux-unpacked/bdash`;
+    case "darwin":
+      return `${distDir}/mac/Bdash.app/Contents/MacOS/Bdash`;
+    case "win32":
+      return `${distDir}/win-unpacked/Bdash.exe`;
+    default:
+      throw new Error(`Invalid platfrom: ${process.platform}`);
+  }
+}
 
 // @ts-ignore
 function wait(ms) {
@@ -22,19 +37,8 @@ suite("Launch and onboarding", function() {
   this.timeout(10000);
 
   suiteSetup(async () => {
-    const rootDir = path.join(__dirname, "..", "..");
-    const bdashRootDir = path.join(rootDir, "tmp", "test", ".bdash");
-    let appPath = path.join(rootDir, "node_modules", ".bin", "electron");
-    if (process.platform === "win32") {
-      appPath += ".cmd";
-    }
-    app = new Application({
-      path: appPath,
-      args: [path.join(rootDir, "tmp", "app")],
-      env: { BDASH_ROOT: bdashRootDir }
-    });
-    await fse.remove(bdashRootDir);
-    await initializeMysql();
+    app = new Application({ path: appPath() });
+    fse.removeSync(path.join(os.tmpdir(), ".bdash"));
     await app.start();
     app.client.timeoutsImplicitWait(500);
   });
@@ -63,6 +67,10 @@ suite("Launch and onboarding", function() {
     await app.client.click(".QueryList-new i");
     const queryTitle = await app.client.getText(".QueryList-list li:first-child");
     assert.strictEqual(queryTitle, "New Query");
+  });
+
+  test("Execute a query @remote", async () => {
+    await initializeMysql();
 
     setValueToEditor("select * from test");
     await app.client.click(".QueryEditor-executeBtn");

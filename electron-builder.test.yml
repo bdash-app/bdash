@@ -1,0 +1,8 @@
+appId: io.bdash
+
+directories:
+  output: dist/test
+  app: app/test
+
+mac:
+  identity: null # disable code signing

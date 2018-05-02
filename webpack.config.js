@@ -1,13 +1,21 @@
-module.exports = env => {
-  const webpack = require("webpack");
-  const nodeExternals = require("webpack-node-externals");
-  const ExtractTextPlugin = require("extract-text-webpack-plugin");
-  const nodeEnv = (env && env.NODE_ENV) || "development";
-  const isProduction = nodeEnv === "production";
-  const distDir = isProduction ? "./tmp/app/out" : "./app/out";
+const webpack = require("webpack");
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const nodeExternals = require("webpack-node-externals");
+const CleanWebpackPlugin = require("clean-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
+module.exports = env => {
+  const buildEnv = (env && env.BUILD_ENV) || "development";
+  const isDevelopment = buildEnv === "development";
+  const appDir = `./app/${buildEnv}`;
+  const distDir = `${appDir}/out`;
+  const copyTargetFiles = ["static/index.html", "static/index.js", "package.json", "yarn.lock"];
+
+  const extractTextPlugin = new ExtractTextPlugin({ filename: `${distDir}/app.css` });
+  const cleanPlugin = new CleanWebpackPlugin(appDir);
+  const copyPlugin = new CopyWebpackPlugin(copyTargetFiles.map(filePath => ({ from: filePath, to: appDir })));
   const definePlugin = new webpack.DefinePlugin({
-    "process.env.NODE_ENV": JSON.stringify(nodeEnv)
+    "process.env.NODE_ENV": JSON.stringify(buildEnv)
   });
 
   const commonConfig = {
@@ -30,7 +38,7 @@ module.exports = env => {
           {
             test: /\.tsx?$/,
             loader: "ts-loader",
-            options: { transpileOnly: !isProduction }
+            options: { transpileOnly: isDevelopment }
           }
         ]
       }
@@ -48,7 +56,7 @@ module.exports = env => {
           {
             test: /\.tsx?$/,
             loader: "ts-loader",
-            options: { transpileOnly: !isProduction }
+            options: { transpileOnly: isDevelopment }
           },
           {
             test: /\.css$/,
@@ -63,7 +71,7 @@ module.exports = env => {
           }
         ]
       },
-      plugins: [new ExtractTextPlugin({ filename: `${distDir}/app.css` }), definePlugin]
+      plugins: [extractTextPlugin, definePlugin, cleanPlugin, copyPlugin]
     },
     commonConfig
   );

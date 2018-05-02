@@ -1,9 +1,9 @@
 import assert from "assert";
-import initialize from "../../fixtures/postgres/initialize";
-import Postgres from "../../../src/lib/DataSourceDefinition/Postgres";
-import DataSourceConfig from "../../helpers/DataSourceConfig";
+import initialize from "../../../fixtures/postgres/initialize";
+import Postgres from "../../../../src/lib/DataSourceDefinition/Postgres";
+import DataSourceConfig from "../../../helpers/DataSourceConfig";
 
-suite("DataSourceDefinition/Postgres", () => {
+suite("DataSourceDefinition/Postgres @remote", () => {
   const config = DataSourceConfig.postgres;
 
   suiteSetup(async () => {

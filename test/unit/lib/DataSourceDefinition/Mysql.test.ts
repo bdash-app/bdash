@@ -1,9 +1,9 @@
 import assert from "assert";
-import initialize from "../../fixtures/mysql/initialize";
-import Mysql from "../../../src/lib/DataSourceDefinition/Mysql";
-import DataSourceConfig from "../../helpers/DataSourceConfig";
+import initialize from "../../../fixtures/mysql/initialize";
+import Mysql from "../../../../src/lib/DataSourceDefinition/Mysql";
+import DataSourceConfig from "../../../helpers/DataSourceConfig";
 
-suite("DataSourceDefinition/Mysql", () => {
+suite("DataSourceDefinition/Mysql @remote", () => {
   const config = DataSourceConfig.mysql;
 
   suiteSetup(async () => {
