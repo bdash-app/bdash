@@ -25,7 +25,6 @@ jobs:
       - checkout
       - restore_cache:
           key: dependency-cache-{{ checksum "yarn.lock" }}
-      - run: sudo apt-get update && sudo apt-get install rpm
       - run: yarn run publish
 
 workflows:
