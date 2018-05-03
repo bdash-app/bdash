@@ -29,6 +29,7 @@
     "classnames": "2.2.5",
     "codemirror": "5.33.0",
     "csv-stringify": "2.0.1",
+    "electron-is-dev": "0.3.0",
     "electron-log": "2.2.14",
     "electron-updater": "2.21.4",
     "font-awesome": "4.7.0",
