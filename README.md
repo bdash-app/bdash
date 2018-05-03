@@ -26,10 +26,11 @@ https://gist.github.com/hokaccha/e128e1c3a68527ebf2c50d5e95a089b1
 
 * [x] MySQL
 * [x] PostgreSQL (Redshift)
+* [ ] SQLite3
 * [x] BigQuery
 * [x] Treasure Data
 * [ ] Amazon Athena
-* [ ] And more!
+* [ ] Amazon S3 Select
 
 ## Installation
 
