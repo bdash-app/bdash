@@ -1,0 +1,23 @@
+#!/bin/bash
+
+set -e
+
+TARGET_VERSION=$1
+BRANCH=release/v$TARGET_VERSION
+REMOTE_REPO=https://github.com/bdash-app/bdash.git
+
+git branch $BRANCH
+git checkout $BRANCH
+sed -i '' -E "s/\"version\": \"[0-9\.]+\"/\"version\": \"$TARGET_VERSION\"/" package.json
+git add package.json
+git commit -m "bump v$TARGET_VERSION"
+git --no-pager show
+while true; do
+    read -p 'Are you sure?[y/n]' yn
+    case $yn in
+        [Yy] ) break;;
+        * ) exit;;
+    esac
+done
+git push $REMOTE_REPO $BRANCH
+hub release create --draft --message=v$TARGET_VERSION v$TARGET_VERSION

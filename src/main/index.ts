@@ -1,5 +1,5 @@
 import electron from "electron";
-import { watchUpdate } from "./autoUpdater";
+import { updater } from "./updater";
 import menu from "./menu";
 
 const app = electron.app;
@@ -26,7 +26,7 @@ app.on("window-all-closed", () => {
 
 app.on("ready", () => {
   createWindow();
-  watchUpdate();
+  updater.watch();
   electron.Menu.setApplicationMenu(electron.Menu.buildFromTemplate(menu));
 });
 
