@@ -4,7 +4,7 @@
 
 # Bdash
 
-A modern SQL client application.
+Simple SQL Client for lightweight data analysis.
 
 ## Feature
 
@@ -34,24 +34,14 @@ https://gist.github.com/hokaccha/e128e1c3a68527ebf2c50d5e95a089b1
 
 ## Installation
 
-You can download and install from [GitHub release](https://github.com/bdash-app/bdash/releases).
-
-## Update
-
-Automatic update is not implemented yet. Download and override from [GitHub release](https://github.com/bdash-app/bdash/releases) manually.
-
-## Support platform
-
-* [x] macOS
-* [x] Windows
-* [ ] Linux
+You can download and install from here: [https://www.bdash.io/](https://www.bdash.io/)
 
 ## Development
 
 You can start the application with following commands.
 
 ```
-$ cd bdash
+# Install dependencies
 $ yarn
 
 # Run following commands with different shell processes.
