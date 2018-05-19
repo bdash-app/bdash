@@ -5,9 +5,14 @@ directories:
   app: app/production
 
 publish:
-  provider: github
-  owner: bdash-app
-  repo: bdash
+  - provider: github
+    owner: bdash-app
+    repo: bdash
+  - provider: s3
+    bucket: bdash-release
+    region: ap-northeast-1
+    acl: public-read
+    path: v${version}
 
 win:
   target:
