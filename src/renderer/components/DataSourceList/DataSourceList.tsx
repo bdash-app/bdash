@@ -31,7 +31,7 @@ export default class DataSourceList extends React.Component<any, any> {
           }
         }
       ]);
-      menu.popup(remote.getCurrentWindow());
+      menu.popup({ window: remote.getCurrentWindow() });
     });
   }
 
