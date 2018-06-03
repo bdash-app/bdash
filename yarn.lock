@@ -1039,7 +1039,7 @@ builder-util-runtime@4.1.0:
     fs-extra-p "^4.5.2"
     sax "^1.2.4"
 
-builder-util-runtime@4.2.0, builder-util-runtime@^4.1.0, builder-util-runtime@^4.2.0, builder-util-runtime@~4.2.0:
+builder-util-runtime@4.2.0, builder-util-runtime@^4.1.0, builder-util-runtime@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/builder-util-runtime/-/builder-util-runtime-4.2.0.tgz#c56aa18d34390143da031c418c9d3a055fbd3522"
   dependencies:
@@ -1048,7 +1048,7 @@ builder-util-runtime@4.2.0, builder-util-runtime@^4.1.0, builder-util-runtime@^4
     fs-extra-p "^4.5.2"
     sax "^1.2.4"
 
-builder-util-runtime@^4.2.1:
+builder-util-runtime@^4.2.1, builder-util-runtime@~4.2.1:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/builder-util-runtime/-/builder-util-runtime-4.2.1.tgz#0caa358f1331d70680010141ca591952b69b35bc"
   dependencies:
@@ -2057,9 +2057,9 @@ delegates@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/delegates/-/delegates-1.0.0.tgz#84c6e159b81904fdca59a0ef44cd870d31250f9a"
 
-denque@^1.1.1:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/denque/-/denque-1.2.2.tgz#e06cf7cf0da8badc88cbdaabf8fc0a70d659f1d4"
+denque@1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/denque/-/denque-1.2.3.tgz#98c50c8dd8cdfae318cc5859cc8ee3da0f9b0cc2"
 
 des.js@^1.0.0:
   version "1.0.0"
@@ -2415,19 +2415,19 @@ electron-to-chromium@^1.2.7:
   dependencies:
     electron-releases "^2.1.0"
 
-electron-updater@2.21.4:
-  version "2.21.4"
-  resolved "https://registry.yarnpkg.com/electron-updater/-/electron-updater-2.21.4.tgz#56326defc8072e78e339cc656838ac78e708f50c"
+electron-updater@2.21.10:
+  version "2.21.10"
+  resolved "https://registry.yarnpkg.com/electron-updater/-/electron-updater-2.21.10.tgz#aa66757ebf966f4247f247a8433af45cfe8e93b0"
   dependencies:
     bluebird-lst "^1.0.5"
-    builder-util-runtime "~4.2.0"
+    builder-util-runtime "~4.2.1"
     electron-is-dev "^0.3.0"
-    fs-extra-p "^4.5.2"
+    fs-extra-p "^4.6.0"
     js-yaml "^3.11.0"
     lazy-val "^1.0.3"
     lodash.isequal "^4.5.0"
     semver "^5.5.0"
-    source-map-support "^0.5.4"
+    source-map-support "^0.5.5"
 
 electron-window@^0.8.0:
   version "0.8.1"
@@ -4471,10 +4471,6 @@ js-base64@^2.1.9:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.4.0.tgz#9e566fee624751a1d720c966cd6226d29d4025aa"
 
-js-string-escape@1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/js-string-escape/-/js-string-escape-1.0.1.tgz#e2625badbc0d67c7533e9edc1068c587ae4137ef"
-
 js-tokens@^3.0.0, js-tokens@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-3.0.2.tgz#9866df395102130e38f7f996bceb65443209c25b"
@@ -4794,21 +4790,21 @@ lodash.uniq@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
 
-lodash@4.17.4, lodash@^4.14.0, lodash@^4.17.4, lodash@^4.3.0, lodash@^4.8.0, lodash@~4.17.2, lodash@~4.17.4:
-  version "4.17.4"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
-
-lodash@^4.0.0:
+lodash@4.17.10, lodash@^4.0.0:
   version "4.17.10"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.10.tgz#1b7793cf7259ea38fb3661d4d38b3260af8ae4e7"
+
+lodash@^4.14.0, lodash@^4.17.4, lodash@^4.3.0, lodash@^4.8.0, lodash@~4.17.2, lodash@~4.17.4:
+  version "4.17.4"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
 log-driver@^1.2.5:
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/log-driver/-/log-driver-1.2.5.tgz#7ae4ec257302fd790d557cb10c97100d857b0056"
 
-long@^3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/long/-/long-3.2.0.tgz#d821b7138ca1cb581c172990ef14db200b5c474b"
+long@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/long/-/long-4.0.0.tgz#9a7b71cfb7d361a194ea555241c92f7468d5bf28"
 
 longest@^1.0.1:
   version "1.0.1"
@@ -4835,7 +4831,7 @@ lru-cache@2.5.0:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-2.5.0.tgz#d82388ae9c960becbea0c73bb9eb79b6c6ce9aeb"
 
-lru-cache@^4.0.1, lru-cache@^4.1.1:
+lru-cache@4.1.1, lru-cache@^4.0.1, lru-cache@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-4.1.1.tgz#622e32e82488b49279114a4f9ecf45e7cd6bba55"
   dependencies:
@@ -4927,9 +4923,9 @@ marching-simplex-table@^1.0.0:
   dependencies:
     convex-hull "^1.0.3"
 
-markdown-table@1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/markdown-table/-/markdown-table-1.1.1.tgz#4b3dd3a133d1518b8ef0dbc709bf2a1b4824bc8c"
+markdown-table@1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/markdown-table/-/markdown-table-1.1.2.tgz#c78db948fa879903a41bce522e3b96f801c63786"
 
 marked@~0.3.6:
   version "0.3.12"
@@ -5231,22 +5227,22 @@ mute-stream@0.0.7:
   version "0.0.7"
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.7.tgz#3075ce93bc21b8fab43e1bc4da7e8115ed1e7bab"
 
-mysql2@1.5.1:
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/mysql2/-/mysql2-1.5.1.tgz#2411d6fb958af86b2304b7a53bc54b26e77e682b"
+mysql2@1.5.3:
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/mysql2/-/mysql2-1.5.3.tgz#d905a1a06da0469828287608ce68647b8130748f"
   dependencies:
     cardinal "1.0.0"
-    denque "^1.1.1"
+    denque "1.2.3"
     generate-function "^2.0.0"
     iconv-lite "^0.4.18"
-    long "^3.2.0"
-    lru-cache "^4.1.1"
+    long "^4.0.0"
+    lru-cache "4.1.1"
     named-placeholders "1.1.1"
     object-assign "^4.1.1"
-    readable-stream "2.3.2"
+    readable-stream "2.3.5"
     safe-buffer "^5.0.1"
     seq-queue "0.0.5"
-    sqlstring "^2.2.0"
+    sqlstring "2.3.1"
 
 named-placeholders@1.1.1:
   version "1.1.1"
@@ -5843,12 +5839,11 @@ pg-types@~1.12.1:
     postgres-date "~1.0.0"
     postgres-interval "^1.1.0"
 
-pg@7.4.1:
-  version "7.4.1"
-  resolved "https://registry.yarnpkg.com/pg/-/pg-7.4.1.tgz#f3411c8ddf9f692322fe05e7017a1888e47f78f1"
+pg@7.4.3:
+  version "7.4.3"
+  resolved "https://registry.yarnpkg.com/pg/-/pg-7.4.3.tgz#f7b6f93f5340ecc2596afbb94a13e3d6b609834b"
   dependencies:
     buffer-writer "1.0.1"
-    js-string-escape "1.0.1"
     packet-reader "0.3.1"
     pg-connection-string "0.1.3"
     pg-pool "~2.0.3"
@@ -6586,16 +6581,16 @@ read-pkg@^2.0.0:
     string_decoder "~1.1.1"
     util-deprecate "~1.0.1"
 
-readable-stream@2.3.2:
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-2.3.2.tgz#5a04df05e4f57fe3f0dc68fdd11dc5c97c7e6f4d"
+readable-stream@2.3.5:
+  version "2.3.5"
+  resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-2.3.5.tgz#b4f85003a938cbb6ecbce2a124fb1012bd1a838d"
   dependencies:
     core-util-is "~1.0.0"
     inherits "~2.0.3"
     isarray "~1.0.0"
-    process-nextick-args "~1.0.6"
-    safe-buffer "~5.1.0"
-    string_decoder "~1.0.0"
+    process-nextick-args "~2.0.0"
+    safe-buffer "~5.1.1"
+    string_decoder "~1.0.3"
     util-deprecate "~1.0.1"
 
 "readable-stream@>=1.0.33-1 <1.1.0-0", readable-stream@~1.0.17, readable-stream@~1.0.26, readable-stream@~1.0.27-1:
@@ -7242,7 +7237,7 @@ source-map-support@^0.5.3, source-map-support@^0.5.4:
   dependencies:
     source-map "^0.6.0"
 
-source-map-support@^0.5.6:
+source-map-support@^0.5.5, source-map-support@^0.5.6:
   version "0.5.6"
   resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.5.6.tgz#4435cee46b1aab62b8e8610ce60f788091c51c13"
   dependencies:
@@ -7330,9 +7325,9 @@ sqlite3@4.0.0:
     nan "~2.9.2"
     node-pre-gyp "~0.9.0"
 
-sqlstring@^2.2.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/sqlstring/-/sqlstring-2.3.0.tgz#525b8a4fd26d6f71aa61e822a6caf976d31ad2a8"
+sqlstring@2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/sqlstring/-/sqlstring-2.3.1.tgz#475393ff9e91479aea62dcaf0ca3d14983a7fb40"
 
 sshpk@^1.7.0:
   version "1.13.1"
@@ -7455,7 +7450,7 @@ string.prototype.trim@~1.1.2:
     es-abstract "^1.5.0"
     function-bind "^1.0.2"
 
-string_decoder@^1.0.0, string_decoder@~1.0.0, string_decoder@~1.0.3:
+string_decoder@^1.0.0, string_decoder@~1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/string_decoder/-/string_decoder-1.0.3.tgz#0fc67d7c141825de94282dd536bec6b9bce860ab"
   dependencies:
