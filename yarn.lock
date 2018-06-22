@@ -708,6 +708,20 @@ autoprefixer@^6.3.1:
     postcss "^5.2.16"
     postcss-value-parser "^3.2.3"
 
+aws-sdk@2.259.1:
+  version "2.259.1"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.259.1.tgz#df4814b65d5654f250d097951aa84e27a472b5aa"
+  dependencies:
+    buffer "4.9.1"
+    events "1.1.1"
+    ieee754 "1.1.8"
+    jmespath "0.15.0"
+    querystring "0.2.0"
+    sax "1.2.1"
+    url "0.10.3"
+    uuid "3.1.0"
+    xml2js "0.4.17"
+
 aws-sdk@^2.243.1:
   version "2.243.1"
   resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.243.1.tgz#c47b05431637c572177a1814c724cae8a5ee3f49"

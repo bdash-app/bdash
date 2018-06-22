@@ -2,6 +2,7 @@ import Mysql from "./DataSourceDefinition/Mysql";
 import Postgres from "./DataSourceDefinition/Postgres";
 import BigQuery from "./DataSourceDefinition/BigQuery";
 import TreasureData from "./DataSourceDefinition/TreasureData";
+import Athena from "./DataSourceDefinition/Athena";
 
 export default class DataSource {
   static dataSources: any;
@@ -29,4 +30,4 @@ export default class DataSource {
   }
 }
 
-DataSource.register(Mysql, Postgres, BigQuery, TreasureData);
+DataSource.register(Mysql, Postgres, BigQuery, TreasureData, Athena);
