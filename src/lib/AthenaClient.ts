@@ -48,7 +48,7 @@ export default class AthenaClient {
         case "SUCCEEDED":
           return done();
         case "FAILED":
-          throw new Error("Query is failed");
+          throw new Error(`Query is failed: ${QueryExecution.Status.StateChangeReason}`);
         case "CANCELLED":
           throw new Error("Query is cancelled");
       }
