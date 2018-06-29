@@ -9,7 +9,7 @@ interface AthenaClientConfig {
   outputLocation: string;
 }
 
-type QueryResult = Array<Array<string | null>>;
+type QueryResult = (string | null)[][];
 
 export default class AthenaClient {
   config: AthenaClientConfig;
