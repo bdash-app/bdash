@@ -25,12 +25,11 @@ https://gist.github.com/hokaccha/e128e1c3a68527ebf2c50d5e95a089b1
 ### Multiple data sources support
 
 * [x] MySQL
-* [x] PostgreSQL (Redshift)
+* [x] PostgreSQL (Amazon Redshift)
 * [ ] SQLite3
-* [x] BigQuery
+* [x] Google BigQuery
 * [x] Treasure Data
-* [ ] Amazon Athena
-* [ ] Amazon S3 Select
+* [x] Amazon Athena
 
 ## Installation
 
