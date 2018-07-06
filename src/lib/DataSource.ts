@@ -3,6 +3,7 @@ import Postgres from "./DataSourceDefinition/Postgres";
 import BigQuery from "./DataSourceDefinition/BigQuery";
 import TreasureData from "./DataSourceDefinition/TreasureData";
 import Athena from "./DataSourceDefinition/Athena";
+import SQLite3 from "./DataSourceDefinition/SQLite3";
 
 export default class DataSource {
   static dataSources: any;
@@ -30,4 +31,4 @@ export default class DataSource {
   }
 }
 
-DataSource.register(Mysql, Postgres, BigQuery, TreasureData, Athena);
+DataSource.register(Mysql, Postgres, BigQuery, TreasureData, Athena, SQLite3);
