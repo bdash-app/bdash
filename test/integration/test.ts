@@ -2,12 +2,12 @@ import assert from "assert";
 import path from "path";
 import os from "os";
 import { Application } from "spectron";
-import initializeMysql from "../fixtures/mysql/initialize";
 import fse from "fs-extra";
 
-let app;
+let app: Application;
+let bdashDir: string;
 
-function appPath() {
+function appPath(): string {
   const distDir = path.join(__dirname, "../../dist/test");
   switch (process.platform) {
     case "linux":
@@ -22,11 +22,11 @@ function appPath() {
 }
 
 // @ts-ignore
-function wait(ms) {
+function wait(ms: number): Promise<null> {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function setValueToEditor(text) {
+function setValueToEditor(text: string): void {
   app.client.execute(text => {
     // @ts-ignore
     document.querySelector(".QueryEditor .CodeMirror").CodeMirror.setValue(text);
@@ -38,7 +38,8 @@ suite("Launch and onboarding", function() {
 
   suiteSetup(async () => {
     app = new Application({ path: appPath() });
-    fse.removeSync(path.join(os.tmpdir(), ".bdash"));
+    bdashDir = path.join(os.tmpdir(), ".bdash");
+    fse.removeSync(bdashDir);
     await app.start();
     app.client.timeoutsImplicitWait(500);
   });
@@ -49,10 +50,8 @@ suite("Launch and onboarding", function() {
 
   test("Create a data source", async () => {
     await app.client.setValue('.DataSourceForm input[name="name"]', "Test Data Source");
-    await app.client.selectByValue('.DataSourceForm select[name="type"]', "mysql");
-    await app.client.setValue('.DataSourceForm input[name="host"]', "127.0.0.1");
-    await app.client.setValue('.DataSourceForm input[name="user"]', "root");
-    await app.client.setValue('.DataSourceForm input[name="database"]', "bdash_test");
+    await app.client.selectByValue('.DataSourceForm select[name="type"]', "sqlite3");
+    await app.client.setValue('.DataSourceForm input[name="path"]', `${bdashDir}/bdash.sqlite3`);
     await app.client.click(".DataSourceForm-saveBtn");
 
     const title = await app.client.getText(".DataSourceList-list li:first-child");
@@ -69,15 +68,13 @@ suite("Launch and onboarding", function() {
     assert.strictEqual(queryTitle, "New Query");
   });
 
-  test("Execute a query @remote", async () => {
-    await initializeMysql();
-
-    setValueToEditor("select * from test");
+  test("Execute a query", async () => {
+    setValueToEditor("select * from data_sources");
     await app.client.click(".QueryEditor-executeBtn");
     const existingTable = await app.client.isExisting(".QueryResultTable");
     assert.ok(existingTable);
 
     const rows = await app.client.elements(".QueryResultTable-table tbody tr");
-    assert.strictEqual(rows.value.length, 3);
+    assert.strictEqual(rows.value.length, 1);
   });
 });
