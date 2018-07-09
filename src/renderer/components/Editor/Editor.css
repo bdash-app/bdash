@@ -2,6 +2,8 @@
 }
 
 .Editor .CodeMirror {
-  font-size: 13px;
+  font-family: "RictyDiminished";
+  font-size: 16px;
+  line-height: 1.2;
   font-family: monaco, monospace;
 }
