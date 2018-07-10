@@ -9,7 +9,13 @@ module.exports = env => {
   const isDevelopment = buildEnv === "development";
   const appDir = `./app/${buildEnv}`;
   const distDir = `${appDir}/out`;
-  const copyTargetFiles = ["static/index.html", "static/index.js", "package.json", "yarn.lock"];
+  const copyTargetFiles = [
+    "static/index.html",
+    "static/index.js",
+    "static/RictyDiminished-Regular.ttf",
+    "package.json",
+    "yarn.lock"
+  ];
 
   const extractTextPlugin = new ExtractTextPlugin({ filename: `${distDir}/app.css` });
   const cleanPlugin = new CleanWebpackPlugin(appDir);

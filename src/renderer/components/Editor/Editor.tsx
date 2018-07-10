@@ -21,6 +21,9 @@ export default class Editor extends React.Component<any, any> {
 
     this.codeMirror = CodeMirror.fromTextArea(this.textareaElement, this.props.options);
     this.codeMirror.on("change", this.handleValueChange.bind(this));
+    this.codeMirror.on("focus", () => {
+      this.codeMirror.refresh();
+    });
     this.codeMirror.on("cursorActivity", this.handleCursorChange.bind(this));
     this.codeMirror.setOption("extraKeys", {
       [process.platform === "darwin" ? "Cmd-Enter" : "Alt-Enter"]: () => {
