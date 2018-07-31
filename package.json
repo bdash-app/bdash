@@ -75,7 +75,7 @@
     "execa": "0.9.0",
     "extract-text-webpack-plugin": "3.0.2",
     "file-loader": "1.1.6",
-    "prettier": "1.10.2",
+    "prettier": "1.14.0",
     "spectron": "3.7.2",
     "ts-loader": "3.2.0",
     "ts-node": "5.0.1",
