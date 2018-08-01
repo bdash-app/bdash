@@ -65,7 +65,7 @@
     "clean-webpack-plugin": "0.1.19",
     "copy-webpack-plugin": "4.5.1",
     "css-loader": "0.28.8",
-    "electron": "2.0.2",
+    "electron": "2.0.6",
     "electron-builder": "20.8.1",
     "electron-mocha": "6.0.1",
     "electron-publisher-s3": "20.14.4",
