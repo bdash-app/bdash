@@ -1,9 +1,14 @@
 import electron from "electron";
 import { updater } from "./updater";
 import { initMenu } from "./menu";
+import logger from "./logger";
 
 const app = electron.app;
 let mainWindow;
+
+process.on("uncaughtException", err => {
+  logger.error(err);
+});
 
 function createWindow() {
   mainWindow = new electron.BrowserWindow({
