@@ -48,7 +48,7 @@
     "react-micro-flyout": "1.0.1",
     "react-modal": "3.1.10",
     "react-select": "1.2.1",
-    "sqlite3": "4.0.0",
+    "sqlite3": "4.0.2",
     "td": "0.3.0"
   },
   "devDependencies": {
