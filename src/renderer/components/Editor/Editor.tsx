@@ -33,7 +33,10 @@ export default class Editor extends React.Component<any, any> {
         this.codeMirror.execCommand("selectAll");
       },
       Tab: cm => {
-        if (!cm.state.vim || cm.state.vim.insertMode) {
+        if (!cm.state.vim) {
+          if (cm.somethingSelected()) cm.indentSelection("add");
+          else cm.execCommand("insertSoftTab");
+        } else if (cm.state.vim.insertMode) {
           cm.execCommand("insertSoftTab");
         }
       }
