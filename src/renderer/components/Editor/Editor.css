@@ -2,8 +2,7 @@
 }
 
 .Editor .CodeMirror {
-  font-family: "RictyDiminished";
-  font-size: 16px;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, "RictyDiminished", monospace;
+  font-size: 13px;
   line-height: 1.2;
-  font-family: monaco, monospace;
 }
