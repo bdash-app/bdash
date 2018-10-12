@@ -1,7 +1,5 @@
-os:
-  - osx
-  - linux
-  - windows
+os: osx
+osx_image: xcode9.3
 
 language: node_js
 node_js:
@@ -17,12 +15,7 @@ cache:
   directories:
     - node_modules
     - $HOME/.electron
-
-before_script:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export DISPLAY=:99.0; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sh -e /etc/init.d/xvfb start; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sleep 3; fi
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then npm install -g yarn; fi
+    - $HOME/Library/Caches/Yarn/v1
 
 script:
   - yarn run ci
