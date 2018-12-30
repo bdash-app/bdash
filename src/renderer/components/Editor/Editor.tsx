@@ -51,6 +51,9 @@ export default class Editor extends React.Component<any, any> {
       action: "delLineLeft",
       context: "insert"
     });
+    if (process.platform !== "darwin") {
+      (CodeMirror.Vim as any).unmap("<C-c>");
+    }
   }
 
   componentWillUnmount() {
