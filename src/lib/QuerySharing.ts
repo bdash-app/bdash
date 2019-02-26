@@ -21,14 +21,15 @@ export default {
       ## Created by
       [Bdash](https://github.com/bdash-app/bdash)
     `);
+    const fileNamePrefix = query.title !== "" ? query.title : "bdash";
     const files = {
-      "bdash.sql": { content: query.body },
-      "bdash_01.tsv": { content: tsv },
-      "bdash_03.md": { content: infoMd }
+      [`${fileNamePrefix}.sql`]: { content: query.body },
+      [`${fileNamePrefix}_01.tsv`]: { content: tsv },
+      [`${fileNamePrefix}_03.md`]: { content: infoMd }
     };
 
     if (svg) {
-      files["bdash_02.svg"] = { content: svg };
+      files[`${fileNamePrefix}_02.svg`] = { content: svg };
     }
 
     const client = new GitHubApiClient(setting);
