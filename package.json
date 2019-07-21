@@ -69,7 +69,7 @@
     "electron-builder": "20.8.1",
     "electron-mocha": "6.0.1",
     "electron-publisher-s3": "20.14.4",
-    "eslint": "4.16.0",
+    "eslint": "4.18.2",
     "eslint-config-prettier": "2.9.0",
     "eslint-plugin-react": "7.5.1",
     "execa": "0.9.0",
