@@ -37,7 +37,7 @@
     "fs-extra": "5.0.0",
     "immup": "3.0.0",
     "js-yaml": "3.10.0",
-    "lodash": "4.17.10",
+    "lodash": "4.17.13",
     "markdown-table": "1.1.2",
     "moment": "2.20.1",
     "mysql2": "1.5.3",
