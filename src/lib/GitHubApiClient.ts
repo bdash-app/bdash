@@ -57,10 +57,14 @@ export default class GitHubApiClient {
       body: JSON.stringify(Object.assign({ public: false }, contents))
     });
 
-    if (response.ok) {
-      return response.json();
-    } else {
+    if (!response.ok) {
       throw new Error(`${response.status} ${response.statusText}`);
+    }
+
+    try {
+      return await response.json();
+    } catch (err) {
+      throw new Error("Invalid response.");
     }
   }
 }
