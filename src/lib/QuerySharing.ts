@@ -23,7 +23,7 @@ export default {
     `);
 
     // https://github.com/bdash-app/bdash/issues/40
-    const fileNamePrefix = query.title !== "" ? query.title.replace(/\/]/g, "_") : "bdash";
+    const fileNamePrefix = query.title !== "" ? query.title.replace(/[/\s]/g, "_") : "bdash";
     const files = {
       [`${fileNamePrefix}.sql`]: { content: query.body },
       [`${fileNamePrefix}_01.tsv`]: { content: tsv },
