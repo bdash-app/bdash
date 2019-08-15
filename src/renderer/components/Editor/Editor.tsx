@@ -52,7 +52,10 @@ export default class Editor extends React.Component<any, any> {
       context: "insert"
     });
     if (process.platform !== "darwin") {
-      (CodeMirror.Vim as any).unmap("<C-c>");
+      const vim: any = CodeMirror.Vim;
+      if (typeof vim.findKey(this.codeMirror, "<C-c>") === "function") {
+        vim.unmap("<C-c>");
+      }
     }
   }
 
