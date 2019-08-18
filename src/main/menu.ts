@@ -80,6 +80,10 @@ if (process.platform === "darwin") {
   });
 } else if (Array.isArray(helpMenu.submenu)) {
   helpMenu.submenu.push(checkForUpdateItem);
+  template.unshift({
+    label: "File",
+    submenu: [{ role: "quit" }]
+  });
 }
 
 export function initMenu() {
