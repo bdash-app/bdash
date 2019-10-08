@@ -34,7 +34,6 @@ export default class Editor extends React.Component<any, any> {
         this.codeMirror.execCommand("selectAll");
       },
       [process.platform === "darwin" ? "Cmd-/" : "Ctrl-/"]: () => {
-        console.log("toggleComment");
         this.codeMirror.execCommand("toggleComment");
       },
       Tab: cm => {
