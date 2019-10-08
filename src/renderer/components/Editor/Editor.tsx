@@ -1,5 +1,6 @@
 import React from "react";
 import CodeMirror from "codemirror";
+import "codemirror/addon/comment/comment";
 import "codemirror/addon/search/search";
 import "codemirror/addon/runmode/colorize";
 import "codemirror/keymap/vim";
@@ -31,6 +32,10 @@ export default class Editor extends React.Component<any, any> {
       },
       [process.platform === "darwin" ? "Cmd-A" : "Ctrl-A"]: () => {
         this.codeMirror.execCommand("selectAll");
+      },
+      [process.platform === "darwin" ? "Cmd-/" : "Ctrl-/"]: () => {
+        console.log("toggleComment");
+        this.codeMirror.execCommand("toggleComment");
       },
       Tab: cm => {
         if (!cm.state.vim) {

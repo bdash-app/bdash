@@ -4,7 +4,7 @@ import isDev from "electron-is-dev";
 
 const editMenu: Electron.MenuItemConstructorOptions = {
   label: "Edit",
-  submenu: [{ role: "cut" }, { role: "copy" }, { role: "paste" }, { role: "selectall" }]
+  submenu: [{ role: "cut" }, { role: "copy" }, { role: "paste" }, { role: "selectall" }, { type: "separator" }, { label: "Toggle Comment", accelerator: "CommandOrControl+/" },],
 };
 
 const viewMenu: Electron.MenuItemConstructorOptions = {
