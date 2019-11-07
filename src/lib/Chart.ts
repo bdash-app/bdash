@@ -127,6 +127,7 @@ export default class Chart {
     return [
       {
         type: "pie",
+        direction: "clockwise",
         labels: this.dataByField(this.params.x),
         values: this.dataByField(this.params.y[0])
       }
