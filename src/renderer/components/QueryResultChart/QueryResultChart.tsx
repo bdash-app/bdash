@@ -4,7 +4,7 @@ import Chart from "../../../lib/Chart";
 
 type State = {
   readonly xLegend: string;
-}
+};
 
 export default class QueryResultChart extends React.Component<any, State> {
   chartElement: HTMLDivElement | null;
@@ -12,7 +12,7 @@ export default class QueryResultChart extends React.Component<any, State> {
   constructor(props) {
     super(props);
     this.state = {
-      xLegend: "",
+      xLegend: ""
     };
     this.handleChangeXLegend = this.handleChangeXLegend.bind(this);
   }
@@ -45,7 +45,7 @@ export default class QueryResultChart extends React.Component<any, State> {
       groupBy: chart.groupColumn,
       rows: query.rows,
       fields: query.fields,
-      xLegend: this.state.xLegend.length > 0 ? this.state.xLegend : null,
+      xLegend: this.state.xLegend.length > 0 ? this.state.xLegend : null
     };
 
     new Chart(params).drawTo(this.chartElement);
@@ -136,7 +136,12 @@ export default class QueryResultChart extends React.Component<any, State> {
           </div>
           <div className="QueryResultChart-item" hidden={chart.type === "pie"}>
             <div className="QueryResultChart-label">X Legend</div>
-            <input className="QueryResultChart-textField" type="text" value={this.state.xLegend} onChange={this.handleChangeXLegend} />
+            <input
+              className="QueryResultChart-textField"
+              type="text"
+              value={this.state.xLegend}
+              onChange={this.handleChangeXLegend}
+            />
           </div>
           <div className="QueryResultChart-item">
             <div className="QueryResultChart-label">{chart.type === "pie" ? "Value Column" : "Y Column"}</div>
