@@ -2,10 +2,22 @@ import React from "react";
 import Select from "react-select";
 import Chart from "../../../lib/Chart";
 
-export default class QueryResultChart extends React.Component<any, any> {
+type State = {
+  readonly xLegend: string;
+}
+
+export default class QueryResultChart extends React.Component<any, State> {
   chartElement: HTMLDivElement | null;
 
-  shouldComponentUpdate(nextProps) {
+  constructor(props) {
+    super(props);
+    this.state = {
+      xLegend: "",
+    };
+    this.handleChangeXLegend = this.handleChangeXLegend.bind(this);
+  }
+
+  shouldComponentUpdate(nextProps, nextState: State) {
     const query = nextProps.query;
     const chart = nextProps.chart;
 
@@ -15,6 +27,7 @@ export default class QueryResultChart extends React.Component<any, any> {
     if (this.props.query.id !== query.id) return true;
     if (this.props.query.runAt !== query.runAt) return true;
     if (this.props.chart.updatedAt !== chart.updatedAt) return true;
+    if (this.state.xLegend !== nextState.xLegend) return true;
 
     return false;
   }
@@ -31,7 +44,8 @@ export default class QueryResultChart extends React.Component<any, any> {
       stacking: chart.stacking,
       groupBy: chart.groupColumn,
       rows: query.rows,
-      fields: query.fields
+      fields: query.fields,
+      xLegend: this.state.xLegend.length > 0 ? this.state.xLegend : null,
     };
 
     new Chart(params).drawTo(this.chartElement);
@@ -55,6 +69,10 @@ export default class QueryResultChart extends React.Component<any, any> {
 
   handleChangeX(option) {
     this.update({ xColumn: option ? option.value : null });
+  }
+
+  handleChangeXLegend(e: React.ChangeEvent<HTMLInputElement>) {
+    this.setState({ xLegend: e.target.value });
   }
 
   handleChangeY(options) {
@@ -115,6 +133,10 @@ export default class QueryResultChart extends React.Component<any, any> {
           <div className="QueryResultChart-item">
             <div className="QueryResultChart-label">{chart.type === "pie" ? "Label Column" : "X Column"}</div>
             <Select options={fieldOptions} value={chart.xColumn} onChange={o => this.handleChangeX(o)} />
+          </div>
+          <div className="QueryResultChart-item" hidden={chart.type === "pie"}>
+            <div className="QueryResultChart-label">X Legend</div>
+            <input className="QueryResultChart-textField" type="text" value={this.state.xLegend} onChange={this.handleChangeXLegend} />
           </div>
           <div className="QueryResultChart-item">
             <div className="QueryResultChart-label">{chart.type === "pie" ? "Value Column" : "Y Column"}</div>

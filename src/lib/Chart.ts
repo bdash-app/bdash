@@ -45,6 +45,11 @@ export default class Chart {
       layout.barmode = "stack";
       layout.barnorm = "percent";
     }
+    if (this.params.xLegend && (this.params.type === "line" || this.params.type === "bar" || this.params.type === "area")) {
+      layout.xaxis = {
+        title: this.params.xLegend,
+      };
+    }
 
     return layout;
   }

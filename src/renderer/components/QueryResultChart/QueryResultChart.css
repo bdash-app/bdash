@@ -42,3 +42,13 @@
   flex: 1;
   width: 0;
 }
+
+.QueryResultChart-textField {
+  width: 100%;
+  font-size: 14px;
+  line-height: 34px;
+  padding-left: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
