@@ -10,11 +10,19 @@ process.on("uncaughtException", err => {
   logger.error(err);
 });
 
+// https://github.com/electron/electron/issues/2984#issuecomment-145419711
+process.once("loaded", () => {
+  global.setImmediate = setImmediate;
+});
+
 function createWindow() {
   mainWindow = new electron.BrowserWindow({
     width: 1280,
     height: 780,
-    title: "Bdash"
+    title: "Bdash",
+    webPreferences: {
+      nodeIntegration: true
+    }
   });
 
   mainWindow.loadURL(`file://${__dirname}/../index.html`);
