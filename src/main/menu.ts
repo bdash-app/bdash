@@ -51,7 +51,7 @@ const checkForUpdateItem = {
       case UpdateState.UpdateDownloaded: {
         const message = "There is an available update. Restart app to apply the latest update.";
         const buttons = ["Update Now", "Later"];
-        dialog.showMessageBox({ message, buttons }).then((result) => {
+        dialog.showMessageBox({ message, buttons }).then(result => {
           if (result.response === 0) {
             updater.quit();
           }

@@ -20,7 +20,7 @@ module.exports = env => {
 
   const extractTextPlugin = new MiniCssExtractPlugin({ filename: "app.css" });
   const cleanPlugin = new CleanWebpackPlugin(appDir);
-  const copyPlugin = new CopyWebpackPlugin(copyTargetFiles.map(filePath => ({ from: filePath, to: appDir})));
+  const copyPlugin = new CopyWebpackPlugin(copyTargetFiles.map(filePath => ({ from: filePath, to: appDir })));
   const definePlugin = new webpack.DefinePlugin({
     "process.env.NODE_ENV": JSON.stringify(buildEnv)
   });
@@ -73,10 +73,13 @@ module.exports = env => {
           },
           {
             test: /\.css$/,
-            use: [{
-              loader: MiniCssExtractPlugin.loader,
-              options: { sourceMap: true }
-            }, "css-loader"]
+            use: [
+              {
+                loader: MiniCssExtractPlugin.loader,
+                options: { sourceMap: true }
+              },
+              "css-loader"
+            ]
           },
           {
             test: /\.(png|ttf|eot|svg|woff|woff2)(\?.+)?$/,
