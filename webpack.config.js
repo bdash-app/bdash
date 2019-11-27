@@ -41,7 +41,7 @@ module.exports = env => {
       entry: "./src/main/index.ts",
       output: {
         path: distDir,
-        filename: `main.js`
+        filename: "main.js"
       },
       module: {
         rules: [
