@@ -1,4 +1,4 @@
-import { autoUpdater, AppUpdater, UpdateCheckResult } from "electron-updater";
+import { autoUpdater, AppUpdater } from "electron-updater";
 import isDev from "electron-is-dev";
 import logger from "./logger";
 
@@ -22,12 +22,12 @@ export class Updater {
     });
   }
 
-  check(): Promise<UpdateCheckResult | null> {
-    if (isDev) return Promise.resolve(null);
-    return this.autoUpdater.checkForUpdates();
+  check() {
+    if (isDev) return;
+    this.autoUpdater.checkForUpdates();
   }
 
-  async watch() {
+  watch() {
     this.check();
     setInterval(() => this.check(), WATCH_INTERVAL);
   }
