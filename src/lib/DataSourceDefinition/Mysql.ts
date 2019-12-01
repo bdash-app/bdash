@@ -85,6 +85,8 @@ export default class Mysql extends Base {
             reject(err);
           } else if (fields && rows) {
             resolve({ fields: fields.map(f => f.name), rows });
+          } else if (rows) {
+            resolve({ fields: [], rows: [] });
           } else {
             // cancel query does not have result
             resolve();
