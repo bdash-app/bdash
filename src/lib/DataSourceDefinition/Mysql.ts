@@ -1,18 +1,18 @@
 import mysql from "mysql2";
-import Base from "./Base";
+import Base, { ConfigSchemaType } from "./Base";
 import Util from "../Util";
 import { zipObject } from "lodash";
 
 export default class Mysql extends Base {
   currentConnection: any;
 
-  static get key() {
+  static get key(): string {
     return "mysql";
   }
-  static get label() {
+  static get label(): string {
     return "MySQL";
   }
-  static get configSchema() {
+  static get configSchema(): ConfigSchemaType {
     return [
       { name: "host", label: "Host", type: "string", placeholder: "localhost" },
       { name: "port", label: "Port", type: "number", placeholder: 3306 },
@@ -31,7 +31,7 @@ export default class Mysql extends Base {
     return this._execute(query);
   }
 
-  cancel() {
+  cancel(): Promise<void> {
     const tid = this.currentConnection && this.currentConnection.threadId;
     if (!tid) return Promise.resolve();
 
@@ -43,7 +43,7 @@ export default class Mysql extends Base {
     return true;
   }
 
-  async fetchTables() {
+  async fetchTables(): Promise<{ name: string; type: string; schema?: string }[]> {
     const query = Util.stripHeredoc(`
       select table_name as name, table_type as type
       from information_schema.tables
@@ -55,14 +55,18 @@ export default class Mysql extends Base {
     return rows.map(row => zipObject(fields, row));
   }
 
-  async fetchTableSummary({ name }) {
+  async fetchTableSummary({
+    name
+  }: {
+    name: string;
+  }): Promise<{ name: string; defs: { fields: string[]; rows: (string | null)[][] }; schema?: string }> {
     const sql = "show columns from ??";
     const defs = await this._execute(sql, name);
 
     return { name, defs };
   }
 
-  _execute(query, ...args): Promise<any> {
+  _execute(query: string, ...args): Promise<any> {
     if (this.currentConnection) {
       return Promise.reject(new Error("A query is running"));
     }
@@ -94,7 +98,7 @@ export default class Mysql extends Base {
     });
   }
 
-  descriptionTable() {
+  descriptionTable(): string {
     return Util.stripHeredoc(`
       |host|${this.config.host}|
       |port|${this.config.port}|

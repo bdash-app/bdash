@@ -1,17 +1,17 @@
 import bigquery from "@google-cloud/bigquery";
-import Base from "./Base";
+import Base, { ConfigSchemaType } from "./Base";
 import { flatten } from "lodash";
 
 export default class BigQuery extends Base {
   _cancel: any;
 
-  static get key() {
+  static get key(): string {
     return "bigquery";
   }
-  static get label() {
+  static get label(): string {
     return "BigQuery";
   }
-  static get configSchema() {
+  static get configSchema(): ConfigSchemaType {
     return [
       {
         name: "project",
@@ -28,7 +28,7 @@ export default class BigQuery extends Base {
     ];
   }
 
-  execute(query) {
+  execute(query: string) {
     this._cancel = null;
     return new Promise((resolve, reject) => {
       bigquery(this.config).startQuery(query, (err, job) => {
@@ -52,18 +52,17 @@ export default class BigQuery extends Base {
     });
   }
 
-  cancel() {
+  cancel(): void {
     return this._cancel && this._cancel();
   }
 
-  async connectionTest() {
+  async connectionTest(): Promise<void> {
     await bigquery(this.config).query("select 1");
-    return true;
   }
 
-  async fetchTables() {
-    const [datasets] = await bigquery(this.config).getDatasets();
-    const promises = datasets.map(async dataset => {
+  async fetchTables(): Promise<{ name: string; type: string; schema?: string }[]> {
+    const [datasets]: [any[]] = await bigquery(this.config).getDatasets();
+    const promises = datasets.map<Promise<{ name: string; type: string; schema?: string }>>(async dataset => {
       const [tables] = await dataset.getTables();
       return tables.map(table => ({
         schema: dataset.id,
@@ -75,7 +74,13 @@ export default class BigQuery extends Base {
     return flatten(results);
   }
 
-  async fetchTableSummary({ schema, name }) {
+  async fetchTableSummary({
+    schema,
+    name
+  }: {
+    schema: string;
+    name: string;
+  }): Promise<{ name: string; defs: { fields: string[]; rows: (string | null)[][] }; schema?: string }> {
     const [metadata] = await bigquery(this.config)
       .dataset(schema)
       .table(name)
@@ -88,7 +93,7 @@ export default class BigQuery extends Base {
     return { schema, name, defs };
   }
 
-  descriptionTable() {
+  descriptionTable(): string {
     return `|project|${this.config.project}|`;
   }
 }
