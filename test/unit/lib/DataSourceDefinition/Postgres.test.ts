@@ -18,6 +18,14 @@ suite("DataSourceDefinition/Postgres @remote", () => {
     });
   });
 
+  test("insert", async () => {
+    const result = await new Postgres(config).execute("insert into test values (4, 'hoge')");
+    assert.deepStrictEqual(result, {
+      fields: [],
+      rows: []
+    });
+  });
+
   test("update", async () => {
     const result = await new Postgres(config).execute("update test set text = 'hoge'");
     assert.deepStrictEqual(result, {

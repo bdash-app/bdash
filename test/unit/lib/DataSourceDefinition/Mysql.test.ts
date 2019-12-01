@@ -18,6 +18,14 @@ suite("DataSourceDefinition/Mysql @remote", () => {
     });
   });
 
+  test("insert", async () => {
+    const result = await new Mysql(config).execute("insert into test values (4, 'hoge')");
+    assert.deepStrictEqual(result, {
+      fields: [],
+      rows: []
+    });
+  });
+
   test("update", async () => {
     const result = await new Mysql(config).execute("update test set text = 'hoge'");
     assert.deepStrictEqual(result, {
