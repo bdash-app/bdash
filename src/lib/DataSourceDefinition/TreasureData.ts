@@ -1,5 +1,5 @@
 import TD from "td";
-import Base from "./Base";
+import Base, { ConfigSchemaType } from "./Base";
 import Util from "../Util";
 
 const WAIT_INTERVAL = 2000;
@@ -11,13 +11,13 @@ export default class TreasureData extends Base {
   _cancel: any;
   _client: any;
 
-  static get key() {
+  static get key(): string {
     return "treasuredata";
   }
-  static get label() {
+  static get label(): string {
     return "TreasureData";
   }
-  static get configSchema() {
+  static get configSchema(): ConfigSchemaType {
     return [
       { name: "database", label: "Database", type: "string", required: true },
       {
@@ -37,7 +37,7 @@ export default class TreasureData extends Base {
     ];
   }
 
-  execute(query) {
+  execute(query: string): Promise<any> {
     if (this.jobId) {
       return Promise.reject(new Error("A query is running"));
     }
@@ -68,7 +68,7 @@ export default class TreasureData extends Base {
     });
   }
 
-  cancel() {
+  cancel(): void {
     this._cancel && this._cancel();
     this.kill();
   }
@@ -80,12 +80,12 @@ export default class TreasureData extends Base {
     });
   }
 
-  async connectionTest() {
+  async connectionTest(): Promise<any> {
     await this._execQuery("select 1");
     return true;
   }
 
-  fetchTables() {
+  fetchTables(): Promise<{ name: string; type: string; schema?: string }[]> {
     return new Promise((resolve, reject) => {
       return this.client.listTables(this.config.database, (err, list) => {
         if (err) {
@@ -98,14 +98,16 @@ export default class TreasureData extends Base {
     });
   }
 
-  async fetchTableSummary({ name }) {
+  async fetchTableSummary({
+    name
+  }): Promise<{ name: string; defs: { fields: string[]; rows: (string | null)[][] }; schema?: string }> {
     const table = cacheTableList.tables.find(t => t.name === name);
     const fields = ["column", "type"];
     const rows = JSON.parse(table.schema);
     return { name, defs: { fields, rows } };
   }
 
-  descriptionTable() {
+  descriptionTable(): string {
     return Util.stripHeredoc(`
       |database|${this.config.database}|
       |queryType|${this.config.queryType}|

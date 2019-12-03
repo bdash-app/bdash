@@ -1,5 +1,5 @@
 import pg from "pg";
-import Base from "./Base";
+import Base, { ConfigSchemaType } from "./Base";
 import Util from "../Util";
 import { zipObject } from "lodash";
 
@@ -50,13 +50,13 @@ import { zipObject } from "lodash";
 export default class Postgres extends Base {
   currentClient: any;
 
-  static get key() {
+  static get key(): string {
     return "postgres";
   }
-  static get label() {
+  static get label(): string {
     return "PostgreSQL";
   }
-  static get configSchema() {
+  static get configSchema(): ConfigSchemaType {
     return [
       { name: "host", label: "Host", type: "string", placeholder: "localhost" },
       { name: "port", label: "Port", type: "number", placeholder: 5432 },
@@ -72,7 +72,7 @@ export default class Postgres extends Base {
     ];
   }
 
-  async execute(query, options: any = {}) {
+  async execute(query: string, options: any = {}): Promise<any> {
     try {
       return await this._execute(query);
     } catch (err) {
@@ -80,19 +80,19 @@ export default class Postgres extends Base {
     }
   }
 
-  cancel() {
+  cancel(): Promise<void> {
     const pid = this.currentClient && this.currentClient.processID;
     if (!pid) return Promise.resolve();
 
     return new Postgres(this.config)._execute(`select pg_cancel_backend(${pid})`);
   }
 
-  async connectionTest() {
+  async connectionTest(): Promise<any> {
     await this._execute("select 1");
     return true;
   }
 
-  async fetchTables() {
+  async fetchTables(): Promise<{ name: string; type: string; schema?: string }[]> {
     const query = Util.stripHeredoc(`
       select table_schema as schema, table_name as name, table_type as type
       from information_schema.tables
@@ -104,7 +104,13 @@ export default class Postgres extends Base {
     return rows.map(row => zipObject(fields, row));
   }
 
-  async fetchTableSummary({ schema, name }) {
+  async fetchTableSummary({
+    schema,
+    name
+  }: {
+    schema: string;
+    name: string;
+  }): Promise<{ name: string; defs: { fields: string[]; rows: (string | null)[][] }; schema?: string }> {
     const query = Util.stripHeredoc(`
       select
           pg_attribute.attname as name,
@@ -130,7 +136,7 @@ export default class Postgres extends Base {
     return { schema, name, defs };
   }
 
-  descriptionTable() {
+  descriptionTable(): string {
     return Util.stripHeredoc(`
       |host|${this.config.host}|
       |port|${this.config.port}|
