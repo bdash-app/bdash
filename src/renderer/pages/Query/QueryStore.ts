@@ -1,11 +1,12 @@
 import Setting, { SettingType } from "../../../lib/Setting";
 import Store from "../../flux/Store";
+import { ChartType } from "../../../lib/Database/Chart";
 
 export interface QueryState {
   setting: SettingType;
   queries: any[];
   dataSources: any[];
-  charts: any[];
+  charts: ChartType[];
   selectedQueryId: number | null;
   editor: {
     height: number | null;
@@ -85,7 +86,7 @@ export default class QueryStore extends Store<QueryState> {
     return idx;
   }
 
-  findChartIndex(id) {
+  findChartIndex(id: number) {
     const idx = this.state.charts.findIndex(c => c.id === id);
 
     if (idx === -1) {

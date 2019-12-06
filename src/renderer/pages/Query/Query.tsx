@@ -8,7 +8,7 @@ import QueryHeader from "../../components/QueryHeader";
 import QueryEditor from "../../components/QueryEditor";
 import QueryResult from "../../components/QueryResult";
 
-class Query extends React.Component<any, QueryState> {
+class Query extends React.Component<{}, QueryState> {
   componentDidMount() {
     Action.initialize();
   }
@@ -35,7 +35,7 @@ class Query extends React.Component<any, QueryState> {
     }
   }
 
-  async handleShareOnGist(query) {
+  async handleShareOnGist(query): Promise<void> {
     const chart = this.state.charts.find(chart => chart.queryId === query.id);
     const setting = this.state.setting.github;
     const dataSource = this.state.dataSources.find(ds => ds.id === query.dataSourceId);
@@ -43,6 +43,10 @@ class Query extends React.Component<any, QueryState> {
     if (!setting.token) {
       alert("Set your Github token");
       return;
+    }
+
+    if (!chart) {
+      return Promise.reject(new Error(`chart (query id ${query.id}) is not found while sharing on gist`));
     }
 
     try {
