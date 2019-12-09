@@ -1,17 +1,17 @@
 import AthenaClient from "../AthenaClient";
-import Base from "./Base";
+import Base, { ConfigSchemaType } from "./Base";
 import Util from "../Util";
 
 export default class Athena extends Base {
   client: AthenaClient;
 
-  static get key() {
+  static get key(): string {
     return "athena";
   }
-  static get label() {
+  static get label(): string {
     return "Amazon Athena";
   }
-  static get configSchema() {
+  static get configSchema(): ConfigSchemaType {
     return [
       {
         name: "region",
@@ -57,21 +57,24 @@ export default class Athena extends Base {
     return { fields, rows };
   }
 
-  cancel() {
-    return this.client.cancel();
+  cancel(): void {
+    this.client.cancel();
   }
 
-  async connectionTest() {
+  async connectionTest(): Promise<void> {
     await this.client.execute("select 1");
-    return;
   }
 
-  async fetchTables() {
+  async fetchTables(): Promise<{ name: string; type: string; schema?: string }[]> {
     const rows = await this.client.execute("show tables");
-    return rows.map(row => ({ name: row[0], type: "table" }));
+    return rows.map(row => ({ name: row[0]!, type: "table" }));
   }
 
-  async fetchTableSummary({ name }) {
+  async fetchTableSummary({
+    name
+  }: {
+    name: string;
+  }): Promise<{ name: string; defs: { fields: string[]; rows: (string | null)[][] }; schema?: string }> {
     const rows = await this.client.execute(`describe ${name}`);
     const defs = {
       fields: ["name", "type"],
@@ -84,7 +87,7 @@ export default class Athena extends Base {
     return { name, defs };
   }
 
-  descriptionTable() {
+  descriptionTable(): string {
     return Util.stripHeredoc(`
       |region|${this.config.region}|
       |database|${this.config.database}|

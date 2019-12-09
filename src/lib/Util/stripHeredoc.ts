@@ -1,4 +1,4 @@
-export default function stripHeredoc(str) {
+export default function stripHeredoc(str: string) {
   str = str.trim();
   const margins = (str.match(/^ +/gm) || []).map(s => s.length);
   const margin = Math.min(...margins);

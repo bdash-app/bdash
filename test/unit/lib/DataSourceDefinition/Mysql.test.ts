@@ -10,11 +10,35 @@ suite("DataSourceDefinition/Mysql @remote", () => {
     await initialize();
   });
 
-  test("execute", async () => {
+  test("select", async () => {
     const result = await new Mysql(config).execute("select id, text from test order by id");
     assert.deepStrictEqual(result, {
       fields: ["id", "text"],
       rows: [[1, "foo"], [2, "bar"], [3, "baz"]]
+    });
+  });
+
+  test("insert", async () => {
+    const result = await new Mysql(config).execute("insert into test values (4, 'hoge')");
+    assert.deepStrictEqual(result, {
+      fields: [],
+      rows: []
+    });
+  });
+
+  test("update", async () => {
+    const result = await new Mysql(config).execute("update test set text = 'hoge'");
+    assert.deepStrictEqual(result, {
+      fields: [],
+      rows: []
+    });
+  });
+
+  test("delete", async () => {
+    const result = await new Mysql(config).execute("delete from test where id = 1");
+    assert.deepStrictEqual(result, {
+      fields: [],
+      rows: []
     });
   });
 

@@ -14,6 +14,7 @@
     "watch": "webpack --mode=development --watch",
     "test": "yarn run test:unit && yarn run test:integration",
     "test:unit": "electron-mocha --grep @remote --invert \"./test/unit/**/*.test.{ts,tsx}\"",
+    "test:unit:remote": "electron-mocha --grep @remote \"./test/unit/**/*.test.{ts,tsx}\"",
     "test:build": "webpack --env.BUILD_ENV=test --mode=development && electron-builder build --config electron-builder.test.yml --publish never --dir",
     "test:integration": "yarn run test:build && mocha --exit test/integration/test.ts",
     "lint": "yarn run lint:eslint && yarn run lint:tsc && yarn run lint:prettier",
