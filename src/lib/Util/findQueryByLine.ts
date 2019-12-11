@@ -10,6 +10,13 @@ export default function findQueryByLine(sql: string, line: number): QueryChunk {
   const chunks = splitQuery(sql);
   const chunk = find(chunks, chunk => chunk.endLine >= line) || last(chunks);
 
+  if (!chunk) {
+    return {
+      query: "",
+      startLine: 2,
+      endLine: 1
+    };
+  }
   return {
     query: chunk.query,
     startLine: chunk.startLine,

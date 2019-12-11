@@ -2,8 +2,21 @@ import fs from "fs";
 import yaml from "js-yaml";
 import _ from "lodash";
 
+export type SettingType = {
+  readonly keyBind: "default" | "vim";
+  readonly github: GithubSettingType;
+};
+
+export type GithubSettingType = {
+  readonly token: string | null;
+  readonly url: string | null;
+};
+
+// type for partial updating parameter.
+export type PartialSettingType = { [P in keyof SettingType]?: Partial<SettingType[P]> };
+
 export default class Setting {
-  static getDefault() {
+  static getDefault(): SettingType {
     return {
       keyBind: "default",
       github: {
@@ -14,9 +27,9 @@ export default class Setting {
   }
 
   filePath: string;
-  setting: any;
+  setting: SettingType;
 
-  initialize(filePath) {
+  initialize(filePath: string) {
     this.filePath = filePath;
 
     if (!fs.existsSync(filePath)) {
@@ -26,11 +39,11 @@ export default class Setting {
     this.setting = yaml.safeLoad(fs.readFileSync(filePath).toString()) || {};
   }
 
-  load() {
+  load(): SettingType {
     return this.setting;
   }
 
-  save(params) {
+  save(params: PartialSettingType) {
     const setting = _.merge(this.setting, params);
     fs.writeFileSync(this.filePath, yaml.safeDump(setting));
   }

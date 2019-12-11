@@ -1,35 +1,37 @@
 const GITHUB_COM_URL = "https://api.github.com";
 
 export default class GitHubApiClient {
-  baseUrl: string;
-  token: string;
+  readonly baseUrl: string;
+  readonly token: string | null;
 
-  constructor({ token, url }) {
-    this.baseUrl = url;
+  constructor({ token, url }: { token: string | null; url: string | null }) {
+    this.baseUrl = url || GITHUB_COM_URL;
     this.token = token;
   }
 
-  getHeaders() {
+  getHeaders(): { [name: string]: string } {
     return {
       "Content-Type": "application/json",
       Authorization: `token ${this.token}`
     };
   }
 
-  generateFullUrl(path) {
-    const baseUrl = this.baseUrl || GITHUB_COM_URL;
-    return baseUrl.replace(/\/+$/, "") + path;
+  generateFullUrl(path: string): string {
+    return this.baseUrl.replace(/\/+$/, "") + path;
   }
 
-  getValidationTokenUrl() {
+  getValidationTokenUrl(): string {
     return this.generateFullUrl(`/?_=${Date.now()}`);
   }
 
-  getGistUrl() {
+  getGistUrl(): string {
     return this.generateFullUrl("/gists");
   }
 
-  async validateToken() {
+  async validateToken(): Promise<true> {
+    if (!this.token || this.token.length === 0) {
+      throw new Error("Token is not set");
+    }
     const response = await fetch(this.getValidationTokenUrl(), {
       headers: this.getHeaders()
     });
@@ -50,7 +52,7 @@ export default class GitHubApiClient {
     }
   }
 
-  async postToGist(contents) {
+  async postToGist(contents: any): Promise<any> {
     const response = await fetch(this.getGistUrl(), {
       method: "POST",
       headers: this.getHeaders(),

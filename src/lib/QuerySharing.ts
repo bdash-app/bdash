@@ -5,9 +5,20 @@ import GitHubApiClient from "./GitHubApiClient";
 import Chart from "./Chart";
 import DataSource from "./DataSource";
 import Util from "./Util";
+import { GithubSettingType } from "./Setting";
 
 export default {
-  async shareOnGist({ query, chart, setting, dataSource }) {
+  async shareOnGist({
+    query,
+    chart,
+    setting,
+    dataSource
+  }: {
+    query: any;
+    chart: any;
+    setting: GithubSettingType;
+    dataSource: any;
+  }) {
     const [tsv, svg] = await Promise.all([getTableDataAsTsv(query), getChartAsSvg(query, chart)]);
 
     const description = query.title;

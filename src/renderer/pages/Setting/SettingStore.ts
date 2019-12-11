@@ -1,4 +1,4 @@
-import Setting from "../../../lib/Setting";
+import Setting, { SettingType } from "../../../lib/Setting";
 import Store from "../../flux/Store";
 
 export interface SettingState {
@@ -6,7 +6,7 @@ export interface SettingState {
     status: string | null;
     error: string | null;
   };
-  setting: any;
+  setting: SettingType;
 }
 
 export default class SettingStore extends Store<SettingState> {

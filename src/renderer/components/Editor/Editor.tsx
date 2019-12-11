@@ -1,6 +1,7 @@
 import React from "react";
 import CodeMirror from "codemirror";
 import "codemirror/addon/comment/comment";
+import "codemirror/addon/edit/matchbrackets";
 import "codemirror/addon/search/search";
 import "codemirror/addon/runmode/colorize";
 import "codemirror/keymap/vim";
@@ -9,10 +10,20 @@ import "codemirror/lib/codemirror.css";
 import "codemirror/addon/dialog/dialog.css";
 import { isEqual } from "lodash";
 
-export default class Editor extends React.Component<any, any> {
+type Props = {
+  readonly options: CodeMirror.EditorConfiguration;
+  readonly value: string;
+  readonly height: number | null;
+  readonly rootRef: React.Ref<any>;
+  readonly onSubmit: () => void;
+  readonly onChange: (change: string) => void;
+  readonly onChangeCursor: (lineNumber: number) => void;
+};
+
+export default class Editor extends React.Component<Props> {
   codeMirror: CodeMirror.EditorFromTextArea;
-  currentValue: any;
-  currentOptions: any;
+  currentValue: string;
+  currentOptions: CodeMirror.EditorConfiguration;
   textareaElement: HTMLTextAreaElement | null;
 
   componentDidMount() {
@@ -36,17 +47,17 @@ export default class Editor extends React.Component<any, any> {
       [process.platform === "darwin" ? "Cmd-/" : "Ctrl-/"]: () => {
         this.codeMirror.execCommand("toggleComment");
       },
-      Tab: cm => {
+      Tab: (cm: CodeMirror.Editor) => {
         if (!cm.state.vim) {
-          if (cm.somethingSelected()) cm.indentSelection("add");
+          if (cm.getDoc().somethingSelected()) cm.execCommand("indentMore");
           else cm.execCommand("insertSoftTab");
         } else if (cm.state.vim.insertMode) {
           cm.execCommand("insertSoftTab");
         }
       }
     });
-    this.currentValue = this.props.value || "";
-    this.currentOptions = this.props.options || {};
+    this.currentValue = this.props.value;
+    this.currentOptions = this.props.options;
     this.codeMirror.setValue(this.currentValue);
     CodeMirror.Vim.defineAction("delLineLeft", cm => cm.execCommand("delLineLeft"));
     CodeMirror.Vim._mapCommand({
@@ -70,32 +81,30 @@ export default class Editor extends React.Component<any, any> {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.value !== undefined && this.currentValue !== nextProps.value) {
+  componentWillReceiveProps(nextProps: Props) {
+    if (this.currentValue !== nextProps.value) {
       this.codeMirror.setValue(nextProps.value);
     }
 
     if (typeof nextProps.options === "object" && !isEqual(nextProps.options, this.currentOptions)) {
       this.currentOptions = nextProps.options;
-      for (const optionName in nextProps.options) {
-        if (nextProps.options.hasOwnProperty(optionName)) {
-          this.codeMirror.setOption(optionName, nextProps.options[optionName]);
-        }
-      }
+      Object.entries(nextProps.options).forEach(([optionName, optionValue]) => {
+        this.codeMirror.setOption(optionName as keyof CodeMirror.EditorConfiguration, optionValue);
+      });
     }
   }
 
-  shouldComponentUpdate(nextProps) {
+  shouldComponentUpdate(nextProps: Props) {
     return this.props.height !== nextProps.height;
   }
 
-  handleValueChange(doc) {
+  handleValueChange(doc: CodeMirror.Doc) {
     const newValue = doc.getValue();
     this.currentValue = newValue;
     this.props.onChange && this.props.onChange(newValue);
   }
 
-  handleCursorChange(doc) {
+  handleCursorChange(doc: CodeMirror.Doc) {
     const cursor = doc.getCursor();
     const line = (cursor.line || 0) + 1;
     this.props.onChangeCursor(line);
@@ -104,7 +113,7 @@ export default class Editor extends React.Component<any, any> {
   render() {
     const height = this.props.height;
     return (
-      <div className="Editor" ref={this.props.rootRef} style={height != null ? { height: `${height}px` } : {}}>
+      <div className="Editor" ref={this.props.rootRef} style={height !== null ? { height: `${height}px` } : {}}>
         <textarea ref={node => (this.textareaElement = node)} defaultValue="" autoComplete="off" />
       </div>
     );

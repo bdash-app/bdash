@@ -1,8 +1,8 @@
-import Setting from "../../../lib/Setting";
+import Setting, { SettingType } from "../../../lib/Setting";
 import Store from "../../flux/Store";
 
 export interface QueryState {
-  setting: any;
+  setting: SettingType;
   queries: any[];
   dataSources: any[];
   charts: any[];
