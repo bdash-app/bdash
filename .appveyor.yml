@@ -8,7 +8,7 @@ skip_tags: true
 build: off
 
 environment:
-  nodejs_version: "8.9.4"
+  nodejs_version: "10"
 
 cache:
   - node_modules

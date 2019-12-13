@@ -4,17 +4,17 @@ import isDev from "electron-is-dev";
 
 const editMenu: Electron.MenuItemConstructorOptions = {
   label: "Edit",
-  submenu: [{ role: "cut" }, { role: "copy" }, { role: "paste" }, { role: "selectall" }]
+  submenu: [{ role: "cut" }, { role: "copy" }, { role: "paste" }, { role: "selectAll" }]
 };
 
 const viewMenu: Electron.MenuItemConstructorOptions = {
   label: "View",
   submenu: [
-    { role: "toggledevtools" },
+    { role: "toggleDevTools" },
     { type: "separator" },
-    { role: "resetzoom" },
-    { role: "zoomin" },
-    { role: "zoomout" }
+    { role: "resetZoom" },
+    { role: "zoomIn" },
+    { role: "zoomOut" }
   ]
 };
 
@@ -51,8 +51,8 @@ const checkForUpdateItem = {
       case UpdateState.UpdateDownloaded: {
         const message = "There is an available update. Restart app to apply the latest update.";
         const buttons = ["Update Now", "Later"];
-        dialog.showMessageBox({ message, buttons }, buttonIndex => {
-          if (buttonIndex === 0) {
+        dialog.showMessageBox({ message, buttons }).then(result => {
+          if (result.response === 0) {
             updater.quit();
           }
         });
@@ -66,13 +66,13 @@ const template: Electron.MenuItemConstructorOptions[] = [editMenu, viewMenu, win
 
 if (process.platform === "darwin") {
   template.unshift({
-    label: app.getName(),
+    label: app.name,
     submenu: [
       { role: "about" },
       checkForUpdateItem,
       { type: "separator" },
       { role: "hide" },
-      { role: "hideothers" },
+      { role: "hideOthers" },
       { role: "unhide" },
       { type: "separator" },
       { role: "quit" }

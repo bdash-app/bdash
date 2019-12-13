@@ -1,5 +1,6 @@
+const path = require("path");
 const webpack = require("webpack");
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const nodeExternals = require("webpack-node-externals");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
@@ -7,8 +8,8 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 module.exports = env => {
   const buildEnv = (env && env.BUILD_ENV) || "development";
   const isDevelopment = buildEnv === "development";
-  const appDir = `./app/${buildEnv}`;
-  const distDir = `${appDir}/out`;
+  const appDir = path.join(__dirname, "app", buildEnv);
+  const distDir = path.join(appDir, "out");
   const copyTargetFiles = [
     "static/index.html",
     "static/index.js",
@@ -17,7 +18,7 @@ module.exports = env => {
     "yarn.lock"
   ];
 
-  const extractTextPlugin = new ExtractTextPlugin({ filename: `${distDir}/app.css` });
+  const extractTextPlugin = new MiniCssExtractPlugin({ filename: "app.css" });
   const cleanPlugin = new CleanWebpackPlugin(appDir);
   const copyPlugin = new CopyWebpackPlugin(copyTargetFiles.map(filePath => ({ from: filePath, to: appDir })));
   const definePlugin = new webpack.DefinePlugin({
@@ -38,7 +39,10 @@ module.exports = env => {
     {
       target: "electron-main",
       entry: "./src/main/index.ts",
-      output: { filename: `${distDir}/main.js` },
+      output: {
+        path: distDir,
+        filename: "main.js"
+      },
       module: {
         rules: [
           {
@@ -56,7 +60,10 @@ module.exports = env => {
     {
       target: "electron-renderer",
       entry: "./src/renderer/app.tsx",
-      output: { filename: `${distDir}/app.js` },
+      output: {
+        path: distDir,
+        filename: "app.js"
+      },
       module: {
         rules: [
           {
@@ -66,10 +73,13 @@ module.exports = env => {
           },
           {
             test: /\.css$/,
-            use: ExtractTextPlugin.extract({
-              loader: "css-loader",
-              options: { sourceMap: true }
-            })
+            use: [
+              {
+                loader: MiniCssExtractPlugin.loader,
+                options: { sourceMap: true }
+              },
+              "css-loader"
+            ]
           },
           {
             test: /\.(png|ttf|eot|svg|woff|woff2)(\?.+)?$/,
