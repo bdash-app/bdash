@@ -20,9 +20,9 @@ jobs:
     steps:
       - checkout
       - run: sudo apt-get update
-      - run: sudo apt -y install gnupg2
+      - run: sudo apt -y install gnupg2 lsb-release
       - run: wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
-      - run: echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" |sudo tee  /etc/apt/sources.list.d/pgdg.list
+      - run: echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list
       - run: sudo apt update
       - run: sudo apt-get install postgresql-client-12 default-mysql-client
       - restore_cache:
