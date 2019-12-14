@@ -10,6 +10,7 @@
   padding: 12px 0;
   font-size: 22px;
   cursor: pointer;
+  height: 26px;
 }
 
 .GlobalMenu-item:hover {
