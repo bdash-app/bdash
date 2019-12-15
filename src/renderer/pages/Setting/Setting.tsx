@@ -1,10 +1,11 @@
 import React from "react";
-import Select from "react-select";
+import Select, { OptionTypeBase } from "react-select";
 import Container from "../../flux/Container";
 import { store, SettingState } from "./SettingStore";
 import Action from "./SettingAction";
 import Button from "../../components/Button";
 import ProgressIcon from "../../components/ProgressIcon";
+import { selectStyles } from "../../components/Select";
 
 class Setting extends React.Component<any, SettingState> {
   componentDidMount() {
@@ -17,8 +18,9 @@ class Setting extends React.Component<any, SettingState> {
   }
 
   render() {
-    const keyBindOptions: any[] = ["default", "vim"].map(v => ({ value: v, label: v }));
+    const keyBindOptions: { value: string; label: string }[] = ["default", "vim"].map(v => ({ value: v, label: v }));
     const setting = this.state.setting;
+    const currentOption = keyBindOptions.find(option => option.value === (setting.keyBind || "default"));
     const github = setting.github || {};
 
     return (
@@ -28,10 +30,12 @@ class Setting extends React.Component<any, SettingState> {
           <div className="page-Setting-section2 page-Setting-keyBind">
             <h2>Key bind</h2>
             <Select
-              value={setting.keyBind || "default"}
+              value={currentOption}
               options={keyBindOptions}
-              onChange={e => Action.update({ keyBind: (e as any).value })} // TODO: typing
-              clearable={false}
+              onChange={e => Action.update({ keyBind: (e as OptionTypeBase).value })} // TODO: typing
+              isClearable={false}
+              isSearchable={false}
+              styles={selectStyles}
             />
           </div>
         </div>
