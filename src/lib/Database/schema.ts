@@ -1,7 +1,7 @@
 export type Migration = {
   readonly version: number;
   readonly query: string;
-}
+};
 
 export const migrations: Migration[] = [
   {
@@ -43,6 +43,6 @@ export const migrations: Migration[] = [
       updatedAt datetime not null
     );
     create index if not exists idx_query_id_on_charts on charts(queryId);
-    `,
+    `
   }
 ];

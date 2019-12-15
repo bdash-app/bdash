@@ -70,9 +70,12 @@ suite("Database/Connection", () => {
         ]);
         assert.fail();
       } catch (err) {
-        connection.get("select * from test_aaa;").then(() => assert.fail()).catch(() => {
-          // do nothing
-        });
+        connection
+          .get("select * from test_aaa;")
+          .then(() => assert.fail())
+          .catch(() => {
+            // do nothing
+          });
       }
     });
   });

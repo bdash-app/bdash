@@ -18,7 +18,7 @@ export default class Connection {
   }
 
   async migrate(migrations: Migration[]): Promise<void> {
-    await this.exec('begin;');
+    await this.exec("begin;");
     try {
       await this.exec(
         `create table if not exists schema_version (
@@ -47,9 +47,9 @@ export default class Connection {
         }
         last_version = m.version;
       }
-      await this.exec('commit;');
+      await this.exec("commit;");
     } catch (err) {
-      await this.exec('rollback;');
+      await this.exec("rollback;");
       throw err;
     }
   }
