@@ -5,7 +5,7 @@ const nodeExternals = require("webpack-node-externals");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 
-module.exports = env => {
+module.exports = (env, argv) => {
   const buildEnv = (env && env.BUILD_ENV) || "development";
   const isDevelopment = buildEnv === "development";
   const appDir = path.join(__dirname, "app", buildEnv);
@@ -27,7 +27,7 @@ module.exports = env => {
 
   const commonConfig = {
     resolve: { extensions: [".ts", ".tsx"] },
-    devtool: "source-map",
+    devtool: argv.mode === "production" ? "inline-source-map" : "eval-source-map",
     node: {
       __dirname: false,
       __filename: false
