@@ -20,22 +20,7 @@ export default class Connection {
   async migrate(migrations: Migration[]): Promise<void> {
     await this.exec("begin;");
     try {
-      await this.exec(
-        `create table if not exists schema_version (
-            version integer primary key
-        );`
-      );
-      const current_version: number = await this.get(`select version from schema_version`).then(
-        async (row: { version: number } | undefined) => {
-          if (row) {
-            return row.version;
-          } else {
-            await this.exec(`insert into schema_version(version) values (0);`);
-            return 0;
-          }
-        }
-      );
-
+      const current_version: number = await this.get(`pragma user_version`).then(row => row.user_version);
       let last_version: number = 0;
       for (const m of migrations) {
         if (m.version <= last_version) {
@@ -43,7 +28,7 @@ export default class Connection {
         }
         if (m.version > current_version) {
           await this.exec(m.query);
-          await this.run(`update schema_version set version = ?`, m.version);
+          await this.exec(`pragma user_version = ${m.version}`);
         }
         last_version = m.version;
       }
