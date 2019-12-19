@@ -1,5 +1,5 @@
 import sqlite3 from "sqlite3";
-import schema from "./schema";
+import { migrations, Migration } from "./schema";
 
 export default class Connection {
   _db: any;
@@ -12,9 +12,31 @@ export default class Connection {
     return this._db;
   }
 
-  initialize({ databasePath }) {
+  async initialize({ databasePath }): Promise<void> {
     this._db = new sqlite3.Database(databasePath);
-    return this.exec(schema);
+    await this.migrate(migrations);
+  }
+
+  async migrate(migrations: Migration[]): Promise<void> {
+    await this.exec("begin;");
+    try {
+      const current_version: number = await this.get(`pragma user_version`).then(row => row.user_version);
+      let last_version: number = 0;
+      for (const m of migrations) {
+        if (m.version <= last_version) {
+          throw new Error(`Wrong migration script: version ${m.version}`);
+        }
+        if (m.version > current_version) {
+          await this.exec(m.query);
+          await this.exec(`pragma user_version = ${m.version}`);
+        }
+        last_version = m.version;
+      }
+      await this.exec("commit;");
+    } catch (err) {
+      await this.exec("rollback;");
+      throw err;
+    }
   }
 
   exec(sql): Promise<any> {
