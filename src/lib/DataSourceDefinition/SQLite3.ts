@@ -1,5 +1,5 @@
 import sqlite3 from "sqlite3";
-import Base, { ConfigSchemaType } from "./Base";
+import Base, { ConfigSchemasType } from "./Base";
 import Util from "../Util";
 
 export default class SQLite3 extends Base {
@@ -11,7 +11,7 @@ export default class SQLite3 extends Base {
   static get label(): string {
     return "SQLite3";
   }
-  static get configSchema(): ConfigSchemaType {
+  static get configSchema(): ConfigSchemasType {
     return [{ name: "path", label: "Path", type: "string", placeholder: "/path/to/db.sqlite3" }];
   }
 

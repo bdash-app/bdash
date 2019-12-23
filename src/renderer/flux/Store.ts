@@ -37,12 +37,12 @@ export default class Store<T> {
     this._emitter.emit("update", this.state);
   }
 
-  dispatch(type, payload) {
+  dispatch(type: string, payload: any) {
     this.state = this.getNextState(type, payload);
     this.emit();
   }
 
-  getNextState(type, payload) {
+  getNextState(type: string, payload: any) {
     let nextState: any = this.reduce(type, payload);
 
     if (nextState === undefined) {

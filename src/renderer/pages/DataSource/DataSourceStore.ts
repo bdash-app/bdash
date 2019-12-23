@@ -1,10 +1,34 @@
 import Store from "../../flux/Store";
 
+export type DataSourceType = {
+  readonly id: number;
+  readonly name: string;
+  readonly type: string;
+  readonly config: {[name: string]: any};
+
+  readonly tables: TableType[];
+  readonly selectedTable: TableType;
+  readonly tableSummary: TableSummary;
+  readonly tableFilter: string;
+}
+
+type TableSummary = {
+  readonly schema: any;
+  readonly name: string;
+  readonly defs: { fields: any[], rows: any[][] };
+}
+
+export type TableType = {
+  readonly name: string;
+  readonly type: string;
+  readonly schema?: string;
+};
+
 export interface DataSourceState {
-  dataSources: any[];
+  dataSources: DataSourceType[];
   selectedDataSourceId: number | null;
   showForm: boolean;
-  formValue: any;
+  formValue: DataSourceType | null;
 }
 
 export default class DataSourceStore extends Store<DataSourceState> {
@@ -18,7 +42,7 @@ export default class DataSourceStore extends Store<DataSourceState> {
     };
   }
 
-  reduce(type, payload) {
+  reduce(type: string, payload: any) {
     switch (type) {
       case "initialize": {
         return this.mergeList("dataSources", payload.dataSources);
@@ -69,7 +93,7 @@ export default class DataSourceStore extends Store<DataSourceState> {
     }
   }
 
-  findDataSourceIndex(id) {
+  findDataSourceIndex(id: number): number {
     const idx = this.state.dataSources.findIndex(q => q.id === id);
 
     if (idx === -1) {

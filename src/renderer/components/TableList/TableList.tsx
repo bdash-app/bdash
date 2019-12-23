@@ -1,17 +1,24 @@
 import React from "react";
 import classNames from "classnames";
+import { DataSourceType, TableType } from "../../pages/DataSource/DataSourceStore";
 
-export default class TableList extends React.Component<any, any> {
+type Props = {
+  readonly dataSource?: DataSourceType;
+  readonly onSelectTable: (dataSource: DataSourceType, table: TableType) => void;
+  readonly onChangeTableFilter: (dataSource: DataSourceType, value: string) => void;
+};
+
+export default class TableList extends React.Component<Props> {
   handleClickTable(table) {
-    this.props.onSelectTable(this.props.dataSource, table);
+    this.props.onSelectTable(this.props.dataSource!, table);
   }
 
-  handleChangeTableFilter(e) {
+  handleChangeTableFilter(e: React.ChangeEvent<HTMLInputElement>) {
     const value = e.target.value;
-    this.props.onChangeTableFilter(this.props.dataSource, value);
+    this.props.onChangeTableFilter(this.props.dataSource!, value);
   }
 
-  renderItem(dataSource, table, key) {
+  renderItem(dataSource: DataSourceType, table: TableType, key: number) {
     const { selectedTable, tableFilter } = dataSource;
     const schema = table.schema ? `${table.schema}.` : "";
     const tableName = schema + table.name;
@@ -34,7 +41,7 @@ export default class TableList extends React.Component<any, any> {
     const dataSource = this.props.dataSource;
     if (!dataSource) return null;
 
-    const items = (dataSource.tables || []).map((table, i) => {
+    const items = (dataSource.tables || []).map((table: TableType, i: number) => {
       return this.renderItem(dataSource, table, i);
     });
 
