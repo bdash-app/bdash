@@ -15,7 +15,7 @@
 }
 
 .QueryHeader-selectDataSource {
-  position: absolute;
+  position: absolute !important;
   right: 10px;
   top: 6px;
   width: 240px;
