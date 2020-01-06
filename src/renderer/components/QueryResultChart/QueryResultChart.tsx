@@ -1,6 +1,13 @@
 import React from "react";
-import Select from "react-select";
+import Select, { SingleValueProps, OptionProps, ValueType, OptionTypeBase } from "react-select";
+import { components } from "react-select";
 import Chart from "../../../lib/Chart";
+import { selectStyles } from "../Select";
+
+type OptionType = {
+  readonly label: string;
+  readonly value: string;
+};
 
 export default class QueryResultChart extends React.Component<any, any> {
   chartElement: HTMLDivElement | null;
@@ -53,12 +60,12 @@ export default class QueryResultChart extends React.Component<any, any> {
     this.update({ type: option.value });
   }
 
-  handleChangeX(option) {
+  handleChangeX(option: OptionType) {
     this.update({ xColumn: option ? option.value : null });
   }
 
-  handleChangeY(options) {
-    this.update({ yColumns: options.map(o => o.value) });
+  handleChangeY(options: ValueType<OptionTypeBase>) {
+    this.update({ yColumns: options && Array.isArray(options) ? options.map(o => o.value) : [] });
   }
 
   handleSelectStacking(option) {
@@ -85,17 +92,40 @@ export default class QueryResultChart extends React.Component<any, any> {
     const chart = this.props.chart;
     if (!chart) return null;
 
-    const options: any[] = ["line", "bar", "area", "pie"].map(value => {
+    const chartOptionValue = (props: OptionProps<OptionType>) => {
+      return (
+        <components.Option {...props}>
+          <i className={`fa fa-${props.data.value}-chart`} />
+          {props.children}
+        </components.Option>
+      );
+    };
+
+    const chartSingleValue = (props: SingleValueProps<OptionType>) => {
+      return (
+        <components.SingleValue {...props}>
+          <i className={`fa fa-${props.data.value}-chart`} />
+          {props.children}
+        </components.SingleValue>
+      );
+    };
+
+    const options = ["line", "bar", "area", "pie"].map(value => {
       return { value, label: value[0].toUpperCase() + value.slice(1) };
     });
+    const currentOption = options.find(option => option.value === chart.type);
     const fieldOptions = query.fields.map(name => ({
       value: name,
       label: name
     }));
-    const stackingOptions: any[] = ["disable", "enable", "percent"].map(o => ({
+    const currentXColumnFieldOption = fieldOptions.find(option => option.value === chart.xColumn);
+    const currentYColumnFieldOptions = fieldOptions.filter(option => chart.yColumns.includes(option.value));
+    const currentGroupOption = fieldOptions.find(option => option.value === chart.groupColumn);
+    const stackingOptions = ["disable", "enable", "percent"].map(o => ({
       label: o,
       value: o
     }));
+    const currentStackingOption = stackingOptions.find(option => option.value === chart.stacking);
 
     return (
       <div className="QueryResultChart">
@@ -104,34 +134,55 @@ export default class QueryResultChart extends React.Component<any, any> {
             <div className="QueryResultChart-label">Chart Type</div>
             <Select
               className="QueryResultChart-selectType"
-              value={chart.type}
+              value={currentOption}
               options={options}
+              components={{ Option: chartOptionValue, SingleValue: chartSingleValue }}
               optionRenderer={this.renderLabel}
               valueRenderer={this.renderLabel}
               onChange={o => this.handleSelectType(o)}
-              clearable={false}
+              isClearable={false}
+              isSearchable={false}
+              styles={selectStyles}
             />
           </div>
           <div className="QueryResultChart-item">
             <div className="QueryResultChart-label">{chart.type === "pie" ? "Label Column" : "X Column"}</div>
-            <Select options={fieldOptions} value={chart.xColumn} onChange={o => this.handleChangeX(o)} />
+            <Select
+              options={fieldOptions}
+              value={currentXColumnFieldOption}
+              onChange={o => this.handleChangeX(o)}
+              isClearable={true}
+              styles={selectStyles}
+            />
           </div>
           <div className="QueryResultChart-item">
             <div className="QueryResultChart-label">{chart.type === "pie" ? "Value Column" : "Y Column"}</div>
-            <Select multi={true} options={fieldOptions} value={chart.yColumns} onChange={o => this.handleChangeY(o)} />
+            <Select
+              isMulti={true}
+              options={fieldOptions}
+              value={currentYColumnFieldOptions}
+              onChange={o => this.handleChangeY(o)}
+              styles={selectStyles}
+            />
           </div>
           <div className="QueryResultChart-item" hidden={chart.type !== "bar"}>
             <div className="QueryResultChart-label">Stacking</div>
             <Select
-              value={chart.stacking}
+              value={currentStackingOption}
               onChange={o => this.handleSelectStacking(o)}
               options={stackingOptions}
-              clearable={false}
+              isClearable={false}
+              styles={selectStyles}
             />
           </div>
           <div className="QueryResultChart-item" hidden={chart.type === "pie"}>
             <div className="QueryResultChart-label">Group By</div>
-            <Select options={fieldOptions} value={chart.groupColumn} onChange={o => this.handleChangeGroup(o)} />
+            <Select
+              options={fieldOptions}
+              value={currentGroupOption}
+              onChange={o => this.handleChangeGroup(o)}
+              styles={selectStyles}
+            />
           </div>
         </div>
         <div className="QueryResultChart-chart">

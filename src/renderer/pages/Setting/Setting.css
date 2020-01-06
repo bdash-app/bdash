@@ -25,8 +25,8 @@
   margin: 0 0 10px 0;
 }
 
-.page-Setting-keyBind .Select {
-  width: 100px;
+.page-Setting-keyBind {
+  width: 150px;
 }
 
 .page-Setting input[type="text"] {

@@ -1,5 +1,6 @@
 import React from "react";
 import Select from "react-select";
+import { selectStyles } from "../Select";
 
 export default class QueryHeader extends React.Component<any, any> {
   handleChangeTitle(e) {
@@ -14,6 +15,7 @@ export default class QueryHeader extends React.Component<any, any> {
     const options = this.props.dataSources.map(dataSource => {
       return { value: dataSource.id, label: dataSource.name };
     });
+    const currentOption = options.find(option => option.value === this.props.query.dataSourceId);
 
     return (
       <div className="QueryHeader">
@@ -25,11 +27,13 @@ export default class QueryHeader extends React.Component<any, any> {
         />
         <Select
           className="QueryHeader-selectDataSource"
-          value={this.props.query.dataSourceId}
+          value={currentOption}
           options={options}
           onChange={e => this.handleChangeDataSource(e)}
           placeholder={"Select data source..."}
-          clearable={false}
+          isClearable={false}
+          isSearchable={false}
+          styles={selectStyles}
         />
       </div>
     );
