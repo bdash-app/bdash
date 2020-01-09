@@ -1,4 +1,4 @@
-import electron, { session } from "electron";
+import electron from "electron";
 import { updater } from "./updater";
 import { initMenu } from "./menu";
 import logger from "./logger";
@@ -39,7 +39,7 @@ app.on("window-all-closed", () => {
 
 app.on("ready", () => {
   // https://github.com/electron/electron/issues/13008#issuecomment-569363295
-  session.defaultSession.webRequest.onBeforeRequest((details, callback) => {
+  electron.session.defaultSession.webRequest.onBeforeRequest((details, callback) => {
     const redirectURL = details.url.replace(
       /^devtools:\/\/devtools\/remote\/serve_file\/@[0-9a-f]{40}\//,
       "https://chrome-devtools-frontend.appspot.com/serve_file/@675968a8c657a3bd9c1c2c20c5d2935577bbc5e6/"
