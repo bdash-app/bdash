@@ -1,11 +1,24 @@
 import React from "react";
 import Button from "../Button";
 import Editor from "../Editor";
+import { SettingType } from "../../../lib/Setting";
+import { EditorConfiguration } from "codemirror";
 
-export default class QueryEditor extends React.Component<any, any> {
+type Props = {
+  readonly editor: { height: number | null; line: number | null };
+  readonly setting: SettingType;
+  readonly query: any;
+  readonly onCancel: () => void;
+  readonly onExecute: () => void;
+  readonly onChangeEditorHeight: (height: number) => void;
+  readonly onChangeQueryBody: (body: string) => void;
+  readonly onChangeCursorPosition: (lineNumber: number) => void;
+};
+
+export default class QueryEditor extends React.Component<Props> {
   editorElement: HTMLDivElement;
 
-  get options() {
+  get options(): EditorConfiguration {
     return {
       mode: "text/x-sql",
       keyMap: this.props.setting.keyBind,
@@ -24,11 +37,11 @@ export default class QueryEditor extends React.Component<any, any> {
     }
   }
 
-  handleResizeStart(e) {
+  handleResizeStart(e: React.MouseEvent<HTMLElement>) {
     e.preventDefault();
     const height = this.editorElement.clientHeight;
     const y = e.pageY;
-    const handleResize = e => {
+    const handleResize = (e: MouseEvent) => {
       let newHeight = height + (e.pageY - y);
       if (newHeight < 0) newHeight = 0;
       this.props.onChangeEditorHeight(newHeight);
@@ -44,13 +57,13 @@ export default class QueryEditor extends React.Component<any, any> {
   renderButton() {
     if (this.props.query.status === "working") {
       return (
-        <Button className="QueryEditor-cancelBtn" onClick={() => this.props.onCancel()}>
+        <Button className="QueryEditor-cancelBtn" onClick={this.props.onCancel}>
           Cancel
         </Button>
       );
     } else {
       return (
-        <Button className="QueryEditor-executeBtn" onClick={() => this.props.onExecute()}>
+        <Button className="QueryEditor-executeBtn" onClick={this.props.onExecute}>
           Execute
         </Button>
       );
