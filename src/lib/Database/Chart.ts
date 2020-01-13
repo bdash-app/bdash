@@ -1,25 +1,43 @@
 import { connection } from "./Connection";
 
+export type ChartType = {
+  readonly id: number;
+  readonly queryId: number;
+  readonly type: "line" | "bar" | "area" | "pie";
+  readonly xColumn: string;
+  readonly yColumns: Array<string>;
+  readonly groupColumn: string;
+  readonly stacking: 0 | string;
+  readonly updatedAt: string;
+  readonly createdAt: string;
+};
+
 export default class Chart {
-  static async getAll() {
+  static async getAll(): Promise<ChartType[]> {
     const charts = await connection.all("select * from charts");
 
     return charts.map(convert);
   }
 
-  static async get(id) {
+  static async get(id: number): Promise<ChartType> {
     const row = await connection.get("select * from charts where id = ?", id);
 
     return convert(row);
   }
 
-  static async findOrCreateByQueryId({ queryId, type = "line" }) {
+  static async findOrCreateByQueryId({
+    queryId,
+    type = "line"
+  }: {
+    queryId: number;
+    type?: string;
+  }): Promise<ChartType> {
     const chart = await connection.get("select * from charts where queryId = ?", queryId);
 
     return chart ? convert(chart) : Chart.create({ queryId, type });
   }
 
-  static async create({ queryId, type = "line" }) {
+  static async create({ queryId, type = "line" }: { queryId: number; type: string }): Promise<ChartType> {
     const sql = `
       insert into charts
       (queryId, type, updatedAt, createdAt)
@@ -30,9 +48,9 @@ export default class Chart {
     return this.get(id);
   }
 
-  static async update(id, params) {
+  static async update(id: number, params: { [key: string]: any }): Promise<ChartType> {
     const fields: string[] = [];
-    const values: string[] = [];
+    const values: (string | number)[] = [];
 
     Object.keys(params).forEach(field => {
       fields.push(field);
@@ -51,7 +69,7 @@ export default class Chart {
   }
 }
 
-function convert(row) {
+function convert(row): ChartType {
   const yColumns = JSON.parse(row.yColumns || "[]");
   return Object.assign(row, { yColumns });
 }

@@ -3,16 +3,23 @@ import Select, { SingleValueProps, OptionProps, ValueType, OptionTypeBase } from
 import { components } from "react-select";
 import Chart from "../../../lib/Chart";
 import { selectStyles } from "../Select";
+import { ChartType } from "../../../lib/Database/Chart";
 
 type OptionType = {
   readonly label: string;
   readonly value: string;
 };
 
-export default class QueryResultChart extends React.Component<any, any> {
+type Props = {
+  readonly query: any;
+  readonly chart: ChartType | undefined;
+  readonly onUpdateChart: (id: number, params: any) => void;
+};
+
+export default class QueryResultChart extends React.Component<Props> {
   chartElement: HTMLDivElement | null;
 
-  shouldComponentUpdate(nextProps) {
+  shouldComponentUpdate(nextProps: Props) {
     const query = nextProps.query;
     const chart = nextProps.chart;
 
@@ -26,7 +33,7 @@ export default class QueryResultChart extends React.Component<any, any> {
     return false;
   }
 
-  drawChart() {
+  async drawChart(): Promise<void> {
     const query = this.props.query;
     const chart = this.props.chart;
     if (!query || !chart || !this.chartElement) return;
@@ -41,7 +48,7 @@ export default class QueryResultChart extends React.Component<any, any> {
       fields: query.fields
     };
 
-    new Chart(params).drawTo(this.chartElement);
+    await new Chart(params).drawTo(this.chartElement);
   }
 
   componentDidMount() {
@@ -52,11 +59,11 @@ export default class QueryResultChart extends React.Component<any, any> {
     this.drawChart();
   }
 
-  update(params) {
-    this.props.onUpdateChart(this.props.chart.id, params);
+  update(params: any) {
+    this.props.onUpdateChart(this.props.chart!.id, params);
   }
 
-  handleSelectType(option) {
+  handleSelectType(option: OptionType) {
     this.update({ type: option.value });
   }
 
@@ -68,15 +75,15 @@ export default class QueryResultChart extends React.Component<any, any> {
     this.update({ yColumns: options && Array.isArray(options) ? options.map(o => o.value) : [] });
   }
 
-  handleSelectStacking(option) {
+  handleSelectStacking(option: OptionType) {
     this.update({ stacking: option.value });
   }
 
-  handleChangeGroup(option) {
+  handleChangeGroup(option: OptionType) {
     this.update({ groupColumn: option ? option.value : null });
   }
 
-  renderLabel(option) {
+  renderLabel(option: OptionType) {
     return (
       <span>
         <i className={`fa fa-${option.value}-chart`} />
@@ -139,7 +146,7 @@ export default class QueryResultChart extends React.Component<any, any> {
               components={{ Option: chartOptionValue, SingleValue: chartSingleValue }}
               optionRenderer={this.renderLabel}
               valueRenderer={this.renderLabel}
-              onChange={o => this.handleSelectType(o)}
+              onChange={o => this.handleSelectType(o as OptionType)}
               isClearable={false}
               isSearchable={false}
               styles={selectStyles}
@@ -169,7 +176,7 @@ export default class QueryResultChart extends React.Component<any, any> {
             <div className="QueryResultChart-label">Stacking</div>
             <Select
               value={currentStackingOption}
-              onChange={o => this.handleSelectStacking(o)}
+              onChange={o => this.handleSelectStacking(o as OptionType)}
               options={stackingOptions}
               isClearable={false}
               styles={selectStyles}

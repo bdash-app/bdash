@@ -1,20 +1,30 @@
-import Plotly from "plotly.js/dist/plotly.js";
+import Plotly, { PlotlyHTMLElement } from "plotly.js-basic-dist-min";
 import _ from "lodash";
 
-export default class Chart {
-  params: any;
+type Params = {
+  readonly type: "line" | "bar" | "area" | "pie";
+  readonly stacking: 0 | string;
+  readonly groupBy: string | null;
+  readonly rows: (string | number)[][];
+  readonly fields: string[];
+  readonly x: string;
+  readonly y: string[];
+};
 
-  constructor(params) {
+export default class Chart {
+  private readonly params: Params;
+
+  constructor(params: Params) {
     this.params = params;
   }
 
-  drawTo(dom) {
-    Plotly.newPlot(dom, this.getData(), this.getLayout(), {
+  drawTo(dom: HTMLElement): Promise<PlotlyHTMLElement> {
+    return Plotly.newPlot(dom, this.getData(), this.getLayout(), {
       displayModeBar: false
     });
   }
 
-  async toSVG() {
+  async toSVG(): Promise<string | null> {
     const data = this.getData();
     const layout = this.getLayout();
     const div = document.createElement("div");
@@ -24,15 +34,17 @@ export default class Chart {
     }
 
     const gd = await Plotly.plot(div, data, layout);
-    return Plotly.Snapshot.toSVG(gd).replace(/"Open Sans"/g, "'Open Sans'");
+    return Plotly.toImage(gd, { format: "svg", width: layout.width!, height: layout.height! }).then(svg =>
+      svg.replace(/"Open Sans"/g, "'Open Sans'")
+    );
   }
 
-  getData() {
+  getData(): Partial<Plotly.PlotData>[] {
     return this[this.params.type]();
   }
 
   getLayout() {
-    const layout: any = {
+    const layout: Partial<Plotly.Layout> = {
       showlegend: true,
       margin: { l: 50, r: 50, t: 10, b: 120, pad: 4 },
       hoverlabel: { namelength: -1 }
@@ -50,7 +62,7 @@ export default class Chart {
   }
 
   // TODO: Performance tuning
-  generateChartData() {
+  generateChartData(): { x: (string | number)[]; y: (string | number)[]; name: string }[] {
     if (!this.params.y) return [];
 
     if (!this.params.groupBy || !this.params.fields.includes(this.params.groupBy)) {
@@ -63,14 +75,15 @@ export default class Chart {
       });
     }
 
+    // NOTE: Can delete sort?
     const groupValues = _.uniq(this.dataByField(this.params.groupBy)).sort();
     const idx = this.params.fields.findIndex(field => field === this.params.groupBy);
     const x = _.groupBy(this.params.rows, row => row[idx]);
+    const groupByIdx = this.rowIndexByFieldName(this.params.groupBy);
 
     return _.flatMap(this.params.y, y => {
+      const yIdx = this.rowIndexByFieldName(y);
       return groupValues.map(g => {
-        const groupByIdx = this.rowIndexByFieldName(this.params.groupBy);
-        const yIdx = this.rowIndexByFieldName(y);
         return {
           name: `${y} (${g})`,
           x: this.valuesByField(x[g], this.params.x),
@@ -80,20 +93,20 @@ export default class Chart {
     });
   }
 
-  rowIndexByFieldName(field) {
+  rowIndexByFieldName(field: string): number {
     return this.params.fields.findIndex(f => f === field);
   }
 
-  valuesByField(rows, field) {
+  valuesByField(rows: (string | number)[][], field: string): (string | number)[] {
     const idx = this.rowIndexByFieldName(field);
     return rows.map(row => row[idx]);
   }
 
-  dataByField(field) {
+  dataByField(field: string): (string | number)[] {
     return this.valuesByField(this.params.rows, field);
   }
 
-  line() {
+  line(): Partial<Plotly.PlotData>[] {
     return this.generateChartData().map(data => ({
       type: "scatter",
       x: data.x,
@@ -103,7 +116,7 @@ export default class Chart {
     }));
   }
 
-  bar() {
+  bar(): Partial<Plotly.PlotData>[] {
     return this.generateChartData().map(data => ({
       type: "bar",
       x: data.x,
@@ -112,7 +125,7 @@ export default class Chart {
     }));
   }
 
-  area() {
+  area(): Partial<Plotly.PlotData>[] {
     return this.generateChartData().map(data => ({
       type: "scatter",
       x: data.x,
@@ -123,7 +136,7 @@ export default class Chart {
     }));
   }
 
-  pie() {
+  pie(): Partial<Plotly.PlotData>[] {
     return [
       {
         type: "pie",

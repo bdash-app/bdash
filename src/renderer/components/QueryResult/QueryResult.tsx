@@ -2,8 +2,20 @@ import React from "react";
 import QueryResultNav from "../QueryResultNav";
 import QueryResultTable from "../QueryResultTable";
 import QueryResultChart from "../QueryResultChart";
+import { ChartType } from "../../../lib/Database/Chart";
 
-export default class QueryResult extends React.Component<any, any> {
+type Props = {
+  readonly query: any;
+  readonly charts: ChartType[];
+  readonly onClickCopyAsTsv: () => void;
+  readonly onClickCopyAsCsv: () => void;
+  readonly onClickCopyAsMarkdown: () => void;
+  readonly onClickShareOnGist: () => void;
+  readonly onSelectTab: (tabName: string) => void;
+  readonly onUpdateChart: (id: number, params: any) => void;
+};
+
+export default class QueryResult extends React.Component<Props> {
   renderError() {
     return (
       <div className="QueryResult">

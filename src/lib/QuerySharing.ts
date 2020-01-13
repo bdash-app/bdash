@@ -6,6 +6,7 @@ import Chart from "./Chart";
 import DataSource from "./DataSource";
 import Util from "./Util";
 import { GithubSettingType } from "./Setting";
+import { ChartType } from "./Database/Chart";
 
 export default {
   async shareOnGist({
@@ -15,7 +16,7 @@ export default {
     dataSource
   }: {
     query: any;
-    chart: any;
+    chart: ChartType;
     setting: GithubSettingType;
     dataSource: any;
   }) {
@@ -109,7 +110,7 @@ function getTableDataAsCsv(query): Promise<string> {
   });
 }
 
-function getChartAsSvg(query, chart) {
+function getChartAsSvg(query, chart: ChartType) {
   if (!query || !chart) return Promise.resolve(null);
 
   const params = {
