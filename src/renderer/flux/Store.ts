@@ -2,7 +2,7 @@ import immup from "immup";
 import { EventEmitter } from "events";
 
 export default class Store<T> {
-  static create(StoreClass) {
+  static create<T>(StoreClass): { store: Store<T>, dispatch: (type: string, payload?: any) => void } {
     const store = new StoreClass();
     const dispatch = store.dispatch.bind(store);
 
@@ -21,7 +21,7 @@ export default class Store<T> {
   }
 
   // @ts-ignore
-  reduce(type, payload) {
+  reduce(type, payload): T {
     throw new Error("Not Implemented");
   }
 
@@ -42,8 +42,8 @@ export default class Store<T> {
     this.emit();
   }
 
-  getNextState(type: string, payload: any) {
-    let nextState: any = this.reduce(type, payload);
+  getNextState(type: string, payload: any): T {
+    let nextState: T = this.reduce(type, payload);
 
     if (nextState === undefined) {
       throw new Error(`${this.constructor.name}.reduce returns undefined, action type: ${type}`);

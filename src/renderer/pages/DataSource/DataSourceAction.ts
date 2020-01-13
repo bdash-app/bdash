@@ -1,11 +1,12 @@
 import { dispatch, DataSourceType, TableType } from "./DataSourceStore";
 import Database from "../../../lib/Database";
 import DataSource from "../../../lib/DataSource";
+import { setting } from "../../../lib/Setting";
 
 const DataSourceAction = {
   async initialize(): Promise<void> {
     const dataSources = await Database.DataSource.getAll();
-    dispatch("initialize", { dataSources });
+    dispatch("initialize", { dataSources, setting: setting.load() });
   },
 
   async selectDataSource(dataSource: DataSourceType): Promise<void> {
@@ -58,6 +59,11 @@ const DataSourceAction = {
 
   hideForm() {
     dispatch("cancelForm");
+  },
+
+  updateDefaultDataSourceId(defaultDataSourceId: number) {
+    setting.save({ defaultDataSourceId });
+    dispatch("updateDefaultDataSourceId", { defaultDataSourceId });
   }
 };
 

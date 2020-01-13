@@ -7,7 +7,7 @@ import { ConfigSchemaType } from "../../../lib/DataSourceDefinition/Base";
 import { DataSourceType } from "../../pages/DataSource/DataSourceStore";
 
 type Props = {
-  readonly dataSource: DataSourceType;
+  readonly dataSource: DataSourceType | null;
   readonly onCancel: () => void;
   readonly onSave: (dataSource: { id: number | null } & Pick<DataSourceType, "name" | "type" | "config">) => void;
 };
@@ -25,16 +25,14 @@ export default class DataSourceForm extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    const dataSource = props.dataSource || {};
-
     this.state = {
-      selectedType: dataSource.type || null,
+      selectedType: props.dataSource?.type ?? null,
       connectionTestStatus: null,
       connectionTestMessage: null
     };
   }
 
-  getConfigValues(): {[name: string]: any} {
+  getConfigValues(): { [name: string]: any } {
     if (this.formTableElement === null) {
       return {};
     }
@@ -48,7 +46,7 @@ export default class DataSourceForm extends React.Component<Props, State> {
       ].join(",")
     );
 
-    return Array.from(inputs).reduce((acc: {[name: string]: any}, el: HTMLInputElement) => {
+    return Array.from(inputs).reduce((acc: { [name: string]: any }, el: HTMLInputElement) => {
       const type: string = el.dataset.type ?? "";
       if (type === "checkbox") {
         return Object.assign(acc, { [el.name]: true });
@@ -172,8 +170,7 @@ export default class DataSourceForm extends React.Component<Props, State> {
     if (!ds || ds.configSchema.length === 0) return null;
 
     return ds.configSchema.map((schema: ConfigSchemaType, i: number) => {
-      const dataSource = this.props.dataSource || {};
-      const config = dataSource.config || {};
+      const config = this.props.dataSource?.config || {};
       const value = config[schema.name];
       switch (schema.type) {
         case "radio":
@@ -187,7 +184,6 @@ export default class DataSourceForm extends React.Component<Props, State> {
   }
 
   render() {
-    const dataSource = this.props.dataSource || {};
     const list: any[] = DataSource.list;
     const options = [{ key: "", label: "" }].concat(list).map(({ key, label }) => {
       return (
@@ -207,7 +203,7 @@ export default class DataSourceForm extends React.Component<Props, State> {
                 <input
                   ref={node => (this.inputNameElement = node)}
                   type="text"
-                  defaultValue={dataSource.name}
+                  defaultValue={this.props.dataSource?.name}
                   name="name"
                   placeholder="My Database"
                 />

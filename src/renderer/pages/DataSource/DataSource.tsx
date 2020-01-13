@@ -18,14 +18,14 @@ class DataSource extends React.Component<{}, DataSourceState> {
 
   handleSave(dataSource: { id: number | null } & Pick<DataSourceType, "name" | "type" | "config">) {
     if (dataSource.id !== null) {
-      Action.updateDataSource({...dataSource, id: dataSource.id});
+      Action.updateDataSource({ ...dataSource, id: dataSource.id });
     } else {
       Action.createDataSource(dataSource);
     }
   }
 
   renderDataSourceForm() {
-    if (!this.state.showForm || !this.state.formValue) return;
+    if (!this.state.showForm) return;
 
     return (
       <DataSourceForm
@@ -44,11 +44,15 @@ class DataSource extends React.Component<{}, DataSourceState> {
         <div className="page-DataSource-list">
           <DataSourceList
             {...this.state}
+            defaultDataSourceId={this.state.setting.defaultDataSourceId}
             onClickNew={() => Action.showForm()}
             onSelect={(dataSource: DataSourceType) => Action.selectDataSource(dataSource)}
             onEdit={(dataSource: DataSourceType) => Action.showForm(dataSource)}
             onDelete={id => Action.deleteDataSource(id)}
             onReload={(dataSource: DataSourceType) => Action.loadTables(dataSource)}
+            changeDefaultDataSourceId={(defaultDataSourceId: number) => {
+              Action.updateDefaultDataSourceId(defaultDataSourceId);
+            }}
           />
         </div>
         <div className="page-DataSource-tableList">

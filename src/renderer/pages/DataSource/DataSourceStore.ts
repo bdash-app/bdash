@@ -1,4 +1,5 @@
 import Store from "../../flux/Store";
+import Setting, { SettingType } from "../../../lib/Setting";
 
 export type DataSourceType = {
   readonly id: number;
@@ -29,6 +30,7 @@ export interface DataSourceState {
   selectedDataSourceId: number | null;
   showForm: boolean;
   formValue: DataSourceType | null;
+  setting: SettingType;
 }
 
 export default class DataSourceStore extends Store<DataSourceState> {
@@ -38,14 +40,16 @@ export default class DataSourceStore extends Store<DataSourceState> {
       dataSources: [],
       selectedDataSourceId: null,
       showForm: false,
-      formValue: null
+      formValue: null,
+      setting: Setting.getDefault(),
     };
   }
 
   reduce(type: string, payload: any) {
     switch (type) {
       case "initialize": {
-        return this.mergeList("dataSources", payload.dataSources);
+        return this.merge("setting", payload.setting)
+          .mergeList("dataSources", payload.dataSources);
       }
       case "selectDataSource": {
         return this.set("selectedDataSourceId", payload.id);
@@ -89,6 +93,9 @@ export default class DataSourceStore extends Store<DataSourceState> {
       case "deleteDataSource": {
         const idx = this.findDataSourceIndex(payload.id);
         return this.del(`dataSources.${idx}`);
+      }
+      case "updateDefaultDataSourceId": {
+        return this.set("setting.defaultDataSourceId", payload.defaultDataSourceId);
       }
     }
   }

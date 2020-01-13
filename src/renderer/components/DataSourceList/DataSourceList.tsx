@@ -6,11 +6,13 @@ import { DataSourceType } from "../../pages/DataSource/DataSourceStore";
 type Props = {
   readonly dataSources: DataSourceType[];
   readonly selectedDataSourceId: number | null;
+  readonly defaultDataSourceId: number | undefined;
   readonly onClickNew: () => void;
   readonly onSelect: (dataSource: DataSourceType) => void;
   readonly onEdit: (dataSource: DataSourceType) => void;
   readonly onReload: (dataSource: DataSourceType) => void;
   readonly onDelete: (id: number) => void;
+  readonly changeDefaultDataSourceId: (dataSourceId: number) => void;
 };
 
 export default class DataSourceList extends React.Component<Props> {
@@ -43,6 +45,14 @@ export default class DataSourceList extends React.Component<Props> {
           }
         },
         {
+          label: "Set as default",
+          type: "checkbox",
+          checked: id === this.props.defaultDataSourceId,
+          click: () => {
+            this.props.changeDefaultDataSourceId(id);
+          }
+        },
+        {
           label: "Delete",
           click: () => {
             if (window.confirm("Are you sure?")) {
@@ -64,6 +74,8 @@ export default class DataSourceList extends React.Component<Props> {
       const className = classNames({
         "is-selected": this.props.selectedDataSourceId === dataSource.id
       });
+      const label: string =
+        dataSource.id === this.props.defaultDataSourceId ? dataSource.name + " (default)" : dataSource.name;
       return (
         <li
           key={dataSource.id}
@@ -71,7 +83,7 @@ export default class DataSourceList extends React.Component<Props> {
           onContextMenu={() => this.handleContextMenu(dataSource.id)}
           onClick={() => this.props.onSelect(dataSource)}
         >
-          {dataSource.name}
+          {label}
         </li>
       );
     });
