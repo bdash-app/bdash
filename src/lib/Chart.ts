@@ -34,9 +34,13 @@ export default class Chart {
     }
 
     const gd = await Plotly.plot(div, data, layout);
-    return Plotly.toImage(gd, { format: "svg", width: layout.width!, height: layout.height! }).then(svg =>
-      svg.replace(/"Open Sans"/g, "'Open Sans'")
-    );
+    // width, height are default of plotly.js
+    // https://plot.ly/javascript/reference/#layout-width
+    // https://plot.ly/javascript/reference/#layout-height
+    return Plotly.toImage(gd, { format: "svg", width: 700, height: 450 }).then(svg => {
+      const dataURI = decodeURIComponent(svg);
+      return dataURI.substr(dataURI.indexOf(",") + 1).replace(/"Open Sans"/g, "'Open Sans'");
+    });
   }
 
   getData(): Partial<Plotly.PlotData>[] {
