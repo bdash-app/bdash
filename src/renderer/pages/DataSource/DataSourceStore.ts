@@ -5,19 +5,19 @@ export type DataSourceType = {
   readonly id: number;
   readonly name: string;
   readonly type: string;
-  readonly config: {[name: string]: any};
+  readonly config: { [name: string]: any };
 
   readonly tables: TableType[];
   readonly selectedTable: TableType;
   readonly tableSummary: TableSummary;
   readonly tableFilter: string;
-}
+};
 
 type TableSummary = {
   readonly schema: any;
   readonly name: string;
-  readonly defs: { fields: any[], rows: any[][] };
-}
+  readonly defs: { fields: any[]; rows: any[][] };
+};
 
 export type TableType = {
   readonly name: string;
@@ -41,15 +41,14 @@ export default class DataSourceStore extends Store<DataSourceState> {
       selectedDataSourceId: null,
       showForm: false,
       formValue: null,
-      setting: Setting.getDefault(),
+      setting: Setting.getDefault()
     };
   }
 
   reduce(type: string, payload: any) {
     switch (type) {
       case "initialize": {
-        return this.merge("setting", payload.setting)
-          .mergeList("dataSources", payload.dataSources);
+        return this.merge("setting", payload.setting).mergeList("dataSources", payload.dataSources);
       }
       case "selectDataSource": {
         return this.set("selectedDataSourceId", payload.id);

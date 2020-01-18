@@ -15,7 +15,7 @@ export default class DataSource {
   }
 
   static async count(): Promise<number> {
-    const row = await connection.get<{count: number}>("select count(*) as count from data_sources");
+    const row = await connection.get<{ count: number }>("select count(*) as count from data_sources");
 
     return row.count;
   }

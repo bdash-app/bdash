@@ -24,7 +24,7 @@ export default class Setting {
         token: null,
         url: null
       },
-      defaultDataSourceId: undefined,
+      defaultDataSourceId: undefined
     };
   }
 

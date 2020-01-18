@@ -2,7 +2,7 @@ import immup from "immup";
 import { EventEmitter } from "events";
 
 export default class Store<T> {
-  static create<T>(StoreClass): { store: Store<T>, dispatch: (type: string, payload?: any) => void } {
+  static create<T>(StoreClass): { store: Store<T>; dispatch: (type: string, payload?: any) => void } {
     const store = new StoreClass();
     const dispatch = store.dispatch.bind(store);
 

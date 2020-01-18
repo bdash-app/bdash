@@ -7,13 +7,19 @@ import Athena from "./DataSourceDefinition/Athena";
 import SQLite3 from "./DataSourceDefinition/SQLite3";
 import { DataSourceType } from "../renderer/pages/DataSource/DataSourceStore";
 
-type DataSourceClasses = typeof Mysql | typeof Postgres | typeof BigQuery | typeof TreasureData | typeof Athena | typeof SQLite3;
+type DataSourceClasses =
+  | typeof Mysql
+  | typeof Postgres
+  | typeof BigQuery
+  | typeof TreasureData
+  | typeof Athena
+  | typeof SQLite3;
 
 export default class DataSource {
-  static dataSources: {[dataSourceName: string]: DataSourceClasses};
+  static dataSources: { [dataSourceName: string]: DataSourceClasses };
 
   static register(...classes: DataSourceClasses[]) {
-    const dataSources: {[dataSourceName: string]: DataSourceClasses} = {};
+    const dataSources: { [dataSourceName: string]: DataSourceClasses } = {};
 
     classes.forEach(DataSource => {
       dataSources[DataSource.key] = DataSource;
