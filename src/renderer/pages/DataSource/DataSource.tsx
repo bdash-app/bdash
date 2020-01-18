@@ -38,13 +38,14 @@ class DataSource extends React.Component<{}, DataSourceState> {
 
   render() {
     const dataSource = this.find(this.state.selectedDataSourceId ?? -1);
+    const defaultDataSourceId = this.state.setting.defaultDataSourceId ?? this.state.dataSources[0]?.id;
 
     return (
       <div className="page-DataSource">
         <div className="page-DataSource-list">
           <DataSourceList
             {...this.state}
-            defaultDataSourceId={this.state.setting.defaultDataSourceId}
+            defaultDataSourceId={defaultDataSourceId}
             onClickNew={() => Action.showForm()}
             onSelect={(dataSource: DataSourceType) => Action.selectDataSource(dataSource)}
             onEdit={(dataSource: DataSourceType) => Action.showForm(dataSource)}

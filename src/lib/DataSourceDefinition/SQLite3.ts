@@ -20,7 +20,7 @@ export default class SQLite3 extends Base {
   }
 
   cancel(): void {
-    this.db.interrupt();
+    this.db?.interrupt();
   }
 
   async fetchTables(): Promise<{ name: string; type: string; schema?: string }[]> {
@@ -47,8 +47,8 @@ export default class SQLite3 extends Base {
   _execute(query: string): Promise<any> {
     this.db = new sqlite3.Database(this.config.path);
     return new Promise((resolve, reject) => {
-      this.db.all(query, (err, results) => {
-        this.db.close();
+      this.db?.all(query, (err, results) => {
+        this.db?.close();
         this.db = null;
         if (err) {
           return reject(err);
