@@ -4,11 +4,13 @@ import Editor from "../Editor";
 import { SettingType } from "../../../lib/Setting";
 import { EditorConfiguration } from "codemirror";
 import { QueryType } from "../../../lib/Database/Query";
+import { TableType } from "src/renderer/pages/DataSource/DataSourceStore";
 
 type Props = {
   readonly editor: { line: number | null };
   readonly setting: SettingType;
   readonly query: QueryType;
+  readonly tables: TableType[];
   readonly mimeType: string;
   readonly onCancel: () => void;
   readonly onExecute: () => void;
@@ -98,11 +100,13 @@ export default class QueryEditor extends React.Component<Props> {
 
   render(): React.ReactNode {
     const query = this.props.query;
+    const tables: string[] = this.props.tables.map(table => table.name);
 
     return (
       <div className="QueryEditor">
         <Editor
           value={query.body || ""}
+          tables={tables}
           rootRef={(node): void => (this.editorElement = node)}
           onChange={this.props.onChangeQueryBody}
           onChangeCursor={this.props.onChangeCursorPosition}

@@ -3,17 +3,20 @@ import CodeMirror from "codemirror";
 import "codemirror/addon/comment/comment";
 import "codemirror/addon/display/autorefresh";
 import "codemirror/addon/edit/matchbrackets";
+import "codemirror/addon/hint/show-hint";
 import "codemirror/addon/search/search";
 import "codemirror/addon/runmode/colorize";
 import "codemirror/keymap/vim";
 import "codemirror/mode/sql/sql";
 import "codemirror/lib/codemirror.css";
 import "codemirror/addon/dialog/dialog.css";
+import "codemirror/addon/hint/show-hint.css";
 import { isEqual } from "lodash";
 import { clipboard } from "electron";
 
 type Props = {
   readonly options: CodeMirror.EditorConfiguration;
+  readonly tables: string[];
   readonly value: string;
   readonly codeMirrorHistory?: Record<string, unknown>;
   readonly rootRef: React.Ref<any>;
@@ -28,6 +31,7 @@ export default class Editor extends React.Component<Props> {
   currentOptions: CodeMirror.EditorConfiguration;
   textareaElement: HTMLTextAreaElement | null;
   ignoreTriggerChangeEvent = false;
+  autoCompleteTimer: number;
 
   componentDidMount(): void {
     if (this.textareaElement === null) {
@@ -132,13 +136,39 @@ export default class Editor extends React.Component<Props> {
     }
   }
 
-  handleValueChange(editor: CodeMirror.Editor): void {
+  handleValueChange(editor: CodeMirror.Editor, changeObj: CodeMirror.EditorChangeLinkedList): void {
     const newValue = editor.getValue();
     this.currentValue = newValue;
 
     if (this.ignoreTriggerChangeEvent === false) {
       this.props.onChange && this.props.onChange(newValue, editor.getHistory());
     }
+
+    if (this.autoCompleteTimer) {
+      clearTimeout(this.autoCompleteTimer);
+    }
+    this.autoCompleteTimer = window.setTimeout(() => {
+      // Skip auto completion if event is caused by auto complete or create/change query
+      if (changeObj.origin === "complete" || changeObj.origin === "setValue") {
+        return;
+      }
+      const cursor = editor.getCursor();
+      const token = editor.getTokenAt(cursor);
+      const tokenString = token.string;
+      CodeMirror.showHint(editor, undefined, {
+        hint: (): CodeMirror.Hints => {
+          return {
+            from: CodeMirror.Pos(cursor.line, token.start),
+            to: CodeMirror.Pos(cursor.line, token.end),
+            list:
+              tokenString.length === 0
+                ? []
+                : this.props.tables.filter(t => t.length > tokenString.length && t.startsWith(tokenString))
+          };
+        },
+        completeSingle: false
+      });
+    }, 400);
   }
 
   handleCursorChange(editor: CodeMirror.Editor): void {
