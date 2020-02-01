@@ -77,6 +77,7 @@ export default class Mysql extends Base {
           ca: this.config.sslCaFilename ? await promises.readFile(this.config.sslCaFilename) : undefined,
           key: this.config.sslKeyFilename ? await promises.readFile(this.config.sslKeyFilename) : undefined,
           cert: this.config.sslCertFilename ? await promises.readFile(this.config.sslCertFilename) : undefined,
+          rejectUnauthorized: !!this.config.sslCaFilename,
           // Some MySQL server doesn't support TLS v1.2,
           // However default minVersion is TLSv1.2 if you use Node.js v12.0 or later.
           // @see https://github.com/nodejs/help/issues/1936
