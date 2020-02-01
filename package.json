@@ -41,7 +41,7 @@
     "lodash": "~4.17.15",
     "markdown-table": "1.1.2",
     "moment": "2.20.1",
-    "mysql2": "1.5.3",
+    "mysql2": "1.7.0",
     "pg": "7.4.3",
     "plotly.js-basic-dist-min": "1.51.3",
     "react": "16.8.6",

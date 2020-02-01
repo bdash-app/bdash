@@ -2,6 +2,7 @@ import mysql from "mysql2";
 import Base, { ConfigSchemaType } from "./Base";
 import Util from "../Util";
 import { zipObject } from "lodash";
+import { promises } from "fs";
 
 export default class Mysql extends Base {
   currentConnection: any;
@@ -23,7 +24,11 @@ export default class Mysql extends Base {
         placeholder: process.env.USER
       },
       { name: "password", label: "Password", type: "password" },
-      { name: "database", label: "Database", type: "string", required: true }
+      { name: "database", label: "Database", type: "string", required: true },
+      { name: "ssl", label: "SSL", type: "checkbox" },
+      { name: "sslCaFilename", label: "SSL CA File", type: "string", placeholder: "/path/to/ca.pem" },
+      { name: "sslKeyFilename", label: "SSL Key File", type: "string", placeholder: "/path/to/client-key.pem" },
+      { name: "sslCertFilename", label: "SSL Cirtifcate File", type: "string", placeholder: "/path/to/client-cert.pem" }
     ];
   }
 
@@ -66,13 +71,36 @@ export default class Mysql extends Base {
     return { name, defs };
   }
 
-  _execute(query: string, ...args): Promise<any> {
+  async getConfig(): Promise<any> {
+    const ssl = this.config.ssl
+      ? {
+          ca: this.config.sslCaFilename ? await promises.readFile(this.config.sslCaFilename) : undefined,
+          key: this.config.sslKeyFilename ? await promises.readFile(this.config.sslKeyFilename) : undefined,
+          cert: this.config.sslCertFilename ? await promises.readFile(this.config.sslCertFilename) : undefined,
+          // Some MySQL server doesn't support TLS v1.2,
+          // However default minVersion is TLSv1.2 if you use Node.js v12.0 or later.
+          // @see https://github.com/nodejs/help/issues/1936
+          minVersion: "TLSv1"
+        }
+      : undefined;
+    return {
+      host: this.config.host,
+      port: this.config.port,
+      user: this.config.user,
+      password: this.config.password,
+      database: this.config.database,
+      ssl
+    };
+  }
+
+  async _execute(query: string, ...args): Promise<any> {
     if (this.currentConnection) {
       return Promise.reject(new Error("A query is running"));
     }
 
+    const config = await this.getConfig();
     return new Promise((resolve, reject) => {
-      const params = Object.assign({ dateStrings: true }, this.config);
+      const params = Object.assign({ dateStrings: true }, config);
       this.currentConnection = mysql.createConnection(params);
       this.currentConnection.connect(err => {
         if (err) {
