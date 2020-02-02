@@ -1,3 +1,5 @@
+import { TableType } from "../../renderer/pages/DataSource/DataSourceStore";
+
 export default abstract class Base {
   config: any;
 
@@ -7,7 +9,7 @@ export default abstract class Base {
   static get label(): string {
     throw new Error("Not Implemented");
   }
-  static get configSchema(): ConfigSchemaType {
+  static get configSchema(): ConfigSchemasType {
     throw new Error("Not Implemented");
   }
 
@@ -15,7 +17,7 @@ export default abstract class Base {
     this.config = config;
   }
 
-  abstract execute(query: string): Promise<any>;
+  abstract execute(query: string, options?: any): Promise<any>;
 
   // @todo Set return type as Promise<void> ?
   abstract cancel(): void | Promise<void>;
@@ -28,9 +30,11 @@ export default abstract class Base {
   abstract descriptionTable(): string;
 
   abstract fetchTableSummary(
-    args: any
+    args: Partial<TableType>
   ): Promise<{ name: string; defs: { fields: string[]; rows: (string | null)[][] }; schema?: string }>;
 }
+
+export type ConfigSchemasType = ConfigSchemaType[];
 
 export type ConfigSchemaType = {
   readonly name: string;
@@ -40,4 +44,4 @@ export type ConfigSchemaType = {
   readonly required?: boolean;
   readonly values?: string[];
   readonly default?: string;
-}[];
+};

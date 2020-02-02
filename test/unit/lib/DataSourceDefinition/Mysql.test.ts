@@ -14,7 +14,11 @@ suite("DataSourceDefinition/Mysql @remote", () => {
     const result = await new Mysql(config).execute("select id, text from test order by id");
     assert.deepStrictEqual(result, {
       fields: ["id", "text"],
-      rows: [[1, "foo"], [2, "bar"], [3, "baz"]]
+      rows: [
+        [1, "foo"],
+        [2, "bar"],
+        [3, "baz"]
+      ]
     });
   });
 

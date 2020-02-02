@@ -55,7 +55,7 @@ suite("Launch and onboarding", function() {
     await app.client.click(".DataSourceForm-saveBtn");
 
     const title = await app.client.getText(".DataSourceList-list li:first-child");
-    assert.strictEqual(title, "Test Data Source");
+    assert.strictEqual(title, "Test Data Source (default)");
   });
 
   test("Create a query", async () => {

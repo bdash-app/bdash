@@ -1,5 +1,5 @@
 import bigquery from "@google-cloud/bigquery";
-import Base, { ConfigSchemaType } from "./Base";
+import Base, { ConfigSchemasType } from "./Base";
 import { flatten } from "lodash";
 
 export default class BigQuery extends Base {
@@ -11,7 +11,7 @@ export default class BigQuery extends Base {
   static get label(): string {
     return "BigQuery";
   }
-  static get configSchema(): ConfigSchemaType {
+  static get configSchema(): ConfigSchemasType {
     return [
       {
         name: "project",

@@ -14,12 +14,18 @@ class Query extends React.Component<{}, QueryState> {
   }
 
   handleAddQuery() {
-    const ds = this.state.dataSources[0];
+    const defaultDataSourceId: number | undefined = this.state.setting.defaultDataSourceId;
+    const ds =
+      defaultDataSourceId !== undefined ? this.findDataSourceById(defaultDataSourceId) : this.state.dataSources[0];
     if (ds) {
       Action.addNewQuery({ dataSourceId: ds.id });
     } else {
       alert("Please create data source");
     }
+  }
+
+  findDataSourceById(id: number): any {
+    return this.state.dataSources.find(ds => ds.id === id);
   }
 
   handleExecute(query) {
