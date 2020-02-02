@@ -3,11 +3,12 @@ import Button from "../Button";
 import Editor from "../Editor";
 import { SettingType } from "../../../lib/Setting";
 import { EditorConfiguration } from "codemirror";
+import { QueryType } from "../../../lib/Database/Query";
 
 type Props = {
   readonly editor: { height: number | null; line: number | null };
   readonly setting: SettingType;
-  readonly query: any;
+  readonly query: QueryType;
   readonly onCancel: () => void;
   readonly onExecute: () => void;
   readonly onChangeEditorHeight: (height: number) => void;

@@ -7,6 +7,8 @@ import QueryList from "../../components/QueryList";
 import QueryHeader from "../../components/QueryHeader";
 import QueryEditor from "../../components/QueryEditor";
 import QueryResult from "../../components/QueryResult";
+import { QueryType } from "../../../lib/Database/Query";
+import { DataSourceType } from "../DataSource/DataSourceStore";
 
 class Query extends React.Component<{}, QueryState> {
   componentDidMount() {
@@ -24,24 +26,27 @@ class Query extends React.Component<{}, QueryState> {
     }
   }
 
-  findDataSourceById(id: number): any {
+  findDataSourceById(id: number): DataSourceType | undefined {
     return this.state.dataSources.find(ds => ds.id === id);
   }
 
-  handleExecute(query) {
-    const line = this.state.editor.line;
-    const dataSource = this.state.dataSources.find(ds => ds.id === query.dataSourceId);
-
-    Action.executeQuery({ query, dataSource, line });
+  handleExecute(query: QueryType) {
+    const line = this.state.editor.line ?? 0;
+    const dataSource = this.findDataSourceById(query.dataSourceId);
+    if (dataSource) {
+      Action.executeQuery({ query, dataSource, line });
+    } else {
+      alert("DataSource is missing");
+    }
   }
 
-  handleCancel(query) {
+  handleCancel(query: QueryType) {
     if (query.status === "working") {
       Action.cancelQuery(query);
     }
   }
 
-  async handleShareOnGist(query): Promise<void> {
+  async handleShareOnGist(query: QueryType): Promise<void> {
     const chart = this.state.charts.find(chart => chart.queryId === query.id);
     const setting = this.state.setting.github;
     const dataSource = this.state.dataSources.find(ds => ds.id === query.dataSourceId);
@@ -105,6 +110,7 @@ class Query extends React.Component<{}, QueryState> {
             {...this.state}
             onAddQuery={() => this.handleAddQuery()}
             onSelectQuery={Action.selectQuery}
+            onDuplicateQuery={Action.duplicateQuery}
             onDeleteQuery={Action.deleteQuery}
           />
         </div>
