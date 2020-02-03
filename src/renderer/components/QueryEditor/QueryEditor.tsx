@@ -88,7 +88,7 @@ export default class QueryEditor extends React.Component<Props> {
     return (
       <div className="QueryEditor-status">
         <span>
-          <i className="fa fa-check" />
+          <i className="fas fa-check" />
         </span>
         <span>runtime: {query.runtime ? `${query.runtime}ms` : "-"}</span>
         <span>rows: {query.rows ? query.rows.length : "-"}</span>
@@ -100,7 +100,7 @@ export default class QueryEditor extends React.Component<Props> {
     return (
       <div className="QueryEditor-status is-error">
         <span>
-          <i className="fa fa-close" /> Failed
+          <i className="fas fa-times" /> Failed
         </span>
       </div>
     );
@@ -110,7 +110,7 @@ export default class QueryEditor extends React.Component<Props> {
     return (
       <div className="QueryEditor-status is-working">
         <span>
-          <i className="fa fa-spin fa-refresh" />
+          <i className="fas fa-spin fa-sync" />
         </span>
       </div>
     );
@@ -134,7 +134,7 @@ export default class QueryEditor extends React.Component<Props> {
           {this.renderButton()}
           {this.renderStatus()}
           <span onMouseDown={this.handleResizeStart.bind(this)} className="QueryEditor-resize">
-            <i className="fa fa-arrows-v" />
+            <i className="fas fa-arrows-alt-v" />
           </span>
         </div>
       </div>

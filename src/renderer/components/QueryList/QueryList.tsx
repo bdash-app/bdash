@@ -48,7 +48,7 @@ export default class QueryList extends React.Component<any, any> {
     return (
       <div className="QueryList">
         <div className="QueryList-new">
-          <i className="fa fa-plus" onClick={() => this.handleClickNew()} />
+          <i className="fas fa-plus" onClick={() => this.handleClickNew()} />
         </div>
         <ul className="QueryList-list">{items}</ul>
       </div>

@@ -86,7 +86,7 @@ export default class QueryResultChart extends React.Component<Props> {
   renderLabel(option: OptionType) {
     return (
       <span>
-        <i className={`fa fa-${option.value}-chart`} />
+        <i className={`fas fa-chart-${option.value}`} />
         <span>{option.label}</span>
       </span>
     );
@@ -102,7 +102,7 @@ export default class QueryResultChart extends React.Component<Props> {
     const chartOptionValue = (props: OptionProps<OptionType>) => {
       return (
         <components.Option {...props}>
-          <i className={`fa fa-${props.data.value}-chart`} />
+          <i className={`fas fa-chart-${props.data.value}`} />
           {props.children}
         </components.Option>
       );
@@ -111,7 +111,7 @@ export default class QueryResultChart extends React.Component<Props> {
     const chartSingleValue = (props: SingleValueProps<OptionType>) => {
       return (
         <components.SingleValue {...props}>
-          <i className={`fa fa-${props.data.value}-chart`} />
+          <i className={`fas fa-chart-${props.data.value}`} />
           {props.children}
         </components.SingleValue>
       );

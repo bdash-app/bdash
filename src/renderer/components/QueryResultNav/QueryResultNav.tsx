@@ -42,7 +42,7 @@ export default class QueryResultNav extends React.Component<any, any> {
           })}
           onClick={() => this.props.onSelectTab("table")}
         >
-          <i className="fa fa-table" />
+          <i className="fas fa-table" />
         </span>
         <span
           className={classNames("QueryResultNav-tabMenu", {
@@ -50,11 +50,11 @@ export default class QueryResultNav extends React.Component<any, any> {
           })}
           onClick={() => this.props.onSelectTab("chart")}
         >
-          <i className="fa fa-bar-chart" />
+          <i className="fas fa-chart-bar" />
         </span>
         <div className="QueryResultNav-share">
           <span className="QueryResultNav-shareBtn" onClick={() => this.setState({ openShareFlyout: true })}>
-            <i className="fa fa-share-alt" />
+            <i className="fas fa-share-alt" />
           </span>
           <Flyout
             open={this.state.openShareFlyout}

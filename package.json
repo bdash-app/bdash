@@ -26,6 +26,7 @@
     "ci": "yarn run lint && yarn run test"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "5.12.0",
     "@google-cloud/bigquery": "0.7.0",
     "aws-sdk": "2.259.1",
     "classnames": "2.2.5",
@@ -34,7 +35,6 @@
     "electron-is-dev": "1.1.0",
     "electron-log": "3.0.9",
     "electron-updater": "4.2.0",
-    "font-awesome": "4.7.0",
     "fs-extra": "5.0.0",
     "immup": "3.0.0",
     "js-yaml": "3.10.0",
