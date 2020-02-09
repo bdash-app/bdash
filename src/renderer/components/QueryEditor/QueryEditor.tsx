@@ -5,7 +5,7 @@ import { SettingType } from "../../../lib/Setting";
 import { EditorConfiguration } from "codemirror";
 
 type Props = {
-  readonly editor: { height: number | null; line: number | null };
+  readonly editor: { line: number | null };
   readonly setting: SettingType;
   readonly query: any;
   readonly onCancel: () => void;
@@ -27,31 +27,6 @@ export default class QueryEditor extends React.Component<Props> {
       indentUnit: 4,
       smartIndent: false
     };
-  }
-
-  get style() {
-    if (this.props.editor.height == null) {
-      return {};
-    } else {
-      return { height: `${this.props.editor.height}px` };
-    }
-  }
-
-  handleResizeStart(e: React.MouseEvent<HTMLElement>) {
-    e.preventDefault();
-    const height = this.editorElement.clientHeight;
-    const y = e.pageY;
-    const handleResize = (e: MouseEvent) => {
-      let newHeight = height + (e.pageY - y);
-      if (newHeight < 0) newHeight = 0;
-      this.props.onChangeEditorHeight(newHeight);
-    };
-    const handleResizeStop = () => {
-      document.removeEventListener("mouseup", handleResizeStop);
-      document.removeEventListener("mousemove", handleResize);
-    };
-    document.addEventListener("mousemove", handleResize);
-    document.addEventListener("mouseup", handleResizeStop);
   }
 
   renderButton() {
@@ -123,7 +98,6 @@ export default class QueryEditor extends React.Component<Props> {
       <div className="QueryEditor">
         <Editor
           value={query.body || ""}
-          height={this.props.editor.height}
           rootRef={node => (this.editorElement = node)}
           onChange={body => this.props.onChangeQueryBody(body)}
           onChangeCursor={line => this.props.onChangeCursorPosition(line)}
@@ -133,9 +107,6 @@ export default class QueryEditor extends React.Component<Props> {
         <div className="QueryEditor-navbar">
           {this.renderButton()}
           {this.renderStatus()}
-          <span onMouseDown={this.handleResizeStart.bind(this)} className="QueryEditor-resize">
-            <i className="fa fa-arrows-v" />
-          </span>
         </div>
       </div>
     );

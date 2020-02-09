@@ -3,6 +3,10 @@
   --page-Query-headerHeight: 48px;
 }
 
+.page-Query-splitter-layout {
+  position: static;
+}
+
 .page-Query-list {
   width: 280px;
   border-right: 1px solid #ccc;
@@ -29,11 +33,4 @@
 
 .page-Query-main .QueryEditor {
   z-index: 0;
-}
-
-.QueryEditor .Editor {
-  height: 40vh;
-  max-height: calc(
-    100vh - var(--page-Query-headerHeight) - var(--QueryEditor-navbarHeight) - 2px
-  ); /* 2px == border width */
 }
