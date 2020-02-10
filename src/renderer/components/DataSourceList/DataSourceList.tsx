@@ -91,7 +91,7 @@ export default class DataSourceList extends React.Component<Props> {
     return (
       <div className="DataSourceList">
         <div className="DataSourceList-new">
-          <i className="fa fa-plus" onClick={() => this.props.onClickNew()} />
+          <i className="fas fa-plus" onClick={() => this.props.onClickNew()} />
         </div>
         <ul className="DataSourceList-list">{items}</ul>
       </div>

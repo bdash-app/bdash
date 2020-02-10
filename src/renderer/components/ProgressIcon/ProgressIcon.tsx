@@ -7,9 +7,9 @@ export default class ProgressIcon extends React.Component<any, any> {
       case "working":
         return <LoadingIcon />;
       case "success":
-        return <i className="fa fa-check" />;
+        return <i className="fas fa-check" />;
       case "failure":
-        return <i className="fa fa-close" />;
+        return <i className="fas fa-times" />;
       default:
         throw new Error(`${this.props.status} is invalid status`);
     }

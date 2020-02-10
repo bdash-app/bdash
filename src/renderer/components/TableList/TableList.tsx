@@ -32,7 +32,7 @@ export default class TableList extends React.Component<Props> {
 
     return (
       <li className={className} key={key} onClick={() => this.handleClickTable(table)}>
-        <i className="fa fa-table" /> {`${schema}${table.name}`}
+        <i className="fas fa-table" /> {`${schema}${table.name}`}
       </li>
     );
   }
