@@ -10,10 +10,7 @@
   position: relative;
 }
 
-.TableList-filter:before {
-  content: "\f002";
-  font-family: "FontAwesome";
-  display: inline-block;
+.TableList-filter > i {
   position: absolute;
   left: 14px;
   top: 16px;
