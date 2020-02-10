@@ -3,9 +3,10 @@ import QueryResultNav from "../QueryResultNav";
 import QueryResultTable from "../QueryResultTable";
 import QueryResultChart from "../QueryResultChart";
 import { ChartType } from "../../../lib/Database/Chart";
+import { QueryType } from "../../../lib/Database/Query";
 
 type Props = {
-  readonly query: any;
+  readonly query: QueryType;
   readonly charts: ChartType[];
   readonly onClickCopyAsTsv: () => void;
   readonly onClickCopyAsCsv: () => void;

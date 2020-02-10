@@ -1,15 +1,29 @@
 import React from "react";
 import Flyout from "react-micro-flyout";
 import classNames from "classnames";
+import { QueryType } from "../../../lib/Database/Query";
 
-export default class QueryResultNav extends React.Component<any, any> {
+type Props = {
+  readonly query: QueryType;
+  readonly onClickCopyAsTsv: () => void;
+  readonly onClickCopyAsCsv: () => void;
+  readonly onClickCopyAsMarkdown: () => void;
+  readonly onClickShareOnGist: () => void;
+  readonly onSelectTab: (tabName: "table" | "chart") => void;
+};
+
+type State = {
+  readonly openShareFlyout: boolean;
+};
+
+export default class QueryResultNav extends React.Component<Props, State> {
   constructor(...args) {
     // @ts-ignore
     super(...args);
     this.state = { openShareFlyout: false };
   }
 
-  selectedTab(name) {
+  selectedTab(name: string): boolean {
     return (this.props.query.selectedTab || "table") === name;
   }
 
