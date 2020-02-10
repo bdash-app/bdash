@@ -20,7 +20,8 @@ export default class Chart {
 
   drawTo(dom: HTMLElement): Promise<PlotlyHTMLElement> {
     return Plotly.newPlot(dom, this.getData(), this.getLayout(), {
-      displayModeBar: false
+      displayModeBar: false,
+      responsive: true
     });
   }
 
@@ -34,10 +35,13 @@ export default class Chart {
     }
 
     const gd = await Plotly.plot(div, data, layout);
-    // width, height are default of plotly.js
+    // max width of gist image in pc browser
+    const width = 600;
+    // aspect ratio (450:700) is default of plotly.js
     // https://plot.ly/javascript/reference/#layout-width
     // https://plot.ly/javascript/reference/#layout-height
-    return Plotly.toImage(gd, { format: "svg", width: 700, height: 450 }).then(svg => {
+    const height = Math.floor((width * 450) / 700);
+    return Plotly.toImage(gd, { format: "svg", width, height }).then(svg => {
       const dataURI = decodeURIComponent(svg);
       return dataURI.substr(dataURI.indexOf(",") + 1).replace(/"Open Sans"/g, "'Open Sans'");
     });
@@ -50,8 +54,10 @@ export default class Chart {
   getLayout() {
     const layout: Partial<Plotly.Layout> = {
       showlegend: true,
-      margin: { l: 50, r: 50, t: 10, b: 120, pad: 4 },
-      hoverlabel: { namelength: -1 }
+      margin: { l: 50, r: 50, t: 10, b: 10, pad: 4 },
+      hoverlabel: { namelength: -1 },
+      xaxis: { automargin: true },
+      yaxis: { automargin: true }
     };
 
     if (this.params.stacking === "enable") {
