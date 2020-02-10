@@ -1,4 +1,5 @@
 import React from "react";
+import SplitterLayout from "react-splitter-layout";
 import QuerySharing from "../../../lib/QuerySharing";
 import { store, QueryState } from "./QueryStore";
 import Action from "./QueryAction";
@@ -74,25 +75,33 @@ class Query extends React.Component<{}, QueryState> {
           onChangeTitle={title => Action.updateQuery(query.id, { title })}
           onChangeDataSource={dataSourceId => Action.updateQuery(query.id, { dataSourceId })}
         />
-        <QueryEditor
-          query={query}
-          {...this.state}
-          onChangeQueryBody={body => Action.updateQuery(query.id, { body })}
-          onChangeCursorPosition={line => Action.updateEditor({ line })}
-          onChangeEditorHeight={height => Action.updateEditor({ height })}
-          onExecute={() => this.handleExecute(query)}
-          onCancel={() => this.handleCancel(query)}
-        />
-        <QueryResult
-          query={query}
-          {...this.state}
-          onClickCopyAsTsv={() => QuerySharing.copyAsTsv(query)}
-          onClickCopyAsCsv={() => QuerySharing.copyAsCsv(query)}
-          onClickCopyAsMarkdown={() => QuerySharing.copyAsMarkdown(query)}
-          onClickShareOnGist={() => this.handleShareOnGist(query)}
-          onSelectTab={name => Action.selectResultTab(query, name)}
-          onUpdateChart={Action.updateChart}
-        />
+        <SplitterLayout
+          vertical={true}
+          primaryIndex={1}
+          primaryMinSize={100}
+          secondaryMinSize={100}
+          customClassName="page-Query-splitter-layout"
+        >
+          <QueryEditor
+            query={query}
+            {...this.state}
+            onChangeQueryBody={body => Action.updateQuery(query.id, { body })}
+            onChangeCursorPosition={line => Action.updateEditor({ line })}
+            onChangeEditorHeight={height => Action.updateEditor({ height })}
+            onExecute={() => this.handleExecute(query)}
+            onCancel={() => this.handleCancel(query)}
+          />
+          <QueryResult
+            query={query}
+            {...this.state}
+            onClickCopyAsTsv={() => QuerySharing.copyAsTsv(query)}
+            onClickCopyAsCsv={() => QuerySharing.copyAsCsv(query)}
+            onClickCopyAsMarkdown={() => QuerySharing.copyAsMarkdown(query)}
+            onClickShareOnGist={() => this.handleShareOnGist(query)}
+            onSelectTab={name => Action.selectResultTab(query, name)}
+            onUpdateChart={Action.updateChart}
+          />
+        </SplitterLayout>
       </div>
     );
   }
