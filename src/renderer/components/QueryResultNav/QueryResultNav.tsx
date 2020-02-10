@@ -17,9 +17,8 @@ type State = {
 };
 
 export default class QueryResultNav extends React.Component<Props, State> {
-  constructor(...args) {
-    // @ts-ignore
-    super(...args);
+  constructor(props: Props) {
+    super(props);
     this.state = { openShareFlyout: false };
   }
 
