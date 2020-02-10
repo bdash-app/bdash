@@ -21,7 +21,7 @@ export default class SettingStore extends Store<SettingState> {
     };
   }
 
-  reduce(type, payload) {
+  reduce(type: string, payload: any) {
     switch (type) {
       case "initialize":
       case "update": {
@@ -49,5 +49,5 @@ export default class SettingStore extends Store<SettingState> {
   }
 }
 
-const { store, dispatch } = Store.create(SettingStore);
+const { store, dispatch } = Store.create<SettingState>(SettingStore);
 export { store, dispatch };

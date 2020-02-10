@@ -1,11 +1,27 @@
 import React from "react";
 import classNames from "classnames";
 import { remote } from "electron";
+import { DataSourceType } from "../../pages/DataSource/DataSourceStore";
 
-export default class DataSourceList extends React.Component<any, any> {
-  handleContextMenu(id) {
+type Props = {
+  readonly dataSources: DataSourceType[];
+  readonly selectedDataSourceId: number | null;
+  readonly defaultDataSourceId: number | undefined;
+  readonly onClickNew: () => void;
+  readonly onSelect: (dataSource: DataSourceType) => void;
+  readonly onEdit: (dataSource: DataSourceType) => void;
+  readonly onReload: (dataSource: DataSourceType) => void;
+  readonly onDelete: (id: number) => void;
+  readonly changeDefaultDataSourceId: (dataSourceId: number) => void;
+};
+
+export default class DataSourceList extends React.Component<Props> {
+  handleContextMenu(id: number) {
     if (id !== this.props.selectedDataSourceId) {
-      this.props.onSelect(id);
+      const dataSource = this.find(id);
+      if (dataSource) {
+        this.props.onSelect(this.props.dataSources[id]);
+      }
     }
 
     setImmediate(() => {
@@ -13,13 +29,27 @@ export default class DataSourceList extends React.Component<any, any> {
         {
           label: "Edit",
           click: () => {
-            this.props.onEdit(id);
+            const dataSource = this.find(id);
+            if (dataSource) {
+              this.props.onEdit(dataSource);
+            }
           }
         },
         {
           label: "Reload",
           click: () => {
-            this.props.onReload(id);
+            const dataSource = this.find(id);
+            if (dataSource) {
+              this.props.onReload(dataSource);
+            }
+          }
+        },
+        {
+          label: "Set as default",
+          type: "checkbox",
+          checked: id === this.props.defaultDataSourceId,
+          click: () => {
+            this.props.changeDefaultDataSourceId(id);
           }
         },
         {
@@ -35,19 +65,25 @@ export default class DataSourceList extends React.Component<any, any> {
     });
   }
 
+  find(id: number): DataSourceType | undefined {
+    return this.props.dataSources.find(d => d.id === id);
+  }
+
   render() {
     const items = this.props.dataSources.map(dataSource => {
       const className = classNames({
         "is-selected": this.props.selectedDataSourceId === dataSource.id
       });
+      const label: string =
+        dataSource.id === this.props.defaultDataSourceId ? dataSource.name + " (default)" : dataSource.name;
       return (
         <li
           key={dataSource.id}
           className={className}
           onContextMenu={() => this.handleContextMenu(dataSource.id)}
-          onClick={() => this.props.onSelect(dataSource.id)}
+          onClick={() => this.props.onSelect(dataSource)}
         >
-          {dataSource.name}
+          {label}
         </li>
       );
     });

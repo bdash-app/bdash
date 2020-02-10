@@ -1,5 +1,5 @@
 import TD from "td";
-import Base, { ConfigSchemaType } from "./Base";
+import Base, { ConfigSchemasType } from "./Base";
 import Util from "../Util";
 
 const WAIT_INTERVAL = 2000;
@@ -17,7 +17,7 @@ export default class TreasureData extends Base {
   static get label(): string {
     return "TreasureData";
   }
-  static get configSchema(): ConfigSchemaType {
+  static get configSchema(): ConfigSchemasType {
     return [
       { name: "database", label: "Database", type: "string", required: true },
       {

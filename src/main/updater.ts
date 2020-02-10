@@ -1,4 +1,4 @@
-import { autoUpdater, AppUpdater } from "electron-updater";
+import { autoUpdater, AppUpdater, UpdateCheckResult } from "electron-updater";
 import isDev from "electron-is-dev";
 import logger from "./logger";
 
@@ -12,8 +12,8 @@ export enum UpdateState {
 }
 
 export class Updater {
-  state = UpdateState.UpdateNotAvailable;
-  autoUpdater: AppUpdater;
+  state: UpdateState = UpdateState.UpdateNotAvailable;
+  readonly autoUpdater: AppUpdater;
 
   constructor(autoUpdater: AppUpdater) {
     this.autoUpdater = autoUpdater;
@@ -22,14 +22,14 @@ export class Updater {
     });
   }
 
-  check() {
-    if (isDev) return;
-    this.autoUpdater.checkForUpdates();
+  async check(): Promise<UpdateCheckResult | void> {
+    if (isDev) return Promise.resolve();
+    return this.autoUpdater.checkForUpdates();
   }
 
-  watch() {
-    this.check();
-    setInterval(() => this.check(), WATCH_INTERVAL);
+  async watch(): Promise<void> {
+    await this.check();
+    setInterval(async () => await this.check(), WATCH_INTERVAL);
   }
 
   quit() {

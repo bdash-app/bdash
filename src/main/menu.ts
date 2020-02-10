@@ -39,7 +39,7 @@ const helpMenu: Electron.MenuItemConstructorOptions = {
   ]
 };
 
-const checkForUpdateItem = {
+const checkForUpdateItem: Electron.MenuItemConstructorOptions = {
   label: "Check for Updates...",
   click() {
     switch (updater.state) {

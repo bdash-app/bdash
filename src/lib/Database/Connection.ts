@@ -2,7 +2,7 @@ import sqlite3 from "sqlite3";
 import { migrations, Migration } from "./schema";
 
 export default class Connection {
-  _db: any;
+  _db: sqlite3.Database;
 
   get db() {
     if (!this._db) {
@@ -12,7 +12,7 @@ export default class Connection {
     return this._db;
   }
 
-  async initialize({ databasePath }): Promise<void> {
+  async initialize({ databasePath }: { databasePath: string }): Promise<void> {
     this._db = new sqlite3.Database(databasePath);
     await this.migrate(migrations);
   }
@@ -39,7 +39,7 @@ export default class Connection {
     }
   }
 
-  exec(sql): Promise<any> {
+  exec(sql: string): Promise<void> {
     return new Promise((resolve, reject) => {
       this.db.exec(sql, err => {
         if (err) {
@@ -51,7 +51,7 @@ export default class Connection {
     });
   }
 
-  get(sql, ...params): Promise<any> {
+  get<T = any>(sql: string, ...params: any[]): Promise<T> {
     return new Promise((resolve, reject) => {
       this.db.get(sql, ...params, (err, result) => {
         if (err) {
@@ -63,9 +63,9 @@ export default class Connection {
     });
   }
 
-  all(sql, ...params): Promise<any> {
+  all<T = any>(sql: string, ...params: any[]): Promise<T[]> {
     return new Promise((resolve, reject) => {
-      this.db.all(sql, ...params, (err, result) => {
+      this.db.all(sql, ...params, (err: Error | null, result: T[]) => {
         if (err) {
           reject(err);
         } else {
@@ -75,9 +75,9 @@ export default class Connection {
     });
   }
 
-  insert(sql, ...params): Promise<any> {
+  insert(sql: string, ...params: any[]): Promise<number> {
     return new Promise((resolve, reject) => {
-      this.db.run(sql, ...params, function(err) {
+      this.db.run(sql, ...params, function(err: Error | null) {
         if (err) {
           reject(err);
         } else {
@@ -88,9 +88,9 @@ export default class Connection {
     });
   }
 
-  run(sql, ...params): Promise<any> {
+  run(sql: string, ...params: any[]): Promise<void> {
     return new Promise((resolve, reject) => {
-      this.db.run(sql, ...params, err => {
+      this.db.run(sql, ...params, (err: Error | null) => {
         if (err) {
           reject(err);
         } else {

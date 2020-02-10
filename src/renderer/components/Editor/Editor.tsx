@@ -13,7 +13,6 @@ import { isEqual } from "lodash";
 type Props = {
   readonly options: CodeMirror.EditorConfiguration;
   readonly value: string;
-  readonly height: number | null;
   readonly rootRef: React.Ref<any>;
   readonly onSubmit: () => void;
   readonly onChange: (change: string) => void;
@@ -94,10 +93,6 @@ export default class Editor extends React.Component<Props> {
     }
   }
 
-  shouldComponentUpdate(nextProps: Props) {
-    return this.props.height !== nextProps.height;
-  }
-
   handleValueChange(doc: CodeMirror.Doc) {
     const newValue = doc.getValue();
     this.currentValue = newValue;
@@ -111,9 +106,8 @@ export default class Editor extends React.Component<Props> {
   }
 
   render() {
-    const height = this.props.height;
     return (
-      <div className="Editor" ref={this.props.rootRef} style={height !== null ? { height: `${height}px` } : {}}>
+      <div className="Editor" ref={this.props.rootRef}>
         <textarea ref={node => (this.textareaElement = node)} defaultValue="" autoComplete="off" />
       </div>
     );

@@ -1,10 +1,36 @@
 import Store from "../../flux/Store";
+import Setting, { SettingType } from "../../../lib/Setting";
+
+export type DataSourceType = {
+  readonly id: number;
+  readonly name: string;
+  readonly type: string;
+  readonly config: { [name: string]: any };
+
+  readonly tables: TableType[];
+  readonly selectedTable: TableType;
+  readonly tableSummary: TableSummary;
+  readonly tableFilter: string;
+};
+
+type TableSummary = {
+  readonly schema: any;
+  readonly name: string;
+  readonly defs: { fields: any[]; rows: any[][] };
+};
+
+export type TableType = {
+  readonly name: string;
+  readonly type: string;
+  readonly schema?: string;
+};
 
 export interface DataSourceState {
-  dataSources: any[];
+  dataSources: DataSourceType[];
   selectedDataSourceId: number | null;
   showForm: boolean;
-  formValue: any;
+  formValue: DataSourceType | null;
+  setting: SettingType;
 }
 
 export default class DataSourceStore extends Store<DataSourceState> {
@@ -14,14 +40,15 @@ export default class DataSourceStore extends Store<DataSourceState> {
       dataSources: [],
       selectedDataSourceId: null,
       showForm: false,
-      formValue: null
+      formValue: null,
+      setting: Setting.getDefault()
     };
   }
 
-  reduce(type, payload) {
+  reduce(type: string, payload: any) {
     switch (type) {
       case "initialize": {
-        return this.mergeList("dataSources", payload.dataSources);
+        return this.merge("setting", payload.setting).mergeList("dataSources", payload.dataSources);
       }
       case "selectDataSource": {
         return this.set("selectedDataSourceId", payload.id);
@@ -66,10 +93,13 @@ export default class DataSourceStore extends Store<DataSourceState> {
         const idx = this.findDataSourceIndex(payload.id);
         return this.del(`dataSources.${idx}`);
       }
+      case "updateDefaultDataSourceId": {
+        return this.set("setting.defaultDataSourceId", payload.defaultDataSourceId);
+      }
     }
   }
 
-  findDataSourceIndex(id) {
+  findDataSourceIndex(id: number): number {
     const idx = this.state.dataSources.findIndex(q => q.id === id);
 
     if (idx === -1) {

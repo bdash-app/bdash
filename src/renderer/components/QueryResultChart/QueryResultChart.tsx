@@ -4,6 +4,7 @@ import { components } from "react-select";
 import Chart from "../../../lib/Chart";
 import { selectStyles } from "../Select";
 import { ChartType } from "../../../lib/Database/Chart";
+import { QueryType } from "../../../lib/Database/Query";
 
 type OptionType = {
   readonly label: string;
@@ -11,7 +12,7 @@ type OptionType = {
 };
 
 type Props = {
-  readonly query: any;
+  readonly query: QueryType;
   readonly chart: ChartType | undefined;
   readonly onUpdateChart: (id: number, params: any) => void;
 };

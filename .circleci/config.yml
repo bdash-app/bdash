@@ -3,7 +3,7 @@ jobs:
   test:
     working_directory: ~/workspace
     docker:
-      - image: circleci/node:10-browsers
+      - image: circleci/node:12-browsers
       - image: circleci/postgres:12-alpine-ram
         environment:
           POSTGRES_USER: circleci
@@ -40,7 +40,7 @@ jobs:
   publish:
     working_directory: ~/workspace
     docker:
-      - image: circleci/node:8.9.4-browsers
+      - image: circleci/node:12-browsers
     steps:
       - checkout
       - restore_cache:

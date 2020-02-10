@@ -4,6 +4,8 @@ import { setting } from "../../../lib/Setting";
 import Database from "../../../lib/Database";
 import Util from "../../../lib/Util";
 import DataSource from "../../../lib/DataSource";
+import { QueryType } from "../../../lib/Database/Query";
+import { DataSourceType } from "../DataSource/DataSourceStore";
 
 const DEFAULT_QUERY_TITLE = "New Query";
 
@@ -23,7 +25,7 @@ const QueryAction = {
     });
   },
 
-  async selectQuery(query) {
+  async selectQuery(query: QueryType) {
     const id = query.id;
     if (query.body === undefined) {
       const query = await Database.Query.find(id);
@@ -34,24 +36,26 @@ const QueryAction = {
   },
 
   async addNewQuery({ dataSourceId }) {
-    const query = await Database.Query.create({
-      title: DEFAULT_QUERY_TITLE,
-      dataSourceId
-    });
+    const query = await Database.Query.create(DEFAULT_QUERY_TITLE, dataSourceId, "");
     dispatch("addNewQuery", { query });
   },
 
-  updateQuery(id, params) {
+  updateQuery(id: number, params: any) {
     dispatch("updateQuery", { id, params });
     Database.Query.update(id, params);
   },
 
-  async deleteQuery(id) {
+  async duplicateQuery(query: QueryType): Promise<void> {
+    const newQuery = await Database.Query.create(query.title, query.dataSourceId, query.body);
+    dispatch("addNewQuery", { query: newQuery });
+  },
+
+  async deleteQuery(id: number) {
     await Database.Query.del(id);
     dispatch("deleteQuery", { id });
   },
 
-  async executeQuery({ line, query, dataSource }) {
+  async executeQuery({ line, query, dataSource }: { line: number; query: QueryType; dataSource: DataSourceType }) {
     const { query: queryBody, startLine } = Util.findQueryByLine(query.body, line);
     const executor = DataSource.create(dataSource);
     const id = query.id;
@@ -100,16 +104,16 @@ const QueryAction = {
     );
   },
 
-  cancelQuery(query) {
+  cancelQuery(query: QueryType) {
     dispatch("updateQuery", { id: query.id, params: { executor: null } });
-    query.executor.cancel();
+    query.executor?.cancel();
   },
 
   updateEditor(params) {
     dispatch("updateEditor", params);
   },
 
-  async selectResultTab(query, name) {
+  async selectResultTab(query: QueryType, name) {
     dispatch("selectResultTab", { id: query.id, name });
 
     if (name === "chart" && !query.chart) {

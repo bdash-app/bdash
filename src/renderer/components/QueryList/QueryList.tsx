@@ -1,20 +1,36 @@
 import React from "react";
 import classNames from "classnames";
 import { remote } from "electron";
+import { QueryType } from "../../../lib/Database/Query";
 
-export default class QueryList extends React.Component<any, any> {
+type Props = {
+  readonly queries: QueryType[];
+  readonly selectedQueryId: number | null;
+  readonly onAddQuery: () => void;
+  readonly onSelectQuery: (query: QueryType) => void;
+  readonly onDuplicateQuery: (query: QueryType) => void;
+  readonly onDeleteQuery: (queryId: number) => void;
+};
+
+export default class QueryList extends React.Component<Props> {
   handleClickNew() {
     this.props.onAddQuery();
   }
 
-  handleClickItem(query) {
+  handleClickItem(query: QueryType) {
     this.props.onSelectQuery(query);
   }
 
-  handleContextMenu(query) {
+  handleContextMenu(query: QueryType) {
     this.props.onSelectQuery(query);
     setImmediate(() => {
       const menu = remote.Menu.buildFromTemplate([
+        {
+          label: "Duplicate",
+          click: () => {
+            this.props.onDuplicateQuery(query);
+          }
+        },
         {
           label: "Delete",
           click: () => {

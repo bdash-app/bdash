@@ -4,7 +4,7 @@ import { initMenu } from "./menu";
 import logger from "./logger";
 
 const app = electron.app;
-let mainWindow;
+let mainWindow: electron.BrowserWindow | null;
 
 process.on("uncaughtException", err => {
   logger.error(err);
@@ -15,7 +15,7 @@ process.once("loaded", () => {
   global.setImmediate = setImmediate;
 });
 
-function createWindow() {
+async function createWindow() {
   mainWindow = new electron.BrowserWindow({
     width: 1280,
     height: 780,
@@ -37,7 +37,7 @@ app.on("window-all-closed", () => {
   }
 });
 
-app.on("ready", () => {
+app.on("ready", async () => {
   // https://github.com/electron/electron/issues/13008#issuecomment-569363295
   electron.session.defaultSession.webRequest.onBeforeRequest((details, callback) => {
     const redirectURL = details.url.replace(
@@ -51,8 +51,8 @@ app.on("ready", () => {
     }
   });
   createWindow();
-  updater.watch();
   initMenu();
+  await updater.watch();
 });
 
 app.on("activate", () => {

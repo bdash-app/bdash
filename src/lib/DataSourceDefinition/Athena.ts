@@ -1,5 +1,5 @@
 import AthenaClient from "../AthenaClient";
-import Base, { ConfigSchemaType } from "./Base";
+import Base, { ConfigSchemasType } from "./Base";
 import Util from "../Util";
 
 export default class Athena extends Base {
@@ -11,7 +11,7 @@ export default class Athena extends Base {
   static get label(): string {
     return "Amazon Athena";
   }
-  static get configSchema(): ConfigSchemaType {
+  static get configSchema(): ConfigSchemasType {
     return [
       {
         name: "region",

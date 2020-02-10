@@ -1,9 +1,18 @@
 import React from "react";
 import Select from "react-select";
 import { selectStyles } from "../Select";
+import { QueryType } from "../../../lib/Database/Query";
+import { DataSourceType } from "../../../renderer/pages/DataSource/DataSourceStore";
 
-export default class QueryHeader extends React.Component<any, any> {
-  handleChangeTitle(e) {
+type Props = {
+  readonly query: QueryType;
+  readonly dataSources: DataSourceType[];
+  readonly onChangeTitle: (title: string) => void;
+  readonly onChangeDataSource: (dataSourceId: number) => void;
+};
+
+export default class QueryHeader extends React.Component<Props> {
+  handleChangeTitle(e: React.ChangeEvent<HTMLInputElement>) {
     this.props.onChangeTitle(e.target.value);
   }
 

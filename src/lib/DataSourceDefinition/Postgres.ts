@@ -1,5 +1,5 @@
 import pg from "pg";
-import Base, { ConfigSchemaType } from "./Base";
+import Base, { ConfigSchemasType } from "./Base";
 import Util from "../Util";
 import { zipObject } from "lodash";
 
@@ -56,7 +56,7 @@ export default class Postgres extends Base {
   static get label(): string {
     return "PostgreSQL";
   }
-  static get configSchema(): ConfigSchemaType {
+  static get configSchema(): ConfigSchemasType {
     return [
       { name: "host", label: "Host", type: "string", placeholder: "localhost" },
       { name: "port", label: "Port", type: "number", placeholder: 5432 },
