@@ -1,9 +1,14 @@
 import React from "react";
+import { QueryType } from "../../../lib/Database/Query";
 
 const MAX_DISPLAY_ROWS_COUNT = 1000;
 
-export default class QueryResultTable extends React.Component<any, any> {
-  shouldComponentUpdate(nextProps) {
+type Props = {
+  readonly query: QueryType;
+};
+
+export default class QueryResultTable extends React.Component<Props> {
+  shouldComponentUpdate(nextProps: Props) {
     const query = nextProps.query;
 
     if (!query || !query.fields) return true;

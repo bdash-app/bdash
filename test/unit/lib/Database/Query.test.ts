@@ -51,7 +51,7 @@ suite("Database/Query", () => {
   test("create", async () => {
     const title = "foo";
     const dataSourceId = 100;
-    const query = await Query.create({ title, dataSourceId });
+    const query = await Query.create(title, dataSourceId, "");
     assert.strictEqual(typeof query.id, "number");
     assert.strictEqual(query.title, title);
     assert.strictEqual(query.dataSourceId, dataSourceId);

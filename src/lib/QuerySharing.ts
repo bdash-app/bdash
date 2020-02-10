@@ -7,6 +7,7 @@ import DataSource from "./DataSource";
 import Util from "./Util";
 import { GithubSettingType } from "./Setting";
 import { ChartType } from "./Database/Chart";
+import { QueryType } from "./Database/Query";
 
 export default {
   async shareOnGist({
@@ -15,7 +16,7 @@ export default {
     setting,
     dataSource
   }: {
-    query: any;
+    query: QueryType;
     chart: ChartType;
     setting: GithubSettingType;
     dataSource: any;

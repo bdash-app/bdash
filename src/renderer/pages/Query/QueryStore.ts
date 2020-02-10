@@ -1,11 +1,13 @@
 import Setting, { SettingType } from "../../../lib/Setting";
 import Store from "../../flux/Store";
 import { ChartType } from "../../../lib/Database/Chart";
+import { QueryType } from "../../../lib/Database/Query";
+import { DataSourceType } from "../DataSource/DataSourceStore";
 
 export interface QueryState {
   setting: SettingType;
-  queries: any[];
-  dataSources: any[];
+  queries: QueryType[];
+  dataSources: DataSourceType[];
   charts: ChartType[];
   selectedQueryId: number | null;
   editor: {

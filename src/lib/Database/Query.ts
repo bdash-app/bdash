@@ -1,11 +1,30 @@
 import { connection } from "./Connection";
+import Base from "../DataSourceDefinition/Base";
+import { ChartType } from "./Chart";
+
+export type QueryType = {
+  readonly id: number;
+  readonly dataSourceId: number;
+  readonly title: string;
+  readonly body: string;
+  readonly fields?: any;
+  readonly rows?: any;
+  readonly status?: string;
+  readonly chart?: ChartType;
+  readonly runtime?: number;
+  readonly errorMessage?: string;
+  readonly selectedTab?: "table" | "chart";
+  readonly executor?: Base | null;
+  // ex. "2019-11-30 12:57:39"
+  readonly runAt?: string;
+};
 
 export default class Query {
-  static getAll() {
+  static getAll(): Promise<QueryType[]> {
     return connection.all("select id, title from queries order by createdAt desc");
   }
 
-  static async find(id) {
+  static async find(id: number): Promise<QueryType> {
     const query = await connection.get("select * from queries where id = ?", id);
 
     if (query.fields) {
@@ -27,7 +46,7 @@ export default class Query {
     return query;
   }
 
-  static async create({ title, dataSourceId }) {
+  static async create(title: string, dataSourceId: number, body: string): Promise<QueryType> {
     const sql = `
       insert into queries
       (dataSourceId, title, updatedAt, createdAt)
@@ -35,10 +54,10 @@ export default class Query {
     `;
     const id = await connection.insert(sql, dataSourceId, title);
 
-    return { id, dataSourceId, title };
+    return { id, dataSourceId, title, body };
   }
 
-  static update(id, params) {
+  static update(id: number, params: any): Promise<void> {
     const fields: string[] = [];
     const values: string[] = [];
 
@@ -46,7 +65,7 @@ export default class Query {
       fields.push(field);
       values.push(params[field]);
     });
-    values.push(id);
+    values.push(id.toString());
 
     const sql = `
       update queries
@@ -57,7 +76,7 @@ export default class Query {
     return connection.run(sql, values);
   }
 
-  static del(id) {
+  static del(id: number): Promise<void> {
     return connection.run("delete from queries where id = ?", id);
   }
 }
