@@ -38,12 +38,12 @@ export default {
     const fileNamePrefix = query.title !== "" ? query.title.replace(/[/\s]/g, "_") : "bdash";
     const files = {
       [`${fileNamePrefix}.sql`]: { content: query.body },
-      [`${fileNamePrefix}_01.tsv`]: { content: tsv },
+      [`${fileNamePrefix}_02.tsv`]: { content: tsv },
       [`${fileNamePrefix}_03.md`]: { content: infoMd }
     };
 
     if (svg) {
-      files[`${fileNamePrefix}_02.svg`] = { content: svg };
+      files[`${fileNamePrefix}_01.svg`] = { content: svg };
     }
 
     const client = new GitHubApiClient(setting);
