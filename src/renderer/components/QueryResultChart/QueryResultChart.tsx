@@ -189,6 +189,7 @@ export default class QueryResultChart extends React.Component<Props> {
               options={fieldOptions}
               value={currentGroupOption}
               onChange={o => this.handleChangeGroup(o)}
+              isClearable={true}
               styles={selectStyles}
             />
           </div>
