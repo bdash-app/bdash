@@ -84,10 +84,18 @@ export default class QueryResultChart extends React.Component<Props> {
     this.update({ groupColumn: option ? option.value : null });
   }
 
+  renderChartImage(chartType: string): JSX.Element {
+    if (chartType === "scatter") {
+      return <img className="scatter" src="scatter.svg" />;
+    } else {
+      return <i className={`fas fa-chart-${chartType}`} />;
+    }
+  }
+
   renderLabel(option: OptionType) {
     return (
       <span>
-        <i className={`fas fa-chart-${option.value}`} />
+        {this.renderChartImage(option.value)}
         <span>{option.label}</span>
       </span>
     );
@@ -103,7 +111,7 @@ export default class QueryResultChart extends React.Component<Props> {
     const chartOptionValue = (props: OptionProps<OptionType>) => {
       return (
         <components.Option {...props}>
-          <i className={`fas fa-chart-${props.data.value}`} />
+          {this.renderChartImage(props.data.value)}
           {props.children}
         </components.Option>
       );
@@ -112,13 +120,13 @@ export default class QueryResultChart extends React.Component<Props> {
     const chartSingleValue = (props: SingleValueProps<OptionType>) => {
       return (
         <components.SingleValue {...props}>
-          <i className={`fas fa-chart-${props.data.value}`} />
+          {this.renderChartImage(props.data.value)}
           {props.children}
         </components.SingleValue>
       );
     };
 
-    const options = ["line", "bar", "area", "pie"].map(value => {
+    const options = ["line", "scatter", "bar", "area", "pie"].map(value => {
       return { value, label: value[0].toUpperCase() + value.slice(1) };
     });
     const currentOption = options.find(option => option.value === chart.type);
@@ -189,6 +197,7 @@ export default class QueryResultChart extends React.Component<Props> {
               options={fieldOptions}
               value={currentGroupOption}
               onChange={o => this.handleChangeGroup(o)}
+              isClearable={true}
               styles={selectStyles}
             />
           </div>
