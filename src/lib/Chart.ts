@@ -2,7 +2,7 @@ import Plotly, { PlotlyHTMLElement } from "plotly.js-basic-dist-min";
 import _ from "lodash";
 
 type Params = {
-  readonly type: "line" | "bar" | "area" | "pie";
+  readonly type: "line" | "scatter" | "bar" | "area" | "pie";
   readonly stacking: 0 | string;
   readonly groupBy: string | null;
   readonly rows: (string | number)[][];
@@ -123,6 +123,17 @@ export default class Chart {
       y: data.y,
       name: data.name,
       mode: "lines"
+    }));
+  }
+
+  scatter(): Partial<Plotly.PlotData>[] {
+    return this.generateChartData().map(data => ({
+      type: "scatter",
+      x: data.x,
+      y: data.y,
+      name: data.name,
+      mode: "markers",
+      marker: { size: 10 }
     }));
   }
 
