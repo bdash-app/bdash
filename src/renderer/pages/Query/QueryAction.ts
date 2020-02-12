@@ -86,9 +86,7 @@ const QueryAction = {
       fields: result.fields,
       rows: result.rows,
       runtime: Date.now() - start,
-      runAt: moment()
-        .utc()
-        .format("YYYY-MM-DD HH:mm:ss"),
+      runAt: moment(),
       errorMessage: null
     };
     dispatch("updateQuery", {
@@ -99,7 +97,8 @@ const QueryAction = {
       id,
       Object.assign(params, {
         fields: JSON.stringify(params.fields),
-        rows: JSON.stringify(params.rows)
+        rows: JSON.stringify(params.rows),
+        runAt: params.runAt.utc().format("YYYY-MM-DD HH:mm:ss")
       })
     );
   },
