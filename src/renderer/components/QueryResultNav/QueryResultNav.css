@@ -3,7 +3,10 @@
   color: #666;
   padding: 0 5px;
   border-bottom: 1px solid #ccc;
-  position: relative;
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 1;
 }
 
 .QueryResultNav-tabMenu {
@@ -55,7 +58,6 @@
   border: 1px solid #ccc;
   background-color: #fff;
   border-radius: 4px;
-  z-index: 1;
 }
 
 .QueryResultNav-shareFlyout ul {
