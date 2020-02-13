@@ -17,7 +17,7 @@ export default {
     dataSource
   }: {
     query: QueryType;
-    chart: ChartType;
+    chart: ChartType | undefined;
     setting: GithubSettingType;
     dataSource: any;
   }) {
@@ -111,7 +111,7 @@ function getTableDataAsCsv(query): Promise<string> {
   });
 }
 
-function getChartAsSvg(query, chart: ChartType) {
+function getChartAsSvg(query, chart: ChartType | undefined) {
   if (!query || !chart) return Promise.resolve(null);
 
   const params = {
