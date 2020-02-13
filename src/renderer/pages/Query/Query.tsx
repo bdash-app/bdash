@@ -57,10 +57,6 @@ class Query extends React.Component<{}, QueryState> {
       return;
     }
 
-    if (!chart) {
-      return Promise.reject(new Error(`chart (query id ${query.id}) is not found while sharing on gist`));
-    }
-
     try {
       await QuerySharing.shareOnGist({ query, chart, setting, dataSource });
     } catch (err) {
