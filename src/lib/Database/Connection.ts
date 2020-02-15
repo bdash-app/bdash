@@ -20,17 +20,17 @@ export default class Connection {
   async migrate(migrations: Migration[]): Promise<void> {
     await this.exec("begin;");
     try {
-      const current_version: number = await this.get(`pragma user_version`).then(row => row.user_version);
-      let last_version: number = 0;
+      const currentVersion: number = await this.get(`pragma user_version`).then(row => row.user_version);
+      let lastVersion = 0;
       for (const m of migrations) {
-        if (m.version <= last_version) {
+        if (m.version <= lastVersion) {
           throw new Error(`Wrong migration script: version ${m.version}`);
         }
-        if (m.version > current_version) {
+        if (m.version > currentVersion) {
           await this.exec(m.query);
           await this.exec(`pragma user_version = ${m.version}`);
         }
-        last_version = m.version;
+        lastVersion = m.version;
       }
       await this.exec("commit;");
     } catch (err) {

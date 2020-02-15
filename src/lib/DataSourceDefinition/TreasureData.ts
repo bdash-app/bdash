@@ -37,35 +37,33 @@ export default class TreasureData extends Base {
     ];
   }
 
-  execute(query: string): Promise<any> {
+  async execute(query: string): Promise<any> {
     if (this.jobId) {
       return Promise.reject(new Error("A query is running"));
     }
 
-    return new Promise(async (resolve, reject) => {
-      let canceled = false;
-      this._cancel = () => {
-        canceled = true;
-        reject(new Error("Killed query"));
-      };
+    let canceled = false;
+    this._cancel = () => {
+      canceled = true;
+      return Promise.reject(new Error("Killed query"));
+    };
 
-      this.jobId = await this._execQuery(query);
+    this.jobId = await this._execQuery(query);
 
-      if (canceled) {
-        this.kill();
-        this.jobId = null;
-        return;
-      }
-
-      const { fields, rows, err } = await this.wait();
+    if (canceled) {
+      this.kill();
       this.jobId = null;
+      return;
+    }
 
-      if (err) {
-        reject(new Error(err));
-      } else {
-        resolve({ fields, rows });
-      }
-    });
+    const { fields, rows, err } = await this.wait();
+    this.jobId = null;
+
+    if (err) {
+      return Promise.reject(new Error(err));
+    } else {
+      return { fields, rows };
+    }
   }
 
   cancel(): void {

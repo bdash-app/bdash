@@ -1,30 +1,40 @@
+parser: '@typescript-eslint/parser'
+
 env:
   browser: true
-  es6: true
+  es2017: true
   node: true
   mocha: true
 
+extends:
+  - eslint:recommended
+  - plugin:@typescript-eslint/recommended
+  - prettier/@typescript-eslint
+  - plugin:react/recommended
+  - plugin:prettier/recommended
+
 parserOptions:
+  ecmaVersion: 2017
   sourceType: module
   ecmaFeatures:
     jsx: true
 
-plugins:
-  - react
-
-extends:
-  - eslint:recommended
-  - plugin:react/recommended
-  - prettier
-  - prettier/react
-
 rules:
   eqeqeq: [error, allow-null]
   prefer-const: error
+  no-undef: off
+  no-unused-vars: off
+  '@typescript-eslint/ban-ts-ignore': off
+  '@typescript-eslint/no-use-before-define': off
+
+plugins:
+  - react
+
+settings:
+  react:
+    version: detect
 
 overrides:
-  files: ['**/*.ts', '**/*.tsx']
-  parser: typescript-eslint-parser
-  rules:
-    no-undef: off
-    no-unused-vars: off
+  - files: ['webpack.config.js']
+    rules:
+      '@typescript-eslint/no-var-requires': off
