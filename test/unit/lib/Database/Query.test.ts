@@ -1,4 +1,5 @@
 import assert from "assert";
+import moment from "moment";
 import DatabaseHelper from "../../../helpers/DatabaseHelper";
 import Query from "../../../../src/lib/Database/Query";
 import { connection } from "../../../../src/lib/Database/Connection";
@@ -42,7 +43,7 @@ suite("Database/Query", () => {
         [2, "b"]
       ],
       errorMessage: null,
-      runAt: "2017-01-03 00:00:00",
+      runAt: moment.utc("2017-01-03 00:00:00", "YYYY-MM-DD HH:mm:ss", true).local(),
       updatedAt: "2017-01-02 00:00:00",
       createdAt: "2017-01-01 00:00:00"
     });

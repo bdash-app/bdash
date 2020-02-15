@@ -1,3 +1,4 @@
+import moment from "moment";
 import { connection } from "./Connection";
 import Base from "../DataSourceDefinition/Base";
 import { ChartType } from "./Chart";
@@ -9,14 +10,13 @@ export type QueryType = {
   readonly body: string;
   readonly fields?: any;
   readonly rows?: any;
-  readonly status?: string;
+  readonly status?: "success" | "failure" | "working";
   readonly chart?: ChartType;
   readonly runtime?: number;
   readonly errorMessage?: string;
   readonly selectedTab?: "table" | "chart";
   readonly executor?: Base | null;
-  // ex. "2019-11-30 12:57:39"
-  readonly runAt?: string;
+  readonly runAt?: moment.Moment;
 };
 
 export default class Query {
@@ -33,6 +33,10 @@ export default class Query {
 
     if (query.rows) {
       query.rows = JSON.parse(query.rows);
+    }
+
+    if (query.runAt) {
+      query.runAt = moment.utc(query.runAt, "YYYY-MM-DD HH:mm:ss", true).local();
     }
 
     // For backword compatibility with beta version data structure.

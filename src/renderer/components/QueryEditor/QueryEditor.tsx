@@ -66,6 +66,7 @@ export default class QueryEditor extends React.Component<Props> {
         <span>
           <i className="fas fa-check" />
         </span>
+        <span>execute: {query.runAt?.format("YYYY/MM/DD HH:mm:ss") ?? "-"}</span>
         <span>runtime: {query.runtime ? `${query.runtime}ms` : "-"}</span>
         <span>rows: {query.rows ? query.rows.length : "-"}</span>
       </div>
