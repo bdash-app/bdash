@@ -28,3 +28,4 @@ linux:
   target:
     - AppImage
   category: Utility
+  icon: build/icon.icns

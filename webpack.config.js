@@ -15,6 +15,7 @@ module.exports = (env, argv) => {
     "static/index.js",
     "static/RictyDiminished-Regular.ttf",
     "static/scatter.svg",
+    "build/icon.png",
     "package.json",
     "yarn.lock"
   ];
