@@ -1,6 +1,7 @@
 import React from "react";
 import classNames from "classnames";
 import { DataSourceType, TableType } from "../../pages/DataSource/DataSourceStore";
+import LoadingIcon from "../LoadingIcon";
 
 type Props = {
   readonly dataSource?: DataSourceType;
@@ -40,6 +41,16 @@ export default class TableList extends React.Component<Props> {
   render() {
     const dataSource = this.props.dataSource;
     if (!dataSource) return null;
+
+    if (dataSource.tables == null) {
+      return (
+        <div className="TableList">
+          <div className="TableList-loading">
+            <LoadingIcon />
+          </div>
+        </div>
+      );
+    }
 
     const items = (dataSource.tables || []).map((table: TableType, i: number) => {
       return this.renderItem(dataSource, table, i);

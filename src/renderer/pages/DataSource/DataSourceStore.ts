@@ -65,6 +65,14 @@ export default class DataSourceStore extends Store<DataSourceState> {
           tableSummary: null
         });
       }
+      case "clearTables": {
+        const idx = this.findDataSourceIndex(payload.id);
+        return this.merge(`dataSources.${idx}`, {
+          tables: null,
+          selectedTable: null,
+          tableSummary: null
+        });
+      }
       case "selectTable": {
         const idx = this.findDataSourceIndex(payload.id);
         return this.merge(`dataSources.${idx}`, {

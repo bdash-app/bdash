@@ -19,6 +19,12 @@ const DataSourceAction = {
     dispatch("reloadTables", { id: dataSource.id, tables });
   },
 
+  async reloadTables(dataSource: DataSourceType): Promise<void> {
+    dispatch("clearTables", { id: dataSource.id });
+    const tables = await DataSource.create(dataSource).fetchTables();
+    dispatch("reloadTables", { id: dataSource.id, tables });
+  },
+
   async selectTable(dataSource: DataSourceType, table: TableType): Promise<void> {
     const tableSummary = await DataSource.create(dataSource).fetchTableSummary(table);
     dispatch("selectTable", {

@@ -50,7 +50,7 @@ class DataSource extends React.Component<{}, DataSourceState> {
             onSelect={(dataSource: DataSourceType) => Action.selectDataSource(dataSource)}
             onEdit={(dataSource: DataSourceType) => Action.showForm(dataSource)}
             onDelete={id => Action.deleteDataSource(id)}
-            onReload={(dataSource: DataSourceType) => Action.loadTables(dataSource)}
+            onReload={(dataSource: DataSourceType) => Action.reloadTables(dataSource)}
             changeDefaultDataSourceId={(defaultDataSourceId: number) => {
               Action.updateDefaultDataSourceId(defaultDataSourceId);
             }}
