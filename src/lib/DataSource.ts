@@ -1,6 +1,7 @@
 import Base from "./DataSourceDefinition/Base";
 import Mysql from "./DataSourceDefinition/Mysql";
 import Postgres from "./DataSourceDefinition/Postgres";
+import Redshift from "./DataSourceDefinition/Redshift";
 import BigQuery from "./DataSourceDefinition/BigQuery";
 import TreasureData from "./DataSourceDefinition/TreasureData";
 import Athena from "./DataSourceDefinition/Athena";
@@ -41,4 +42,4 @@ export default class DataSource {
   }
 }
 
-DataSource.register(Mysql, Postgres, BigQuery, TreasureData, Athena, SQLite3);
+DataSource.register(Mysql, Postgres, Redshift, BigQuery, TreasureData, Athena, SQLite3);
