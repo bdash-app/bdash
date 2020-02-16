@@ -4,6 +4,14 @@ directories:
   output: dist/production
   app: app/production
 
+files:
+  - "**/*"
+  - "!node_modules/sqlite3/{build,deps}"
+  - "!node_modules/aws-sdk/"
+  - "!node_modules/electron-is-dev/"
+  - "!node_modules/electron-log/"
+  - "!node_modules/@fortawesome/"
+
 publish:
   - provider: github
     owner: bdash-app
