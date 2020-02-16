@@ -28,7 +28,6 @@ module.exports = (env, argv) => {
 
   const commonConfig = {
     resolve: { extensions: [".ts", ".tsx"] },
-    devtool: argv.mode === "production" ? "inline-source-map" : "eval-source-map",
     node: {
       __dirname: false,
       __filename: false
@@ -38,6 +37,7 @@ module.exports = (env, argv) => {
 
   const mainConfig = Object.assign(
     {
+      devtool: false,
       target: "electron-main",
       entry: "./src/main/index.ts",
       output: {
@@ -59,6 +59,7 @@ module.exports = (env, argv) => {
 
   const rendererConfig = Object.assign(
     {
+      devtool: argv.mode === "production" ? "inline-source-map" : "eval-source-map",
       target: "electron-renderer",
       entry: "./src/renderer/app.tsx",
       output: {
