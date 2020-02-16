@@ -1,10 +1,11 @@
 import electron from "electron";
+import path from "path";
 import { updater } from "./updater";
 import { initMenu } from "./menu";
 import logger from "./logger";
 
 const app = electron.app;
-let mainWindow: electron.BrowserWindow | null;
+export let mainWindow: electron.BrowserWindow | null;
 
 process.on("uncaughtException", err => {
   logger.error(err);
@@ -20,6 +21,7 @@ async function createWindow() {
     width: 1280,
     height: 780,
     title: "Bdash",
+    icon: path.join(__dirname, "..", "icon.png"),
     webPreferences: {
       nodeIntegration: true
     }

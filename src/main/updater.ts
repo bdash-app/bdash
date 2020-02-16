@@ -1,6 +1,8 @@
-import { autoUpdater, AppUpdater, UpdateCheckResult } from "electron-updater";
+import { dialog } from "electron";
+import { autoUpdater, AppUpdater, UpdateCheckResult, UpdateInfo } from "electron-updater";
 import isDev from "electron-is-dev";
 import logger from "./logger";
+import { mainWindow } from ".";
 
 autoUpdater.logger = logger;
 
@@ -17,14 +19,27 @@ export class Updater {
 
   constructor(autoUpdater: AppUpdater) {
     this.autoUpdater = autoUpdater;
-    this.autoUpdater.on("update-downloaded", () => {
+    this.autoUpdater.on("update-downloaded", (info: UpdateInfo) => {
       this.state = UpdateState.UpdateDownloaded;
+      if (mainWindow) {
+        dialog
+          .showMessageBox(mainWindow, {
+            type: "info",
+            buttons: ["Restart", "Later"],
+            title: "Bdash Update",
+            message: process.platform === "win32" ? (info.releaseNotes as string) : info.releaseName!,
+            detail: "A new version has been downloaded. Restart the application to apply the updates."
+          })
+          .then(returnValue => {
+            if (returnValue.response === 0) autoUpdater.quitAndInstall();
+          });
+      }
     });
   }
 
-  async check(): Promise<UpdateCheckResult | void> {
-    if (isDev) return Promise.resolve();
-    return this.autoUpdater.checkForUpdates();
+  async check(): Promise<UpdateCheckResult | null> {
+    if (isDev) return Promise.resolve(null);
+    return this.autoUpdater.checkForUpdatesAndNotify();
   }
 
   async watch(): Promise<void> {
