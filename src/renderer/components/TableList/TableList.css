@@ -73,3 +73,13 @@
   padding-top: 20px;
   text-align: center;
 }
+
+.TableList .TableList-error {
+  padding: 10px;
+  color: #bb0c0c;
+}
+
+.TableList .TableList-error > i {
+  vertical-align: middle;
+  margin-right: 5px;
+}

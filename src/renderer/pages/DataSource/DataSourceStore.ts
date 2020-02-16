@@ -11,6 +11,7 @@ export type DataSourceType = {
   readonly selectedTable: TableType;
   readonly tableSummary: TableSummary;
   readonly tableFilter: string;
+  readonly tableFetchingError: string | null;
 };
 
 type TableSummary = {
@@ -62,7 +63,8 @@ export default class DataSourceStore extends Store<DataSourceState> {
         return this.merge(`dataSources.${idx}`, {
           tables: payload.tables,
           selectedTable: null,
-          tableSummary: null
+          tableSummary: null,
+          tableFetchingError: null
         });
       }
       case "clearTables": {
@@ -70,7 +72,14 @@ export default class DataSourceStore extends Store<DataSourceState> {
         return this.merge(`dataSources.${idx}`, {
           tables: null,
           selectedTable: null,
-          tableSummary: null
+          tableSummary: null,
+          tableFetchingError: null
+        });
+      }
+      case "setErrorFetchingTables": {
+        const idx = this.findDataSourceIndex(payload.id);
+        return this.merge(`dataSources.${idx}`, {
+          tableFetchingError: payload.error.message
         });
       }
       case "selectTable": {

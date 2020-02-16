@@ -42,6 +42,17 @@ export default class TableList extends React.Component<Props> {
     const dataSource = this.props.dataSource;
     if (!dataSource) return null;
 
+    if (dataSource.tableFetchingError) {
+      return (
+        <div className="TableList">
+          <div className="TableList-error">
+            <i className="fas fa-exclamation-circle"></i>
+            {dataSource.tableFetchingError}
+          </div>
+        </div>
+      );
+    }
+
     if (dataSource.tables == null) {
       return (
         <div className="TableList">
