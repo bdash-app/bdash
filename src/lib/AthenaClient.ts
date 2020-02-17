@@ -61,7 +61,7 @@ export default class AthenaClient {
     });
   }
 
-  cancel() {
+  cancel(): void {
     this.stopQueryExecution(this.executionId);
   }
 

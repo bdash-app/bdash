@@ -16,7 +16,7 @@ process.once("loaded", () => {
   global.setImmediate = setImmediate;
 });
 
-async function createWindow() {
+async function createWindow(): Promise<void> {
   mainWindow = new electron.BrowserWindow({
     width: 1280,
     height: 780,

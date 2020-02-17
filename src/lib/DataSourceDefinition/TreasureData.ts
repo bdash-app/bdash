@@ -43,7 +43,7 @@ export default class TreasureData extends Base {
     }
 
     let canceled = false;
-    this._cancel = () => {
+    this._cancel = (): Promise<any> => {
       canceled = true;
       return Promise.reject(new Error("Killed query"));
     };
@@ -71,7 +71,7 @@ export default class TreasureData extends Base {
     this.kill();
   }
 
-  kill() {
+  kill(): void {
     if (!this.jobId) return;
     this.client.kill(this.jobId, err => {
       if (err) console.error(err); // eslint-disable-line no-console
@@ -113,8 +113,8 @@ export default class TreasureData extends Base {
   }
 
   async wait(): Promise<any> {
-    const sleep = interval => new Promise(resolve => setTimeout(resolve, interval));
-    const showJob = () =>
+    const sleep = (interval): Promise<void> => new Promise(resolve => setTimeout(resolve, interval));
+    const showJob = (): Promise<any> =>
       new Promise((resolve, reject) => {
         this.client.showJob(this.jobId, (err, result) => {
           if (err) {
@@ -124,7 +124,7 @@ export default class TreasureData extends Base {
           }
         });
       }) as Promise<any>;
-    const jobResult = () =>
+    const jobResult = (): Promise<any> =>
       new Promise((resolve, reject) => {
         this.client.jobResult(this.jobId, "json", (err, result) => {
           if (err) {
@@ -167,7 +167,7 @@ export default class TreasureData extends Base {
     }
   }
 
-  get client() {
+  get client(): TD {
     if (!this._client) {
       this._client = new TD(this.config.apiKey);
     }
@@ -175,7 +175,7 @@ export default class TreasureData extends Base {
     return this._client;
   }
 
-  _execQuery(query) {
+  _execQuery(query): Promise<any> {
     return new Promise((resolve, reject) => {
       const method = this.config.queryType === "presto" ? "prestoQuery" : "hiveQuery";
       this.client[method](this.config.database, query, (err, result) => {

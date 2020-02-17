@@ -21,7 +21,7 @@ export default class SettingStore extends Store<SettingState> {
     };
   }
 
-  reduce(type: string, payload: any) {
+  reduce(type: string, payload: any): SettingState {
     switch (type) {
       case "initialize":
       case "update": {
@@ -44,6 +44,9 @@ export default class SettingStore extends Store<SettingState> {
           status: "failure",
           error: payload.message
         });
+      }
+      default: {
+        throw new Error("Invalid type");
       }
     }
   }

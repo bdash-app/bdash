@@ -3,7 +3,7 @@ import DataSourceConfig from "../../helpers/DataSourceConfig";
 
 const config = DataSourceConfig.mysql;
 
-export default function initialize() {
+export default function initialize(): any {
   return shell(`
 mysql -u ${config.user} -h ${config.host} -e 'create database if not exists ${config.database}';
 mysql -u ${config.user} -h ${config.host}  ${config.database} <<EOF

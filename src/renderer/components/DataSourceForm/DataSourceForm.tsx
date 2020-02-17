@@ -126,8 +126,8 @@ export default class DataSourceForm extends React.Component<Props, State> {
     );
   }
 
-  renderConfigRadio(i: number, value: string, schema: ConfigSchemaType): JSX.Element {
-    const radios = schema.values?.map(v => {
+  renderConfigRadio(i: number, value: string, schema: ConfigSchemaType): React.ReactNode {
+    const radios = schema.values!.map(v => {
       return (
         <label key={v} className="DataSourceForm-configRadioLabel">
           <input
@@ -150,7 +150,7 @@ export default class DataSourceForm extends React.Component<Props, State> {
     );
   }
 
-  renderConfigInput(i: number, value: string, schema: ConfigSchemaType): JSX.Element {
+  renderConfigInput(i: number, value: string, schema: ConfigSchemaType): React.ReactNode {
     const type = schema.type === "password" ? "password" : "text";
     return (
       <tr key={i} className={schema.required ? "is-required" : ""}>
@@ -199,13 +199,19 @@ export default class DataSourceForm extends React.Component<Props, State> {
 
     return (
       <ModalDialog className="DataSourceForm">
-        <table ref={node => (this.formTableElement = node)}>
+        <table
+          ref={(node): void => {
+            this.formTableElement = node;
+          }}
+        >
           <tbody>
             <tr className="is-required">
               <th>Name</th>
               <td>
                 <input
-                  ref={node => (this.inputNameElement = node)}
+                  ref={(node): void => {
+                    this.inputNameElement = node;
+                  }}
                   type="text"
                   defaultValue={this.props.dataSource?.name}
                   name="name"

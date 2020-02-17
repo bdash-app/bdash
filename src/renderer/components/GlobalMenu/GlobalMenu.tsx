@@ -19,7 +19,7 @@ export default class GlobalMenu extends React.Component<Props> {
       });
 
       return (
-        <span className={className} onClick={() => this.handleClick(item.page)} key={idx}>
+        <span className={className} onClick={(): void => this.handleClick(item.page)} key={idx}>
           <i className={`fas fa-${item.icon}`} />
         </span>
       );

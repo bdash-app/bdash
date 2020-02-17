@@ -32,7 +32,7 @@ export default class QueryStore extends Store<QueryState> {
     };
   }
 
-  reduce(type: string, payload) {
+  reduce(type: string, payload: any): QueryState {
     switch (type) {
       case "initialize": {
         return this.merge("setting", payload.setting)
@@ -75,6 +75,9 @@ export default class QueryStore extends Store<QueryState> {
         const idx = this.findChartIndex(payload.id);
         return this.merge(`charts.${idx}`, payload.params);
       }
+      default: {
+        throw new Error("Invalid type");
+      }
     }
   }
 
@@ -99,5 +102,5 @@ export default class QueryStore extends Store<QueryState> {
   }
 }
 
-const { store, dispatch } = Store.create(QueryStore);
+const { store, dispatch } = Store.create<QueryState>(QueryStore);
 export { store, dispatch };

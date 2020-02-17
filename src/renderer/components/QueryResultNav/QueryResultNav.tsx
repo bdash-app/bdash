@@ -50,14 +50,14 @@ export default class QueryResultNav extends React.Component<Props, State> {
     this.props.onClickShareOnGist();
   }
 
-  render() {
+  render(): React.ReactNode {
     return (
       <div className="QueryResultNav">
         <span
           className={classNames("QueryResultNav-tabMenu", {
             "is-selected": this.selectedTab("table")
           })}
-          onClick={() => this.props.onSelectTab("table")}
+          onClick={(): void => this.props.onSelectTab("table")}
         >
           <i className="fas fa-table" />
         </span>
@@ -65,18 +65,18 @@ export default class QueryResultNav extends React.Component<Props, State> {
           className={classNames("QueryResultNav-tabMenu", {
             "is-selected": this.selectedTab("chart")
           })}
-          onClick={() => this.props.onSelectTab("chart")}
+          onClick={(): void => this.props.onSelectTab("chart")}
         >
           <i className="fas fa-chart-bar" />
         </span>
         <div className="QueryResultNav-share">
-          <span className="QueryResultNav-shareBtn" onClick={() => this.setState({ openShareFlyout: true })}>
+          <span className="QueryResultNav-shareBtn" onClick={(): void => this.setState({ openShareFlyout: true })}>
             <i className="fas fa-share-alt" />
           </span>
           <Flyout
             open={this.state.openShareFlyout}
             className="QueryResultNav-shareFlyout"
-            onRequestClose={() => this.setState({ openShareFlyout: false })}
+            onRequestClose={(): void => this.setState({ openShareFlyout: false })}
           >
             <ul>
               <li onClick={this.handleClickCopyAsTsv}>Copy table as TSV</li>

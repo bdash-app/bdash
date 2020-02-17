@@ -32,7 +32,7 @@ export default class Mysql extends Base {
     ];
   }
 
-  execute(query) {
+  execute(query): Promise<any> {
     return this._execute(query);
   }
 
@@ -43,7 +43,7 @@ export default class Mysql extends Base {
     return new Mysql(this.config)._execute(`kill query ${tid}`);
   }
 
-  async connectionTest() {
+  async connectionTest(): Promise<boolean> {
     await this._execute("select 1");
     return true;
   }

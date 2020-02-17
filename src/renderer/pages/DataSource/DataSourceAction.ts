@@ -69,15 +69,15 @@ const DataSourceAction = {
     dispatch("deleteDataSource", { id });
   },
 
-  showForm(dataSource: DataSourceType | null = null) {
+  showForm(dataSource: DataSourceType | null = null): void {
     dispatch("showForm", { dataSource });
   },
 
-  hideForm() {
+  hideForm(): void {
     dispatch("cancelForm");
   },
 
-  updateDefaultDataSourceId(defaultDataSourceId: number) {
+  updateDefaultDataSourceId(defaultDataSourceId: number): void {
     setting.save({ defaultDataSourceId });
     dispatch("updateDefaultDataSourceId", { defaultDataSourceId });
   }

@@ -1,7 +1,7 @@
 import Store from "./Store";
 
 export default {
-  create<T>(Component: React.ComponentClass<{}, T>, store: Store<T>) {
+  create<T>(Component: React.ComponentClass<{}, T>, store: Store<T>): React.ComponentClass<{}, T> {
     return class Container extends Component {
       _unsubscribe: any;
 
@@ -12,7 +12,7 @@ export default {
         this._unsubscribe = store.subscribe((state: T) => this.setState(state));
       }
 
-      componentWillUnmount() {
+      componentWillUnmount(): void {
         if (super.componentWillUnmount) {
           super.componentWillUnmount();
         }

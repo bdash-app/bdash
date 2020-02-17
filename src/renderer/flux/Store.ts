@@ -16,7 +16,7 @@ export default class Store<T> {
     this._emitter = new EventEmitter();
   }
 
-  getInitialState() {
+  getInitialState(): any {
     throw new Error("Not Implemented");
   }
 
@@ -27,19 +27,19 @@ export default class Store<T> {
   }
   /* eslint-enable @typescript-eslint/no-unused-vars */
 
-  subscribe(fn) {
+  subscribe(fn): () => void {
     this._emitter.on("update", fn);
-    const unsubscribe = () => {
+    const unsubscribe = (): void => {
       this._emitter.removeListener("update", fn);
     };
     return unsubscribe;
   }
 
-  emit() {
+  emit(): void {
     this._emitter.emit("update", this.state);
   }
 
-  dispatch(type: string, payload: any) {
+  dispatch(type: string, payload: any): void {
     this.state = this.getNextState(type, payload);
     this.emit();
   }
@@ -58,19 +58,19 @@ export default class Store<T> {
     return nextState;
   }
 
-  set(path, value) {
+  set(path, value): any {
     return new StateBuilder(this.state).set(path, value);
   }
 
-  merge(path, value) {
+  merge(path, value): any {
     return new StateBuilder(this.state).merge(path, value);
   }
 
-  append(path, value) {
+  append(path, value): any {
     return new StateBuilder(this.state).append(path, value);
   }
 
-  mergeList(path, value, comparator: Comparator = null) {
+  mergeList(path, value, comparator: Comparator = null): any {
     if (comparator === null) {
       return new StateBuilder(this.state).mergeList(path, value);
     } else {
@@ -78,7 +78,7 @@ export default class Store<T> {
     }
   }
 
-  del(path) {
+  del(path): any {
     return new StateBuilder(this.state).del(path);
   }
 }
@@ -86,7 +86,7 @@ export default class Store<T> {
 type Comparator = ((a: any, b: any) => boolean) | null;
 
 class StateBuilder extends immup.Immup {
-  mergeList(path, value, comparator = (a, b) => a.id === b.id) {
+  mergeList(path, value, comparator = (a, b): boolean => a.id === b.id): any {
     return this.set(path, arr => {
       if (!Array.isArray(arr)) {
         throw new Error("target is not an array");

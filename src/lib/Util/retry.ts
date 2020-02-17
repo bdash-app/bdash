@@ -2,7 +2,7 @@ export default async function retry(fn: (done: () => void) => void): Promise<voi
   let i = 0;
   let completed = false;
 
-  const done = () => {
+  const done = (): void => {
     completed = true;
   };
 

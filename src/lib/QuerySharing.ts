@@ -71,7 +71,7 @@ export default {
 };
 
 // private functions
-function getTableData(query: QueryType) {
+function getTableData(query: QueryType): any[] {
   const rows = query.rows.map(row => Object.values(row));
   return [query.fields].concat(rows);
 }

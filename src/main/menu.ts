@@ -32,7 +32,7 @@ const helpMenu: Electron.MenuItemConstructorOptions = {
   submenu: [
     {
       label: "Report Issue",
-      click() {
+      click(): void {
         require("electron").shell.openExternal("https://github.com/bdash-app/bdash/issues/new");
       }
     }
@@ -86,7 +86,7 @@ if (process.platform === "darwin") {
   });
 }
 
-export function initMenu() {
+export function initMenu(): void {
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
 }

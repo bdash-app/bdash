@@ -28,13 +28,13 @@ export default class BigQuery extends Base {
     ];
   }
 
-  execute(query: string) {
+  execute(query: string): Promise<any> {
     this._cancel = null;
     return new Promise((resolve, reject) => {
       bigquery(this.config).startQuery(query, (err, job) => {
         if (err) return reject(err);
 
-        this._cancel = async () => {
+        this._cancel = async (): Promise<void> => {
           await job.cancel();
           reject(new Error("Query is canceled"));
         };
