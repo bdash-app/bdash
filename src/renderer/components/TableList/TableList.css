@@ -7,7 +7,9 @@
 
 .TableList-filter {
   padding: 10px 5px;
-  position: relative;
+  position: sticky;
+  top: 0;
+  background-color: inherit;
 }
 
 .TableList-filter > i {
@@ -65,4 +67,19 @@
 
 .TableList > ul > li.is-view > i {
   color: #4b89bb;
+}
+
+.TableList .TableList-loading {
+  padding-top: 20px;
+  text-align: center;
+}
+
+.TableList .TableList-error {
+  padding: 10px;
+  color: #bb0c0c;
+}
+
+.TableList .TableList-error > i {
+  vertical-align: middle;
+  margin-right: 5px;
 }

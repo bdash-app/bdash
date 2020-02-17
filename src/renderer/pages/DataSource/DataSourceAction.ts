@@ -15,8 +15,19 @@ const DataSourceAction = {
   },
 
   async loadTables(dataSource: DataSourceType): Promise<void> {
-    const tables = await DataSource.create(dataSource).fetchTables();
+    let tables;
+    try {
+      tables = await DataSource.create(dataSource).fetchTables();
+    } catch (e) {
+      dispatch("setErrorFetchingTables", { id: dataSource.id, error: e });
+      return;
+    }
     dispatch("reloadTables", { id: dataSource.id, tables });
+  },
+
+  reloadTables(dataSource: DataSourceType): void {
+    dispatch("clearTables", { id: dataSource.id });
+    DataSourceAction.loadTables(dataSource);
   },
 
   async selectTable(dataSource: DataSourceType, table: TableType): Promise<void> {
