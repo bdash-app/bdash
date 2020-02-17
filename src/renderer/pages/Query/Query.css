@@ -5,6 +5,7 @@
 
 .page-Query-splitter-layout {
   position: static;
+  z-index: 0;
 }
 
 .page-Query-list {
@@ -28,8 +29,4 @@
 .page-Query-main .QueryHeader {
   z-index: 1;
   height: var(--page-Query-headerHeight);
-}
-
-.page-Query-main .QueryEditor {
-  z-index: 0;
 }
