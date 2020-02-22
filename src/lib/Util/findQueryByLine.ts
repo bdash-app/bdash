@@ -1,4 +1,7 @@
-import { find, last } from "lodash";
+import { last } from "lodash";
+import { runMode } from "codemirror";
+import "codemirror/addon/runmode/runmode";
+import "codemirror/mode/sql/sql";
 
 interface QueryChunk {
   query: string;
@@ -6,9 +9,9 @@ interface QueryChunk {
   endLine: number;
 }
 
-export default function findQueryByLine(sql: string, line: number): QueryChunk {
-  const chunks = splitQuery(sql);
-  const chunk = find(chunks, chunk => chunk.endLine >= line) || last(chunks);
+export default async function findQueryByLine(sql: string, line: number): Promise<QueryChunk> {
+  const chunks = await splitQuery(sql);
+  const chunk = chunks.find(chunk => chunk.endLine >= line) ?? last(chunks);
 
   if (!chunk) {
     return {
@@ -24,43 +27,35 @@ export default function findQueryByLine(sql: string, line: number): QueryChunk {
   };
 }
 
-function splitQuery(sql: string): QueryChunk[] {
-  const lines = sql.replace(/\s+$/, "").split("\n");
-  const chunks: QueryChunk[] = [];
-  let chunk: any = null;
-
-  lines.forEach((line, i) => {
-    if (chunk === null) {
-      chunk = { query: "", startLine: i + 1, endLine: null };
-      chunks.push(chunk);
+const splitQuery = (sql: string): Promise<QueryChunk[]> => {
+  return new Promise(resolve => {
+    let startLine = 1;
+    let line = 1;
+    let query = "";
+    const chunks: QueryChunk[] = [];
+    runMode(sql, "text/x-sql", (token, style) => {
+      if (style === "punctuation") {
+        query += token;
+        chunks.push({ query, startLine, endLine: line });
+        query = "";
+        startLine = line;
+      } else if (style === "comment") {
+        query += token;
+      } else {
+        if (token === "\n") {
+          line++;
+          if (query.length === 0) {
+            startLine++;
+          }
+        }
+        if (query !== "" || style === "keyword") {
+          query += token;
+        }
+      }
+    });
+    if (query.length > 0) {
+      chunks.push({ query, startLine, endLine: line });
     }
-
-    chunk.query += `${line}\n`;
-
-    if (/;\s*$/.test(line)) {
-      chunk.endLine = i + 1;
-      chunk = null;
-    }
+    resolve(chunks);
   });
-
-  return chunks.map(chunk => {
-    const query = chunk.query;
-    let startLine = chunk.startLine;
-    let endLine = chunk.endLine;
-    const m = query.match(/^\s+/g);
-
-    if (m) {
-      startLine += m[0].split("\n").length - 1;
-    }
-
-    if (endLine === null) {
-      endLine = lines.length;
-    }
-
-    return {
-      query: query.trim(),
-      startLine: startLine,
-      endLine: endLine
-    };
-  });
-}
+};

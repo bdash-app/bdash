@@ -31,19 +31,19 @@ class Query extends React.Component<{}, QueryState> {
     return this.state.dataSources.find(ds => ds.id === id);
   }
 
-  handleExecute(query: QueryType) {
+  async handleExecute(query: QueryType): Promise<void> {
     const line = this.state.editor.line ?? 0;
     const dataSource = this.findDataSourceById(query.dataSourceId);
     if (dataSource) {
-      Action.executeQuery({ query, dataSource, line });
+      await Action.executeQuery({ query, dataSource, line });
     } else {
       alert("DataSource is missing");
     }
   }
 
-  handleCancel(query: QueryType) {
+  async handleCancel(query: QueryType): Promise<void> {
     if (query.status === "working") {
-      Action.cancelQuery(query);
+      await Action.cancelQuery(query);
     }
   }
 

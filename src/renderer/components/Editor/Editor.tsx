@@ -1,6 +1,7 @@
 import React from "react";
 import CodeMirror from "codemirror";
 import "codemirror/addon/comment/comment";
+import "codemirror/addon/display/autorefresh";
 import "codemirror/addon/edit/matchbrackets";
 import "codemirror/addon/search/search";
 import "codemirror/addon/runmode/colorize";
