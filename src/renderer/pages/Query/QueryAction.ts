@@ -10,7 +10,7 @@ import { DataSourceType } from "../DataSource/DataSourceStore";
 const DEFAULT_QUERY_TITLE = "New Query";
 
 const QueryAction = {
-  async initialize() {
+  async initialize(): Promise<void> {
     const [queries, dataSources, charts] = await Promise.all([
       Database.Query.getAll(),
       Database.DataSource.getAll(),
@@ -25,7 +25,7 @@ const QueryAction = {
     });
   },
 
-  async selectQuery(query: QueryType) {
+  async selectQuery(query: QueryType): Promise<void> {
     const id = query.id;
     if (query.body === undefined) {
       const query = await Database.Query.find(id);
@@ -35,14 +35,14 @@ const QueryAction = {
     }
   },
 
-  async addNewQuery({ dataSourceId }) {
+  async addNewQuery({ dataSourceId }): Promise<void> {
     const query = await Database.Query.create(DEFAULT_QUERY_TITLE, dataSourceId, "");
     dispatch("addNewQuery", { query });
   },
 
-  updateQuery(id: number, params: any) {
+  updateQuery(id: number, params: any): Promise<void> {
     dispatch("updateQuery", { id, params });
-    Database.Query.update(id, params);
+    return Database.Query.update(id, params);
   },
 
   async duplicateQuery(query: QueryType): Promise<void> {
@@ -50,13 +50,21 @@ const QueryAction = {
     dispatch("addNewQuery", { query: newQuery });
   },
 
-  async deleteQuery(id: number) {
+  async deleteQuery(id: number): Promise<void> {
     await Database.Query.del(id);
     dispatch("deleteQuery", { id });
   },
 
-  async executeQuery({ line, query, dataSource }: { line: number; query: QueryType; dataSource: DataSourceType }) {
-    const { query: queryBody, startLine } = Util.findQueryByLine(query.body, line);
+  async executeQuery({
+    line,
+    query,
+    dataSource
+  }: {
+    line: number;
+    query: QueryType;
+    dataSource: DataSourceType;
+  }): Promise<void> {
+    const { query: queryBody, startLine } = await Util.findQueryByLine(query.body, line);
     const executor = DataSource.create(dataSource);
     const id = query.id;
     dispatch("updateQuery", { id, params: { status: "working", executor } });
@@ -103,16 +111,16 @@ const QueryAction = {
     );
   },
 
-  cancelQuery(query: QueryType) {
+  async cancelQuery(query: QueryType): Promise<void> {
     dispatch("updateQuery", { id: query.id, params: { executor: null } });
-    query.executor?.cancel();
+    await query.executor?.cancel();
   },
 
-  updateEditor(params) {
+  updateEditor(params): void {
     dispatch("updateEditor", params);
   },
 
-  async selectResultTab(query: QueryType, name) {
+  async selectResultTab(query: QueryType, name: string): Promise<void> {
     dispatch("selectResultTab", { id: query.id, name });
 
     if (name === "chart" && !query.chart) {
@@ -123,7 +131,7 @@ const QueryAction = {
     }
   },
 
-  async updateChart(id, params) {
+  async updateChart(id: number, params): Promise<void> {
     const chart = await Database.Chart.update(id, params);
     dispatch("updateChart", { id, params: chart });
   }
