@@ -20,10 +20,12 @@ export default class Store<T> {
     throw new Error("Not Implemented");
   }
 
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   // @ts-ignore
   reduce(type, payload): T {
     throw new Error("Not Implemented");
   }
+  /* eslint-enable @typescript-eslint/no-unused-vars */
 
   subscribe(fn) {
     this._emitter.on("update", fn);
