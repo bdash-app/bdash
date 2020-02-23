@@ -28,12 +28,11 @@ module.exports = (env, argv) => {
   });
 
   const commonConfig = {
-    resolve: { extensions: [".ts", ".tsx"] },
+    resolve: { extensions: [".ts", ".tsx", ".js"] },
     node: {
       __dirname: false,
       __filename: false
-    },
-    externals: [nodeExternals({ whitelist: [/\.css$/] })]
+    }
   };
 
   const mainConfig = Object.assign(
@@ -53,7 +52,8 @@ module.exports = (env, argv) => {
             options: { transpileOnly: isDevelopment }
           }
         ]
-      }
+      },
+      externals: [nodeExternals({ whitelist: ["electron-is-dev", "electron-log"] })]
     },
     commonConfig
   );
@@ -90,6 +90,7 @@ module.exports = (env, argv) => {
           }
         ]
       },
+      externals: [nodeExternals({ whitelist: [/\.css$/, /^aws-sdk/, /^@fortawesome/] })],
       plugins: [extractTextPlugin, definePlugin, cleanPlugin, copyPlugin]
     },
     commonConfig
