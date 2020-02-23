@@ -1,6 +1,6 @@
 node_modules/
 out/
-app/out/
+app/
 dist/
 tmp/
 package.json

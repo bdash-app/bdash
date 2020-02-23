@@ -3,7 +3,7 @@ import { dispatch } from "./AppStore";
 import DataSourceAction from "../DataSource/DataSourceAction";
 
 const AppAction = {
-  async initialize() {
+  async initialize(): Promise<void> {
     // on boarding
     const count = await Database.DataSource.count();
     if (count === 0) {
@@ -12,7 +12,7 @@ const AppAction = {
     }
   },
 
-  selectPage(page) {
+  selectPage(page: string): void {
     dispatch("selectPage", { page });
   }
 };

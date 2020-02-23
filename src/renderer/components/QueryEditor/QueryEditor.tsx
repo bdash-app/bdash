@@ -30,7 +30,7 @@ export default class QueryEditor extends React.Component<Props> {
     };
   }
 
-  renderButton() {
+  renderButton(): React.ReactNode {
     if (this.props.query.status === "working") {
       return (
         <Button className="QueryEditor-cancelBtn" onClick={this.props.onCancel}>
@@ -46,7 +46,7 @@ export default class QueryEditor extends React.Component<Props> {
     }
   }
 
-  renderStatus() {
+  renderStatus(): React.ReactNode {
     switch (this.props.query.status) {
       case "success":
         return this.renderSuccess();
@@ -59,7 +59,7 @@ export default class QueryEditor extends React.Component<Props> {
     }
   }
 
-  renderSuccess() {
+  renderSuccess(): React.ReactNode {
     const query = this.props.query;
     return (
       <div className="QueryEditor-status">
@@ -73,7 +73,7 @@ export default class QueryEditor extends React.Component<Props> {
     );
   }
 
-  renderError() {
+  renderError(): React.ReactNode {
     return (
       <div className="QueryEditor-status is-error">
         <span>
@@ -83,7 +83,7 @@ export default class QueryEditor extends React.Component<Props> {
     );
   }
 
-  renderWorking() {
+  renderWorking(): React.ReactNode {
     return (
       <div className="QueryEditor-status is-working">
         <span>
@@ -93,7 +93,7 @@ export default class QueryEditor extends React.Component<Props> {
     );
   }
 
-  render() {
+  render(): React.ReactNode {
     const query = this.props.query;
 
     return (
@@ -101,9 +101,9 @@ export default class QueryEditor extends React.Component<Props> {
         <Editor
           value={query.body || ""}
           rootRef={node => (this.editorElement = node)}
-          onChange={body => this.props.onChangeQueryBody(body)}
-          onChangeCursor={line => this.props.onChangeCursorPosition(line)}
-          onSubmit={() => this.props.onExecute()}
+          onChange={this.props.onChangeQueryBody}
+          onChangeCursor={this.props.onChangeCursorPosition}
+          onSubmit={this.props.onExecute}
           options={this.options}
         />
         <div className="QueryEditor-navbar">

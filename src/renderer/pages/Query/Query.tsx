@@ -12,11 +12,11 @@ import { QueryType } from "../../../lib/Database/Query";
 import { DataSourceType } from "../DataSource/DataSourceStore";
 
 class Query extends React.Component<{}, QueryState> {
-  componentDidMount() {
+  componentDidMount(): void {
     Action.initialize();
   }
 
-  handleAddQuery() {
+  handleAddQuery(): void {
     const defaultDataSourceId: number | undefined = this.state.setting.defaultDataSourceId;
     const ds =
       defaultDataSourceId !== undefined ? this.findDataSourceById(defaultDataSourceId) : this.state.dataSources[0];
@@ -56,6 +56,10 @@ class Query extends React.Component<{}, QueryState> {
       alert("Set your Github token");
       return;
     }
+    if (!dataSource) {
+      alert("DataSource is not selected");
+      return;
+    }
 
     try {
       await QuerySharing.shareOnGist({ query, chart, setting, dataSource });
@@ -64,7 +68,7 @@ class Query extends React.Component<{}, QueryState> {
     }
   }
 
-  renderMain() {
+  renderMain(): React.ReactNode {
     const query = this.state.queries.find(query => query.id === this.state.selectedQueryId);
     if (!query) return <div className="page-Query-main" />;
 
@@ -107,7 +111,7 @@ class Query extends React.Component<{}, QueryState> {
     );
   }
 
-  render() {
+  render(): React.ReactNode {
     return (
       <div className="page-Query">
         <div className="page-Query-list">

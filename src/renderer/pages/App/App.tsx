@@ -7,12 +7,12 @@ import Query from "../Query";
 import DataSource from "../DataSource";
 import Setting from "../Setting";
 
-class App extends React.Component<any, AppState> {
-  componentDidMount() {
+class App extends React.Component<{}, AppState> {
+  componentDidMount(): void {
     Action.initialize();
   }
 
-  getSelectedPage() {
+  getSelectedPage(): typeof Query | typeof DataSource | typeof Setting {
     switch (this.state.selectedPage) {
       case "query":
         return Query;
@@ -25,7 +25,7 @@ class App extends React.Component<any, AppState> {
     }
   }
 
-  render() {
+  render(): React.ReactNode {
     const Page = this.getSelectedPage();
 
     return (

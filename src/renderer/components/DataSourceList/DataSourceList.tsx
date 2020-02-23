@@ -16,7 +16,7 @@ type Props = {
 };
 
 export default class DataSourceList extends React.Component<Props> {
-  handleContextMenu(id: number) {
+  handleContextMenu(id: number): void {
     if (id !== this.props.selectedDataSourceId) {
       const dataSource = this.find(id);
       if (dataSource) {
@@ -28,7 +28,7 @@ export default class DataSourceList extends React.Component<Props> {
       const menu = remote.Menu.buildFromTemplate([
         {
           label: "Edit",
-          click: () => {
+          click: (): void => {
             const dataSource = this.find(id);
             if (dataSource) {
               this.props.onEdit(dataSource);
@@ -37,7 +37,7 @@ export default class DataSourceList extends React.Component<Props> {
         },
         {
           label: "Reload",
-          click: () => {
+          click: (): void => {
             const dataSource = this.find(id);
             if (dataSource) {
               this.props.onReload(dataSource);
@@ -48,13 +48,13 @@ export default class DataSourceList extends React.Component<Props> {
           label: "Set as default",
           type: "checkbox",
           checked: id === this.props.defaultDataSourceId,
-          click: () => {
+          click: (): void => {
             this.props.changeDefaultDataSourceId(id);
           }
         },
         {
           label: "Delete",
-          click: () => {
+          click: (): void => {
             if (window.confirm("Are you sure?")) {
               this.props.onDelete(id);
             }
@@ -69,7 +69,7 @@ export default class DataSourceList extends React.Component<Props> {
     return this.props.dataSources.find(d => d.id === id);
   }
 
-  render() {
+  render(): React.ReactNode {
     const items = this.props.dataSources.map(dataSource => {
       const className = classNames({
         "is-selected": this.props.selectedDataSourceId === dataSource.id
@@ -91,7 +91,7 @@ export default class DataSourceList extends React.Component<Props> {
     return (
       <div className="DataSourceList">
         <div className="DataSourceList-new">
-          <i className="fas fa-plus" onClick={() => this.props.onClickNew()} />
+          <i className="fas fa-plus" onClick={this.props.onClickNew} />
         </div>
         <ul className="DataSourceList-list">{items}</ul>
       </div>

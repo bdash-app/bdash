@@ -308,6 +308,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-modal@3.10.5":
+  version "3.10.5"
+  resolved "https://registry.yarnpkg.com/@types/react-modal/-/react-modal-3.10.5.tgz#5aa40bcb71b59243126069330856eb430ed3adcc"
+  integrity sha512-iLL9afYbcgYlboW2J8mFNKH2tFgErIHR0q+JgHotKrFK99+d97v+V/dxL5LVoxt1OjlnWsuwj8sZuBMVsI1MtQ==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-select@~3.0.8":
   version "3.0.9"
   resolved "https://registry.yarnpkg.com/@types/react-select/-/react-select-3.0.9.tgz#fa41ad0a20acf832f10d344fe36c0f4232734097"

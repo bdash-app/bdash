@@ -17,7 +17,7 @@ type Props = {
 };
 
 export default class QueryResult extends React.Component<Props> {
-  renderError() {
+  renderError(): React.ReactNode {
     return (
       <div className="QueryResult">
         <div className="QueryResult-errorMessage">{this.props.query.errorMessage}</div>
@@ -25,7 +25,7 @@ export default class QueryResult extends React.Component<Props> {
     );
   }
 
-  renderMain() {
+  renderMain(): React.ReactNode {
     if (this.props.query.selectedTab === "chart") {
       const chart = this.props.charts.find(chart => chart.queryId === this.props.query.id);
       return <QueryResultChart chart={chart} {...this.props} />;
@@ -34,7 +34,7 @@ export default class QueryResult extends React.Component<Props> {
     }
   }
 
-  render() {
+  render(): React.ReactNode {
     const query = this.props.query;
 
     if (query.status === "failure") {

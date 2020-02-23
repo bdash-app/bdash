@@ -21,11 +21,6 @@ function appPath(): string {
   }
 }
 
-// @ts-ignore
-function wait(ms: number): Promise<null> {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 function setValueToEditor(text: string): void {
   app.client.execute(text => {
     // @ts-ignore

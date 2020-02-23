@@ -4,7 +4,7 @@ import { migrations, Migration } from "./schema";
 export default class Connection {
   _db: sqlite3.Database;
 
-  get db() {
+  get db(): sqlite3.Database {
     if (!this._db) {
       throw new Error("Database is not initialized.");
     }

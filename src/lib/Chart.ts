@@ -51,7 +51,7 @@ export default class Chart {
     return this[this.params.type]();
   }
 
-  getLayout() {
+  getLayout(): Partial<Plotly.Layout> {
     const layout: Partial<Plotly.Layout> = {
       showlegend: true,
       margin: { l: 50, r: 50, t: 10, b: 10, pad: 4 },

@@ -8,7 +8,7 @@ type Props = {
 };
 
 export default class QueryResultTable extends React.Component<Props> {
-  shouldComponentUpdate(nextProps: Props) {
+  shouldComponentUpdate(nextProps: Props): boolean {
     const query = nextProps.query;
 
     if (!query || !query.fields) return true;
@@ -18,7 +18,7 @@ export default class QueryResultTable extends React.Component<Props> {
     return false;
   }
 
-  render() {
+  render(): React.ReactNode {
     const query = this.props.query;
     const heads = query.fields.map((field, i) => <th key={`head-${i}`}>{field}</th>);
     const rows = query.rows.slice(0, MAX_DISPLAY_ROWS_COUNT).map((row, i) => {

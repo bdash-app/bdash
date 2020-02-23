@@ -6,13 +6,13 @@ interface ButtonProps {
 }
 
 export default class Button extends React.Component<ButtonProps> {
-  handleClick(e) {
+  handleClick(e: React.MouseEvent<HTMLSpanElement>): void {
     if (this.props.onClick) {
       this.props.onClick(e);
     }
   }
 
-  render() {
+  render(): React.ReactNode {
     const className = `${this.props.className || ""} Button`.trim();
     return (
       <span className={className} onClick={this.handleClick.bind(this)}>

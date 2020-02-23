@@ -8,7 +8,7 @@ import TableSummary from "../../components/TableSummary";
 import DataSourceForm from "../../components/DataSourceForm";
 
 class DataSource extends React.Component<{}, DataSourceState> {
-  componentDidMount() {
+  componentDidMount(): void {
     Action.initialize();
   }
 
@@ -16,7 +16,7 @@ class DataSource extends React.Component<{}, DataSourceState> {
     return this.state.dataSources.find(d => d.id === id);
   }
 
-  handleSave(dataSource: { id: number | null } & Pick<DataSourceType, "name" | "type" | "config">) {
+  handleSave(dataSource: { id: number | null } & Pick<DataSourceType, "name" | "type" | "config">): void {
     if (dataSource.id !== null) {
       Action.updateDataSource({ ...dataSource, id: dataSource.id });
     } else {
@@ -24,7 +24,7 @@ class DataSource extends React.Component<{}, DataSourceState> {
     }
   }
 
-  renderDataSourceForm() {
+  renderDataSourceForm(): React.ReactNode {
     if (!this.state.showForm) return;
 
     return (
@@ -36,7 +36,7 @@ class DataSource extends React.Component<{}, DataSourceState> {
     );
   }
 
-  render() {
+  render(): React.ReactNode {
     const dataSource = this.find(this.state.selectedDataSourceId ?? -1);
     const defaultDataSourceId = this.state.setting.defaultDataSourceId ?? this.state.dataSources[0]?.id;
 
@@ -46,7 +46,7 @@ class DataSource extends React.Component<{}, DataSourceState> {
           <DataSourceList
             {...this.state}
             defaultDataSourceId={defaultDataSourceId}
-            onClickNew={() => Action.showForm()}
+            onClickNew={Action.showForm}
             onSelect={(dataSource: DataSourceType) => Action.selectDataSource(dataSource)}
             onEdit={(dataSource: DataSourceType) => Action.showForm(dataSource)}
             onDelete={id => Action.deleteDataSource(id)}

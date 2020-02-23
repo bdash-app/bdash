@@ -8,6 +8,7 @@ import Util from "./Util";
 import { GithubSettingType } from "./Setting";
 import { ChartType } from "./Database/Chart";
 import { QueryType } from "./Database/Query";
+import { DataSourceType } from "src/renderer/pages/DataSource/DataSourceStore";
 
 export default {
   async shareOnGist({
@@ -19,8 +20,8 @@ export default {
     query: QueryType;
     chart: ChartType | undefined;
     setting: GithubSettingType;
-    dataSource: any;
-  }) {
+    dataSource: DataSourceType;
+  }): Promise<void> {
     const [tsv, svg] = await Promise.all([getTableDataAsTsv(query), getChartAsSvg(query, chart)]);
 
     const description = query.title;
@@ -50,32 +51,32 @@ export default {
     const client = new GitHubApiClient(setting);
     const result = await client.postToGist({ description, files });
 
-    electron.shell.openExternal(result.html_url);
+    await electron.shell.openExternal(result.html_url);
   },
 
-  copyAsMarkdown(query) {
+  copyAsMarkdown(query: QueryType): void {
     const markdown = markdownTable(getTableData(query));
     electron.clipboard.writeText(markdown);
   },
 
-  async copyAsTsv(query) {
+  async copyAsTsv(query: QueryType): Promise<void> {
     const tsv = await getTableDataAsTsv(query);
     return electron.clipboard.writeText(tsv);
   },
 
-  async copyAsCsv(query) {
+  async copyAsCsv(query: QueryType): Promise<void> {
     const csv = await getTableDataAsCsv(query);
     return electron.clipboard.writeText(csv);
   }
 };
 
 // private functions
-function getTableData(query) {
+function getTableData(query: QueryType) {
   const rows = query.rows.map(row => Object.values(row));
   return [query.fields].concat(rows);
 }
 
-function getTableDataAsTsv(query): Promise<string> {
+function getTableDataAsTsv(query: QueryType): Promise<string> {
   return new Promise((resolve, reject) => {
     csvStringify(getTableData(query), { delimiter: "\t" }, (err, tsv) => {
       if (err) {
@@ -87,7 +88,7 @@ function getTableDataAsTsv(query): Promise<string> {
   });
 }
 
-function getTableDataAsCsv(query): Promise<string> {
+function getTableDataAsCsv(query: QueryType): Promise<string> {
   return new Promise((resolve, reject) => {
     const csvOpts = {
       eof: true,
@@ -101,7 +102,7 @@ function getTableDataAsCsv(query): Promise<string> {
     };
     const data = query.rows.map(row => Object.values(row));
     // @ts-ignore
-    csvStringify(data, csvOpts, (err, csv) => {
+    csvStringify(data, csvOpts, (err: Error, csv: string) => {
       if (err) {
         reject(err);
       } else {
@@ -111,7 +112,7 @@ function getTableDataAsCsv(query): Promise<string> {
   });
 }
 
-function getChartAsSvg(query, chart: ChartType | undefined) {
+function getChartAsSvg(query: QueryType, chart: ChartType | undefined): Promise<string | null> {
   if (!query || !chart) return Promise.resolve(null);
 
   const params = {

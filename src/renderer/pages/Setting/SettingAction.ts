@@ -3,11 +3,11 @@ import GitHubApiClient from "../../../lib/GitHubApiClient";
 import { dispatch } from "./SettingStore";
 
 const SettingAction = {
-  initialize() {
+  initialize(): void {
     dispatch("initialize", { setting: setting.load() });
   },
 
-  update(params: PartialSettingType) {
+  update(params: PartialSettingType): void {
     setting.save(params);
     dispatch("update", { setting: params });
   },

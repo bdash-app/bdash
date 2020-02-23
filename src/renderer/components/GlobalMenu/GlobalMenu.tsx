@@ -1,8 +1,13 @@
 import React from "react";
 import classNames from "classnames";
 
-export default class GlobalMenu extends React.Component<any, any> {
-  get menuList() {
+type Props = {
+  readonly onSelect: (page: string) => void;
+  readonly selectedPage: string;
+};
+
+export default class GlobalMenu extends React.Component<Props> {
+  get menuList(): React.ReactNode {
     return [
       { page: "query", icon: "terminal" },
       { page: "dataSource", icon: "database" },
@@ -21,11 +26,11 @@ export default class GlobalMenu extends React.Component<any, any> {
     });
   }
 
-  handleClick(page) {
+  handleClick(page: string): void {
     this.props.onSelect(page);
   }
 
-  render() {
+  render(): React.ReactNode {
     return <div className="GlobalMenu">{this.menuList}</div>;
   }
 }

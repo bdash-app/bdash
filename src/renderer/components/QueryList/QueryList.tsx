@@ -13,27 +13,32 @@ type Props = {
 };
 
 export default class QueryList extends React.Component<Props> {
-  handleClickNew() {
+  constructor(props: Props) {
+    super(props);
+    this.handleClickNew = this.handleClickNew.bind(this);
+  }
+
+  handleClickNew(): void {
     this.props.onAddQuery();
   }
 
-  handleClickItem(query: QueryType) {
+  handleClickItem(query: QueryType): void {
     this.props.onSelectQuery(query);
   }
 
-  handleContextMenu(query: QueryType) {
+  handleContextMenu(query: QueryType): void {
     this.props.onSelectQuery(query);
     setImmediate(() => {
       const menu = remote.Menu.buildFromTemplate([
         {
           label: "Duplicate",
-          click: () => {
+          click: (): void => {
             this.props.onDuplicateQuery(query);
           }
         },
         {
           label: "Delete",
-          click: () => {
+          click: (): void => {
             if (window.confirm("Are you sure?")) {
               this.props.onDeleteQuery(query.id);
             }
@@ -44,7 +49,7 @@ export default class QueryList extends React.Component<Props> {
     });
   }
 
-  render() {
+  render(): React.ReactNode {
     const items = this.props.queries.map(query => {
       const className = classNames({
         "is-selected": this.props.selectedQueryId === query.id
@@ -64,7 +69,7 @@ export default class QueryList extends React.Component<Props> {
     return (
       <div className="QueryList">
         <div className="QueryList-new">
-          <i className="fas fa-plus" onClick={() => this.handleClickNew()} />
+          <i className="fas fa-plus" onClick={this.handleClickNew} />
         </div>
         <ul className="QueryList-list">{items}</ul>
       </div>

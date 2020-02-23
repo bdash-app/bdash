@@ -1,7 +1,7 @@
 import React from "react";
 import ModalDialog from "../ModalDialog";
 import Button from "../Button";
-import DataSource from "../../../lib/DataSource";
+import DataSource, { DataSourceClasses } from "../../../lib/DataSource";
 import ProgressIcon from "../ProgressIcon";
 import { ConfigSchemaType } from "../../../lib/DataSourceDefinition/Base";
 import { DataSourceType } from "../../pages/DataSource/DataSourceStore";
@@ -30,6 +30,10 @@ export default class DataSourceForm extends React.Component<Props, State> {
       connectionTestStatus: null,
       connectionTestMessage: null
     };
+    this.handleCancel = this.handleCancel.bind(this);
+    this.handleSave = this.handleSave.bind(this);
+    this.handleChangeType = this.handleChangeType.bind(this);
+    this.handleConnectionTest = this.handleConnectionTest.bind(this);
   }
 
   getConfigValues(): { [name: string]: any } {
@@ -60,7 +64,7 @@ export default class DataSourceForm extends React.Component<Props, State> {
     }, {});
   }
 
-  handleSave() {
+  handleSave(): void {
     if (this.inputNameElement === null || this.state.selectedType === null) {
       return;
     }
@@ -72,11 +76,11 @@ export default class DataSourceForm extends React.Component<Props, State> {
     this.props.onSave({ id, name, type, config });
   }
 
-  handleCancel() {
+  handleCancel(): void {
     this.props.onCancel();
   }
 
-  handleChangeType(e: React.ChangeEvent<HTMLSelectElement>) {
+  handleChangeType(e: React.ChangeEvent<HTMLSelectElement>): void {
     this.setState({ selectedType: e.target.value });
   }
 
@@ -104,7 +108,7 @@ export default class DataSourceForm extends React.Component<Props, State> {
     this.setState({ connectionTestStatus: "success" });
   }
 
-  renderConfigCheckbox(i: number, value: boolean, schema: ConfigSchemaType): JSX.Element {
+  renderConfigCheckbox(i: number, value: boolean, schema: ConfigSchemaType): React.ReactNode {
     return (
       <tr key={i} className={schema.required ? "is-required" : ""}>
         <th>{schema.label}</th>
@@ -123,7 +127,7 @@ export default class DataSourceForm extends React.Component<Props, State> {
   }
 
   renderConfigRadio(i: number, value: string, schema: ConfigSchemaType): JSX.Element {
-    const radios = schema.values!.map(v => {
+    const radios = schema.values?.map(v => {
       return (
         <label key={v} className="DataSourceForm-configRadioLabel">
           <input
@@ -165,7 +169,7 @@ export default class DataSourceForm extends React.Component<Props, State> {
     );
   }
 
-  renderConfig(): JSX.Element[] | null {
+  renderConfig(): React.ReactNode[] | null {
     const ds = this.state.selectedType ? DataSource.get(this.state.selectedType) : undefined;
     if (!ds || ds.configSchema.length === 0) return null;
 
@@ -183,8 +187,8 @@ export default class DataSourceForm extends React.Component<Props, State> {
     });
   }
 
-  render() {
-    const list: any[] = DataSource.list;
+  render(): React.ReactNode {
+    const list: DataSourceClasses[] = DataSource.list;
     const options = [{ key: "", label: "" }].concat(list).map(({ key, label }) => {
       return (
         <option key={key} value={key}>
@@ -212,7 +216,7 @@ export default class DataSourceForm extends React.Component<Props, State> {
             <tr className="is-required">
               <th>Type</th>
               <td>
-                <select value={this.state.selectedType || ""} name="type" onChange={this.handleChangeType.bind(this)}>
+                <select value={this.state.selectedType || ""} name="type" onChange={this.handleChangeType}>
                   {options}
                 </select>
               </td>
@@ -223,17 +227,17 @@ export default class DataSourceForm extends React.Component<Props, State> {
 
         <div className="DataSourceForm-bottom">
           <div className="DataSourceForm-connectionTest">
-            <Button onClick={() => this.handleConnectionTest()}>Connection Test</Button>
+            <Button onClick={this.handleConnectionTest}>Connection Test</Button>
             {this.state.connectionTestStatus ? <ProgressIcon status={this.state.connectionTestStatus} /> : null}
             {this.state.connectionTestMessage ? (
               <div className="DataSourceForm-connectionTestMessage">{this.state.connectionTestMessage}</div>
             ) : null}
           </div>
           <div className="DataSourceForm-buttons">
-            <Button className="DataSourceForm-cancelBtn" onClick={() => this.handleCancel()}>
+            <Button className="DataSourceForm-cancelBtn" onClick={this.handleCancel}>
               Cancel
             </Button>
-            <Button className="DataSourceForm-saveBtn" onClick={() => this.handleSave()}>
+            <Button className="DataSourceForm-saveBtn" onClick={this.handleSave}>
               Save
             </Button>
           </div>
