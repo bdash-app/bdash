@@ -20,7 +20,7 @@ type Props = {
 export default class QueryResultChart extends React.Component<Props> {
   chartElement: HTMLDivElement | null;
 
-  shouldComponentUpdate(nextProps: Props) {
+  shouldComponentUpdate(nextProps: Props): boolean {
     const query = nextProps.query;
     const chart = nextProps.chart;
 
@@ -52,39 +52,39 @@ export default class QueryResultChart extends React.Component<Props> {
     await new Chart(params).drawTo(this.chartElement);
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     this.drawChart();
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(): void {
     this.drawChart();
   }
 
-  update(params: any) {
+  update(params: any): void {
     this.props.onUpdateChart(this.props.chart!.id, params);
   }
 
-  handleSelectType(option: OptionType) {
+  handleSelectType(option: OptionType): void {
     this.update({ type: option.value });
   }
 
-  handleChangeX(option: OptionType) {
+  handleChangeX(option: OptionType): void {
     this.update({ xColumn: option ? option.value : null });
   }
 
-  handleChangeY(options: ValueType<OptionTypeBase>) {
+  handleChangeY(options: ValueType<OptionTypeBase>): void {
     this.update({ yColumns: options && Array.isArray(options) ? options.map(o => o.value) : [] });
   }
 
-  handleSelectStacking(option: OptionType) {
+  handleSelectStacking(option: OptionType): void {
     this.update({ stacking: option.value });
   }
 
-  handleChangeGroup(option: OptionType) {
+  handleChangeGroup(option: OptionType): void {
     this.update({ groupColumn: option ? option.value : null });
   }
 
-  renderChartImage(chartType: string): JSX.Element {
+  renderChartImage(chartType: string): React.ReactNode {
     if (chartType === "scatter") {
       return <img className="scatter" src="scatter.svg" />;
     } else {
@@ -92,7 +92,7 @@ export default class QueryResultChart extends React.Component<Props> {
     }
   }
 
-  renderLabel(option: OptionType) {
+  renderLabel(option: OptionType): React.ReactNode {
     return (
       <span>
         {this.renderChartImage(option.value)}
@@ -101,7 +101,7 @@ export default class QueryResultChart extends React.Component<Props> {
     );
   }
 
-  render() {
+  render(): React.ReactNode {
     const query = this.props.query;
     if (!query.fields) return null;
 

@@ -51,7 +51,7 @@ export default class Athena extends Base {
     this.client = new AthenaClient(this.config);
   }
 
-  async execute(query: string) {
+  async execute(query: string): Promise<{ fields: any; rows: any }> {
     const rows = await this.client.execute(query);
     const fields = rows.shift();
     return { fields, rows };

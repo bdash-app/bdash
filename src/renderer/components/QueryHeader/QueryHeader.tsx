@@ -12,15 +12,21 @@ type Props = {
 };
 
 export default class QueryHeader extends React.Component<Props> {
-  handleChangeTitle(e: React.ChangeEvent<HTMLInputElement>) {
+  constructor(props: Props) {
+    super(props);
+    this.handleChangeTitle = this.handleChangeTitle.bind(this);
+    this.handleChangeDataSource = this.handleChangeDataSource.bind(this);
+  }
+
+  handleChangeTitle(e: React.ChangeEvent<HTMLInputElement>): void {
     this.props.onChangeTitle(e.target.value);
   }
 
-  handleChangeDataSource(e) {
+  handleChangeDataSource(e): void {
     this.props.onChangeDataSource(e.value);
   }
 
-  render() {
+  render(): React.ReactNode {
     const options = this.props.dataSources.map(dataSource => {
       return { value: dataSource.id, label: dataSource.name };
     });
@@ -32,13 +38,13 @@ export default class QueryHeader extends React.Component<Props> {
           className="QueryHeader-inputTitle"
           type="text"
           value={this.props.query.title}
-          onChange={e => this.handleChangeTitle(e)}
+          onChange={this.handleChangeTitle}
         />
         <Select
           className="QueryHeader-selectDataSource"
           value={currentOption}
           options={options}
-          onChange={e => this.handleChangeDataSource(e)}
+          onChange={this.handleChangeDataSource}
           placeholder={"Select data source..."}
           isClearable={false}
           isSearchable={false}

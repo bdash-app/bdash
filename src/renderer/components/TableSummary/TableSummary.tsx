@@ -6,7 +6,7 @@ type Props = {
 };
 
 export default class TableSummary extends React.Component<Props> {
-  render() {
+  render(): React.ReactNode {
     const dataSource = this.props.dataSource;
     if (!dataSource || !dataSource.tableSummary) return null;
 

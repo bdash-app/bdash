@@ -1,8 +1,13 @@
 import React from "react";
 import LoadingIcon from "../LoadingIcon";
 
-export default class ProgressIcon extends React.Component<any, any> {
-  renderIcon() {
+type Props = {
+  readonly status: string | null;
+  readonly message?: string | null;
+};
+
+export default class ProgressIcon extends React.Component<Props> {
+  renderIcon(): React.ReactNode {
     switch (this.props.status) {
       case "working":
         return <LoadingIcon />;
@@ -15,13 +20,13 @@ export default class ProgressIcon extends React.Component<any, any> {
     }
   }
 
-  renderMessage() {
+  renderMessage(): React.ReactNode {
     if (!this.props.message) return null;
 
     return <span className="ProgressIcon-message">{this.props.message}</span>;
   }
 
-  render() {
+  render(): React.ReactNode {
     return (
       <span className={`ProgressIcon is-${this.props.status}`}>
         <span className="ProgressIcon-icon">{this.renderIcon()}</span>

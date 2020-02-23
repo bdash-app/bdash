@@ -12,7 +12,7 @@ export default class AppStore extends Store<AppState> {
     };
   }
 
-  reduce(type, payload) {
+  reduce(type: string, payload) {
     switch (type) {
       case "selectPage": {
         return this.set("selectedPage", payload.page);

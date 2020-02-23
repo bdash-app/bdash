@@ -32,7 +32,7 @@ export default class QueryStore extends Store<QueryState> {
     };
   }
 
-  reduce(type, payload) {
+  reduce(type: string, payload) {
     switch (type) {
       case "initialize": {
         return this.merge("setting", payload.setting)
@@ -78,7 +78,7 @@ export default class QueryStore extends Store<QueryState> {
     }
   }
 
-  findQueryIndex(id) {
+  findQueryIndex(id: number): number {
     const idx = this.state.queries.findIndex(q => q.id === id);
 
     if (idx === -1) {
@@ -88,7 +88,7 @@ export default class QueryStore extends Store<QueryState> {
     return idx;
   }
 
-  findChartIndex(id: number) {
+  findChartIndex(id: number): number {
     const idx = this.state.charts.findIndex(c => c.id === id);
 
     if (idx === -1) {

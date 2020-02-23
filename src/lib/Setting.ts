@@ -31,7 +31,7 @@ export default class Setting {
   filePath: string;
   setting: SettingType;
 
-  initialize(filePath: string) {
+  initialize(filePath: string): void {
     this.filePath = filePath;
 
     if (!fs.existsSync(filePath)) {
@@ -45,7 +45,7 @@ export default class Setting {
     return this.setting;
   }
 
-  save(params: PartialSettingType) {
+  save(params: PartialSettingType): void {
     const setting = _.merge(this.setting, params);
     fs.writeFileSync(this.filePath, yaml.safeDump(setting));
   }

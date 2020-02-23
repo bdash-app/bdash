@@ -10,16 +10,21 @@ type Props = {
 };
 
 export default class TableList extends React.Component<Props> {
-  handleClickTable(table) {
+  constructor(props: Props) {
+    super(props);
+    this.handleChangeTableFilter = this.handleChangeTableFilter.bind(this);
+  }
+
+  handleClickTable(table: TableType): void {
     this.props.onSelectTable(this.props.dataSource!, table);
   }
 
-  handleChangeTableFilter(e: React.ChangeEvent<HTMLInputElement>) {
+  handleChangeTableFilter(e: React.ChangeEvent<HTMLInputElement>): void {
     const value = e.target.value;
     this.props.onChangeTableFilter(this.props.dataSource!, value);
   }
 
-  renderItem(dataSource: DataSourceType, table: TableType, key: number) {
+  renderItem(dataSource: DataSourceType, table: TableType, key: number): React.ReactNode {
     const { selectedTable, tableFilter } = dataSource;
     const schema = table.schema ? `${table.schema}.` : "";
     const tableName = schema + table.name;
@@ -38,7 +43,7 @@ export default class TableList extends React.Component<Props> {
     );
   }
 
-  render() {
+  render(): React.ReactNode {
     const dataSource = this.props.dataSource;
     if (!dataSource) return null;
 
@@ -53,7 +58,7 @@ export default class TableList extends React.Component<Props> {
       );
     }
 
-    if (dataSource.tables == null) {
+    if (dataSource.tables === null) {
       return (
         <div className="TableList">
           <div className="TableList-loading">
@@ -71,11 +76,7 @@ export default class TableList extends React.Component<Props> {
       <div className="TableList">
         <div className="TableList-filter">
           <i className="fas fa-search" />
-          <input
-            type="search"
-            value={this.props.dataSource?.tableFilter ?? ""}
-            onChange={e => this.handleChangeTableFilter(e)}
-          />
+          <input type="search" value={dataSource.tableFilter ?? ""} onChange={this.handleChangeTableFilter} />
         </div>
         <ul>{items}</ul>
       </div>

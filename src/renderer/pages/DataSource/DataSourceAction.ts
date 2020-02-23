@@ -39,17 +39,22 @@ const DataSourceAction = {
     });
   },
 
-  changeTableFilter(dataSource: DataSourceType, value: string) {
+  changeTableFilter(dataSource: DataSourceType, value: string): void {
     dispatch("changeTableFilter", { id: dataSource.id, value });
   },
 
-  async createDataSource({ name, type, config }: Pick<DataSourceType, "name" | "type" | "config">) {
+  async createDataSource({ name, type, config }: Pick<DataSourceType, "name" | "type" | "config">): Promise<void> {
     const dataSource = await Database.DataSource.create({ name, type, config });
     dispatch("createDataSource", { dataSource });
     DataSourceAction.selectDataSource(dataSource);
   },
 
-  async updateDataSource({ id, name, type, config }: Pick<DataSourceType, "id" | "name" | "type" | "config">) {
+  async updateDataSource({
+    id,
+    name,
+    type,
+    config
+  }: Pick<DataSourceType, "id" | "name" | "type" | "config">): Promise<void> {
     const dataSource = await Database.DataSource.update(id, {
       name,
       type,

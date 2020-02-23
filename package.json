@@ -63,6 +63,7 @@
     "@types/plotly.js": "1.44.21",
     "@types/react": "~16.8.25",
     "@types/react-dom": "~16.8.5",
+    "@types/react-modal": "3.10.5",
     "@types/react-select": "~3.0.8",
     "@types/react-splitter-layout": "3.0.0",
     "@types/sqlite3": "3.1.6",

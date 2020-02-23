@@ -26,7 +26,7 @@ export default class Editor extends React.Component<Props> {
   currentOptions: CodeMirror.EditorConfiguration;
   textareaElement: HTMLTextAreaElement | null;
 
-  componentDidMount() {
+  componentDidMount(): void {
     if (this.textareaElement === null) {
       return;
     }
@@ -74,14 +74,14 @@ export default class Editor extends React.Component<Props> {
     }
   }
 
-  componentWillUnmount() {
+  componentWillUnmount(): void {
     // todo: is there a lighter-weight way to remove the cm instance?
     if (this.codeMirror) {
       this.codeMirror.toTextArea();
     }
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  componentWillReceiveProps(nextProps: Props): void {
     if (this.currentValue !== nextProps.value) {
       this.codeMirror.setValue(nextProps.value);
     }
@@ -94,19 +94,19 @@ export default class Editor extends React.Component<Props> {
     }
   }
 
-  handleValueChange(doc: CodeMirror.Doc) {
+  handleValueChange(doc: CodeMirror.Doc): void {
     const newValue = doc.getValue();
     this.currentValue = newValue;
     this.props.onChange && this.props.onChange(newValue);
   }
 
-  handleCursorChange(doc: CodeMirror.Doc) {
+  handleCursorChange(doc: CodeMirror.Doc): void {
     const cursor = doc.getCursor();
     const line = (cursor.line || 0) + 1;
     this.props.onChangeCursor(line);
   }
 
-  render() {
+  render(): React.ReactNode {
     return (
       <div className="Editor" ref={this.props.rootRef}>
         <textarea ref={node => (this.textareaElement = node)} defaultValue="" autoComplete="off" />

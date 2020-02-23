@@ -20,28 +20,32 @@ export default class QueryResultNav extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = { openShareFlyout: false };
+    this.handleClickCopyAsTsv = this.handleClickCopyAsTsv.bind(this);
+    this.handleClickCopyAsCsv = this.handleClickCopyAsCsv.bind(this);
+    this.handleClickCopyAsMarkdown = this.handleClickCopyAsMarkdown.bind(this);
+    this.handleClickShareOnGist = this.handleClickShareOnGist.bind(this);
   }
 
   selectedTab(name: string): boolean {
     return (this.props.query.selectedTab || "table") === name;
   }
 
-  handleClickCopyAsTsv() {
+  handleClickCopyAsTsv(): void {
     this.setState({ openShareFlyout: false });
     this.props.onClickCopyAsTsv();
   }
 
-  handleClickCopyAsCsv() {
+  handleClickCopyAsCsv(): void {
     this.setState({ openShareFlyout: false });
     this.props.onClickCopyAsCsv();
   }
 
-  handleClickCopyAsMarkdown() {
+  handleClickCopyAsMarkdown(): void {
     this.setState({ openShareFlyout: false });
     this.props.onClickCopyAsMarkdown();
   }
 
-  handleClickShareOnGist() {
+  handleClickShareOnGist(): void {
     this.setState({ openShareFlyout: false });
     this.props.onClickShareOnGist();
   }
@@ -75,10 +79,10 @@ export default class QueryResultNav extends React.Component<Props, State> {
             onRequestClose={() => this.setState({ openShareFlyout: false })}
           >
             <ul>
-              <li onClick={() => this.handleClickCopyAsTsv()}>Copy table as TSV</li>
-              <li onClick={() => this.handleClickCopyAsCsv()}>Copy table as CSV</li>
-              <li onClick={() => this.handleClickCopyAsMarkdown()}>Copy table as Markdown</li>
-              <li onClick={() => this.handleClickShareOnGist()}>Share on gist</li>
+              <li onClick={this.handleClickCopyAsTsv}>Copy table as TSV</li>
+              <li onClick={this.handleClickCopyAsCsv}>Copy table as CSV</li>
+              <li onClick={this.handleClickCopyAsMarkdown}>Copy table as Markdown</li>
+              <li onClick={this.handleClickShareOnGist}>Share on gist</li>
             </ul>
           </Flyout>
         </div>

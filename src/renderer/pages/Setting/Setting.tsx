@@ -8,16 +8,16 @@ import ProgressIcon from "../../components/ProgressIcon";
 import { selectStyles } from "../../components/Select";
 
 class Setting extends React.Component<{}, SettingState> {
-  componentDidMount() {
+  componentDidMount(): void {
     Action.initialize();
   }
 
-  renderGithubValidateTokenResult() {
+  renderGithubValidateTokenResult(): React.ReactNode {
     const { status, error } = this.state.githubValidateToken;
     return status === null ? null : <ProgressIcon status={status} message={error} />;
   }
 
-  render() {
+  render(): React.ReactNode {
     const keyBindOptions: { value: string; label: string }[] = ["default", "vim"].map(v => ({ value: v, label: v }));
     const setting = this.state.setting;
     const currentOption = keyBindOptions.find(option => option.value === (setting.keyBind || "default"));
