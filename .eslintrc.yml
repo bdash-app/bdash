@@ -26,6 +26,7 @@ rules:
   no-unused-vars: off
   '@typescript-eslint/ban-ts-ignore': off
   '@typescript-eslint/no-use-before-define': off
+  '@typescript-eslint/no-explicit-any': off
 
 plugins:
   - react
