@@ -18,7 +18,7 @@
     "test:build": "webpack --env.BUILD_ENV=test --mode=development && electron-builder build --config electron-builder.test.yml --publish never --dir",
     "test:integration": "yarn run test:build && mocha --exit test/integration/test.ts",
     "lint": "yarn run lint:eslint && yarn run lint:tsc && yarn run lint:prettier",
-    "lint:eslint": "eslint --ext \".js,.jsx,.ts,.tsx\" .",
+    "lint:eslint": "eslint --ext \".js,.jsx,.ts,.tsx\" --max-warnings 0 .",
     "lint:tsc": "tsc --noEmit",
     "lint:prettier": "prettier --list-different \"./**/*.{js,jsx,ts,tsx,css,json}\"",
     "format": "prettier --write \"./**/*.{js,jsx,ts,tsx,css,json}\"",
