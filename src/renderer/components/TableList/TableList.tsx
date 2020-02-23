@@ -71,7 +71,11 @@ export default class TableList extends React.Component<Props> {
       <div className="TableList">
         <div className="TableList-filter">
           <i className="fas fa-search" />
-          <input type="search" value={dataSource.tableFilter} onChange={e => this.handleChangeTableFilter(e)} />
+          <input
+            type="search"
+            value={this.props.dataSource?.tableFilter ?? ""}
+            onChange={e => this.handleChangeTableFilter(e)}
+          />
         </div>
         <ul>{items}</ul>
       </div>
