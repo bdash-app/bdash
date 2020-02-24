@@ -109,7 +109,13 @@ export default class Editor extends React.Component<Props> {
   render(): React.ReactNode {
     return (
       <div className="Editor" ref={this.props.rootRef}>
-        <textarea ref={node => (this.textareaElement = node)} defaultValue="" autoComplete="off" />
+        <textarea
+          ref={(node): void => {
+            this.textareaElement = node;
+          }}
+          defaultValue=""
+          autoComplete="off"
+        />
       </div>
     );
   }

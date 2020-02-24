@@ -32,7 +32,7 @@ class Setting extends React.Component<{}, SettingState> {
             <Select
               value={currentOption}
               options={keyBindOptions}
-              onChange={e => Action.update({ keyBind: (e as OptionTypeBase).value })} // TODO: typing
+              onChange={(e): void => Action.update({ keyBind: (e as OptionTypeBase).value })}
               isClearable={false}
               isSearchable={false}
               styles={selectStyles}
@@ -46,7 +46,7 @@ class Setting extends React.Component<{}, SettingState> {
             <h2>Access Token (Required scope is only gist)</h2>
             <input
               type="text"
-              onChange={e => Action.update({ github: { token: e.target.value } })}
+              onChange={(e): void => Action.update({ github: { token: e.target.value } })}
               value={github.token || ""}
             />
           </div>
@@ -54,13 +54,19 @@ class Setting extends React.Component<{}, SettingState> {
             <h2>GitHub Enterprise URL (optional)</h2>
             <input
               type="text"
-              onChange={e => Action.update({ github: { url: e.target.value } })}
+              onChange={(e): void => Action.update({ github: { url: e.target.value } })}
               value={github.url || ""}
               placeholder="https://yourdomain/api/v3"
             />
           </div>
           <div className="page-Setting-validateToken">
-            <Button onClick={() => Action.validateGithubToken(github)}>Validate Token</Button>
+            <Button
+              onClick={(): void => {
+                Action.validateGithubToken(github);
+              }}
+            >
+              Validate Token
+            </Button>
             {this.renderGithubValidateTokenResult()}
           </div>
         </div>
@@ -69,4 +75,4 @@ class Setting extends React.Component<{}, SettingState> {
   }
 }
 
-export default Container.create(Setting, store);
+export default Container.create<SettingState>(Setting, store);

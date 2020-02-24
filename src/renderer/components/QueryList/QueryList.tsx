@@ -58,8 +58,8 @@ export default class QueryList extends React.Component<Props> {
         <li
           key={query.id}
           className={className}
-          onClick={() => this.handleClickItem(query)}
-          onContextMenu={() => this.handleContextMenu(query)}
+          onClick={(): void => this.handleClickItem(query)}
+          onContextMenu={(): void => this.handleContextMenu(query)}
         >
           {query.title}
         </li>

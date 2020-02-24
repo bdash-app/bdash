@@ -77,8 +77,12 @@ class Query extends React.Component<{}, QueryState> {
         <QueryHeader
           query={query}
           {...this.state}
-          onChangeTitle={title => Action.updateQuery(query.id, { title })}
-          onChangeDataSource={dataSourceId => Action.updateQuery(query.id, { dataSourceId })}
+          onChangeTitle={(title): void => {
+            Action.updateQuery(query.id, { title });
+          }}
+          onChangeDataSource={(dataSourceId): void => {
+            Action.updateQuery(query.id, { dataSourceId });
+          }}
         />
         <SplitterLayout
           vertical={true}
@@ -90,20 +94,34 @@ class Query extends React.Component<{}, QueryState> {
           <QueryEditor
             query={query}
             {...this.state}
-            onChangeQueryBody={body => Action.updateQuery(query.id, { body })}
-            onChangeCursorPosition={line => Action.updateEditor({ line })}
-            onChangeEditorHeight={height => Action.updateEditor({ height })}
-            onExecute={() => this.handleExecute(query)}
-            onCancel={() => this.handleCancel(query)}
+            onChangeQueryBody={(body): void => {
+              Action.updateQuery(query.id, { body });
+            }}
+            onChangeCursorPosition={(line): void => Action.updateEditor({ line })}
+            onChangeEditorHeight={(height): void => Action.updateEditor({ height })}
+            onExecute={(): void => {
+              this.handleExecute(query);
+            }}
+            onCancel={(): void => {
+              this.handleCancel(query);
+            }}
           />
           <QueryResult
             query={query}
             {...this.state}
-            onClickCopyAsTsv={() => QuerySharing.copyAsTsv(query)}
-            onClickCopyAsCsv={() => QuerySharing.copyAsCsv(query)}
-            onClickCopyAsMarkdown={() => QuerySharing.copyAsMarkdown(query)}
-            onClickShareOnGist={() => this.handleShareOnGist(query)}
-            onSelectTab={name => Action.selectResultTab(query, name)}
+            onClickCopyAsTsv={(): void => {
+              QuerySharing.copyAsTsv(query);
+            }}
+            onClickCopyAsCsv={(): void => {
+              QuerySharing.copyAsCsv(query);
+            }}
+            onClickCopyAsMarkdown={(): void => QuerySharing.copyAsMarkdown(query)}
+            onClickShareOnGist={(): void => {
+              this.handleShareOnGist(query);
+            }}
+            onSelectTab={(name): void => {
+              Action.selectResultTab(query, name);
+            }}
             onUpdateChart={Action.updateChart}
           />
         </SplitterLayout>
@@ -117,7 +135,9 @@ class Query extends React.Component<{}, QueryState> {
         <div className="page-Query-list">
           <QueryList
             {...this.state}
-            onAddQuery={() => this.handleAddQuery()}
+            onAddQuery={(): void => {
+              this.handleAddQuery();
+            }}
             onSelectQuery={Action.selectQuery}
             onDuplicateQuery={Action.duplicateQuery}
             onDeleteQuery={Action.deleteQuery}
@@ -129,4 +149,4 @@ class Query extends React.Component<{}, QueryState> {
   }
 }
 
-export default Container.create(Query, store);
+export default Container.create<QueryState>(Query, store);

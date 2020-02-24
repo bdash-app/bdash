@@ -174,7 +174,7 @@ export default class Postgres extends Base {
     });
   }
 
-  _errorWithLine(err, query, startLine) {
+  _errorWithLine(err, query, startLine): Error {
     if (!err.position) return err;
 
     let message = err.message;

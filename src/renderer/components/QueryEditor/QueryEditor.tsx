@@ -100,7 +100,7 @@ export default class QueryEditor extends React.Component<Props> {
       <div className="QueryEditor">
         <Editor
           value={query.body || ""}
-          rootRef={node => (this.editorElement = node)}
+          rootRef={(node): void => (this.editorElement = node)}
           onChange={this.props.onChangeQueryBody}
           onChangeCursor={this.props.onChangeCursorPosition}
           onSubmit={this.props.onExecute}

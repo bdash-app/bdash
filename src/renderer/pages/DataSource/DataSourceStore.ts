@@ -46,7 +46,7 @@ export default class DataSourceStore extends Store<DataSourceState> {
     };
   }
 
-  reduce(type: string, payload: any) {
+  reduce(type: string, payload: any): DataSourceState {
     switch (type) {
       case "initialize": {
         return this.merge("setting", payload.setting).mergeList("dataSources", payload.dataSources);
@@ -113,6 +113,9 @@ export default class DataSourceStore extends Store<DataSourceState> {
       case "updateDefaultDataSourceId": {
         return this.set("setting.defaultDataSourceId", payload.defaultDataSourceId);
       }
+      default: {
+        throw new Error("Invalid type");
+      }
     }
   }
 
@@ -127,5 +130,5 @@ export default class DataSourceStore extends Store<DataSourceState> {
   }
 }
 
-const { store, dispatch } = Store.create(DataSourceStore);
+const { store, dispatch } = Store.create<DataSourceState>(DataSourceStore);
 export { store, dispatch };

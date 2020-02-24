@@ -108,7 +108,7 @@ export default class QueryResultChart extends React.Component<Props> {
     const chart = this.props.chart;
     if (!chart) return null;
 
-    const chartOptionValue = (props: OptionProps<OptionType>) => {
+    const chartOptionValue = (props: OptionProps<OptionType>): React.ReactElement => {
       return (
         <components.Option {...props}>
           {this.renderChartImage(props.data.value)}
@@ -117,7 +117,7 @@ export default class QueryResultChart extends React.Component<Props> {
       );
     };
 
-    const chartSingleValue = (props: SingleValueProps<OptionType>) => {
+    const chartSingleValue = (props: SingleValueProps<OptionType>): React.ReactElement => {
       return (
         <components.SingleValue {...props}>
           {this.renderChartImage(props.data.value)}
@@ -155,7 +155,7 @@ export default class QueryResultChart extends React.Component<Props> {
               components={{ Option: chartOptionValue, SingleValue: chartSingleValue }}
               optionRenderer={this.renderLabel}
               valueRenderer={this.renderLabel}
-              onChange={o => this.handleSelectType(o as OptionType)}
+              onChange={(o): void => this.handleSelectType(o as OptionType)}
               isClearable={false}
               isSearchable={false}
               styles={selectStyles}
@@ -166,7 +166,7 @@ export default class QueryResultChart extends React.Component<Props> {
             <Select
               options={fieldOptions}
               value={currentXColumnFieldOption}
-              onChange={o => this.handleChangeX(o)}
+              onChange={(o): void => this.handleChangeX(o)}
               isClearable={true}
               styles={selectStyles}
             />
@@ -177,7 +177,7 @@ export default class QueryResultChart extends React.Component<Props> {
               isMulti={true}
               options={fieldOptions}
               value={currentYColumnFieldOptions}
-              onChange={o => this.handleChangeY(o)}
+              onChange={(o): void => this.handleChangeY(o)}
               styles={selectStyles}
             />
           </div>
@@ -185,7 +185,7 @@ export default class QueryResultChart extends React.Component<Props> {
             <div className="QueryResultChart-label">Stacking</div>
             <Select
               value={currentStackingOption}
-              onChange={o => this.handleSelectStacking(o as OptionType)}
+              onChange={(o): void => this.handleSelectStacking(o as OptionType)}
               options={stackingOptions}
               isClearable={false}
               styles={selectStyles}
@@ -196,14 +196,14 @@ export default class QueryResultChart extends React.Component<Props> {
             <Select
               options={fieldOptions}
               value={currentGroupOption}
-              onChange={o => this.handleChangeGroup(o)}
+              onChange={(o): void => this.handleChangeGroup(o)}
               isClearable={true}
               styles={selectStyles}
             />
           </div>
         </div>
         <div className="QueryResultChart-chart">
-          <div ref={node => (this.chartElement = node)} />
+          <div ref={(node): HTMLElement | null => (this.chartElement = node)} />
         </div>
       </div>
     );

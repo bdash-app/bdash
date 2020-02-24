@@ -3,7 +3,7 @@ import DataSourceConfig from "../../helpers/DataSourceConfig";
 
 const config = DataSourceConfig.postgres;
 
-export default function initialize() {
+export default function initialize(): any {
   return shell(`
 dropdb -U ${config.user} -h ${config.host} ${config.database};
 createdb -U ${config.user} -h ${config.host} ${config.database};

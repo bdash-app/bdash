@@ -12,10 +12,13 @@ export default class AppStore extends Store<AppState> {
     };
   }
 
-  reduce(type: string, payload) {
+  reduce(type: string, payload: any): AppState {
     switch (type) {
       case "selectPage": {
         return this.set("selectedPage", payload.page);
+      }
+      default: {
+        throw new Error("Invalid type");
       }
     }
   }

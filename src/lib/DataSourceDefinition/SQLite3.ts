@@ -15,7 +15,7 @@ export default class SQLite3 extends Base {
     return [{ name: "path", label: "Path", type: "string", placeholder: "/path/to/db.sqlite3" }];
   }
 
-  execute(query: string) {
+  execute(query: string): Promise<any> {
     return this._execute(query);
   }
 

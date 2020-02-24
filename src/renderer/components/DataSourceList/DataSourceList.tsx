@@ -80,8 +80,8 @@ export default class DataSourceList extends React.Component<Props> {
         <li
           key={dataSource.id}
           className={className}
-          onContextMenu={() => this.handleContextMenu(dataSource.id)}
-          onClick={() => this.props.onSelect(dataSource)}
+          onContextMenu={(): void => this.handleContextMenu(dataSource.id)}
+          onClick={(): void => this.props.onSelect(dataSource)}
         >
           {label}
         </li>

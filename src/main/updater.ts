@@ -47,7 +47,7 @@ export class Updater {
     setInterval(async () => await this.check(), WATCH_INTERVAL);
   }
 
-  quit() {
+  quit(): void {
     this.autoUpdater.quitAndInstall();
   }
 }
