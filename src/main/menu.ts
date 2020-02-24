@@ -1,6 +1,7 @@
 import { app, Menu, dialog } from "electron";
 import { updater, UpdateState } from "./updater";
 import isDev from "electron-is-dev";
+import { createWindow } from "./window";
 
 const editMenu: Electron.MenuItemConstructorOptions = {
   label: "Edit",
@@ -24,7 +25,17 @@ if (isDev && Array.isArray(viewMenu.submenu)) {
 
 const windowMenu: Electron.MenuItemConstructorOptions = {
   role: "window",
-  submenu: [{ role: "minimize" }, { role: "close" }]
+  submenu: [
+    {
+      label: "New Window",
+      accelerator: "CmdOrCtrl+Shift+N",
+      click(): void {
+        createWindow();
+      }
+    },
+    { role: "minimize" },
+    { role: "close" }
+  ]
 };
 
 const helpMenu: Electron.MenuItemConstructorOptions = {
