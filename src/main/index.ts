@@ -1,8 +1,8 @@
 import electron from "electron";
-import path from "path";
 import { updater } from "./updater";
 import { initMenu } from "./menu";
 import logger from "./logger";
+import { windows, createWindow } from "./window";
 
 const app = electron.app;
 export let mainWindow: electron.BrowserWindow | null;
@@ -15,23 +15,6 @@ process.on("uncaughtException", err => {
 process.once("loaded", () => {
   global.setImmediate = setImmediate;
 });
-
-async function createWindow(): Promise<void> {
-  mainWindow = new electron.BrowserWindow({
-    width: 1280,
-    height: 780,
-    title: "Bdash",
-    icon: path.join(__dirname, "..", "icon.png"),
-    webPreferences: {
-      nodeIntegration: true
-    }
-  });
-
-  mainWindow.loadURL(`file://${__dirname}/../index.html`);
-  mainWindow.once("closed", () => {
-    mainWindow = null;
-  });
-}
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
@@ -58,7 +41,7 @@ app.on("ready", async () => {
 });
 
 app.on("activate", () => {
-  if (mainWindow === null) {
+  if (windows.length === 0) {
     createWindow();
   }
 });
