@@ -44,5 +44,18 @@ export const migrations: Migration[] = [
     );
     create index if not exists idx_query_id_on_charts on charts(queryId);
     `
+  },
+  {
+    version: 2,
+    query: `
+    create table if not exists query_executions (
+      id integer primary key autoincrement,
+      queryId integer not null references queries(id),
+      body text not null,
+      fields json not null,
+      rows json not null,
+      runAt datetime not null
+    );
+    `
   }
 ];

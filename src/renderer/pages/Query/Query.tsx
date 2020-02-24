@@ -105,6 +105,12 @@ class Query extends React.Component<{}, QueryState> {
             onCancel={(): void => {
               this.handleCancel(query);
             }}
+            onChangeQueryHistoryToLatest={(): void => {
+              Action.setHistoryToLatest(query.id);
+            }}
+            onChangeQueryHistory={(queryExecutionId: number): void => {
+              Action.setQueryExecution(query.id, queryExecutionId);
+            }}
           />
           <QueryResult
             query={query}

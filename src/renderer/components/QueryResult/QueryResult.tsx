@@ -3,7 +3,7 @@ import QueryResultNav from "../QueryResultNav";
 import QueryResultTable from "../QueryResultTable";
 import QueryResultChart from "../QueryResultChart";
 import { ChartType } from "../../../lib/Database/Chart";
-import { QueryType } from "../../../lib/Database/Query";
+import { QueryType, QueryResultType } from "../../../lib/Database/Query";
 
 type Props = {
   readonly query: QueryType;
@@ -28,9 +28,37 @@ export default class QueryResult extends React.Component<Props> {
   renderMain(): React.ReactNode {
     if (this.props.query.selectedTab === "chart") {
       const chart = this.props.charts.find(chart => chart.queryId === this.props.query.id);
-      return <QueryResultChart chart={chart} {...this.props} />;
+      if (this.props.query.execution) {
+        return (
+          <QueryResultChart
+            chart={chart}
+            queryResult={this.props.query.execution}
+            onUpdateChart={this.props.onUpdateChart}
+          />
+        );
+      } else if (this.props.query.fields && this.props.query.rows && this.props.query.runAt) {
+        const queryResult: QueryResultType = {
+          queryId: this.props.query.id,
+          fields: this.props.query.fields,
+          rows: this.props.query.rows,
+          runAt: this.props.query.runAt
+        };
+        return <QueryResultChart chart={chart} queryResult={queryResult} onUpdateChart={this.props.onUpdateChart} />;
+      } else {
+        return null;
+      }
+    } else if (this.props.query.execution) {
+      return <QueryResultTable queryResult={this.props.query.execution} />;
+    } else if (this.props.query.fields && this.props.query.rows && this.props.query.runAt) {
+      const queryResult: QueryResultType = {
+        queryId: this.props.query.id,
+        fields: this.props.query.fields,
+        rows: this.props.query.rows,
+        runAt: this.props.query.runAt
+      };
+      return <QueryResultTable queryResult={queryResult} />;
     } else {
-      return <QueryResultTable {...this.props} />;
+      return null;
     }
   }
 

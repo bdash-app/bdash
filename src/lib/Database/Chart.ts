@@ -30,14 +30,14 @@ export default class Chart {
     type = "line"
   }: {
     queryId: number;
-    type?: string;
+    type?: ChartType["type"];
   }): Promise<ChartType> {
     const chart = await connection.get("select * from charts where queryId = ?", queryId);
 
     return chart ? convert(chart) : Chart.create({ queryId, type });
   }
 
-  static async create({ queryId, type = "line" }: { queryId: number; type: string }): Promise<ChartType> {
+  static async create({ queryId, type = "line" }: Pick<ChartType, "queryId" | "type">): Promise<ChartType> {
     const sql = `
       insert into charts
       (queryId, type, updatedAt, createdAt)
@@ -48,7 +48,7 @@ export default class Chart {
     return this.get(id);
   }
 
-  static async update(id: number, params: { [key: string]: any }): Promise<ChartType> {
+  static async update(id: number, params: Partial<ChartType>): Promise<ChartType> {
     const fields: string[] = [];
     const values: (string | number)[] = [];
 

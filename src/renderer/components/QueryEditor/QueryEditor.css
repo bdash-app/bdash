@@ -69,3 +69,7 @@
   cursor: row-resize;
   padding: 10px 20px;
 }
+
+.QueryEditor-historySelect {
+  margin: 5px;
+}

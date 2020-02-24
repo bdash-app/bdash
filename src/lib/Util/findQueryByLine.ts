@@ -9,16 +9,21 @@ interface QueryChunk {
   endLine: number;
 }
 
-export default async function findQueryByLine(sql: string, line: number): Promise<QueryChunk> {
+const defaultChunk: QueryChunk = {
+  query: "",
+  startLine: 2,
+  endLine: 1
+};
+
+export default async function findQueryByLine(sql: string | undefined, line: number): Promise<QueryChunk> {
+  if (!sql) {
+    return defaultChunk;
+  }
   const chunks = await splitQuery(sql);
   const chunk = chunks.find(chunk => chunk.endLine >= line) ?? last(chunks);
 
   if (!chunk) {
-    return {
-      query: "",
-      startLine: 2,
-      endLine: 1
-    };
+    return defaultChunk;
   }
   return {
     query: chunk.query,
