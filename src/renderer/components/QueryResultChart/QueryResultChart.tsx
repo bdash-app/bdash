@@ -108,7 +108,7 @@ export default class QueryResultChart extends React.Component<Props> {
     const chart = this.props.chart;
     if (!chart) return null;
 
-    const chartOptionValue = (props: OptionProps<OptionType>): React.ReactNode => {
+    const chartOptionValue = (props: OptionProps<OptionType>): React.ReactElement => {
       return (
         <components.Option {...props}>
           {this.renderChartImage(props.data.value)}
@@ -117,7 +117,7 @@ export default class QueryResultChart extends React.Component<Props> {
       );
     };
 
-    const chartSingleValue = (props: SingleValueProps<OptionType>): React.ReactNode => {
+    const chartSingleValue = (props: SingleValueProps<OptionType>): React.ReactElement => {
       return (
         <components.SingleValue {...props}>
           {this.renderChartImage(props.data.value)}
