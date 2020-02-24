@@ -22,7 +22,7 @@ export default class Store<T> {
 
   /* eslint-disable @typescript-eslint/no-unused-vars */
   // @ts-ignore
-  reduce(type, payload): T {
+  reduce(type: string, payload: any): StateBuilder<T> {
     throw new Error("Not Implemented");
   }
   /* eslint-enable @typescript-eslint/no-unused-vars */
@@ -45,32 +45,22 @@ export default class Store<T> {
   }
 
   getNextState(type: string, payload: any): T {
-    let nextState: T = this.reduce(type, payload);
-
-    if (nextState === undefined) {
-      throw new Error(`${this.constructor.name}.reduce returns undefined, action type: ${type}`);
-    }
-
-    if (nextState instanceof StateBuilder) {
-      nextState = nextState.end();
-    }
-
-    return nextState;
+    return this.reduce(type, payload).end();
   }
 
-  set(path, value): any {
+  set(path: string, value: any): StateBuilder<T> {
     return new StateBuilder(this.state).set(path, value);
   }
 
-  merge(path, value): any {
+  merge(path: string, value: any): StateBuilder<T> {
     return new StateBuilder(this.state).merge(path, value);
   }
 
-  append(path, value): any {
+  append(path: string, value: any): StateBuilder<T> {
     return new StateBuilder(this.state).append(path, value);
   }
 
-  mergeList(path, value, comparator: Comparator = null): any {
+  mergeList(path: string, value: any, comparator: Comparator = null): StateBuilder<T> {
     if (comparator === null) {
       return new StateBuilder(this.state).mergeList(path, value);
     } else {
@@ -78,15 +68,15 @@ export default class Store<T> {
     }
   }
 
-  del(path): any {
+  del(path: string): StateBuilder<T> {
     return new StateBuilder(this.state).del(path);
   }
 }
 
 type Comparator = ((a: any, b: any) => boolean) | null;
 
-class StateBuilder extends immup.Immup {
-  mergeList(path, value, comparator = (a, b): boolean => a.id === b.id): any {
+export class StateBuilder<State> extends immup.Immup<State> {
+  mergeList(path: string, value: any, comparator = (a, b): boolean => a.id === b.id): any {
     return this.set(path, arr => {
       if (!Array.isArray(arr)) {
         throw new Error("target is not an array");
