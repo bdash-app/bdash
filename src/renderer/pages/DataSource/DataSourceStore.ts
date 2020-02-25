@@ -1,4 +1,4 @@
-import Store from "../../flux/Store";
+import Store, { StateBuilder } from "../../flux/Store";
 import Setting, { SettingType } from "../../../lib/Setting";
 
 export type DataSourceType = {
@@ -46,7 +46,7 @@ export default class DataSourceStore extends Store<DataSourceState> {
     };
   }
 
-  reduce(type: string, payload: any): DataSourceState {
+  reduce(type: string, payload: any): StateBuilder<DataSourceState> {
     switch (type) {
       case "initialize": {
         return this.merge("setting", payload.setting).mergeList("dataSources", payload.dataSources);

@@ -1,5 +1,5 @@
 import Setting, { SettingType } from "../../../lib/Setting";
-import Store from "../../flux/Store";
+import Store, { StateBuilder } from "../../flux/Store";
 import { ChartType } from "../../../lib/Database/Chart";
 import { QueryType } from "../../../lib/Database/Query";
 import { DataSourceType } from "../DataSource/DataSourceStore";
@@ -32,7 +32,7 @@ export default class QueryStore extends Store<QueryState> {
     };
   }
 
-  reduce(type: string, payload: any): QueryState {
+  reduce(type: string, payload: any): StateBuilder<QueryState> {
     switch (type) {
       case "initialize": {
         return this.merge("setting", payload.setting)
@@ -59,7 +59,7 @@ export default class QueryStore extends Store<QueryState> {
         const idx = this.findQueryIndex(payload.id);
         return this.set("selectedQueryId", null)
           .set("editor.line", null)
-          .del(`queries.${idx}`, payload.id);
+          .del(`queries.${idx}`);
       }
       case "updateEditor": {
         return this.merge("editor", payload);

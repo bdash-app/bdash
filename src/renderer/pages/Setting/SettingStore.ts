@@ -1,5 +1,5 @@
 import Setting, { SettingType } from "../../../lib/Setting";
-import Store from "../../flux/Store";
+import Store, { StateBuilder } from "../../flux/Store";
 
 export interface SettingState {
   githubValidateToken: {
@@ -21,7 +21,7 @@ export default class SettingStore extends Store<SettingState> {
     };
   }
 
-  reduce(type: string, payload: any): SettingState {
+  reduce(type: string, payload: any): StateBuilder<SettingState> {
     switch (type) {
       case "initialize":
       case "update": {

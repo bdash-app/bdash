@@ -1,4 +1,4 @@
-import Store from "../../flux/Store";
+import Store, { StateBuilder } from "../../flux/Store";
 
 export interface AppState {
   selectedPage: string;
@@ -12,7 +12,7 @@ export default class AppStore extends Store<AppState> {
     };
   }
 
-  reduce(type: string, payload: any): AppState {
+  reduce(type: string, payload: any): StateBuilder<AppState> {
     switch (type) {
       case "selectPage": {
         return this.set("selectedPage", payload.page);
