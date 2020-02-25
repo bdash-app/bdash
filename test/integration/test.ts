@@ -28,6 +28,14 @@ function setValueToEditor(text: string): void {
   }, text);
 }
 
+const getValueFromEditor = async (): Promise<string> =>
+  (
+    await app.client.execute(() =>
+      // @ts-ignore
+      document.querySelector(".QueryEditor .CodeMirror").CodeMirror.getValue()
+    )
+  ).value;
+
 suite("Launch and onboarding", function() {
   this.timeout(10000);
 
@@ -77,21 +85,13 @@ suite("Launch and onboarding", function() {
     await app.client.click(".QueryList-new i");
     setValueToEditor("select 1;");
     await app.client.click("ul.QueryList-list li:last-child");
-    const firstQuery = (
-      await app.client.execute(() =>
-        // @ts-ignore
-        document.querySelector(".QueryEditor .CodeMirror").CodeMirror.getValue()
-      )
-    ).value;
+    const firstQuery = await getValueFromEditor();
+    await app.client.waitUntil(async () => (await getValueFromEditor()) === "select * from data_sources");
     assert.strictEqual(firstQuery, "select * from data_sources");
 
     await app.client.click("ul.QueryList-list li:first-child");
-    const secondQuery = (
-      await app.client.execute(() =>
-        // @ts-ignore
-        document.querySelector(".QueryEditor .CodeMirror").CodeMirror.doc.getValue()
-      )
-    ).value;
+    await app.client.waitUntil(async () => (await getValueFromEditor()) !== "select * from data_sources");
+    const secondQuery = await getValueFromEditor();
     assert.strictEqual(secondQuery, "select 1;");
   });
 });
