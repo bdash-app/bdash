@@ -86,11 +86,11 @@ suite("Launch and onboarding", function() {
     setValueToEditor("select 1;");
     await app.client.click("ul.QueryList-list li:last-child");
     const firstQuery = await getValueFromEditor();
-    await app.client.waitUntil(async () => (await getValueFromEditor()) === "select * from data_sources");
+    await app.client.waitUntil(async () => (await getValueFromEditor()) === "select * from data_sources", 2000);
     assert.strictEqual(firstQuery, "select * from data_sources");
 
     await app.client.click("ul.QueryList-list li:first-child");
-    await app.client.waitUntil(async () => (await getValueFromEditor()) !== "select * from data_sources");
+    await app.client.waitUntil(async () => (await getValueFromEditor()) !== "select * from data_sources", 2000);
     const secondQuery = await getValueFromEditor();
     assert.strictEqual(secondQuery, "select 1;");
   });
