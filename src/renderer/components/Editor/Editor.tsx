@@ -25,6 +25,7 @@ export default class Editor extends React.Component<Props> {
   currentValue: string;
   currentOptions: CodeMirror.EditorConfiguration;
   textareaElement: HTMLTextAreaElement | null;
+  ignoreTriggerChangeEvent = false;
 
   componentDidMount(): void {
     if (this.textareaElement === null) {
@@ -83,7 +84,9 @@ export default class Editor extends React.Component<Props> {
 
   componentWillReceiveProps(nextProps: Props): void {
     if (this.currentValue !== nextProps.value) {
+      this.ignoreTriggerChangeEvent = true;
       this.codeMirror.setValue(nextProps.value);
+      this.ignoreTriggerChangeEvent = false;
     }
 
     if (typeof nextProps.options === "object" && !isEqual(nextProps.options, this.currentOptions)) {
@@ -97,7 +100,10 @@ export default class Editor extends React.Component<Props> {
   handleValueChange(doc: CodeMirror.Doc): void {
     const newValue = doc.getValue();
     this.currentValue = newValue;
-    this.props.onChange && this.props.onChange(newValue);
+
+    if (this.ignoreTriggerChangeEvent === false) {
+      this.props.onChange && this.props.onChange(newValue);
+    }
   }
 
   handleCursorChange(doc: CodeMirror.Doc): void {
