@@ -55,7 +55,7 @@
   },
   "devDependencies": {
     "@types/classnames": "2.2.3",
-    "@types/codemirror": "0.0.85",
+    "@types/codemirror": "0.0.87",
     "@types/csv-stringify": "1.4.1",
     "@types/lodash": "4.14.149",
     "@types/mocha": "2.2.46",
