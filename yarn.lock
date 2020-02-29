@@ -365,10 +365,10 @@
   dependencies:
     "@types/estree" "*"
 
-"@types/webdriverio@4.10.3":
-  version "4.10.3"
-  resolved "https://registry.yarnpkg.com/@types/webdriverio/-/webdriverio-4.10.3.tgz#05861e9134ab41a693a42cd9bf4186593096f004"
-  integrity sha512-YjPQfSodE6iY/ACU0/kUk6Ca2tqK7zBF/h8rypqA9+gz3a2gmSL7zyntOkum0HhdYwCmlppUGgsXK+roYa9MoA==
+"@types/webdriverio@4.13.3":
+  version "4.13.3"
+  resolved "https://registry.yarnpkg.com/@types/webdriverio/-/webdriverio-4.13.3.tgz#c1571c4e62724135c0b11e7d7e36b07af5168856"
+  integrity sha512-AfSQM1xTO9Ax+u9uSQPDuw69DQ0qA2RMoKHn86jCgWNcwKVUjGMSP4sfSl3JOfcZN8X/gWvn7znVPp2/g9zcJA==
   dependencies:
     "@types/node" "*"
 
