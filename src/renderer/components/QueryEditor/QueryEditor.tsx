@@ -26,7 +26,8 @@ export default class QueryEditor extends React.Component<Props> {
       lineNumbers: true,
       matchBrackets: true,
       indentUnit: 4,
-      smartIndent: false
+      smartIndent: false,
+      autoRefresh: { delay: 50 }
     };
   }
 

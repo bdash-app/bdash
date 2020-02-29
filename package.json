@@ -55,7 +55,7 @@
   },
   "devDependencies": {
     "@types/classnames": "2.2.3",
-    "@types/codemirror": "0.0.85",
+    "@types/codemirror": "0.0.87",
     "@types/csv-stringify": "1.4.1",
     "@types/lodash": "4.14.149",
     "@types/mocha": "2.2.46",
@@ -67,7 +67,7 @@
     "@types/react-select": "~3.0.8",
     "@types/react-splitter-layout": "3.0.0",
     "@types/sqlite3": "3.1.6",
-    "@types/webdriverio": "4.10.3",
+    "@types/webdriverio": "4.13.3",
     "@typescript-eslint/eslint-plugin": "2.19.0",
     "@typescript-eslint/parser": "2.19.0",
     "clean-webpack-plugin": "0.1.19",
