@@ -88,7 +88,8 @@ suite("Launch and onboarding", function() {
     await app.client.waitUntil(
       async () => (await getValueFromEditor()) === "select * from data_sources",
       5000,
-      "Timeout 1"
+      "Timeout 1",
+      1000
     );
     const firstQuery = await getValueFromEditor();
     assert.strictEqual(firstQuery, "select * from data_sources");
@@ -97,7 +98,8 @@ suite("Launch and onboarding", function() {
     await app.client.waitUntil(
       async () => (await getValueFromEditor()) !== "select * from data_sources",
       5000,
-      "Timeout 2"
+      "Timeout 2",
+      1000
     );
     const secondQuery = await getValueFromEditor();
     assert.strictEqual(secondQuery, "select 1;");
