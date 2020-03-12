@@ -20,3 +20,7 @@
 .GlobalMenu-item.is-selected {
   background-color: #4d4d4d;
 }
+
+.GlobalMenu-darwin {
+  padding-top: 32px;
+}

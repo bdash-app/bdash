@@ -30,13 +30,13 @@ class App extends React.Component<{}, AppState> {
 
     return (
       <div className="page-app">
-        <div className="page-app-menu">
+        <div className={process.platform === "darwin" ? "page-app-darwin-menu" : "page-app-menu"}>
           <GlobalMenu selectedPage={this.state.selectedPage} onSelect={Action.selectPage} />
         </div>
         <div className="page-app-main">
           <Page />
         </div>
-      </div>
+      </div >
     );
   }
 }
