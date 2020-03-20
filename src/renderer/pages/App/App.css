@@ -6,11 +6,10 @@
 }
 
 .page-app-menu {
-  width: 48px;
+  width: 68px;
 }
 
-.page-app-darwin-menu {
-  width: 70px;
+.page-app-menu.darwin {
   -webkit-app-region: drag;
 }
 

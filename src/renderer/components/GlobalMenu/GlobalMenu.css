@@ -7,10 +7,10 @@
   display: block;
   color: #fff;
   text-align: center;
-  padding: 12px 0;
-  font-size: 22px;
+  padding: 10px 0;
+  font-size: 28px;
   cursor: pointer;
-  height: 26px;
+  height: 42px;
 }
 
 .GlobalMenu-item:hover {
@@ -21,6 +21,6 @@
   background-color: #4d4d4d;
 }
 
-.GlobalMenu-darwin {
+.GlobalMenu.darwin {
   padding-top: 32px;
 }
