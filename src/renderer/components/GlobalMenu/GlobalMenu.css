@@ -1,4 +1,5 @@
 .GlobalMenu {
+  padding-top: 32px;
   height: 100vh;
   background-color: #333;
 }
@@ -19,8 +20,4 @@
 
 .GlobalMenu-item.is-selected {
   background-color: #4d4d4d;
-}
-
-.GlobalMenu.darwin {
-  padding-top: 32px;
 }

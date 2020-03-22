@@ -31,6 +31,6 @@ export default class GlobalMenu extends React.Component<Props> {
   }
 
   render(): React.ReactNode {
-    return <div className={classNames("GlobalMenu", { darwin: process.platform === "darwin" })}>{this.menuList}</div>;
+    return <div className="GlobalMenu">{this.menuList}</div>;
   }
 }
