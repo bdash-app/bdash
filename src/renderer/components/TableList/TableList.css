@@ -83,3 +83,7 @@
   vertical-align: middle;
   margin-right: 5px;
 }
+
+.TableList-list {
+  user-select: none;
+}

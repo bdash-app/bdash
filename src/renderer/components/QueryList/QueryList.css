@@ -39,3 +39,7 @@
   background-color: #2673e8;
   color: #fff;
 }
+
+.QueryList-list {
+  user-select: none;
+}
