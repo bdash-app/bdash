@@ -1,4 +1,5 @@
 .GlobalMenu {
+  padding-top: 32px;
   height: 100vh;
   background-color: #333;
 }
@@ -7,10 +8,10 @@
   display: block;
   color: #fff;
   text-align: center;
-  padding: 12px 0;
-  font-size: 22px;
+  padding: 10px 0;
+  font-size: 28px;
   cursor: pointer;
-  height: 26px;
+  height: 42px;
 }
 
 .GlobalMenu-item:hover {
