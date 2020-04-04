@@ -5,7 +5,7 @@ import findQueryByLine from "../../../../src/lib/Util/findQueryByLine";
 suite("Util/findQueryByLine", () => {
   test("valid behavior", async () => {
     const sql = stripHeredoc(`
-      select a
+      select a1, a2
       from b;
       -- comment
 
@@ -17,7 +17,7 @@ suite("Util/findQueryByLine", () => {
       from c
     `);
 
-    const sql1 = "select a\nfrom b;";
+    const sql1 = "select a1, a2\nfrom b;";
     const sql2 = "-- comment\n\nselect 1\n;";
     const sql3 = "select 2\nfrom c";
 

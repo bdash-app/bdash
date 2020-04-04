@@ -34,7 +34,7 @@ const splitQuery = (sql: string): Promise<QueryChunk[]> => {
     let query = "";
     const chunks: QueryChunk[] = [];
     runMode(sql, "text/x-sql", (token, style) => {
-      if (style === "punctuation") {
+      if (token === ";") {
         query += token;
         chunks.push({ query, startLine, endLine: line });
         query = "";
