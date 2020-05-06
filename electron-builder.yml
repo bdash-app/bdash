@@ -12,6 +12,8 @@ files:
   - "!node_modules/electron-log/"
   - "!node_modules/@fortawesome/"
 
+afterSign: ./scripts/notarize.js
+
 publish:
   - provider: github
     owner: bdash-app
@@ -31,6 +33,9 @@ mac:
     - zip
     - dmg
   category: public.app-category.developer-tools
+  hardenedRuntime: true
+  entitlements: ./build/entitlement.plist
+  entitlementsInherit: ./build/entitlement.plist
 
 linux:
   target:
