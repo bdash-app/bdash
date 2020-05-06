@@ -2524,6 +2524,14 @@ electron-mocha@~8.2.1:
     which "^2.0.2"
     yargs "^15.1.0"
 
+electron-notarize@0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/electron-notarize/-/electron-notarize-0.3.0.tgz#b93c606306eac558b250c78ff95273ddb9fedf0a"
+  integrity sha512-tuDw8H0gcDOalNLv6RM2CwGvUXU60MPGZRDEmd0ppX+yP5XqL8Ec2DuXyz9J7WQSA3aRCfzIgH8C5CAivDYWMw==
+  dependencies:
+    debug "^4.1.1"
+    fs-extra "^8.1.0"
+
 electron-publish@21.2.0:
   version "21.2.0"
   resolved "https://registry.yarnpkg.com/electron-publish/-/electron-publish-21.2.0.tgz#cc225cb46aa62e74b899f2f7299b396c9802387d"

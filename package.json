@@ -76,6 +76,7 @@
     "electron": "7.1.12",
     "electron-builder": "21.2.0",
     "electron-mocha": "~8.2.1",
+    "electron-notarize": "0.3.0",
     "electron-publisher-s3": "20.14.4",
     "eslint": "~6.8.0",
     "eslint-config-prettier": "~6.10.0",
