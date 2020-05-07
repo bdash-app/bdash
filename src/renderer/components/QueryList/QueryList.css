@@ -4,6 +4,10 @@
   height: 100vh;
 }
 
+.QueryList-new.darwin {
+  -webkit-app-region: drag;
+}
+
 .QueryList-new {
   padding: 10px;
   font-size: 20px;

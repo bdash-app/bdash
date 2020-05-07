@@ -68,7 +68,7 @@ export default class QueryList extends React.Component<Props> {
 
     return (
       <div className="QueryList">
-        <div className="QueryList-new">
+        <div className={classNames("QueryList-new", { darwin: process.platform === "darwin" })}>
           <i className="fas fa-plus" onClick={this.handleClickNew} />
         </div>
         <ul className="QueryList-list">{items}</ul>

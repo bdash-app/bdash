@@ -90,7 +90,7 @@ export default class DataSourceList extends React.Component<Props> {
 
     return (
       <div className="DataSourceList">
-        <div className="DataSourceList-new">
+        <div className={classNames("DataSourceList-new", { darwin: process.platform === "darwin" })}>
           <i className="fas fa-plus" onClick={this.props.onClickNew} />
         </div>
         <ul className="DataSourceList-list">{items}</ul>
