@@ -36,7 +36,7 @@ const splitQuery = (sql: string): Promise<QueryChunk[]> => {
     runMode(sql, "text/x-sql", (token, style) => {
       if (token === ";") {
         query += token;
-        chunks.push({ query, startLine, endLine: line });
+        chunks.push({ query: query.trim(), startLine, endLine: line });
         query = "";
         startLine = line;
       } else if (style === "comment") {
@@ -44,17 +44,15 @@ const splitQuery = (sql: string): Promise<QueryChunk[]> => {
       } else {
         if (token === "\n") {
           line++;
-          if (query.length === 0) {
+          if (query.trim().length === 0) {
             startLine++;
           }
         }
-        if (query !== "" || style === "keyword") {
-          query += token;
-        }
+        query += token;
       }
     });
-    if (query.length > 0) {
-      chunks.push({ query, startLine, endLine: line });
+    if (query.trim().length > 0) {
+      chunks.push({ query: query.trim(), startLine, endLine: line });
     }
     resolve(chunks);
   });
