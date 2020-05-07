@@ -17,8 +17,8 @@ suite("Database/Query", () => {
     `);
     const rows = await Query.getAll();
     assert.deepStrictEqual(rows, [
-      { id: 2, title: "title 2" },
-      { id: 1, title: "title 1" }
+      { id: 2, dataSourceId: 0, title: "title 2", histories: [], execution: null },
+      { id: 1, dataSourceId: 0, title: "title 1", histories: [], execution: null }
     ]);
   });
 
@@ -35,6 +35,7 @@ suite("Database/Query", () => {
       dataSourceId: 2,
       title: "title",
       body: "select 1;",
+      histories: [],
       runtime: 100,
       status: "success",
       fields: ["id", "name"],

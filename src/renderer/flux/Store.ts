@@ -60,6 +60,10 @@ export default class Store<T> {
     return new StateBuilder(this.state).append(path, value);
   }
 
+  prepend(path: string, value: any): StateBuilder<T> {
+    return new StateBuilder(this.state).prepend(path, value);
+  }
+
   mergeList(path: string, value: any, comparator: Comparator = null): StateBuilder<T> {
     if (comparator === null) {
       return new StateBuilder(this.state).mergeList(path, value);

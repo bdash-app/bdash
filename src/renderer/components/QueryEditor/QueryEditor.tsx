@@ -14,10 +14,18 @@ type Props = {
   readonly onChangeEditorHeight: (height: number) => void;
   readonly onChangeQueryBody: (body: string) => void;
   readonly onChangeCursorPosition: (lineNumber: number) => void;
+  readonly onChangeQueryHistoryToLatest: () => void;
+  readonly onChangeQueryHistory: (queryExecutionId: number) => void;
 };
 
-export default class QueryEditor extends React.Component<Props> {
+export default class QueryEditor extends React.Component<Props, { queryExecutionId?: number }> {
   editorElement: HTMLDivElement;
+
+  constructor(props: Props) {
+    super(props);
+    this.state = { queryExecutionId: undefined };
+    this.handleChangeHistory = this.handleChangeHistory.bind(this);
+  }
 
   get options(): EditorConfiguration {
     return {
@@ -29,6 +37,15 @@ export default class QueryEditor extends React.Component<Props> {
       smartIndent: false,
       autoRefresh: { delay: 50 }
     };
+  }
+
+  handleChangeHistory(e: React.ChangeEvent<HTMLSelectElement>): void {
+    const queryExecutionId = Number(e.target.value);
+    if (queryExecutionId < 0) {
+      this.props.onChangeQueryHistoryToLatest();
+    } else {
+      this.props.onChangeQueryHistory(queryExecutionId);
+    }
   }
 
   renderButton(): React.ReactNode {
@@ -45,6 +62,23 @@ export default class QueryEditor extends React.Component<Props> {
         </Button>
       );
     }
+  }
+
+  renderHistory(): React.ReactNode {
+    return (
+      <select
+        className="QueryEditor-historySelect"
+        value={this.props.query.execution ? this.props.query.execution.id : -1}
+        onChange={this.handleChangeHistory}
+      >
+        <option value={-1}>latest</option>
+        {this.props.query.histories.map((history, i) => (
+          <option key={i} value={history.id}>
+            {history.runAt.format("YYYY/MM/DD HH:mm:ss")}
+          </option>
+        ))}
+      </select>
+    );
   }
 
   renderStatus(): React.ReactNode {
@@ -67,9 +101,9 @@ export default class QueryEditor extends React.Component<Props> {
         <span>
           <i className="fas fa-check" />
         </span>
-        <span>execute: {query.runAt?.format("YYYY/MM/DD HH:mm:ss") ?? "-"}</span>
+        <span>execute: {(query.execution?.runAt ?? query.runAt)?.format("YYYY/MM/DD HH:mm:ss") ?? "-"}</span>
         <span>runtime: {query.runtime ? `${query.runtime}ms` : "-"}</span>
-        <span>rows: {query.rows ? query.rows.length : "-"}</span>
+        <span>rows: {(query.execution ?? query).rows?.length ?? "-"}</span>
       </div>
     );
   }
@@ -109,6 +143,7 @@ export default class QueryEditor extends React.Component<Props> {
         />
         <div className="QueryEditor-navbar">
           {this.renderButton()}
+          {this.renderHistory()}
           {this.renderStatus()}
         </div>
       </div>

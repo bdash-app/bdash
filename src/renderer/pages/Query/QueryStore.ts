@@ -3,6 +3,7 @@ import Store, { StateBuilder } from "../../flux/Store";
 import { ChartType } from "../../../lib/Database/Chart";
 import { QueryType } from "../../../lib/Database/Query";
 import { DataSourceType } from "../DataSource/DataSourceStore";
+import { QueryExecutionType } from "../../../lib/Database/QueryExecution";
 
 export interface QueryState {
   setting: SettingType;
@@ -74,6 +75,23 @@ export default class QueryStore extends Store<QueryState> {
       case "updateChart": {
         const idx = this.findChartIndex(payload.id);
         return this.merge(`charts.${idx}`, payload.params);
+      }
+      case "addExecution": {
+        const queryExecution: QueryExecutionType = payload.queryExecution;
+        const idx = this.findQueryIndex(queryExecution.queryId);
+        return this.prepend(`queries.${idx}.histories`, { id: queryExecution.id, runAt: queryExecution.runAt });
+      }
+      case "deleteExecution": {
+        const idx = this.findQueryIndex(payload.id);
+        return this.del(`queries.${idx}.histories.${payload.index}`);
+      }
+      case "setHistoryToLatest": {
+        const idx = this.findQueryIndex(payload.queryId);
+        return this.del(`queries.${idx}.execution`);
+      }
+      case "setQueryExecution": {
+        const idx = this.findQueryIndex(payload.queryId);
+        return this.set(`queries.${idx}.execution`, payload.queryExecution);
       }
       default: {
         throw new Error("Invalid type");

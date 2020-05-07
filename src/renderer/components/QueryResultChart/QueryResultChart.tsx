@@ -4,7 +4,7 @@ import { components } from "react-select";
 import Chart from "../../../lib/Chart";
 import { selectStyles } from "../Select";
 import { ChartType } from "../../../lib/Database/Chart";
-import { QueryType } from "../../../lib/Database/Query";
+import { QueryResultType } from "../../../lib/Database/Query";
 
 type OptionType = {
   readonly label: string;
@@ -12,7 +12,7 @@ type OptionType = {
 };
 
 type Props = {
-  readonly query: QueryType;
+  readonly queryResult: QueryResultType;
   readonly chart: ChartType | undefined;
   readonly onUpdateChart: (id: number, params: any) => void;
 };
@@ -21,23 +21,23 @@ export default class QueryResultChart extends React.Component<Props> {
   chartElement: HTMLDivElement | null;
 
   shouldComponentUpdate(nextProps: Props): boolean {
-    const query = nextProps.query;
+    const queryResult = nextProps.queryResult;
     const chart = nextProps.chart;
 
-    if (!query || !query.fields) return true;
+    if (!queryResult || !queryResult.fields) return true;
     if (!this.props.chart || !chart) return true;
 
-    if (this.props.query.id !== query.id) return true;
-    if (this.props.query.runAt !== query.runAt) return true;
+    if (this.props.queryResult.queryId !== queryResult.queryId) return true;
+    if (this.props.queryResult.runAt !== queryResult.runAt) return true;
     if (this.props.chart.updatedAt !== chart.updatedAt) return true;
 
     return false;
   }
 
   async drawChart(): Promise<void> {
-    const query = this.props.query;
+    const queryResult = this.props.queryResult;
     const chart = this.props.chart;
-    if (!query || !chart || !this.chartElement) return;
+    if (!queryResult || !chart || !this.chartElement) return;
 
     const params = {
       type: chart.type,
@@ -45,8 +45,8 @@ export default class QueryResultChart extends React.Component<Props> {
       y: chart.yColumns,
       stacking: chart.stacking,
       groupBy: chart.groupColumn,
-      rows: query.rows,
-      fields: query.fields
+      rows: queryResult.rows,
+      fields: queryResult.fields
     };
 
     await new Chart(params).drawTo(this.chartElement);
@@ -102,8 +102,8 @@ export default class QueryResultChart extends React.Component<Props> {
   }
 
   render(): React.ReactNode {
-    const query = this.props.query;
-    if (!query.fields) return null;
+    const queryResult = this.props.queryResult;
+    if (!queryResult.fields) return null;
 
     const chart = this.props.chart;
     if (!chart) return null;
@@ -130,7 +130,7 @@ export default class QueryResultChart extends React.Component<Props> {
       return { value, label: value[0].toUpperCase() + value.slice(1) };
     });
     const currentOption = options.find(option => option.value === chart.type);
-    const fieldOptions = query.fields.map(name => ({
+    const fieldOptions: { value: string; label: string }[] = queryResult.fields.map(name => ({
       value: name,
       label: name
     }));
@@ -166,7 +166,7 @@ export default class QueryResultChart extends React.Component<Props> {
             <Select
               options={fieldOptions}
               value={currentXColumnFieldOption}
-              onChange={(o): void => this.handleChangeX(o)}
+              onChange={(o): void => this.handleChangeX(o as OptionType)}
               isClearable={true}
               styles={selectStyles}
             />
@@ -196,7 +196,7 @@ export default class QueryResultChart extends React.Component<Props> {
             <Select
               options={fieldOptions}
               value={currentGroupOption}
-              onChange={(o): void => this.handleChangeGroup(o)}
+              onChange={(o): void => this.handleChangeGroup(o as OptionType)}
               isClearable={true}
               styles={selectStyles}
             />

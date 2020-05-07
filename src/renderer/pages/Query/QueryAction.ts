@@ -6,8 +6,10 @@ import Util from "../../../lib/Util";
 import DataSource from "../../../lib/DataSource";
 import { QueryType } from "../../../lib/Database/Query";
 import { DataSourceType } from "../DataSource/DataSourceStore";
+import { QueryExecutionType, QueryExecution } from "../../../lib/Database/QueryExecution";
 
 const DEFAULT_QUERY_TITLE = "New Query";
+const MAX_QUERY_HISTORIES = 10;
 
 const QueryAction = {
   async initialize(): Promise<void> {
@@ -74,12 +76,13 @@ const QueryAction = {
     try {
       result = await executor.execute(queryBody, { startLine });
     } catch (err) {
-      const params = {
+      const params: Partial<QueryType> = {
         status: "failure",
         fields: null,
         rows: null,
         runtime: null,
-        errorMessage: err.message
+        errorMessage: err.message,
+        execution: null
       };
       dispatch("updateQuery", {
         id,
@@ -89,26 +92,42 @@ const QueryAction = {
       return;
     }
 
-    const params = {
+    const runAt: moment.Moment = moment();
+    const params: Partial<QueryType> = {
       status: "success",
       fields: result.fields,
       rows: result.rows,
       runtime: Date.now() - start,
-      runAt: moment(),
+      runAt,
       errorMessage: null
     };
     dispatch("updateQuery", {
       id,
       params: Object.assign({ executor: null }, params)
     });
-    Database.Query.update(
+    await Database.Query.update(
       id,
       Object.assign(params, {
         fields: JSON.stringify(params.fields),
         rows: JSON.stringify(params.rows),
-        runAt: params.runAt.utc().format("YYYY-MM-DD HH:mm:ss")
+        runAt: runAt.utc().format("YYYY-MM-DD HH:mm:ss")
       })
     );
+    const queryExecutionId = await Database.QueryExecution.create(id, queryBody, result.fields, result.rows, runAt);
+    const queryExecution: QueryExecutionType = {
+      id: queryExecutionId,
+      queryId: id,
+      body: queryBody,
+      fields: result.fields,
+      rows: result.rows,
+      runAt
+    };
+    if (query.histories.length >= MAX_QUERY_HISTORIES) {
+      const deleteExecution = query.histories[query.histories.length - 1];
+      await Database.QueryExecution.delete(deleteExecution.id);
+      dispatch("deleteExecution", { id: query.id, index: query.histories.length - 1 });
+    }
+    dispatch("addExecution", { queryExecution });
   },
 
   async cancelQuery(query: QueryType): Promise<void> {
@@ -134,6 +153,15 @@ const QueryAction = {
   async updateChart(id: number, params): Promise<void> {
     const chart = await Database.Chart.update(id, params);
     dispatch("updateChart", { id, params: chart });
+  },
+
+  setHistoryToLatest(queryId: number): void {
+    dispatch("setHistoryToLatest", { queryId });
+  },
+
+  async setQueryExecution(queryId: number, queryExecutionId: number): Promise<void> {
+    const queryExecution = await QueryExecution.find(queryExecutionId);
+    dispatch("setQueryExecution", { queryId, queryExecution });
   }
 };
 
