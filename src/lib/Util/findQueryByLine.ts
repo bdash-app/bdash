@@ -36,7 +36,7 @@ const splitQuery = (sql: string): Promise<QueryChunk[]> => {
     runMode(sql, "text/x-sql", (token, style) => {
       if (token === ";") {
         query += token;
-        chunks.push({ query: query.trim(), startLine, endLine: line });
+        chunks.push({ query, startLine, endLine: line });
         query = "";
         startLine = line;
       } else if (style === "comment") {
@@ -44,15 +44,20 @@ const splitQuery = (sql: string): Promise<QueryChunk[]> => {
       } else {
         if (token === "\n") {
           line++;
-          if (query.trim().length === 0) {
+          if (query.length === 0) {
             startLine++;
           }
         }
-        query += token;
+        if (query === "") {
+          // Add the first token to query even if it is not considered as keyword by CodeMirror
+          query += token.trim();
+        } else {
+          query += token;
+        }
       }
     });
-    if (query.trim().length > 0) {
-      chunks.push({ query: query.trim(), startLine, endLine: line });
+    if (query.length > 0) {
+      chunks.push({ query, startLine, endLine: line });
     }
     resolve(chunks);
   });
