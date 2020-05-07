@@ -87,11 +87,7 @@ suite("Launch and onboarding", function() {
     setValueToEditor("select 1;");
     await app.client.click("ul.QueryList-list li:last-child");
     await app.client.waitUntil(
-      async () => {
-        const query = await getValueFromEditor();
-        console.log(`QUERY: ${query}`);
-        return query === "select * from data_sources";
-      },
+      async () => (await getValueFromEditor()) === "select * from data_sources",
       5000,
       "Timeout 1",
       1000
