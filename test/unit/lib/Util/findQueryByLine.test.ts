@@ -153,4 +153,18 @@ suite("Util/findQueryByLine", () => {
       endLine: 3
     });
   });
+
+  test("with statement", async () => {
+    const sql = stripHeredoc(`
+      with foo as (
+        select 1 from bar
+      )
+      select 2 from baz;
+    `);
+    assert.deepStrictEqual(await findQueryByLine(sql, 2), {
+      query: "with foo as (\n  select 1 from bar\n)\nselect 2 from baz;",
+      startLine: 1,
+      endLine: 4
+    });
+  });
 });
