@@ -83,6 +83,7 @@ suite("Launch and onboarding", function() {
 
   test("Switch between queries", async () => {
     await app.client.click(".QueryList-new i");
+    await app.client.waitUntil(async () => (await getValueFromEditor()) === "");
     setValueToEditor("select 1;");
     await app.client.click("ul.QueryList-list li:last-child");
     await app.client.waitUntil(
