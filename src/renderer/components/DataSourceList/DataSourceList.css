@@ -10,6 +10,10 @@
   border-bottom: 1px solid #ccc;
 }
 
+.DataSourceList-new.darwin {
+  -webkit-app-region: drag;
+}
+
 .DataSourceList-new i {
   cursor: pointer;
 }
