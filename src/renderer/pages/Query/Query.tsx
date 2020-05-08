@@ -94,7 +94,7 @@ class Query extends React.Component<{}, QueryState> {
         >
           <QueryEditor
             query={query}
-            mimeType={dataSource?.mimeType ?? "x-sql"}
+            mimeType={dataSource?.mimeType ?? "text/x-sql"}
             {...this.state}
             onChangeQueryBody={(body): void => {
               Action.updateQuery(query.id, { body });
