@@ -9,6 +9,7 @@ type Props = {
   readonly editor: { line: number | null };
   readonly setting: SettingType;
   readonly query: QueryType;
+  readonly mimeType: string;
   readonly onCancel: () => void;
   readonly onExecute: () => void;
   readonly onChangeEditorHeight: (height: number) => void;
@@ -21,7 +22,7 @@ export default class QueryEditor extends React.Component<Props> {
 
   get options(): EditorConfiguration {
     return {
-      mode: "text/x-sql",
+      mode: this.props.mimeType,
       keyMap: this.props.setting.keyBind,
       lineNumbers: true,
       matchBrackets: true,

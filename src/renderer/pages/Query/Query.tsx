@@ -71,6 +71,7 @@ class Query extends React.Component<{}, QueryState> {
   renderMain(): React.ReactNode {
     const query = this.state.queries.find(query => query.id === this.state.selectedQueryId);
     if (!query) return <div className="page-Query-main" />;
+    const dataSource = this.state.dataSources.find(dataSource => dataSource.id === query.dataSourceId);
 
     return (
       <div className="page-Query-main">
@@ -93,6 +94,7 @@ class Query extends React.Component<{}, QueryState> {
         >
           <QueryEditor
             query={query}
+            mimeType={dataSource?.mimeType ?? "text/x-sql"}
             {...this.state}
             onChangeQueryBody={(body): void => {
               Action.updateQuery(query.id, { body });

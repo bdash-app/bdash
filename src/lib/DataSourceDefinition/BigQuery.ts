@@ -1,11 +1,12 @@
 import bigquery from "@google-cloud/bigquery";
 import Base, { ConfigSchemasType } from "./Base";
 import { flatten } from "lodash";
+import { DataSourceKeys } from "../../renderer/pages/DataSource/DataSourceStore";
 
 export default class BigQuery extends Base {
   _cancel: any;
 
-  static get key(): string {
+  static get key(): DataSourceKeys {
     return "bigquery";
   }
   static get label(): string {

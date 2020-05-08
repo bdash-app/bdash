@@ -4,7 +4,7 @@ import Button from "../Button";
 import DataSource, { DataSourceClasses } from "../../../lib/DataSource";
 import ProgressIcon from "../ProgressIcon";
 import { ConfigSchemaType } from "../../../lib/DataSourceDefinition/Base";
-import { DataSourceType } from "../../pages/DataSource/DataSourceStore";
+import { DataSourceKeys, DataSourceType } from "../../pages/DataSource/DataSourceStore";
 
 type Props = {
   readonly dataSource: DataSourceType | null;
@@ -13,7 +13,7 @@ type Props = {
 };
 
 type State = {
-  readonly selectedType: string | null;
+  readonly selectedType: DataSourceKeys | null;
   readonly connectionTestStatus: string | null;
   readonly connectionTestMessage: string | null;
 };
@@ -81,7 +81,7 @@ export default class DataSourceForm extends React.Component<Props, State> {
   }
 
   handleChangeType(e: React.ChangeEvent<HTMLSelectElement>): void {
-    this.setState({ selectedType: e.target.value });
+    this.setState({ selectedType: e.target.value as DataSourceKeys });
   }
 
   async handleConnectionTest(): Promise<void> {

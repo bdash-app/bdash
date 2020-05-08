@@ -1,11 +1,12 @@
 import AthenaClient from "../AthenaClient";
 import Base, { ConfigSchemasType } from "./Base";
 import Util from "../Util";
+import { DataSourceKeys } from "../../renderer/pages/DataSource/DataSourceStore";
 
 export default class Athena extends Base {
   client: AthenaClient;
 
-  static get key(): string {
+  static get key(): DataSourceKeys {
     return "athena";
   }
   static get label(): string {

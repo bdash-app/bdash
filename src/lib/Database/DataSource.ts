@@ -53,5 +53,28 @@ export default class DataSource {
 
 function convert(row: any): DataSourceType {
   const config = JSON.parse(row.config || "{}");
-  return Object.assign<DataSourceType, any>(row, { config });
+  return { ...row, ...{ config }, mimeType: mimeType(row) };
 }
+
+const mimeType = (dsType: DataSourceType): string => {
+  switch (dsType.type) {
+    case "postgres":
+    case "athena":
+    case "redshift":
+      return "text/x-pgsql";
+    case "mysql":
+      return "text/x-mysql";
+    case "sqlite3":
+      return "text/x-sqlite";
+    case "treasuredata":
+      if (dsType.config["queryType"] === "presco") {
+        return "text/x-sql";
+      } else {
+        return "text/x-hive";
+      }
+    case "bigquery":
+      return "text/x-gql";
+    default:
+      return "text/x-sql";
+  }
+};

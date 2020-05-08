@@ -1,11 +1,12 @@
 import sqlite3 from "sqlite3";
 import Base, { ConfigSchemasType } from "./Base";
 import Util from "../Util";
+import { DataSourceKeys } from "../../renderer/pages/DataSource/DataSourceStore";
 
 export default class SQLite3 extends Base {
   db: sqlite3.Database | null;
 
-  static get key(): string {
+  static get key(): DataSourceKeys {
     return "sqlite3";
   }
   static get label(): string {
