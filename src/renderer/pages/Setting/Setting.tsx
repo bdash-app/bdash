@@ -38,7 +38,7 @@ class Setting extends React.Component<{}, SettingState> {
               styles={selectStyles}
             />
           </div>
-          <div className="page-Setting-section2 page-Setting-keyBind">
+          <div className="page-Setting-section2 page-Setting-lineWrap">
             <h2>Line wrap</h2>
             <input
               type="checkbox"
