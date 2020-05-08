@@ -4,6 +4,7 @@ import _ from "lodash";
 
 export type SettingType = {
   readonly keyBind: "default" | "vim";
+  readonly lineWrap: boolean;
   readonly github: GithubSettingType;
   readonly defaultDataSourceId?: number;
 };
@@ -20,6 +21,7 @@ export default class Setting {
   static getDefault(): SettingType {
     return {
       keyBind: "default",
+      lineWrap: false,
       github: {
         token: null,
         url: null

@@ -25,6 +25,7 @@ export default class QueryEditor extends React.Component<Props> {
       mode: this.props.mimeType,
       keyMap: this.props.setting.keyBind,
       lineNumbers: true,
+      lineWrapping: this.props.setting.lineWrap,
       matchBrackets: true,
       indentUnit: 4,
       smartIndent: false,
