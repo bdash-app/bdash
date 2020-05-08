@@ -64,7 +64,7 @@ const QueryAction = {
     query: QueryType;
     dataSource: DataSourceType;
   }): Promise<void> {
-    const { query: queryBody, startLine } = await Util.findQueryByLine(query.body, line);
+    const { query: queryBody, startLine } = await Util.findQueryByLine(query.body, dataSource.mimeType, line);
     const executor = DataSource.create(dataSource);
     const id = query.id;
     dispatch("updateQuery", { id, params: { status: "working", executor } });

@@ -1,11 +1,14 @@
 import Store, { StateBuilder } from "../../flux/Store";
 import Setting, { SettingType } from "../../../lib/Setting";
 
+export type DataSourceKeys = "athena" | "bigquery" | "mysql" | "postgres" | "redshift" | "sqlite3" | "treasuredata";
+
 export type DataSourceType = {
   readonly id: number;
   readonly name: string;
-  readonly type: string;
+  readonly type: DataSourceKeys;
   readonly config: { [name: string]: any };
+  readonly mimeType: string;
 
   readonly tables: TableType[];
   readonly selectedTable: TableType;

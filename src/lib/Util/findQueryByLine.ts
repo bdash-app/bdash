@@ -9,8 +9,8 @@ interface QueryChunk {
   endLine: number;
 }
 
-export default async function findQueryByLine(sql: string, line: number): Promise<QueryChunk> {
-  const chunks = await splitQuery(sql);
+export default async function findQueryByLine(sql: string, mimeType: string, line: number): Promise<QueryChunk> {
+  const chunks = await splitQuery(sql, mimeType);
   const chunk = chunks.find(chunk => chunk.endLine >= line) ?? last(chunks);
 
   if (!chunk) {
@@ -27,13 +27,13 @@ export default async function findQueryByLine(sql: string, line: number): Promis
   };
 }
 
-const splitQuery = (sql: string): Promise<QueryChunk[]> => {
+const splitQuery = (sql: string, mimeType: string): Promise<QueryChunk[]> => {
   return new Promise(resolve => {
     let startLine = 1;
     let line = 1;
     let query = "";
     const chunks: QueryChunk[] = [];
-    runMode(sql, "text/x-sql", (token, style) => {
+    runMode(sql, mimeType, (token, style) => {
       if (token === ";") {
         query += token;
         chunks.push({ query, startLine, endLine: line });

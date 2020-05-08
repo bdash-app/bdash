@@ -2,6 +2,7 @@ import pg from "pg";
 import Base, { ConfigSchemasType } from "./Base";
 import Util from "../Util";
 import { zipObject } from "lodash";
+import { DataSourceKeys } from "../../renderer/pages/DataSource/DataSourceStore";
 
 // Disable auto convert
 // https://github.com/brianc/node-pg-types/blob/ed2d0e36e33217b34530727a98d20b325389e73a/lib/textParsers.js#L147-L149
@@ -50,7 +51,7 @@ import { zipObject } from "lodash";
 export default class Postgres extends Base {
   currentClient: any;
 
-  static get key(): string {
+  static get key(): DataSourceKeys {
     return "postgres";
   }
   static get label(): string {

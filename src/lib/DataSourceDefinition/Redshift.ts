@@ -1,9 +1,10 @@
 import Postgres from "./Postgres";
 import Util from "../Util";
 import { zipObject } from "lodash";
+import { DataSourceKeys } from "../../renderer/pages/DataSource/DataSourceStore";
 
 export default class Redshift extends Postgres {
-  static get key(): string {
+  static get key(): DataSourceKeys {
     return "redshift";
   }
 

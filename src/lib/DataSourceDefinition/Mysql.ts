@@ -3,11 +3,12 @@ import Base, { ConfigSchemasType } from "./Base";
 import Util from "../Util";
 import { zipObject } from "lodash";
 import { promises } from "fs";
+import { DataSourceKeys } from "../../renderer/pages/DataSource/DataSourceStore";
 
 export default class Mysql extends Base {
   currentConnection: any;
 
-  static get key(): string {
+  static get key(): DataSourceKeys {
     return "mysql";
   }
   static get label(): string {

@@ -1,6 +1,7 @@
 import TD from "td";
 import Base, { ConfigSchemasType } from "./Base";
 import Util from "../Util";
+import { DataSourceKeys } from "../../renderer/pages/DataSource/DataSourceStore";
 
 const WAIT_INTERVAL = 2000;
 
@@ -11,7 +12,7 @@ export default class TreasureData extends Base {
   _cancel: any;
   _client: any;
 
-  static get key(): string {
+  static get key(): DataSourceKeys {
     return "treasuredata";
   }
   static get label(): string {

@@ -1,9 +1,9 @@
-import { TableType } from "../../renderer/pages/DataSource/DataSourceStore";
+import { DataSourceKeys, TableType } from "../../renderer/pages/DataSource/DataSourceStore";
 
 export default abstract class Base {
   config: any;
 
-  static get key(): string {
+  static get key(): DataSourceKeys {
     throw new Error("Not Implemented");
   }
   static get label(): string {
