@@ -38,6 +38,14 @@ class Setting extends React.Component<{}, SettingState> {
               styles={selectStyles}
             />
           </div>
+          <div className="page-Setting-section2 page-Setting-keyBind">
+            <h2>Line wrap</h2>
+            <input
+              type="checkbox"
+              onChange={(e): void => Action.update({ lineWrap: e.target.checked })}
+              checked={setting.lineWrap}
+            />
+          </div>
         </div>
 
         <div className="page-Setting-section1">
