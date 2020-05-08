@@ -16,8 +16,8 @@ suite("Database/DataSource", () => {
     `);
     const rows = await DataSource.getAll();
     assert.deepStrictEqual(rows, [
-      { id: 2, name: "name 2", type: "mysql", config: { foo: "bar" } },
-      { id: 1, name: "name 1", type: "mysql", config: { foo: "bar" } }
+      { id: 2, name: "name 2", type: "mysql", mimeType: "text/x-mysql", config: { foo: "bar" } },
+      { id: 1, name: "name 1", type: "mysql", mimeType: "text/x-mysql", config: { foo: "bar" } }
     ]);
   });
 
@@ -33,6 +33,7 @@ suite("Database/DataSource", () => {
       id: 1,
       name: "name 1",
       type: "mysql",
+      mimeType: "text/x-mysql",
       config: { foo: "bar" },
       updatedAt: "2017-02-01 00:00:00",
       createdAt: "2017-01-01 00:00:00"
