@@ -46,7 +46,7 @@ class DataSource extends React.Component<{}, DataSourceState> {
           <DataSourceList
             {...this.state}
             defaultDataSourceId={defaultDataSourceId}
-            onClickNew={Action.showForm}
+            onClickNew={(): void => Action.showForm()}
             onSelect={(dataSource: DataSourceType): void => {
               Action.selectDataSource(dataSource);
             }}
