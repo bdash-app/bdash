@@ -3,6 +3,7 @@ import path from "path";
 import os from "os";
 import { Application } from "spectron";
 import fse from "fs-extra";
+import { Doc } from "codemirror";
 
 let app: Application;
 let bdashDir: string;
@@ -23,16 +24,14 @@ function appPath(): string {
 
 function setValueToEditor(text: string): void {
   app.client.execute(text => {
-    // @ts-ignore
-    document.querySelector(".QueryEditor .CodeMirror").CodeMirror.setValue(text);
+    document.querySelector<Element & { CodeMirror: Doc }>(".QueryEditor .CodeMirror")?.CodeMirror?.setValue(text);
   }, text);
 }
 
 const getValueFromEditor = async (): Promise<string> =>
   (
     await app.client.execute(() =>
-      // @ts-ignore
-      document.querySelector(".QueryEditor .CodeMirror").CodeMirror.getValue()
+      document.querySelector<Element & { CodeMirror: Doc }>(".QueryEditor .CodeMirror")?.CodeMirror.getValue()
     )
   ).value;
 

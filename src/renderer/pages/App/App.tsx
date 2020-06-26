@@ -8,7 +8,7 @@ import Query from "../Query";
 import DataSource from "../DataSource";
 import Setting from "../Setting";
 
-class App extends React.Component<{}, AppState> {
+class App extends React.Component<unknown, AppState> {
   componentDidMount(): void {
     Action.initialize();
   }

@@ -11,7 +11,7 @@ import QueryResult from "../../components/QueryResult";
 import { QueryType } from "../../../lib/Database/Query";
 import { DataSourceType } from "../DataSource/DataSourceStore";
 
-class Query extends React.Component<{}, QueryState> {
+class Query extends React.Component<unknown, QueryState> {
   componentDidMount(): void {
     Action.initialize();
   }

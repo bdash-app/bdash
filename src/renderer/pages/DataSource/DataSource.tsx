@@ -7,7 +7,7 @@ import TableList from "../../components/TableList";
 import TableSummary from "../../components/TableSummary";
 import DataSourceForm from "../../components/DataSourceForm";
 
-class DataSource extends React.Component<{}, DataSourceState> {
+class DataSource extends React.Component<unknown, DataSourceState> {
   componentDidMount(): void {
     Action.initialize();
   }
