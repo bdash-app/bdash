@@ -7,7 +7,7 @@ import Button from "../../components/Button";
 import ProgressIcon from "../../components/ProgressIcon";
 import { selectStyles } from "../../components/Select";
 
-class Setting extends React.Component<{}, SettingState> {
+class Setting extends React.Component<unknown, SettingState> {
   componentDidMount(): void {
     Action.initialize();
   }

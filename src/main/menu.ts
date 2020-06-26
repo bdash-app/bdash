@@ -1,4 +1,4 @@
-import { app, Menu, dialog } from "electron";
+import { app, Menu, dialog, shell } from "electron";
 import { updater, UpdateState } from "./updater";
 import isDev from "electron-is-dev";
 import { createWindow } from "./window";
@@ -44,7 +44,7 @@ const helpMenu: Electron.MenuItemConstructorOptions = {
     {
       label: "Report Issue",
       click(): void {
-        require("electron").shell.openExternal("https://github.com/bdash-app/bdash/issues/new");
+        shell.openExternal("https://github.com/bdash-app/bdash/issues/new");
       }
     }
   ]
