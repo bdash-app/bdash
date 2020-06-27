@@ -1,4 +1,4 @@
-import electron, { BrowserWindow } from "electron";
+import electron, { BrowserWindow, shell } from "electron";
 import path from "path";
 
 const windows: BrowserWindow[] = [];
@@ -19,6 +19,10 @@ export async function createWindow(): Promise<void> {
   win.once("closed", () => {
     const idx = windows.findIndex(w => w === win);
     windows.splice(idx, 1);
+  });
+  win.webContents.on("will-navigate", (e, url) => {
+    e.preventDefault();
+    shell.openExternal(url);
   });
 
   windows.push(win);
