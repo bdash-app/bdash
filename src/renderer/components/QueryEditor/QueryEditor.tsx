@@ -13,7 +13,7 @@ type Props = {
   readonly onCancel: () => void;
   readonly onExecute: () => void;
   readonly onChangeEditorHeight: (height: number) => void;
-  readonly onChangeQueryBody: (body: string) => void;
+  readonly onChangeQueryBody: (body: string, history: Record<string, unknown>) => void;
   readonly onChangeCursorPosition: (lineNumber: number) => void;
 };
 
@@ -108,6 +108,7 @@ export default class QueryEditor extends React.Component<Props> {
           onChangeCursor={this.props.onChangeCursorPosition}
           onSubmit={this.props.onExecute}
           options={this.options}
+          history={this.props.query.history ?? undefined}
         />
         <div className="QueryEditor-navbar">
           {this.renderButton()}
