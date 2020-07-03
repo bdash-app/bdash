@@ -72,7 +72,7 @@ export default {
 
 // private functions
 function getTableData(query: QueryType): any[] {
-  const rows = query.rows.map(row => Object.values(row));
+  const rows = query.rows.slice(0, 10000).map(row => Object.values(row));
   return [query.fields].concat(rows);
 }
 
