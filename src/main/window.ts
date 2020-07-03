@@ -1,5 +1,6 @@
-import electron, { BrowserWindow } from "electron";
+import electron, { BrowserWindow, dialog } from "electron";
 import path from "path";
+import logger from "./logger";
 
 const windows: BrowserWindow[] = [];
 
@@ -19,6 +20,10 @@ export async function createWindow(): Promise<void> {
   win.once("closed", () => {
     const idx = windows.findIndex(w => w === win);
     windows.splice(idx, 1);
+  });
+  win.webContents.on("crashed", e => {
+    logger.error("renderer process crashed", e);
+    dialog.showErrorBox("Bdash is crashed", "Unrecoverable error");
   });
 
   windows.push(win);
