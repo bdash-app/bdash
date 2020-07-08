@@ -45,7 +45,7 @@ export default class SQLite3 extends Base {
     return this._execute("select 1");
   }
 
-  _execute(query: string): Promise<any> {
+  _execute(query: string): Promise<{ rows: (string | null)[][]; fields: string[] }> {
     this.db = new sqlite3.Database(this.config.path);
     return new Promise((resolve, reject) => {
       this.db?.all(query, (err, results) => {
@@ -55,10 +55,10 @@ export default class SQLite3 extends Base {
           return reject(err);
         }
         if (results.length === 0) {
-          return resolve([]);
+          return resolve({ rows: [], fields: [] });
         }
         const fields = Object.keys(results[0]);
-        const rows = results.map(r => Object.values(r));
+        const rows = results.map<(string | null)[]>(r => Object.values(r));
         resolve({ fields, rows });
       });
     });
