@@ -17,13 +17,13 @@ export type QueryType = {
   readonly selectedTab?: "table" | "chart";
   readonly executor?: Base | null;
   readonly runAt?: moment.Moment;
-  readonly history?: Record<string, unknown> | null; // Edit history of CodeMirror.Doc. https://codemirror.net/doc/manual.html#getHistory
+  readonly codeMirrorHistory?: Record<string, unknown> | null; // Edit history of CodeMirror.Doc. https://codemirror.net/doc/manual.html#getHistory
 };
 
-export type DatabaseQueryType = Omit<QueryType, "fields" | "rows" | "history"> & {
+export type DatabaseQueryType = Omit<QueryType, "fields" | "rows" | "codeMirrorHistory"> & {
   fields: string | null;
   rows: string | null;
-  history: string | null;
+  codeMirrorHistory: string | null;
 };
 
 export default class Query {
@@ -54,8 +54,8 @@ export default class Query {
       query.rows = query.rows.map(r => Object.values(r));
     }
 
-    if (query.history) {
-      query.history = JSON.parse(query.history);
+    if (query.codeMirrorHistory) {
+      query.codeMirrorHistory = JSON.parse(query.codeMirrorHistory);
     }
 
     return query;

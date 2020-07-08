@@ -47,6 +47,6 @@ export const migrations: Migration[] = [
   },
   {
     version: 2,
-    query: `alter table queries add column history json`
+    query: `alter table queries add column codeMirrorHistory json`
   }
 ];

@@ -14,10 +14,10 @@ import { isEqual } from "lodash";
 type Props = {
   readonly options: CodeMirror.EditorConfiguration;
   readonly value: string;
-  readonly history?: Record<string, unknown>;
+  readonly codeMirrorHistory?: Record<string, unknown>;
   readonly rootRef: React.Ref<any>;
   readonly onSubmit: () => void;
-  readonly onChange: (change: string, history: Record<string, unknown>) => void;
+  readonly onChange: (change: string, codeMirrorHistory: Record<string, unknown>) => void;
   readonly onChangeCursor: (lineNumber: number) => void;
 };
 
@@ -61,8 +61,8 @@ export default class Editor extends React.Component<Props> {
     this.currentValue = this.props.value;
     this.currentOptions = this.props.options;
     this.codeMirror.setValue(this.currentValue);
-    if (this.props.history) {
-      this.codeMirror.setHistory(this.props.history);
+    if (this.props.codeMirrorHistory) {
+      this.codeMirror.setHistory(this.props.codeMirrorHistory);
     } else {
       this.codeMirror.clearHistory();
     }
@@ -92,8 +92,8 @@ export default class Editor extends React.Component<Props> {
     if (this.currentValue !== nextProps.value) {
       this.ignoreTriggerChangeEvent = true;
       this.codeMirror.setValue(nextProps.value);
-      if (nextProps.history) {
-        this.codeMirror.setHistory(nextProps.history);
+      if (nextProps.codeMirrorHistory) {
+        this.codeMirror.setHistory(nextProps.codeMirrorHistory);
       } else {
         this.codeMirror.clearHistory();
       }

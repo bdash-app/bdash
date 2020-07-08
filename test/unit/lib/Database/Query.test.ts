@@ -46,7 +46,7 @@ suite("Database/Query", () => {
       runAt: moment.utc("2017-01-03 00:00:00", "YYYY-MM-DD HH:mm:ss", true).local(),
       updatedAt: "2017-01-02 00:00:00",
       createdAt: "2017-01-01 00:00:00",
-      history: null
+      codeMirrorHistory: null
     });
   });
 

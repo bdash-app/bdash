@@ -44,7 +44,7 @@ const QueryAction = {
     dispatch("updateQuery", { id, params });
     return Database.Query.update(id, {
       ...params,
-      history: params.history ? JSON.stringify(params.history) : null
+      codeMirrorHistory: params.codeMirrorHistory ? JSON.stringify(params.codeMirrorHistory) : null
     });
   },
 

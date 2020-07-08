@@ -96,8 +96,8 @@ class Query extends React.Component<unknown, QueryState> {
             query={query}
             mimeType={dataSource?.mimeType ?? "text/x-sql"}
             {...this.state}
-            onChangeQueryBody={(body, history): void => {
-              Action.updateQuery(query.id, { body, history });
+            onChangeQueryBody={(body, codeMirrorHistory): void => {
+              Action.updateQuery(query.id, { body, codeMirrorHistory: codeMirrorHistory });
             }}
             onChangeCursorPosition={(line): void => Action.updateEditor({ line })}
             onChangeEditorHeight={(height): void => Action.updateEditor({ height })}
