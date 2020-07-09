@@ -12,11 +12,18 @@ export type QueryType = {
   readonly rows?: any;
   readonly status?: "success" | "failure" | "working";
   readonly chart?: ChartType;
-  readonly runtime?: number;
-  readonly errorMessage?: string;
+  readonly runtime?: number | null;
+  readonly errorMessage?: string | null;
   readonly selectedTab?: "table" | "chart";
   readonly executor?: Base | null;
   readonly runAt?: moment.Moment;
+  readonly codeMirrorHistory?: Record<string, unknown> | null; // Edit history of CodeMirror.Doc. https://codemirror.net/doc/manual.html#getHistory
+};
+
+export type DatabaseQueryType = Omit<QueryType, "fields" | "rows" | "codeMirrorHistory"> & {
+  fields: string | null;
+  rows: string | null;
+  codeMirrorHistory: string | null;
 };
 
 export default class Query {
@@ -47,6 +54,10 @@ export default class Query {
       query.rows = query.rows.map(r => Object.values(r));
     }
 
+    if (query.codeMirrorHistory) {
+      query.codeMirrorHistory = JSON.parse(query.codeMirrorHistory);
+    }
+
     return query;
   }
 
@@ -61,7 +72,7 @@ export default class Query {
     return { id, dataSourceId, title, body };
   }
 
-  static update(id: number, params: any): Promise<void> {
+  static update(id: number, params: Partial<DatabaseQueryType>): Promise<void> {
     const fields: string[] = [];
     const values: string[] = [];
 

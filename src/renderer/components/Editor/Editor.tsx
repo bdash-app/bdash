@@ -14,9 +14,10 @@ import { isEqual } from "lodash";
 type Props = {
   readonly options: CodeMirror.EditorConfiguration;
   readonly value: string;
+  readonly codeMirrorHistory?: Record<string, unknown>;
   readonly rootRef: React.Ref<any>;
   readonly onSubmit: () => void;
-  readonly onChange: (change: string) => void;
+  readonly onChange: (change: string, codeMirrorHistory: Record<string, unknown>) => void;
   readonly onChangeCursor: (lineNumber: number) => void;
 };
 
@@ -60,6 +61,11 @@ export default class Editor extends React.Component<Props> {
     this.currentValue = this.props.value;
     this.currentOptions = this.props.options;
     this.codeMirror.setValue(this.currentValue);
+    if (this.props.codeMirrorHistory) {
+      this.codeMirror.setHistory(this.props.codeMirrorHistory);
+    } else {
+      this.codeMirror.clearHistory();
+    }
     CodeMirror.Vim.defineAction("delLineLeft", cm => cm.execCommand("delLineLeft"));
     CodeMirror.Vim._mapCommand({
       keys: "<C-u>",
@@ -86,6 +92,11 @@ export default class Editor extends React.Component<Props> {
     if (this.currentValue !== nextProps.value) {
       this.ignoreTriggerChangeEvent = true;
       this.codeMirror.setValue(nextProps.value);
+      if (nextProps.codeMirrorHistory) {
+        this.codeMirror.setHistory(nextProps.codeMirrorHistory);
+      } else {
+        this.codeMirror.clearHistory();
+      }
       this.ignoreTriggerChangeEvent = false;
     }
 
@@ -97,17 +108,17 @@ export default class Editor extends React.Component<Props> {
     }
   }
 
-  handleValueChange(doc: CodeMirror.Doc): void {
-    const newValue = doc.getValue();
+  handleValueChange(editor: CodeMirror.Editor): void {
+    const newValue = editor.getValue();
     this.currentValue = newValue;
 
     if (this.ignoreTriggerChangeEvent === false) {
-      this.props.onChange && this.props.onChange(newValue);
+      this.props.onChange && this.props.onChange(newValue, editor.getHistory());
     }
   }
 
-  handleCursorChange(doc: CodeMirror.Doc): void {
-    const cursor = doc.getCursor();
+  handleCursorChange(editor: CodeMirror.Editor): void {
+    const cursor = editor.getCursor();
     const line = (cursor.line || 0) + 1;
     this.props.onChangeCursor(line);
   }

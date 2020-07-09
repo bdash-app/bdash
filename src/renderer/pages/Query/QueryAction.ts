@@ -4,7 +4,7 @@ import { setting } from "../../../lib/Setting";
 import Database from "../../../lib/Database";
 import Util from "../../../lib/Util";
 import DataSource from "../../../lib/DataSource";
-import { QueryType } from "../../../lib/Database/Query";
+import { QueryType, DatabaseQueryType } from "../../../lib/Database/Query";
 import { DataSourceType } from "../DataSource/DataSourceStore";
 
 const DEFAULT_QUERY_TITLE = "New Query";
@@ -40,9 +40,12 @@ const QueryAction = {
     dispatch("addNewQuery", { query });
   },
 
-  updateQuery(id: number, params: any): Promise<void> {
+  updateQuery(id: number, params: Partial<QueryType>): Promise<void> {
     dispatch("updateQuery", { id, params });
-    return Database.Query.update(id, params);
+    return Database.Query.update(id, {
+      ...params,
+      codeMirrorHistory: params.codeMirrorHistory ? JSON.stringify(params.codeMirrorHistory) : null
+    });
   },
 
   async duplicateQuery(query: QueryType): Promise<void> {
@@ -74,7 +77,7 @@ const QueryAction = {
     try {
       result = await executor.execute(queryBody, { startLine });
     } catch (err) {
-      const params = {
+      const params: Partial<DatabaseQueryType> = {
         status: "failure",
         fields: null,
         rows: null,
@@ -89,7 +92,7 @@ const QueryAction = {
       return;
     }
 
-    const params = {
+    const params: Partial<DatabaseQueryType> = {
       status: "success",
       fields: result.fields,
       rows: result.rows,
@@ -106,7 +109,7 @@ const QueryAction = {
       Object.assign(params, {
         fields: JSON.stringify(params.fields),
         rows: JSON.stringify(params.rows),
-        runAt: params.runAt.utc().format("YYYY-MM-DD HH:mm:ss")
+        runAt: params.runAt?.utc().format("YYYY-MM-DD HH:mm:ss")
       })
     );
   },

@@ -44,5 +44,9 @@ export const migrations: Migration[] = [
     );
     create index if not exists idx_query_id_on_charts on charts(queryId);
     `
+  },
+  {
+    version: 2,
+    query: `alter table queries add column codeMirrorHistory json`
   }
 ];
