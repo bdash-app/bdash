@@ -52,7 +52,7 @@ export default {
     }
 
     const client = new GitHubApiClient(setting);
-    const result = await client.postToGist({ description, files });
+    const result = await client.postToGist({ description, files, public: setting.public });
 
     await electron.shell.openExternal(result.html_url);
   },
