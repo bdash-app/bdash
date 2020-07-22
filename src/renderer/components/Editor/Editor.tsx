@@ -62,26 +62,22 @@ export default class Editor extends React.Component<Props> {
     if (process.platform === "darwin") {
       this.codeMirror.addKeyMap({
         ["Ctrl-K"]: (cm: CodeMirror.Editor) => {
-          if (process.platform === "darwin") {
-            if (!cm.somethingSelected()) {
-              const cursor = cm.getCursor();
-              const line = cm.getLine(cursor.line);
-              if (cursor.ch === line.length) {
-                cm.setSelection(cursor, { line: cursor.line + 1, ch: 0 });
-              } else {
-                cm.setSelection(cursor, { line: cursor.line, ch: line.length });
-              }
+          if (!cm.somethingSelected()) {
+            const cursor = cm.getCursor();
+            const line = cm.getLine(cursor.line);
+            if (cursor.ch === line.length) {
+              cm.setSelection(cursor, { line: cursor.line + 1, ch: 0 });
+            } else {
+              cm.setSelection(cursor, { line: cursor.line, ch: line.length });
             }
-            clipboard.writeFindText(cm.getSelection());
-            cm.replaceSelection("");
           }
+          clipboard.writeFindText(cm.getSelection());
+          cm.replaceSelection("");
         },
         ["Ctrl-Y"]: cm => {
-          if (process.platform === "darwin") {
-            const killBuffer = clipboard.readFindText();
-            if (killBuffer.length > 0) {
-              cm.replaceSelection(killBuffer);
-            }
+          const killBuffer = clipboard.readFindText();
+          if (killBuffer.length > 0) {
+            cm.replaceSelection(killBuffer);
           }
         }
       });
