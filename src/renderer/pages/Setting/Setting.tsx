@@ -77,6 +77,14 @@ class Setting extends React.Component<unknown, SettingState> {
             </Button>
             {this.renderGithubValidateTokenResult()}
           </div>
+          <div className="page-Setting-section2 page-Setting-public">
+            <h2>Share on gist in public</h2>
+            <input
+              type="checkbox"
+              onChange={(e): void => Action.update({ github: { public: e.target.checked } })}
+              checked={setting.github.public}
+            />
+          </div>
           <div className="page-Setting-section2">
             <h2>Maximum number of rows</h2>
             <input

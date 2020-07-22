@@ -12,6 +12,7 @@ export type SettingType = {
 export type GithubSettingType = {
   readonly token: string | null;
   readonly url: string | null;
+  readonly public: boolean;
   readonly maximumNumberOfRowsOfGist: number;
 };
 
@@ -26,6 +27,7 @@ export default class Setting {
       github: {
         token: null,
         url: null,
+        public: false,
         maximumNumberOfRowsOfGist: 10000
       },
       defaultDataSourceId: undefined
