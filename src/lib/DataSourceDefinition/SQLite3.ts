@@ -26,9 +26,6 @@ export default class SQLite3 extends Base {
 
   async fetchTables(): Promise<{ name: string; type: string; schema?: string }[]> {
     const { rows }: any = await this._execute("select tbl_name from sqlite_master where type = 'table'");
-    if (!rows) {
-      return Promise.resolve([]);
-    }
     return rows.map(row => {
       return { name: row[0], type: "table" };
     });
