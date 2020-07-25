@@ -17,9 +17,25 @@ const QueryAction = {
       Database.Chart.getAll()
     ]);
 
+    const dataSourceWithTables = await Promise.all(
+      dataSources.map(async dataSource => {
+        const ds = DataSource.create(dataSource);
+        try {
+          const tables = await ds.fetchTables();
+          return {
+            ...dataSource,
+            tables
+          };
+        } catch (e) {
+          console.log(`Failed to load tables from dataSource "${dataSource.name}"`, e);
+          return dataSource;
+        }
+      })
+    );
+
     dispatch("initialize", {
       queries,
-      dataSources,
+      dataSources: dataSourceWithTables,
       charts,
       setting: setting.load()
     });

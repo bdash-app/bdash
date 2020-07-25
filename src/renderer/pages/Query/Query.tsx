@@ -94,6 +94,7 @@ class Query extends React.Component<unknown, QueryState> {
         >
           <QueryEditor
             query={query}
+            tables={dataSource?.tables ?? []}
             mimeType={dataSource?.mimeType ?? "text/x-sql"}
             {...this.state}
             onChangeQueryBody={(body, codeMirrorHistory): void => {
