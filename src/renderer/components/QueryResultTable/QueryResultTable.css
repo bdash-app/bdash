@@ -11,9 +11,24 @@
 }
 
 .QueryResultTable-table th {
-  border-bottom: 3px double #ccc;
   text-align: left;
   font-weight: bold;
+}
+
+.QueryResultTable-table thead th {
+  top: 46px; /* (height + border-bottom) of QueryResultNav */
+  position: sticky;
+  background-color: white;
+}
+
+/* Use pesudo class to protect from overlapping border */
+.QueryResultTable-table thead th:after {
+  border-bottom: 3px double #ccc;
+  bottom: 0;
+  width: 100%;
+  content: "";
+  position: absolute;
+  left: 0;
 }
 
 .QueryResultTable-table td {
