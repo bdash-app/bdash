@@ -74,7 +74,7 @@ class Query extends React.Component<unknown, QueryState> {
     const dataSource = this.state.dataSources.find(dataSource => dataSource.id === query.dataSourceId);
 
     return (
-      <div className="page-Query-main">
+      <div className="new-page-Query-main">
         <QueryHeader
           query={query}
           {...this.state}
@@ -135,18 +135,25 @@ class Query extends React.Component<unknown, QueryState> {
   render(): React.ReactNode {
     return (
       <div className="page-Query">
-        <div className="page-Query-list">
-          <QueryList
-            {...this.state}
-            onAddQuery={(): void => {
-              this.handleAddQuery();
-            }}
-            onSelectQuery={Action.selectQuery}
-            onDuplicateQuery={Action.duplicateQuery}
-            onDeleteQuery={Action.deleteQuery}
-          />
-        </div>
-        {this.renderMain()}
+        <SplitterLayout
+          primaryIndex={1}
+          primaryMinSize={100}
+          secondaryMinSize={100}
+          secondaryInitialSize={400}
+        >
+          <div className="new-page-Query-list">
+            <QueryList
+              {...this.state}
+              onAddQuery={(): void => {
+                this.handleAddQuery();
+              }}
+              onSelectQuery={Action.selectQuery}
+              onDuplicateQuery={Action.duplicateQuery}
+              onDeleteQuery={Action.deleteQuery}
+            />
+          </div>
+          {this.renderMain()}
+        </SplitterLayout>
       </div>
     );
   }

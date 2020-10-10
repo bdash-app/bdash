@@ -1,10 +1,10 @@
 .page-Query {
-  display: flex;
+  /* display: flex; */
   --page-Query-headerHeight: 48px;
 }
 
 .page-Query-splitter-layout {
-  position: static;
+  /* position: static; */
   z-index: 0;
 }
 
@@ -15,15 +15,15 @@
 }
 
 .page-Query-main {
-  flex: 1;
-  display: flex;
+  /* flex: 1; */
+  /* display: flex; */
   flex-direction: column;
   height: 100vh;
   width: 0;
 }
 
 .page-Query-main .QueryResult {
-  flex: 1 1 auto;
+  /* flex: 1 1 auto; */
 }
 
 .page-Query-main .QueryHeader {
