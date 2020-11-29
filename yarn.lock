@@ -5986,10 +5986,10 @@ pkg-dir@^3.0.0:
   dependencies:
     find-up "^3.0.0"
 
-plotly.js-basic-dist-min@1.51.3:
-  version "1.51.3"
-  resolved "https://registry.yarnpkg.com/plotly.js-basic-dist-min/-/plotly.js-basic-dist-min-1.51.3.tgz#73428c3b8e9a8b11d7bc1b6f2f6ced79e5d0fe55"
-  integrity sha512-cp22b36a0XCy1glvvYGPIECzOignHOi39Zx3HQgjBIT3PGbQu7vWsE2jZ9DcqWKUbTM2BB/ZHtLPCAPN8LbltA==
+plotly.js-basic-dist-min@1.57.1:
+  version "1.57.1"
+  resolved "https://registry.yarnpkg.com/plotly.js-basic-dist-min/-/plotly.js-basic-dist-min-1.57.1.tgz#90ee55f4b3bac48e75f6e89d196615572baae8e9"
+  integrity sha512-oUh1qLLrAH6V6wKr0BaRVF27y2ds1AduB3XoyJqdKu72eS9jNBX/YqtiTlqpK2FFXrRhwm+OFGvYJQbaFOM9MA==
 
 posix-character-classes@^0.1.0:
   version "0.1.1"
