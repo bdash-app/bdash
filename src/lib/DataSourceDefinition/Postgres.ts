@@ -117,7 +117,7 @@ export default class Postgres extends Base {
           pg_attribute.attname as name,
           pg_attribute.atttypid::regtype as type,
           case pg_attribute.attnotnull when true then 'NO' else 'YES' end as null,
-          pg_attrdef.adsrc as default_value,
+          pg_get_expr(pg_attrdef.adbin, pg_attrdef.adrelid) as default_value,
           pg_description.description as description
       from
           pg_attribute

@@ -12,6 +12,8 @@ export type SettingType = {
 export type GithubSettingType = {
   readonly token: string | null;
   readonly url: string | null;
+  readonly public: boolean;
+  readonly maximumNumberOfRowsOfGist: number;
 };
 
 // type for partial updating parameter.
@@ -24,7 +26,9 @@ export default class Setting {
       lineWrap: false,
       github: {
         token: null,
-        url: null
+        url: null,
+        public: false,
+        maximumNumberOfRowsOfGist: 10000
       },
       defaultDataSourceId: undefined
     };
@@ -40,7 +44,11 @@ export default class Setting {
       fs.writeFileSync(filePath, "", { mode: 0o600 });
     }
 
-    this.setting = yaml.safeLoad(fs.readFileSync(filePath).toString()) || {};
+    this.setting =
+      {
+        ...Setting.getDefault(),
+        ...yaml.safeLoad(fs.readFileSync(filePath).toString())
+      } || {};
   }
 
   load(): SettingType {

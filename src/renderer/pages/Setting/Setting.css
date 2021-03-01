@@ -29,7 +29,8 @@
   width: 150px;
 }
 
-.page-Setting input[type="text"] {
+.page-Setting input[type="text"],
+.page-Setting input[type="number"] {
   width: 300px;
   padding: 5px;
   outline: none;

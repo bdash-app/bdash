@@ -56,7 +56,7 @@ export default class GitHubApiClient {
     const response = await fetch(this.getGistUrl(), {
       method: "POST",
       headers: this.getHeaders(),
-      body: JSON.stringify(Object.assign({ public: false }, contents))
+      body: JSON.stringify(contents)
     });
 
     if (!response.ok) {

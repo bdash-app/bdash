@@ -22,7 +22,10 @@ export default {
     setting: GithubSettingType;
     dataSource: DataSourceType;
   }): Promise<void> {
-    const [tsv, svg] = await Promise.all([getTableDataAsTsv(query), getChartAsSvg(query, chart)]);
+    const [tsv, svg] = await Promise.all([
+      getTableDataAsTsv(query, setting.maximumNumberOfRowsOfGist),
+      getChartAsSvg(query, chart)
+    ]);
 
     const description = query.title;
     const infoMd = Util.stripHeredoc(`
@@ -49,18 +52,18 @@ export default {
     }
 
     const client = new GitHubApiClient(setting);
-    const result = await client.postToGist({ description, files });
+    const result = await client.postToGist({ description, files, public: setting.public });
 
     await electron.shell.openExternal(result.html_url);
   },
 
-  copyAsMarkdown(query: QueryType): void {
-    const markdown = markdownTable(getTableData(query));
+  copyAsMarkdown(query: QueryType, maximumNumberOfRowsOfGist?: number): void {
+    const markdown = markdownTable(getTableData(query, maximumNumberOfRowsOfGist));
     electron.clipboard.writeText(markdown);
   },
 
-  async copyAsTsv(query: QueryType): Promise<void> {
-    const tsv = await getTableDataAsTsv(query);
+  async copyAsTsv(query: QueryType, maximumNumberOfRowsOfGist?: number): Promise<void> {
+    const tsv = await getTableDataAsTsv(query, maximumNumberOfRowsOfGist);
     return electron.clipboard.writeText(tsv);
   },
 
@@ -71,14 +74,14 @@ export default {
 };
 
 // private functions
-function getTableData(query: QueryType): any[] {
-  const rows = query.rows.map(row => Object.values(row));
-  return [query.fields].concat(rows);
+function getTableData(query: QueryType, maximumNumberOfRowsOfGist?: number): any[] {
+  const rows = maximumNumberOfRowsOfGist ? query.rows.slice(0, maximumNumberOfRowsOfGist) : query.rows;
+  return [query.fields].concat(rows.map(row => Object.values(row)));
 }
 
-function getTableDataAsTsv(query: QueryType): Promise<string> {
+function getTableDataAsTsv(query: QueryType, maximumNumberOfRowsOfGist?: number): Promise<string> {
   return new Promise((resolve, reject) => {
-    csvStringify(getTableData(query), { delimiter: "\t" }, (err, tsv) => {
+    csvStringify(getTableData(query, maximumNumberOfRowsOfGist), { delimiter: "\t" }, (err, tsv) => {
       if (err) {
         reject(err);
       } else {

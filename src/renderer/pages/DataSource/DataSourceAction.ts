@@ -15,7 +15,7 @@ const DataSourceAction = {
   },
 
   async loadTables(dataSource: DataSourceType): Promise<void> {
-    let tables;
+    let tables: { name: string; type: string; fields?: string[]; schema?: string }[];
     try {
       tables = await DataSource.create(dataSource).fetchTables();
     } catch (e) {

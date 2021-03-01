@@ -67,7 +67,7 @@ class Setting extends React.Component<unknown, SettingState> {
               placeholder="https://yourdomain/api/v3"
             />
           </div>
-          <div className="page-Setting-validateToken">
+          <div className="page-Setting-validateToken page-Setting-section2">
             <Button
               onClick={(): void => {
                 Action.validateGithubToken(github);
@@ -76,6 +76,24 @@ class Setting extends React.Component<unknown, SettingState> {
               Validate Token
             </Button>
             {this.renderGithubValidateTokenResult()}
+          </div>
+          <div className="page-Setting-section2 page-Setting-public">
+            <h2>Share on gist in public</h2>
+            <input
+              type="checkbox"
+              onChange={(e): void => Action.update({ github: { public: e.target.checked } })}
+              checked={setting.github.public}
+            />
+          </div>
+          <div className="page-Setting-section2">
+            <h2>Maximum number of rows</h2>
+            <input
+              type="number"
+              max={1000000}
+              min={0}
+              value={github.maximumNumberOfRowsOfGist}
+              onChange={(e): void => Action.update({ github: { maximumNumberOfRowsOfGist: Number(e.target.value) } })}
+            />
           </div>
         </div>
       </div>
