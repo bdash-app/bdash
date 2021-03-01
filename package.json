@@ -74,7 +74,7 @@
     "copy-webpack-plugin": "4.5.1",
     "css-loader": "0.28.8",
     "electron": "7.1.12",
-    "electron-builder": "21.2.0",
+    "electron-builder": "^22.9.1",
     "electron-mocha": "~8.2.1",
     "electron-notarize": "0.3.0",
     "electron-publisher-s3": "20.14.4",
