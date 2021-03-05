@@ -1,0 +1,62 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - master
+      - migrate-github-actions
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "12"
+      - run: sudo apt-get install xvfb
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+      - run: yarn
+      - run: xvfb-run yarn ci
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+      - run: yarn ci
+        if: ${{ matrix.os != 'ubuntu-latest' }}
+  integration-test:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:5.7
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_DATABASE: bdash_test
+          MYSQL_ROOT_PASSWORD: ""
+          MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      postgres:
+        image: postgres:13-alpine
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: bdash_test
+          POSTGRES_DB: bdash_test
+          POSTGRES_PASSWORD: password
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "12"
+      - run: sudo apt-get install xvfb
+      - run: yarn
+      - run: xvfb-run yarn test:unit:remote
+        env:
+          POSTGRES_USER: bdash_test
+          PGPASSWORD: password
