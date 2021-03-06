@@ -68,7 +68,7 @@ suite("DataSourceDefinition/Mysql @remote", () => {
       await new Mysql({ host: "x" }).connectionTest();
       assert.fail("connectionTest does not fail");
     } catch (err) {
-      assert.ok(/getaddrinfo ENOTFOUND/.test(err.message));
+      assert.ok(/getaddrinfo (ENOTFOUND|EAI_AGAIN)/.test(err.message));
     }
   });
 });
