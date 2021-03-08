@@ -3,7 +3,8 @@ import initialize from "../../../fixtures/mysql/initialize";
 import Mysql from "../../../../src/lib/DataSourceDefinition/Mysql";
 import DataSourceConfig from "../../../helpers/DataSourceConfig";
 
-suite("DataSourceDefinition/Mysql @remote", () => {
+suite("DataSourceDefinition/Mysql @remote", function() {
+  this.timeout(10000);
   const config = DataSourceConfig.mysql;
 
   suiteSetup(async () => {
