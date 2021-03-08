@@ -34,8 +34,7 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
-      - run: yarn
-        if: steps.yarn-cache.outputs.cache-hit != 'true'
+      - run: yarn --prefer-offline
       - run: xvfb-run yarn ci
         if: ${{ matrix.os == 'ubuntu-latest' }}
       - run: yarn ci
@@ -75,8 +74,7 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
-      - run: yarn
-        if: steps.yarn-cache.outputs.cache-hit != 'true'
+      - run: yarn --prefer-offline
       - run: xvfb-run yarn test:unit:remote
         env:
           POSTGRES_USER: bdash_test
