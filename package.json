@@ -22,7 +22,7 @@
     "lint:tsc": "tsc --noEmit",
     "lint:prettier": "prettier --list-different \"./**/*.{js,jsx,ts,tsx,css,json}\"",
     "format": "prettier --write \"./**/*.{js,jsx,ts,tsx,css,json}\"",
-    "publish": "webpack --env.BUILD_ENV=production --mode=production && electron-builder build --publish always",
+    "release:prepare": "webpack --env.BUILD_ENV=production --mode=production && electron-builder build --publish always",
     "ci": "yarn run lint && yarn run test"
   },
   "dependencies": {
