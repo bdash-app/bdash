@@ -1,4 +1,4 @@
-name: Prepare Publish
+name: Prepare release
 
 on:
   push:
