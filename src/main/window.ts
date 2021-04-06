@@ -12,7 +12,8 @@ export async function createWindow(): Promise<void> {
     titleBarStyle: process.platform === "darwin" ? "hidden" : undefined,
     icon: path.join(__dirname, "..", "icon.png"),
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      enableRemoteModule: true
     }
   });
 
