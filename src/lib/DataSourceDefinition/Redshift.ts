@@ -16,9 +16,9 @@ export default class Redshift extends Postgres {
     const query = Util.stripHeredoc(`
       select * from (
           select
-              table_schema as schema
-              , table_name as name
-              , table_type as type
+              table_schema :: varchar(256) as schema
+              , table_name :: varchar(256) as name
+              , table_type :: varchar(256) as type
           from
               information_schema.tables
           where
