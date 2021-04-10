@@ -2,7 +2,6 @@ const path = require("path");
 const webpack = require("webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const nodeExternals = require("webpack-node-externals");
-const CleanWebpackPlugin = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = (env, argv) => {
@@ -21,8 +20,9 @@ module.exports = (env, argv) => {
   ];
 
   const extractTextPlugin = new MiniCssExtractPlugin({ filename: "app.css" });
-  const cleanPlugin = new CleanWebpackPlugin(appDir);
-  const copyPlugin = new CopyWebpackPlugin(copyTargetFiles.map(filePath => ({ from: filePath, to: appDir })));
+  const copyPlugin = new CopyWebpackPlugin({
+    patterns: copyTargetFiles.map(filePath => ({ from: filePath, to: appDir }))
+  });
   const definePlugin = new webpack.DefinePlugin({
     "process.env.NODE_ENV": JSON.stringify(buildEnv)
   });
@@ -53,17 +53,24 @@ module.exports = (env, argv) => {
           }
         ]
       },
-      externals: [nodeExternals({ whitelist: ["electron-is-dev", "electron-log"] })]
+      externals: [nodeExternals({ allowlist: ["electron-is-dev", "electron-log"] })]
     },
     commonConfig
   );
 
   const rendererConfig = Object.assign(
     {
-      devtool: argv.mode === "production" ? "inline-source-map" : "eval-source-map",
+      // mini-css-extract-plugin does not support "cheap-source-map".
+      // See https://github.com/webpack-contrib/mini-css-extract-plugin/issues/529
+      devtool: argv.mode === "production" ? "inline-source-map" : "source-map",
       target: "electron-renderer",
       entry: "./src/renderer/app.tsx",
       output: {
+        clean: {
+          keep(asset) {
+            return asset === "main.js";
+          }
+        },
         path: distDir,
         filename: "app.js"
       },
@@ -77,21 +84,23 @@ module.exports = (env, argv) => {
           {
             test: /\.css$/,
             use: [
+              MiniCssExtractPlugin.loader,
               {
-                loader: MiniCssExtractPlugin.loader,
-                options: { sourceMap: true }
-              },
-              "css-loader"
+                loader: "css-loader",
+                options: {
+                  sourceMap: true
+                }
+              }
             ]
           },
           {
             test: /\.(png|ttf|eot|svg|woff|woff2)(\?.+)?$/,
-            loader: "url-loader"
+            type: "asset/inline"
           }
         ]
       },
-      externals: [nodeExternals({ whitelist: [/\.css$/, /^aws-sdk/, /^@fortawesome/] })],
-      plugins: [extractTextPlugin, definePlugin, cleanPlugin, copyPlugin]
+      externals: [nodeExternals({ allowlist: [/\.css$/, /^aws-sdk/, /^@fortawesome/] })],
+      plugins: [extractTextPlugin, definePlugin, copyPlugin]
     },
     commonConfig
   );
