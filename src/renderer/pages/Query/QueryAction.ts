@@ -17,7 +17,17 @@ const QueryAction = {
       Database.Chart.getAll()
     ]);
 
-    const dataSourceWithTables = await Promise.all(
+    dispatch("initialize", {
+      queries,
+      dataSources,
+      charts,
+      setting: setting.load()
+    });
+  },
+
+  async dataSourceWithTables(): Promise<DataSourceType[]> {
+    const dataSources = await Database.DataSource.getAll();
+    return Promise.all(
       dataSources.map(async dataSource => {
         const ds = DataSource.create(dataSource);
         try {
@@ -32,13 +42,6 @@ const QueryAction = {
         }
       })
     );
-
-    dispatch("initialize", {
-      queries,
-      dataSources: dataSourceWithTables,
-      charts,
-      setting: setting.load()
-    });
   },
 
   async selectQuery(query: QueryType): Promise<void> {
