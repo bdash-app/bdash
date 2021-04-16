@@ -71,7 +71,7 @@
     "@typescript-eslint/parser": "3.4.0",
     "copy-webpack-plugin": "^8.1.1",
     "css-loader": "^5.2.1",
-    "electron": "11.4.2",
+    "electron": "11.4.3",
     "electron-builder": "22.10.5",
     "electron-mocha": "~10.0.0",
     "electron-notarize": "0.3.0",
