@@ -1,6 +1,5 @@
-[![Travis](https://img.shields.io/travis/bdash-app/bdash.svg?style=flat-square&label=Travis+CI)](https://travis-ci.org/bdash-app/bdash)
-[![CircleCI](https://img.shields.io/circleci/project/github/bdash-app/bdash.svg?style=flat-square&label=CircleCI)](https://circleci.com/gh/bdash-app/bdash)
-[![AppVeyor Build Status](https://img.shields.io/appveyor/ci/hokaccha/bdash/master.svg?style=flat-square&label=AppVeyor&logo=appveyor)](https://ci.appveyor.com/project/hokaccha/bdash/branch/master)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/bdash-app/bdash)](https://github.com/bdash-app/bdash/releases/latest)
+[![Test](https://github.com/bdash-app/bdash/actions/workflows/test.yml/badge.svg)](https://github.com/bdash-app/bdash/actions/workflows/test.yml)
 
 # Bdash
 
