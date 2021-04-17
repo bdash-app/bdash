@@ -12,11 +12,12 @@ export async function createWindow(): Promise<void> {
     titleBarStyle: process.platform === "darwin" ? "hidden" : undefined,
     icon: path.join(__dirname, "..", "icon.png"),
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      enableRemoteModule: true
     }
   });
 
-  win.loadURL(`file://${__dirname}/../index.html`);
+  await win.loadURL(`file://${__dirname}/../index.html`);
   win.once("closed", () => {
     const idx = windows.findIndex(w => w === win);
     windows.splice(idx, 1);
@@ -27,9 +28,9 @@ export async function createWindow(): Promise<void> {
     dialog.showErrorBox("Bdash is crashed", "Unrecoverable error");
   });
 
-  win.webContents.on("will-navigate", (e, url) => {
+  win.webContents.on("will-navigate", async (e, url) => {
     e.preventDefault();
-    shell.openExternal(url);
+    await shell.openExternal(url);
   });
 
   windows.push(win);

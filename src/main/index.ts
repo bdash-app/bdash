@@ -22,26 +22,14 @@ app.on("window-all-closed", () => {
   }
 });
 
-app.on("ready", async () => {
-  // https://github.com/electron/electron/issues/13008#issuecomment-569363295
-  electron.session.defaultSession.webRequest.onBeforeRequest((details, callback) => {
-    const redirectURL = details.url.replace(
-      /^devtools:\/\/devtools\/remote\/serve_file\/@[0-9a-f]{40}\//,
-      "https://chrome-devtools-frontend.appspot.com/serve_file/@675968a8c657a3bd9c1c2c20c5d2935577bbc5e6/"
-    );
-    if (redirectURL !== details.url) {
-      callback({ redirectURL });
-    } else {
-      callback({});
-    }
-  });
-  createWindow();
+app.whenReady().then(async () => {
+  await createWindow();
   initMenu();
   await updater.watch();
 });
 
-app.on("activate", () => {
+app.on("activate", async () => {
   if (windows.length === 0) {
-    createWindow();
+    await createWindow();
   }
 });
