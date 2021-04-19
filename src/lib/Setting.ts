@@ -6,7 +6,7 @@ export type SettingType = {
   readonly keyBind: "default" | "vim";
   readonly lineWrap: boolean;
   readonly github: GithubSettingType;
-  readonly defaultDataSourceId?: number;
+  readonly defaultDataSourceId: number | null;
 };
 
 export type GithubSettingType = {
@@ -30,7 +30,7 @@ export default class Setting {
         public: false,
         maximumNumberOfRowsOfGist: 10000
       },
-      defaultDataSourceId: undefined
+      defaultDataSourceId: null
     };
   }
 
