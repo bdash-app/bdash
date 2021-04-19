@@ -17,9 +17,8 @@ class Query extends React.Component<unknown, QueryState> {
   }
 
   handleAddQuery(): void {
-    const defaultDataSourceId: number | undefined = this.state.setting.defaultDataSourceId;
-    const ds =
-      defaultDataSourceId !== undefined ? this.findDataSourceById(defaultDataSourceId) : this.state.dataSources[0];
+    const defaultDataSourceId = this.state.setting.defaultDataSourceId;
+    const ds = defaultDataSourceId !== null ? this.findDataSourceById(defaultDataSourceId) : this.state.dataSources[0];
     if (ds) {
       Action.addNewQuery({ dataSourceId: ds.id });
     } else {
