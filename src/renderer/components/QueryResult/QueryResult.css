@@ -1,6 +1,4 @@
 .QueryResult {
-  overflow: auto;
-  height: 100%;
 }
 
 .QueryResult-errorMessage {
