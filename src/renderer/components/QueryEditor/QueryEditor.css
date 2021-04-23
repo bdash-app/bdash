@@ -9,10 +9,7 @@
 }
 
 .QueryEditor .Editor {
-  height: 100%;
-  max-height: calc(
-    100vh - var(--page-Query-headerHeight) - var(--QueryEditor-navbarHeight) - 2px
-  ); /* 2px == border width */
+  height: calc(100% - var(--QueryEditor-navbarHeight));
 }
 
 .QueryEditor .Editor .CodeMirror {
