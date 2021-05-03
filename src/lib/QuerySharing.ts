@@ -23,9 +23,10 @@ export default {
     setting: GithubSettingType;
     dataSource: DataSourceType;
   }): Promise<void> {
+    const chartWidth = 600;
     const [tsv, svg] = await Promise.all([
       getTableDataAsTsv(query, setting.maximumNumberOfRowsOfGist),
-      getChartAsSvg(query, chart)
+      getChartAsSvg(query, chart, chartWidth)
     ]);
 
     const description = query.title;
@@ -84,9 +85,10 @@ export default {
     setting: BdashServerSettingType;
     dataSource: DataSourceType;
   }): Promise<void> {
+    const chartWidth = 1200;
     const [tsv, svg] = await Promise.all([
       getTableDataAsTsv(query, setting.maximumNumberOfRows),
-      getChartAsSvg(query, chart)
+      getChartAsSvg(query, chart, chartWidth)
     ]);
 
     const description = query.title;
@@ -162,7 +164,7 @@ function getTableDataAsCsv(query: QueryType): Promise<string> {
   });
 }
 
-function getChartAsSvg(query: QueryType, chart: ChartType | undefined): Promise<string | null> {
+function getChartAsSvg(query: QueryType, chart: ChartType | undefined, width: number): Promise<string | null> {
   if (!query || !chart) return Promise.resolve(null);
 
   const params = {
@@ -175,5 +177,5 @@ function getChartAsSvg(query: QueryType, chart: ChartType | undefined): Promise<
     fields: query.fields
   };
 
-  return new Chart(params).toSVG();
+  return new Chart(params).toSVG({ width });
 }
