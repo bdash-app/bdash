@@ -67,6 +67,27 @@ class Query extends React.Component<unknown, QueryState> {
     }
   }
 
+  async handleShareOnBdashServer(query: QueryType): Promise<void> {
+    const chart = this.state.charts.find(chart => chart.queryId === query.id);
+    const setting = this.state.setting.bdashServer;
+    const dataSource = this.state.dataSources.find(ds => ds.id === query.dataSourceId);
+
+    if (!setting.token) {
+      alert("Set your Bdash Server's access token");
+      return;
+    }
+    if (!dataSource) {
+      alert("DataSource is not selected");
+      return;
+    }
+
+    try {
+      await QuerySharing.shareOnBdashServer({ query, chart, setting, dataSource });
+    } catch (err) {
+      alert(err.message);
+    }
+  }
+
   renderMain(): React.ReactNode {
     const query = this.state.queries.find(query => query.id === this.state.selectedQueryId);
     if (!query) return <div className="page-Query-main" />;
@@ -120,6 +141,9 @@ class Query extends React.Component<unknown, QueryState> {
             onClickCopyAsMarkdown={(): void => QuerySharing.copyAsMarkdown(query)}
             onClickShareOnGist={(): void => {
               this.handleShareOnGist(query);
+            }}
+            onClickShareOnBdashServer={(): void => {
+              this.handleShareOnBdashServer(query);
             }}
             onSelectTab={(name): void => {
               Action.selectResultTab(query, name);

@@ -6,6 +6,7 @@ export type SettingType = {
   readonly keyBind: "default" | "vim";
   readonly lineWrap: boolean;
   readonly github: GithubSettingType;
+  readonly bdashServer: BdashServerSettingType;
   readonly defaultDataSourceId: number | null;
 };
 
@@ -14,6 +15,12 @@ export type GithubSettingType = {
   readonly url: string | null;
   readonly public: boolean;
   readonly maximumNumberOfRowsOfGist: number;
+};
+
+export type BdashServerSettingType = {
+  readonly token: string | null;
+  readonly url: string | null;
+  readonly maximumNumberOfRows: number;
 };
 
 // type for partial updating parameter.
@@ -29,6 +36,11 @@ export default class Setting {
         url: null,
         public: false,
         maximumNumberOfRowsOfGist: 10000
+      },
+      bdashServer: {
+        token: null,
+        url: null,
+        maximumNumberOfRows: 10000
       },
       defaultDataSourceId: null
     };

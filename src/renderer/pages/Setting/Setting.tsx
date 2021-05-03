@@ -17,11 +17,17 @@ class Setting extends React.Component<unknown, SettingState> {
     return status === null ? null : <ProgressIcon status={status} message={error} />;
   }
 
+  renderBdashServerValidateTokenResult(): React.ReactNode {
+    const { status, error } = this.state.bdashServerValidateToken;
+    return status === null ? null : <ProgressIcon status={status} message={error} />;
+  }
+
   render(): React.ReactNode {
     const keyBindOptions: { value: string; label: string }[] = ["default", "vim"].map(v => ({ value: v, label: v }));
     const setting = this.state.setting;
     const currentOption = keyBindOptions.find(option => option.value === (setting.keyBind || "default"));
     const github = setting.github || {};
+    const bdashServer = setting.bdashServer || {};
 
     return (
       <div className="page-Setting">
@@ -49,7 +55,7 @@ class Setting extends React.Component<unknown, SettingState> {
         </div>
 
         <div className="page-Setting-section1">
-          <h1>GitHub Access Token</h1>
+          <h1>GitHub Settings</h1>
           <div className="page-Setting-section2">
             <h2>Access Token (Required scope is only gist)</h2>
             <input
@@ -93,6 +99,46 @@ class Setting extends React.Component<unknown, SettingState> {
               min={0}
               value={github.maximumNumberOfRowsOfGist}
               onChange={(e): void => Action.update({ github: { maximumNumberOfRowsOfGist: Number(e.target.value) } })}
+            />
+          </div>
+        </div>
+        <div className="page-Setting-section1">
+          <h1>Bdash Server Settings</h1>
+          <div className="page-Setting-section2">
+            <h2>Access Token</h2>
+            <input
+              type="text"
+              onChange={(e): void => Action.update({ bdashServer: { token: e.target.value } })}
+              value={bdashServer.token || ""}
+            />
+          </div>
+          <div className="page-Setting-section2">
+            <h2>Bdash Server URL</h2>
+            <input
+              type="text"
+              onChange={(e): void => Action.update({ bdashServer: { url: e.target.value } })}
+              value={bdashServer.url || ""}
+              placeholder="https://bdash-server.your-domain.com/"
+            />
+          </div>
+          <div className="page-Setting-validateToken page-Setting-section2">
+            <Button
+              onClick={(): void => {
+                Action.validateBdashServerToken(bdashServer);
+              }}
+            >
+              Validate Token
+            </Button>
+            {this.renderBdashServerValidateTokenResult()}
+          </div>
+          <div className="page-Setting-section2">
+            <h2>Maximum number of rows</h2>
+            <input
+              type="number"
+              max={1000000}
+              min={0}
+              value={bdashServer.maximumNumberOfRows}
+              onChange={(e): void => Action.update({ bdashServer: { maximumNumberOfRows: Number(e.target.value) } })}
             />
           </div>
         </div>

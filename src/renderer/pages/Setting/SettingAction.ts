@@ -1,6 +1,7 @@
 import { setting, PartialSettingType } from "../../../lib/Setting";
 import GitHubApiClient from "../../../lib/GitHubApiClient";
 import { dispatch } from "./SettingStore";
+import BdashServerClient from "../../../lib/BdashServerClient";
 
 const SettingAction = {
   initialize(): void {
@@ -23,6 +24,19 @@ const SettingAction = {
     }
 
     dispatch("githubValidateTokenSuccess");
+  },
+
+  async validateBdashServerToken({ url, token }: { url: string | null; token: string | null }): Promise<void> {
+    dispatch("bdashServerValidateTokenWorking");
+
+    try {
+      await new BdashServerClient({ url, token }).validateToken();
+    } catch (err) {
+      dispatch("bdashServerValidateTokenError", { message: err.message });
+      return;
+    }
+
+    dispatch("bdashServerValidateTokenSuccess");
   }
 };
 

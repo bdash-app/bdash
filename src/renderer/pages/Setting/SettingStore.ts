@@ -6,6 +6,10 @@ export interface SettingState {
     status: string | null;
     error: string | null;
   };
+  bdashServerValidateToken: {
+    status: string | null;
+    error: string | null;
+  };
   setting: SettingType;
 }
 
@@ -14,6 +18,10 @@ export default class SettingStore extends Store<SettingState> {
     super();
     this.state = {
       githubValidateToken: {
+        status: null,
+        error: null
+      },
+      bdashServerValidateToken: {
         status: null,
         error: null
       },
@@ -41,6 +49,24 @@ export default class SettingStore extends Store<SettingState> {
       }
       case "githubValidateTokenError": {
         return this.merge("githubValidateToken", {
+          status: "failure",
+          error: payload.message
+        });
+      }
+      case "bdashServerValidateTokenWorking": {
+        return this.merge("bdashServerValidateToken", {
+          status: "working",
+          error: null
+        });
+      }
+      case "bdashServerValidateTokenSuccess": {
+        return this.merge("bdashServerValidateToken", {
+          status: "success",
+          error: null
+        });
+      }
+      case "bdashServerValidateTokenError": {
+        return this.merge("bdashServerValidateToken", {
           status: "failure",
           error: payload.message
         });
