@@ -55,7 +55,7 @@ class Setting extends React.Component<unknown, SettingState> {
         </div>
 
         <div className="page-Setting-section1">
-          <h1>GitHub Access Token</h1>
+          <h1>GitHub Settings</h1>
           <div className="page-Setting-section2">
             <h2>Access Token (Required scope is only gist)</h2>
             <input
@@ -103,7 +103,7 @@ class Setting extends React.Component<unknown, SettingState> {
           </div>
         </div>
         <div className="page-Setting-section1">
-          <h1>Bdash Server Access Token</h1>
+          <h1>Bdash Server Settings</h1>
           <div className="page-Setting-section2">
             <h2>Access Token</h2>
             <input
