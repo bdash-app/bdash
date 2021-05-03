@@ -25,7 +25,7 @@ export default class Chart {
     });
   }
 
-  async toSVG(): Promise<string | null> {
+  async toSVG({ width }: { width: number }): Promise<string | null> {
     const data = this.getData();
     const layout = this.getLayout();
     const div = document.createElement("div");
@@ -35,8 +35,6 @@ export default class Chart {
     }
 
     const gd = await Plotly.plot(div, data, layout);
-    // max width of gist image in pc browser
-    const width = 600;
     // aspect ratio (450:700) is default of plotly.js
     // https://plot.ly/javascript/reference/#layout-width
     // https://plot.ly/javascript/reference/#layout-height
