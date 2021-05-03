@@ -12,6 +12,7 @@ type Props = {
   readonly onClickCopyAsCsv: () => void;
   readonly onClickCopyAsMarkdown: () => void;
   readonly onClickShareOnGist: () => void;
+  readonly onClickShareOnBdashServer: () => void;
   readonly onSelectTab: (tabName: string) => void;
   readonly onUpdateChart: (id: number, params: any) => void;
 };

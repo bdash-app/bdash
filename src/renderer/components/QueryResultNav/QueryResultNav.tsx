@@ -9,6 +9,7 @@ type Props = {
   readonly onClickCopyAsCsv: () => void;
   readonly onClickCopyAsMarkdown: () => void;
   readonly onClickShareOnGist: () => void;
+  readonly onClickShareOnBdashServer: () => void;
   readonly onSelectTab: (tabName: "table" | "chart") => void;
 };
 
@@ -24,6 +25,7 @@ export default class QueryResultNav extends React.Component<Props, State> {
     this.handleClickCopyAsCsv = this.handleClickCopyAsCsv.bind(this);
     this.handleClickCopyAsMarkdown = this.handleClickCopyAsMarkdown.bind(this);
     this.handleClickShareOnGist = this.handleClickShareOnGist.bind(this);
+    this.handleClickShareOnBdashServer = this.handleClickShareOnBdashServer.bind(this);
   }
 
   selectedTab(name: string): boolean {
@@ -48,6 +50,11 @@ export default class QueryResultNav extends React.Component<Props, State> {
   handleClickShareOnGist(): void {
     this.setState({ openShareFlyout: false });
     this.props.onClickShareOnGist();
+  }
+
+  handleClickShareOnBdashServer(): void {
+    this.setState({ openShareFlyout: false });
+    this.props.onClickShareOnBdashServer();
   }
 
   render(): React.ReactNode {
@@ -83,6 +90,7 @@ export default class QueryResultNav extends React.Component<Props, State> {
               <li onClick={this.handleClickCopyAsCsv}>Copy table as CSV</li>
               <li onClick={this.handleClickCopyAsMarkdown}>Copy table as Markdown</li>
               <li onClick={this.handleClickShareOnGist}>Share on gist</li>
+              <li onClick={this.handleClickShareOnBdashServer}>Share on Bdash Server</li>
             </ul>
           </Flyout>
         </div>

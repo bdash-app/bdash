@@ -5,10 +5,11 @@ import GitHubApiClient from "./GitHubApiClient";
 import Chart from "./Chart";
 import DataSource from "./DataSource";
 import Util from "./Util";
-import { GithubSettingType } from "./Setting";
+import { BdashServerSettingType, GithubSettingType } from "./Setting";
 import { ChartType } from "./Database/Chart";
 import { QueryType } from "./Database/Query";
 import { DataSourceType } from "src/renderer/pages/DataSource/DataSourceStore";
+import BdashServerClient from "./BdashServerClient";
 
 export default {
   async shareOnGist({
@@ -70,6 +71,52 @@ export default {
   async copyAsCsv(query: QueryType): Promise<void> {
     const csv = await getTableDataAsCsv(query);
     return electron.clipboard.writeText(csv);
+  },
+
+  async shareOnBdashServer({
+    query,
+    chart,
+    setting,
+    dataSource
+  }: {
+    query: QueryType;
+    chart: ChartType | undefined;
+    setting: BdashServerSettingType;
+    dataSource: DataSourceType;
+  }): Promise<void> {
+    const [tsv, svg] = await Promise.all([
+      getTableDataAsTsv(query, setting.maximumNumberOfRows),
+      getChartAsSvg(query, chart)
+    ]);
+
+    const description = query.title;
+    const infoMd = Util.stripHeredoc(`
+      ## Data source
+      |key|value|
+      |---|---|
+      |type|${dataSource.type}
+      ${DataSource.create(dataSource).descriptionTable()}
+
+      ## Created by
+      [Bdash](https://github.com/bdash-app/bdash)
+    `);
+
+    // https://github.com/bdash-app/bdash/issues/40
+    const fileNamePrefix = query.title !== "" ? query.title.replace(/[/\s]/g, "_") : "bdash";
+    const files = {
+      [`${fileNamePrefix}.sql`]: { content: query.body },
+      [`${fileNamePrefix}_02.tsv`]: { content: tsv },
+      [`${fileNamePrefix}_03.md`]: { content: infoMd }
+    };
+
+    if (svg) {
+      files[`${fileNamePrefix}_01.svg`] = { content: svg };
+    }
+
+    const client = new BdashServerClient(setting);
+    const result = await client.post({ description, files });
+
+    await electron.shell.openExternal(result.html_url);
   }
 };
 

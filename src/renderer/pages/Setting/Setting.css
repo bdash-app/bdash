@@ -1,5 +1,7 @@
 .page-Setting {
   padding: 20px;
+  overflow: auto;
+  height: 100%;
 }
 
 .page-Setting-section1 {
