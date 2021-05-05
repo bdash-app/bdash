@@ -1,6 +1,5 @@
 import sqlite3 from "sqlite3";
 import Base, { ConfigSchemasType } from "./Base";
-import Util from "../Util";
 import { DataSourceKeys } from "../../renderer/pages/DataSource/DataSourceStore";
 
 export default class SQLite3 extends Base {
@@ -64,9 +63,10 @@ export default class SQLite3 extends Base {
     });
   }
 
-  descriptionTable(): string {
-    return Util.stripHeredoc(`
-      |path|${this.config.path}|
-    `);
+  dataSourceInfo(): Record<string, any> {
+    return {
+      type: SQLite3.label,
+      path: this.config.path
+    };
   }
 }
