@@ -23,7 +23,7 @@ export default {
     setting: GithubSettingType;
     dataSource: DataSourceType;
   }): Promise<void> {
-    const chartWidth = 600;
+    const chartWidth = 1000;
     const [tsv, svg] = await Promise.all([
       getTableDataAsTsv(query, setting.maximumNumberOfRowsOfGist),
       getChartAsSvg(query, chart, chartWidth)
