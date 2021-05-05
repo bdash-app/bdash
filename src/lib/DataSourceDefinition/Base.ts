@@ -27,11 +27,20 @@ export default abstract class Base {
 
   abstract fetchTables(): Promise<{ name: string; type: string; schema?: string }[]>;
 
-  abstract descriptionTable(): string;
+  abstract dataSourceInfo(): Record<string, any>;
 
   abstract fetchTableSummary(
     args: Partial<TableType>
   ): Promise<{ name: string; defs: { fields: string[]; rows: (string | null)[][] }; schema?: string }>;
+
+  infoMdTable(): string {
+    const info = this.dataSourceInfo();
+    const rows = Object.keys(info).map(k => {
+      const v = info[k];
+      return `|${k}|${v}|`;
+    });
+    return rows.join("\n");
+  }
 }
 
 export type ConfigSchemasType = ConfigSchemaType[];

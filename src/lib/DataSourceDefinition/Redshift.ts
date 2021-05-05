@@ -63,4 +63,14 @@ export default class Redshift extends Postgres {
 
     return { schema, name, defs };
   }
+
+  dataSourceInfo(): Record<string, any> {
+    return {
+      type: Redshift.label,
+      host: this.config.host,
+      port: this.config.port,
+      user: this.config.user,
+      database: this.config.database
+    };
+  }
 }

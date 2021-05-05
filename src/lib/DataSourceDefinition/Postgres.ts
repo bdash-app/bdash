@@ -137,13 +137,14 @@ export default class Postgres extends Base {
     return { schema, name, defs };
   }
 
-  descriptionTable(): string {
-    return Util.stripHeredoc(`
-      |host|${this.config.host}|
-      |port|${this.config.port}|
-      |user|${this.config.user}|
-      |database|${this.config.database}|
-    `);
+  dataSourceInfo(): Record<string, any> {
+    return {
+      type: Postgres.label,
+      host: this.config.host,
+      port: this.config.port,
+      user: this.config.user,
+      database: this.config.database
+    };
   }
 
   _execute(query, ...args): Promise<any> {

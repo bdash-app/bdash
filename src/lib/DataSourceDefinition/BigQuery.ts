@@ -94,7 +94,10 @@ export default class BigQuery extends Base {
     return { schema, name, defs };
   }
 
-  descriptionTable(): string {
-    return `|project|${this.config.project}|`;
+  dataSourceInfo(): Record<string, any> {
+    return {
+      type: BigQuery.label,
+      project: this.config.project
+    };
   }
 }

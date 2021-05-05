@@ -1,6 +1,5 @@
 import TD from "td";
 import Base, { ConfigSchemasType } from "./Base";
-import Util from "../Util";
 import { DataSourceKeys } from "../../renderer/pages/DataSource/DataSourceStore";
 
 const WAIT_INTERVAL = 2000;
@@ -106,11 +105,12 @@ export default class TreasureData extends Base {
     return { name, defs: { fields, rows } };
   }
 
-  descriptionTable(): string {
-    return Util.stripHeredoc(`
-      |database|${this.config.database}|
-      |queryType|${this.config.queryType}|
-    `);
+  dataSourceInfo(): Record<string, any> {
+    return {
+      type: TreasureData.label,
+      database: this.config.database,
+      queryType: this.config.queryType
+    };
   }
 
   async wait(): Promise<any> {

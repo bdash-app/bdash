@@ -1,6 +1,5 @@
 import AthenaClient from "../AthenaClient";
 import Base, { ConfigSchemasType } from "./Base";
-import Util from "../Util";
 import { DataSourceKeys } from "../../renderer/pages/DataSource/DataSourceStore";
 
 export default class Athena extends Base {
@@ -88,10 +87,11 @@ export default class Athena extends Base {
     return { name, defs };
   }
 
-  descriptionTable(): string {
-    return Util.stripHeredoc(`
-      |region|${this.config.region}|
-      |database|${this.config.database}|
-    `);
+  dataSourceInfo(): Record<string, any> {
+    return {
+      type: Athena.label,
+      region: this.config.region,
+      database: this.config.database
+    };
   }
 }

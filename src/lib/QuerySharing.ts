@@ -30,12 +30,12 @@ export default {
     ]);
 
     const description = query.title;
+
     const infoMd = Util.stripHeredoc(`
       ## Data source
       |key|value|
       |---|---|
-      |type|${dataSource.type}
-      ${DataSource.create(dataSource).descriptionTable()}
+      ${DataSource.create(dataSource).infoMdTable()}
 
       ## Created by
       [Bdash](https://github.com/bdash-app/bdash)
@@ -92,27 +92,17 @@ export default {
     ]);
 
     const description = query.title;
-    const infoMd = Util.stripHeredoc(`
-      ## Data source
-      |key|value|
-      |---|---|
-      |type|${dataSource.type}
-      ${DataSource.create(dataSource).descriptionTable()}
+    const ds = DataSource.create(dataSource);
+    const dataSourceInfo = ds.dataSourceInfo();
 
-      ## Created by
-      [Bdash](https://github.com/bdash-app/bdash)
-    `);
-
-    // https://github.com/bdash-app/bdash/issues/40
-    const fileNamePrefix = query.title !== "" ? query.title.replace(/[/\s]/g, "_") : "bdash";
     const files = {
-      [`${fileNamePrefix}.sql`]: { content: query.body },
-      [`${fileNamePrefix}_02.tsv`]: { content: tsv },
-      [`${fileNamePrefix}_03.md`]: { content: infoMd }
+      "query.sql": { content: query.body },
+      "result.tsv": { content: tsv },
+      "data_source.json": { content: JSON.stringify(dataSourceInfo) }
     };
 
     if (svg) {
-      files[`${fileNamePrefix}_01.svg`] = { content: svg };
+      files["chart.svg"] = { content: svg };
     }
 
     const client = new BdashServerClient(setting);
