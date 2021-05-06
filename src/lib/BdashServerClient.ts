@@ -18,7 +18,8 @@ export default class BdashServerClient {
     if (!this.baseUrl) {
       throw new Error("BdashServer URL is not set");
     }
-    return this.baseUrl.replace(/\/+$/, "") + path;
+    const url = new URL(this.baseUrl);
+    return `${url.origin}/api/bdash-query${path}`;
   }
 
   getValidationTokenUrl(): string {
