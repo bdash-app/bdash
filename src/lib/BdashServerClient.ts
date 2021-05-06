@@ -43,7 +43,9 @@ export default class BdashServerClient {
       throw new Error(`Request failed: ${response.statusText}`);
     }
 
-    const result = await response.json();
+    const result = await response.json().catch(() => {
+      return { message: "Request failed: Response body is invalid JSON" };
+    });
     if (!result.ok) {
       throw new Error(result.message);
     }
