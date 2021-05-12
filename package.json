@@ -30,7 +30,7 @@
     "@google-cloud/bigquery": "0.7.0",
     "aws-sdk": "2.259.1",
     "classnames": "2.2.5",
-    "codemirror": "~5.49.2",
+    "codemirror": "~5.58.2",
     "csv-stringify": "2.0.1",
     "electron-is-dev": "2.0.0",
     "electron-log": "4.3.0",
