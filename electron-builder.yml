@@ -24,6 +24,9 @@ publish:
     acl: public-read
     path: v${version}
 
+extraResources:
+  - build/icon.png
+
 win:
   target:
     - nsis
