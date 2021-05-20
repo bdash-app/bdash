@@ -2,6 +2,7 @@ import { app, Menu, dialog, shell } from "electron";
 import { updater, UpdateState } from "./updater";
 import isDev from "electron-is-dev";
 import { createWindow } from "./window";
+import path from "path";
 
 const editMenu: Electron.MenuItemConstructorOptions = {
   label: "Edit",
@@ -90,6 +91,8 @@ if (process.platform === "darwin") {
     ]
   });
 } else if (Array.isArray(helpMenu.submenu)) {
+  helpMenu.submenu.push({ type: "separator" });
+  helpMenu.submenu.push({ role: "about" });
   helpMenu.submenu.push(checkForUpdateItem);
   template.unshift({
     label: "File",
@@ -98,6 +101,14 @@ if (process.platform === "darwin") {
 }
 
 export function initMenu(): void {
+  const iconPath = isDev
+    ? path.join(__dirname, "..", "..", "..", "build", "icon.png")
+    : path.join(process.resourcesPath, "build", "icon.png");
+  app.setAboutPanelOptions({
+    applicationName: "Bdash",
+    applicationVersion: app.getVersion(),
+    iconPath
+  });
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
 }
