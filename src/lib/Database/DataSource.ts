@@ -73,7 +73,7 @@ const mimeType = (dsType: DataSourceType): string => {
         return "text/x-hive";
       }
     case "bigquery":
-      return "text/x-gql";
+      return "text/x-sql";
     default:
       return "text/x-sql";
   }
