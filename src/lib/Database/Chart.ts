@@ -6,7 +6,7 @@ export type ChartType = {
   readonly type: "line" | "bar" | "area" | "pie";
   readonly xColumn: string;
   readonly yColumns: Array<string>;
-  readonly groupColumn: string;
+  readonly groupColumns: Array<string>;
   readonly stacking: 0 | string;
   readonly updatedAt: string;
   readonly createdAt: string;
@@ -54,7 +54,7 @@ export default class Chart {
 
     Object.keys(params).forEach(field => {
       fields.push(field);
-      values.push(field === "yColumns" ? JSON.stringify(params[field]) : params[field]);
+      values.push(["yColumns", "groupColumns"].includes(field) ? JSON.stringify(params[field]) : params[field]);
     });
     values.push(id);
 
@@ -71,5 +71,6 @@ export default class Chart {
 
 function convert(row): ChartType {
   const yColumns = JSON.parse(row.yColumns || "[]");
-  return Object.assign(row, { yColumns });
+  const groupColumns = JSON.parse(row.groupColumns || "[]");
+  return Object.assign(row, { yColumns, groupColumns });
 }
