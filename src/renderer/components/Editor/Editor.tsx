@@ -15,7 +15,7 @@ import "codemirror/addon/hint/show-hint.css";
 import { isEqual } from "lodash";
 import { clipboard } from "electron";
 
-const MIN_COMPLETION_CHARS: number = 2;
+const MIN_COMPLETION_CHARS = 2;
 
 type Props = {
   readonly options: CodeMirror.EditorConfiguration;
@@ -165,7 +165,7 @@ export default class Editor extends React.Component<Props> {
         hint: (cm: CodeMirror.Editor): CodeMirror.Hints => {
           const tableHints = this.props.tables.filter(t => t.length > tokenString.length && t.startsWith(tokenString));
           // Suppress 'hint does not exist' because codemirror does not serve types of addons.
-          // @ts-ignore
+          // @ts-expect-error
           const sqlHints = CodeMirror.hint.sql(cm);
           const hints = Array.prototype.concat(tableHints, sqlHints.list);
           return {
