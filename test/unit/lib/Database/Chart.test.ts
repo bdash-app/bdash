@@ -9,9 +9,9 @@ suite("Database/Chart", () => {
   test("findAll", async () => {
     await connection.exec(`
       insert into charts
-        (id, queryId, type, xColumn, yColumns, groupColumn, stacking, updatedAt, createdAt)
+        (id, queryId, type, xColumn, yColumns, groupColumns, stacking, updatedAt, createdAt)
       values
-        (1, 100, 'bar', 'x', '["a","b"]', "g", 1, '2017-02-01 00:00:00', '2017-01-01 00:00:00')
+        (1, 100, 'bar', 'x', '["a","b"]', '["g"]', 1, '2017-02-01 00:00:00', '2017-01-01 00:00:00')
     `);
     const rows = await Chart.getAll();
     assert.deepStrictEqual(rows, [
@@ -21,7 +21,7 @@ suite("Database/Chart", () => {
         type: "bar",
         xColumn: "x",
         yColumns: ["a", "b"],
-        groupColumn: "g",
+        groupColumns: ["g"],
         stacking: 1,
         updatedAt: "2017-02-01 00:00:00",
         createdAt: "2017-01-01 00:00:00"
@@ -32,9 +32,9 @@ suite("Database/Chart", () => {
   test("get", async () => {
     await connection.exec(`
       insert into charts
-        (id, queryId, type, xColumn, yColumns, groupColumn, stacking, updatedAt, createdAt)
+        (id, queryId, type, xColumn, yColumns, groupColumns, stacking, updatedAt, createdAt)
       values
-        (1, 100, 'bar', 'x', '["a","b"]', "g", 1, '2017-02-01 00:00:00', '2017-01-01 00:00:00')
+        (1, 100, 'bar', 'x', '["a","b"]', '["g"]', 1, '2017-02-01 00:00:00', '2017-01-01 00:00:00')
     `);
     const rows = await Chart.get(1);
     assert.deepStrictEqual(rows, {
@@ -43,7 +43,7 @@ suite("Database/Chart", () => {
       type: "bar",
       xColumn: "x",
       yColumns: ["a", "b"],
-      groupColumn: "g",
+      groupColumns: ["g"],
       stacking: 1,
       updatedAt: "2017-02-01 00:00:00",
       createdAt: "2017-01-01 00:00:00"
@@ -74,9 +74,9 @@ suite("Database/Chart", () => {
   test("update", async () => {
     await connection.exec(`
       insert into charts
-        (id, queryId, type, xColumn, yColumns, groupColumn, stacking, updatedAt, createdAt)
+        (id, queryId, type, xColumn, yColumns, groupColumns, stacking, updatedAt, createdAt)
       values
-        (1, 100, 'bar', 'x', '["a","b"]', "g", 1, '2017-02-01 00:00:00', '2017-01-01 00:00:00')
+        (1, 100, 'bar', 'x', '["a","b"]', '["g"]', 1, '2017-02-01 00:00:00', '2017-01-01 00:00:00')
     `);
     const chart = await Chart.update(1, {
       xColumn: "new",

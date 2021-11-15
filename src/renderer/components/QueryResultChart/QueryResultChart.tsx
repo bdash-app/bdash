@@ -44,7 +44,7 @@ export default class QueryResultChart extends React.Component<Props> {
       x: chart.xColumn,
       y: chart.yColumns,
       stacking: chart.stacking,
-      groupBy: chart.groupColumn,
+      groupBy: chart.groupColumns,
       rows: query.rows,
       fields: query.fields
     };
@@ -80,8 +80,8 @@ export default class QueryResultChart extends React.Component<Props> {
     this.update({ stacking: option.value });
   }
 
-  handleChangeGroup(option: OptionType): void {
-    this.update({ groupColumn: option ? option.value : null });
+  handleChangeGroup(options: ValueType<OptionTypeBase>): void {
+    this.update({ groupColumns: options && Array.isArray(options) ? options.map(o => o.value) : [] });
   }
 
   renderChartImage(chartType: string): React.ReactNode {
@@ -136,7 +136,7 @@ export default class QueryResultChart extends React.Component<Props> {
     }));
     const currentXColumnFieldOption = fieldOptions.find(option => option.value === chart.xColumn);
     const currentYColumnFieldOptions = fieldOptions.filter(option => chart.yColumns.includes(option.value));
-    const currentGroupOption = fieldOptions.find(option => option.value === chart.groupColumn);
+    const currentGroupOptions = fieldOptions.filter(option => chart.groupColumns.includes(option.value));
     const stackingOptions = ["disable", "enable", "percent"].map(o => ({
       label: o,
       value: o
@@ -194,8 +194,9 @@ export default class QueryResultChart extends React.Component<Props> {
           <div className="QueryResultChart-item" hidden={chart.type === "pie"}>
             <div className="QueryResultChart-label">Group By</div>
             <Select
+              isMulti={true}
               options={fieldOptions}
-              value={currentGroupOption}
+              value={currentGroupOptions}
               onChange={(o): void => this.handleChangeGroup(o)}
               isClearable={true}
               styles={selectStyles}

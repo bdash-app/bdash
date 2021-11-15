@@ -4,7 +4,7 @@ import _ from "lodash";
 type Params = {
   readonly type: "line" | "scatter" | "bar" | "area" | "pie";
   readonly stacking: 0 | string;
-  readonly groupBy: string | null;
+  readonly groupBy: string[];
   readonly rows: (string | number)[][];
   readonly fields: string[];
   readonly x: string;
@@ -73,7 +73,7 @@ export default class Chart {
   generateChartData(): { x: (string | number)[]; y: (string | number)[]; name: string }[] {
     if (!this.params.y) return [];
 
-    if (!this.params.groupBy || !this.params.fields.includes(this.params.groupBy)) {
+    if (this.params.groupBy.length == 0 || _.difference(this.params.groupBy, this.params.fields).length > 0) {
       return this.params.y.map(y => {
         return {
           x: this.dataByField(this.params.x),
@@ -84,18 +84,28 @@ export default class Chart {
     }
 
     // NOTE: Can delete sort?
-    const groupValues = _.uniq(this.dataByField(this.params.groupBy)).sort();
-    const idx = this.params.fields.findIndex(field => field === this.params.groupBy);
-    const x = _.groupBy(this.params.rows, row => row[idx]);
-    const groupByIdx = this.rowIndexByFieldName(this.params.groupBy);
+    const groupValues = this.params.groupBy.map(field => _.uniq(this.dataByField(field)).sort());
+    const indices = this.params.groupBy.map(field => this.rowIndexByFieldName(field));
+    const x = _.groupBy(this.params.rows, row => indices.map(idx => row[idx]));
+
+    // The cartesian product of group values
+    const groupPairs = groupValues.reduce((a: any[][], b: any[]) => (
+      _.flatMap(a, x => (
+        b.map(y => x.concat([y])
+      ))
+    )), [[]]);
 
     return _.flatMap(this.params.y, y => {
       const yIdx = this.rowIndexByFieldName(y);
-      return groupValues.map(g => {
+      return groupPairs.map(g => {
+        const key = g.join(',');
         return {
-          name: `${y} (${g})`,
-          x: this.valuesByField(x[g], this.params.x),
-          y: this.params.rows.filter(row => row[groupByIdx] === g).map(row => row[yIdx])
+          name: `${y} (${key})`,
+          x: this.valuesByField(x.hasOwnProperty(key) ? x[key] : [], this.params.x),
+          y: this.params.rows.filter(row => (
+            // For all group by indices, the values in row and g match.
+            indices.reduce((a: boolean, b: number, i) => a && row[b] === g[i], true)
+          )).map(row => row[yIdx])
         };
       });
     });

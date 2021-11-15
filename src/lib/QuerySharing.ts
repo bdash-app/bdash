@@ -162,7 +162,7 @@ function getChartAsSvg(query: QueryType, chart: ChartType | undefined, width: nu
     x: chart.xColumn,
     y: chart.yColumns,
     stacking: chart.stacking,
-    groupBy: chart.groupColumn,
+    groupBy: chart.groupColumns,
     rows: query.rows,
     fields: query.fields
   };
