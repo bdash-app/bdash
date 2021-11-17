@@ -4,6 +4,7 @@ import "codemirror/addon/comment/comment";
 import "codemirror/addon/display/autorefresh";
 import "codemirror/addon/edit/matchbrackets";
 import "codemirror/addon/hint/show-hint";
+import "codemirror/addon/hint/sql-hint";
 import "codemirror/addon/search/search";
 import "codemirror/addon/runmode/colorize";
 import "codemirror/keymap/vim";
@@ -13,6 +14,8 @@ import "codemirror/addon/dialog/dialog.css";
 import "codemirror/addon/hint/show-hint.css";
 import { isEqual } from "lodash";
 import { clipboard } from "electron";
+
+const MIN_COMPLETION_CHARS = 2;
 
 type Props = {
   readonly options: CodeMirror.EditorConfiguration;
@@ -155,15 +158,20 @@ export default class Editor extends React.Component<Props> {
       const cursor = editor.getCursor();
       const token = editor.getTokenAt(cursor);
       const tokenString = token.string;
+      if (tokenString.length < MIN_COMPLETION_CHARS) {
+        return;
+      }
       CodeMirror.showHint(editor, undefined, {
-        hint: (): CodeMirror.Hints => {
+        hint: (cm: CodeMirror.Editor): CodeMirror.Hints => {
+          const tableHints = this.props.tables.filter(t => t.length > tokenString.length && t.startsWith(tokenString));
+          // Suppress 'hint does not exist' because codemirror does not serve types of addons.
+          // @ts-expect-error
+          const sqlHints = CodeMirror.hint.sql(cm);
+          const hints = Array.prototype.concat(tableHints, sqlHints.list);
           return {
             from: CodeMirror.Pos(cursor.line, token.start),
             to: CodeMirror.Pos(cursor.line, token.end),
-            list:
-              tokenString.length === 0
-                ? []
-                : this.props.tables.filter(t => t.length > tokenString.length && t.startsWith(tokenString))
+            list: hints
           };
         },
         completeSingle: false
