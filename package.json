@@ -23,7 +23,7 @@
     "lint:prettier": "prettier --list-different \"./**/*.{js,jsx,ts,tsx,css,json}\"",
     "format": "prettier --write \"./**/*.{js,jsx,ts,tsx,css,json}\"",
     "release:prepare": "webpack --env BUILD_ENV=production --mode=production && electron-builder build --publish always",
-    "ci": "yarn run lint && yarn run test"
+    "ci": "yarn run lint && yarn run test:unit"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "5.12.0",
