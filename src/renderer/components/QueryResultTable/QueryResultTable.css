@@ -53,7 +53,7 @@
 }
 
 .QueryResultTable-list li::before {
-  content: '-';
+  content: "-";
   display: inline-block;
   margin-right: 3px;
 }

@@ -11,6 +11,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "strictNullChecks": true,
+    "skipLibCheck": true,
     "baseUrl": "./",
     "paths": { "plotly.js-basic-dist-min": ["node_modules/@types/plotly.js"] }
   },
