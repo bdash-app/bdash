@@ -42,7 +42,7 @@
     "markdown-table": "1.1.2",
     "moment": "2.20.1",
     "mysql2": "1.7.0",
-    "pg": "7.4.3",
+    "pg": "8.7.1",
     "plotly.js-basic-dist-min": "1.57.1",
     "react": "16.8.6",
     "react-dom": "16.8.6",
