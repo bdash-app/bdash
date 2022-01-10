@@ -18,6 +18,7 @@
   text-align: left;
   border-bottom: 1px solid #ccc;
   padding: 10px 5px;
+  white-space: pre;
 }
 
 .TableSummary table th {

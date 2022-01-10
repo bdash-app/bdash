@@ -2,6 +2,7 @@ import Postgres from "./Postgres";
 import Util from "../Util";
 import { zipObject } from "lodash";
 import { DataSourceKeys } from "../../renderer/pages/DataSource/DataSourceStore";
+import { TableSummary } from "./Base";
 
 export default class Redshift extends Postgres {
   static get key(): DataSourceKeys {
@@ -40,13 +41,7 @@ export default class Redshift extends Postgres {
     return rows.map(row => zipObject(fields, row));
   }
 
-  async fetchTableSummary({
-    schema,
-    name
-  }: {
-    schema: string;
-    name: string;
-  }): Promise<{ name: string; defs: { fields: string[]; rows: (string | null)[][] }; schema?: string }> {
+  async fetchTableSummary({ schema, name }: { schema: string; name: string }): Promise<TableSummary> {
     const query = Util.stripHeredoc(`
       select
           column_name

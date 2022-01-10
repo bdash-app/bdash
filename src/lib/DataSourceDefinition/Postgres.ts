@@ -1,5 +1,5 @@
 import pg from "pg";
-import Base, { ConfigSchemasType } from "./Base";
+import Base, { ConfigSchemasType, TableSummary } from "./Base";
 import Util from "../Util";
 import { zipObject } from "lodash";
 import { DataSourceKeys } from "../../renderer/pages/DataSource/DataSourceStore";
@@ -105,13 +105,7 @@ export default class Postgres extends Base {
     return rows.map(row => zipObject(fields, row));
   }
 
-  async fetchTableSummary({
-    schema,
-    name
-  }: {
-    schema: string;
-    name: string;
-  }): Promise<{ name: string; defs: { fields: string[]; rows: (string | null)[][] }; schema?: string }> {
+  async fetchTableSummary({ schema, name }: { schema: string; name: string }): Promise<TableSummary> {
     const query = Util.stripHeredoc(`
       select
           pg_attribute.attname as name,

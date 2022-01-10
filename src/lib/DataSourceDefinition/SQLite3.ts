@@ -1,5 +1,5 @@
 import sqlite3 from "sqlite3";
-import Base, { ConfigSchemasType } from "./Base";
+import Base, { ConfigSchemasType, TableSummary } from "./Base";
 import { DataSourceKeys } from "../../renderer/pages/DataSource/DataSourceStore";
 
 export default class SQLite3 extends Base {
@@ -30,11 +30,7 @@ export default class SQLite3 extends Base {
     });
   }
 
-  async fetchTableSummary({
-    name
-  }: {
-    name: string;
-  }): Promise<{ name: string; defs: { fields: string[]; rows: (string | null)[][] }; schema?: string }> {
+  async fetchTableSummary({ name }: { name: string }): Promise<TableSummary> {
     const defs = await this._execute(`pragma table_info(${name})`);
 
     return { name, defs };

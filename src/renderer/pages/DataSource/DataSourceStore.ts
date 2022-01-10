@@ -1,5 +1,6 @@
 import Store, { StateBuilder } from "../../flux/Store";
 import Setting, { SettingType } from "../../../lib/Setting";
+import { TableSummary } from "../../../lib/DataSourceDefinition/Base";
 
 export type DataSourceKeys = "athena" | "bigquery" | "mysql" | "postgres" | "redshift" | "sqlite3" | "treasuredata";
 
@@ -15,12 +16,6 @@ export type DataSourceType = {
   readonly tableSummary: TableSummary;
   readonly tableFilter: string;
   readonly tableFetchingError: string | null;
-};
-
-type TableSummary = {
-  readonly schema: any;
-  readonly name: string;
-  readonly defs: { fields: any[]; rows: any[][] };
 };
 
 export type TableType = {
