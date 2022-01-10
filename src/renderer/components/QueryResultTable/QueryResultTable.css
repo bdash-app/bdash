@@ -49,6 +49,13 @@
 .QueryResultTable-list {
   margin: 0;
   padding: 0;
+  list-style: none;
+}
+
+.QueryResultTable-list li::before {
+  content: '-';
+  display: inline-block;
+  margin-right: 3px;
 }
 
 .QueryResultTable-list .QueryResultTable-list {
