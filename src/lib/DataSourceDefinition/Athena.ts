@@ -1,5 +1,5 @@
 import AthenaClient from "../AthenaClient";
-import Base, { ConfigSchemasType } from "./Base";
+import Base, { ConfigSchemasType, TableSummary } from "./Base";
 import { DataSourceKeys } from "../../renderer/pages/DataSource/DataSourceStore";
 
 export default class Athena extends Base {
@@ -70,11 +70,7 @@ export default class Athena extends Base {
     return rows.map(row => ({ name: row[0]!, type: "table" }));
   }
 
-  async fetchTableSummary({
-    name
-  }: {
-    name: string;
-  }): Promise<{ name: string; defs: { fields: string[]; rows: (string | null)[][] }; schema?: string }> {
+  async fetchTableSummary({ name }: { name: string }): Promise<TableSummary> {
     const rows = await this.client.execute(`describe ${name}`);
     const defs = {
       fields: ["name", "type"],

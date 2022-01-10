@@ -1,7 +1,15 @@
 import { BigQuery as BigQueryClient } from "@google-cloud/bigquery";
-import Base, { ConfigSchemasType } from "./Base";
+import Base, { ConfigSchemasType, TableSummary } from "./Base";
 import { flatten } from "lodash";
 import { DataSourceKeys } from "../../renderer/pages/DataSource/DataSourceStore";
+
+type TableSummaryField = {
+  name: string;
+  type: string;
+  mode: string;
+  description: string;
+  fields?: TableSummaryField[];
+};
 
 export default class BigQuery extends Base {
   _cancel: any;
@@ -79,25 +87,17 @@ export default class BigQuery extends Base {
       }));
     });
     const results = await Promise.all(promises);
-    console.log(results);
     return flatten(results);
   }
 
-  async fetchTableSummary({
-    schema,
-    name
-  }: {
-    schema: string;
-    name: string;
-  }): Promise<{ name: string; defs: { fields: string[]; rows: (string | null)[][] }; schema?: string }> {
+  async fetchTableSummary({ schema, name }: { schema: string; name: string }): Promise<TableSummary> {
     const [metadata] = await this.client
       .dataset(schema)
       .table(name)
       .getMetadata();
-    const schemaFields = metadata.schema.fields;
     const defs = {
-      fields: Object.keys(schemaFields[0]),
-      rows: schemaFields.map(Object.values)
+      fields: ["name", "type", "mode", "description"],
+      rows: this._tableSummaryRows(metadata.schema.fields)
     };
     return { schema, name, defs };
   }
@@ -107,5 +107,20 @@ export default class BigQuery extends Base {
       type: BigQuery.label,
       project: this.config.project
     };
+  }
+
+  _tableSummaryRows(fields: TableSummaryField[], indent = 0): [string, string, string, string][] {
+    const rows: [string, string, string, string][] = [];
+
+    fields.forEach(field => {
+      let name = field.name;
+      name = " ".repeat(indent * 4) + name;
+      rows.push([name, field.type, field.mode, field.description]);
+      if (field.fields) {
+        rows.push(...this._tableSummaryRows(field.fields, indent + 1));
+      }
+    });
+
+    return rows;
   }
 }

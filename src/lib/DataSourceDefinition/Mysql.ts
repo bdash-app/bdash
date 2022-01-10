@@ -1,5 +1,5 @@
 import mysql from "mysql2";
-import Base, { ConfigSchemasType } from "./Base";
+import Base, { ConfigSchemasType, TableSummary } from "./Base";
 import Util from "../Util";
 import { zipObject } from "lodash";
 import { promises } from "fs";
@@ -61,11 +61,7 @@ export default class Mysql extends Base {
     return rows.map(row => zipObject(fields, row));
   }
 
-  async fetchTableSummary({
-    name
-  }: {
-    name: string;
-  }): Promise<{ name: string; defs: { fields: string[]; rows: (string | null)[][] }; schema?: string }> {
+  async fetchTableSummary({ name }: { name: string }): Promise<TableSummary> {
     const sql = "show columns from ??";
     const defs = await this._execute(sql, name);
 
@@ -123,7 +119,7 @@ export default class Mysql extends Base {
             resolve({ fields: [], rows: [] });
           } else {
             // cancel query does not have result
-            resolve();
+            resolve(null);
           }
         });
       });

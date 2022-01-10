@@ -1,5 +1,5 @@
 import TD from "td";
-import Base, { ConfigSchemasType } from "./Base";
+import Base, { ConfigSchemasType, TableSummary } from "./Base";
 import { DataSourceKeys } from "../../renderer/pages/DataSource/DataSourceStore";
 
 const WAIT_INTERVAL = 2000;
@@ -96,9 +96,7 @@ export default class TreasureData extends Base {
     });
   }
 
-  async fetchTableSummary({
-    name
-  }): Promise<{ name: string; defs: { fields: string[]; rows: (string | null)[][] }; schema?: string }> {
+  async fetchTableSummary({ name }): Promise<TableSummary> {
     const table = cacheTableList.tables.find(t => t.name === name);
     const fields = ["column", "type"];
     const rows = JSON.parse(table.schema);

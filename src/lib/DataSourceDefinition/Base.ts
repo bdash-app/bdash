@@ -1,5 +1,16 @@
 import { DataSourceKeys, TableType } from "../../renderer/pages/DataSource/DataSourceStore";
 
+type TableSummaryRow = string | null;
+
+export type TableSummary = {
+  name: string;
+  defs: {
+    fields: string[];
+    rows: TableSummaryRow[][];
+  };
+  schema?: string;
+};
+
 export default abstract class Base {
   config: any;
 
@@ -29,9 +40,7 @@ export default abstract class Base {
 
   abstract dataSourceInfo(): Record<string, any>;
 
-  abstract fetchTableSummary(
-    args: Partial<TableType>
-  ): Promise<{ name: string; defs: { fields: string[]; rows: (string | null)[][] }; schema?: string }>;
+  abstract fetchTableSummary(args: Partial<TableType>): Promise<TableSummary>;
 
   infoMdTable(): string {
     const info = this.dataSourceInfo();

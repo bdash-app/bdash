@@ -36,8 +36,23 @@
   vertical-align: top;
 }
 
-.QueryResultTable-table td.is-null {
+.QueryResultTable-null {
   color: #999;
+}
+
+.QueryResultTable-listKey {
+  font-weight: bold;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.QueryResultTable-list {
+  margin: 0;
+  padding: 0;
+}
+
+.QueryResultTable-list .QueryResultTable-list {
+  margin-left: 20px;
 }
 
 .QueryResultTable-more {

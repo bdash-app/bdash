@@ -1,8 +1,8 @@
 import React from "react";
 import { QueryType } from "../../../lib/Database/Query";
+import Linkify from "react-linkify";
 
 const MAX_DISPLAY_ROWS_COUNT = 1000;
-const URL_PATTERN = /https?:\/\/\S+/;
 
 type Props = {
   readonly query: QueryType;
@@ -19,41 +19,46 @@ export default class QueryResultTable extends React.Component<Props> {
     return false;
   }
 
-  renderValue(val: string): React.ReactNode {
-    const result: React.ReactNodeArray = [];
-    let acc = val;
-    for (let i = 0; ; i++) {
-      const match = acc.match(URL_PATTERN);
-      if (match) {
-        result.push(acc.substring(0, match.index!));
-        result.push(
-          <a key={i} href={match[0]}>
-            {match[0]}
-          </a>
-        );
-        acc = acc.substring(match.index! + match[0].length, acc.length);
-      } else {
-        break;
-      }
+  renderValue(value: any): React.ReactNode {
+    if (value === null) {
+      return <span className="QueryResultTable-null">NULL</span>;
     }
-    if (acc.length > 0) {
-      result.push(acc);
+
+    if (Array.isArray(value)) {
+      return (
+        <ul className="QueryResultTable-list">
+          {value.map((v, i) => (
+            <li key={i}>{this.renderValue(v)}</li>
+          ))}
+        </ul>
+      );
     }
-    return result;
+
+    if (typeof value === "object") {
+      return (
+        <ul className="QueryResultTable-list">
+          {Object.keys(value).map(key => (
+            <li key={key}>
+              <span className="QueryResultTable-listKey">{key}:</span>
+              {this.renderValue(value[key])}
+            </li>
+          ))}
+        </ul>
+      );
+    }
+
+    if (typeof value === "string") {
+      return <Linkify>{value}</Linkify>;
+    }
+
+    return value.toString();
   }
 
   render(): React.ReactNode {
     const query = this.props.query;
     const heads = query.fields.map((field, i) => <th key={`head-${i}`}>{field}</th>);
     const rows = query.rows.slice(0, MAX_DISPLAY_ROWS_COUNT).map((row, i) => {
-      const cols = row.map((value, j) => {
-        const val = value === null ? "NULL" : value.toString();
-        return (
-          <td key={`${i}-${j}`} className={value === null ? "is-null" : ""}>
-            {this.renderValue(val)}
-          </td>
-        );
-      });
+      const cols = row.map((value, j) => <td key={`${i}-${j}`}>{this.renderValue(value)}</td>);
       return <tr key={`cols-${i}`}>{cols}</tr>;
     });
 

@@ -13,6 +13,12 @@ class App extends React.Component<unknown, AppState> {
     Action.initialize();
   }
 
+  componentDidCatch(error, info) {
+    console.error(error);
+    console.error(info);
+    window.alert("An unexpected error has occurred 🥲")
+  }
+
   getSelectedPage(): typeof Query | typeof DataSource | typeof Setting {
     switch (this.state.selectedPage) {
       case "query":
