@@ -73,7 +73,7 @@ export default class Chart {
   generateChartData(): { x: (string | number)[]; y: (string | number)[]; name: string }[] {
     if (!this.params.y) return [];
 
-    if (this.params.groupBy.length == 0 || _.difference(this.params.groupBy, this.params.fields).length > 0) {
+    if (this.params.groupBy.length === 0 || _.difference(this.params.groupBy, this.params.fields).length > 0) {
       return this.params.y.map(y => {
         return {
           x: this.dataByField(this.params.x),
@@ -89,23 +89,21 @@ export default class Chart {
     const x = _.groupBy(this.params.rows, row => indices.map(idx => row[idx]));
 
     // The cartesian product of group values
-    const groupPairs = groupValues.reduce((a: any[][], b: any[]) => (
-      _.flatMap(a, x => (
-        b.map(y => x.concat([y])
-      ))
-    )), [[]]);
+    const groupPairs = groupValues.reduce((a: any[][], b: any[]) => _.flatMap(a, x => b.map(y => x.concat([y]))), [[]]);
 
     return _.flatMap(this.params.y, y => {
       const yIdx = this.rowIndexByFieldName(y);
       return groupPairs.map(g => {
-        const key = g.join(',');
+        const key = g.join(",");
         return {
           name: `${y} (${key})`,
-          x: this.valuesByField(x.hasOwnProperty(key) ? x[key] : [], this.params.x),
-          y: this.params.rows.filter(row => (
-            // For all group by indices, the values in row and g match.
-            indices.reduce((a: boolean, b: number, i) => a && row[b] === g[i], true)
-          )).map(row => row[yIdx])
+          x: this.valuesByField(Object.prototype.hasOwnProperty.call(x, key) ? x[key] : [], this.params.x),
+          y: this.params.rows
+            .filter(row =>
+              // For all group by indices, the values in row and g match.
+              indices.reduce((a: boolean, b: number, i) => a && row[b] === g[i], true)
+            )
+            .map(row => row[yIdx])
         };
       });
     });
