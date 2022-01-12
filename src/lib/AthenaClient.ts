@@ -54,11 +54,21 @@ export default class AthenaClient {
       }
     });
 
-    const { ResultSet } = await this.getQueryResults(this.executionId);
+    let rows = [];
+    let nextToken: string | undefined = undefined;
+    for (;;) {
+      const result = await this.getQueryResults(this.executionId, nextToken);
+      nextToken = result.NextToken;
+      const rs = ((result.ResultSet && result.ResultSet.Rows) || []).map(r => {
+        return ((r && r.Data) || []).map(d => (d.VarCharValue === undefined ? null : d.VarCharValue));
+      });
+      rows = rows.concat(rs);
+      if (!nextToken) {
+        break;
+      }
+    }
 
-    return ((ResultSet && ResultSet.Rows) || []).map(r => {
-      return ((r && r.Data) || []).map(d => (d.VarCharValue === undefined ? null : d.VarCharValue));
-    });
+    return rows;
   }
 
   cancel(): void {
@@ -91,9 +101,9 @@ export default class AthenaClient {
     });
   }
 
-  private async getQueryResults(id: string): Promise<Athena.GetQueryResultsOutput> {
+  private async getQueryResults(id: string, nextToken: string | undefined): Promise<Athena.GetQueryResultsOutput> {
     return new Promise((resolve, reject) => {
-      this.client.getQueryResults({ QueryExecutionId: id }, (err, data) => {
+      this.client.getQueryResults({ QueryExecutionId: id, NextToken: nextToken }, (err, data) => {
         if (err) {
           reject(err);
         } else {
