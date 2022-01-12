@@ -56,7 +56,7 @@ export default class AthenaClient {
 
     let rows = [];
     let nextToken: string | undefined = undefined;
-    while (true) {
+    for (;;) {
       const result = await this.getQueryResults(this.executionId, nextToken);
       nextToken = result.NextToken;
       const rs = ((result.ResultSet && result.ResultSet.Rows) || []).map(r => {
