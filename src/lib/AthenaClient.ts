@@ -1,4 +1,4 @@
-import Athena from "aws-sdk/clients/athena";
+import * as athena from "@aws-sdk/client-athena";
 import retry from "./Util/retry";
 
 interface AthenaClientConfig {
@@ -13,13 +13,16 @@ type QueryResult = (string | null)[][];
 
 export default class AthenaClient {
   config: AthenaClientConfig;
-  client: Athena;
+  client: athena.AthenaClient;
   executionId: string;
 
   constructor(config: AthenaClientConfig) {
     const { region, accessKeyId, secretAccessKey } = config;
     this.config = config;
-    this.client = new Athena({ region, accessKeyId, secretAccessKey });
+    this.client = new athena.AthenaClient({
+      region,
+      credentials: { accessKeyId: accessKeyId!, secretAccessKey: secretAccessKey! }
+    });
   }
 
   async execute(query: string): Promise<QueryResult> {
@@ -33,12 +36,14 @@ export default class AthenaClient {
       }
     };
 
-    const { QueryExecutionId } = await this.startQueryExecution(params);
+    const { QueryExecutionId } = await this.client.send(new athena.StartQueryExecutionCommand(params));
     if (QueryExecutionId === undefined) throw new Error("QueryExecutionId is undefined");
     this.executionId = QueryExecutionId;
 
     await retry(async done => {
-      const { QueryExecution } = await this.getQueryExecution(this.executionId);
+      const { QueryExecution } = await this.client.send(
+        new athena.GetQueryExecutionCommand({ QueryExecutionId: this.executionId })
+      );
 
       if (QueryExecution === undefined || QueryExecution.Status === undefined) {
         throw new Error("QueryExecution is undefined");
@@ -57,7 +62,9 @@ export default class AthenaClient {
     let rows = [];
     let nextToken: string | undefined = undefined;
     for (;;) {
-      const result = await this.getQueryResults(this.executionId, nextToken);
+      const result = await this.client.send(
+        new athena.GetQueryResultsCommand({ QueryExecutionId: this.executionId, NextToken: nextToken })
+      );
       nextToken = result.NextToken;
       const rs = ((result.ResultSet && result.ResultSet.Rows) || []).map(r => {
         return ((r && r.Data) || []).map(d => (d.VarCharValue === undefined ? null : d.VarCharValue));
@@ -72,56 +79,6 @@ export default class AthenaClient {
   }
 
   cancel(): void {
-    this.stopQueryExecution(this.executionId);
-  }
-
-  private async startQueryExecution(
-    params: Athena.StartQueryExecutionInput
-  ): Promise<Athena.StartQueryExecutionOutput> {
-    return new Promise((resolve, reject) => {
-      this.client.startQueryExecution(params, (err, data) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(data);
-        }
-      });
-    });
-  }
-
-  private async getQueryExecution(id: string): Promise<Athena.GetQueryExecutionOutput> {
-    return new Promise((resolve, reject) => {
-      this.client.getQueryExecution({ QueryExecutionId: id }, (err, data) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(data);
-        }
-      });
-    });
-  }
-
-  private async getQueryResults(id: string, nextToken: string | undefined): Promise<Athena.GetQueryResultsOutput> {
-    return new Promise((resolve, reject) => {
-      this.client.getQueryResults({ QueryExecutionId: id, NextToken: nextToken }, (err, data) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(data);
-        }
-      });
-    });
-  }
-
-  private async stopQueryExecution(id: string): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      this.client.stopQueryExecution({ QueryExecutionId: id }, err => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve();
-        }
-      });
-    });
+    this.client.send(new athena.StopQueryExecutionCommand({ QueryExecutionId: this.executionId }));
   }
 }
