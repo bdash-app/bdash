@@ -105,6 +105,10 @@ export default {
       files["chart.svg"] = { content: svg };
     }
 
+    if (chart) {
+      files["chart.json"] = { content: JSON.stringify(chart) };
+    }
+
     const client = new BdashServerClient(setting);
     const result = await client.post({ description, files });
 
