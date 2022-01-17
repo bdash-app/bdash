@@ -14,6 +14,7 @@ import "codemirror/addon/dialog/dialog.css";
 import "codemirror/addon/hint/show-hint.css";
 import { isEqual } from "lodash";
 import { clipboard } from "electron";
+import { SettingType } from "src/lib/Setting";
 
 const MIN_COMPLETION_CHARS = 2;
 
@@ -21,6 +22,7 @@ type Props = {
   readonly options: CodeMirror.EditorConfiguration;
   readonly tables: string[];
   readonly value: string;
+  readonly setting: SettingType;
   readonly codeMirrorHistory?: Record<string, unknown>;
   readonly rootRef: React.Ref<any>;
   readonly onSubmit: () => void;
@@ -147,6 +149,12 @@ export default class Editor extends React.Component<Props> {
       this.props.onChange && this.props.onChange(newValue, editor.getHistory());
     }
 
+    if (this.props.setting.experimentalFeature.autoCompleteEnabled) {
+      this.enableAutoComplete(editor, changeObj);
+    }
+  }
+
+  enableAutoComplete(editor: CodeMirror.Editor, changeObj: CodeMirror.EditorChangeLinkedList): void {
     if (this.autoCompleteTimer) {
       clearTimeout(this.autoCompleteTimer);
     }
