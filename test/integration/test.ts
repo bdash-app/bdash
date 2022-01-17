@@ -34,7 +34,7 @@ const getValueFromEditor = async (): Promise<string | undefined> =>
   );
 
 suite("Launch and onboarding", function() {
-  this.timeout(10000);
+  this.timeout(50000);
 
   suiteSetup(async () => {
     app = new Application({ path: appPath() });
