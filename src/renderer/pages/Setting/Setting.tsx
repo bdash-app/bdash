@@ -142,6 +142,22 @@ class Setting extends React.Component<unknown, SettingState> {
             />
           </div>
         </div>
+        <div className="page-Setting-section1">
+          <h1>Experimental Features</h1>
+          <div className="page-Setting-section2">
+            <h2>Auto Complete</h2>
+            <label>
+              Enabled{" "}
+              <input
+                type="checkbox"
+                onChange={(e): void =>
+                  Action.update({ experimentalFeature: { autoCompleteEnabled: e.target.checked } })
+                }
+                checked={setting.experimentalFeature.autoCompleteEnabled}
+              />
+            </label>
+          </div>
+        </div>
       </div>
     );
   }

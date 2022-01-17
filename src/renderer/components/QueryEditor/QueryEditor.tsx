@@ -113,6 +113,7 @@ export default class QueryEditor extends React.Component<Props> {
           onSubmit={this.props.onExecute}
           options={this.options}
           codeMirrorHistory={this.props.query.codeMirrorHistory ?? undefined}
+          setting={this.props.setting}
         />
         <div className="QueryEditor-navbar">
           {this.renderButton()}
