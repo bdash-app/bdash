@@ -4,7 +4,7 @@ set -e
 
 TARGET_VERSION=$1
 BRANCH=release/v$TARGET_VERSION
-REMOTE_REPO=https://github.com/bdash-app/bdash.git
+REMOTE_REPO=git@github.com:bdash-app/bdash.git
 
 git branch $BRANCH
 git checkout $BRANCH
