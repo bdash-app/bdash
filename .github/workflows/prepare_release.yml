@@ -37,7 +37,7 @@ jobs:
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
           ASC_PROVIDER: ${{ secrets.ASC_PROVIDER }}
-          CSC_LINK: ${{ matrix.os == 'macos-latest' ? secrets.CSC_LINK : null }}
-          CSC_KEY_PASSWORD: ${{ matrix.os == 'macos-latest' ? secrets.CSC_KEY_PASSWORD : null }}
+          CSC_LINK: ${{ matrix.os }} === 'macos-latest' ? ${{ secrets.CSC_LINK }} : null
+          CSC_KEY_PASSWORD: ${{ matrix.os }} === 'macos-latest' ? ${{ secrets.CSC_KEY_PASSWORD }} : null
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
