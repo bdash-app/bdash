@@ -1,8 +1,9 @@
 import { app, Menu, dialog, shell } from "electron";
-import { updater, UpdateState } from "./updater";
 import isDev from "electron-is-dev";
 import { createWindow } from "./window";
 import path from "path";
+import logger from "./logger";
+import { checkUpdate } from "./updateChecker";
 
 const editMenu: Electron.MenuItemConstructorOptions = {
   label: "Edit",
@@ -53,24 +54,16 @@ const helpMenu: Electron.MenuItemConstructorOptions = {
 
 const checkForUpdateItem: Electron.MenuItemConstructorOptions = {
   label: "Check for Updates...",
-  click() {
-    switch (updater.state) {
-      case UpdateState.UpdateNotAvailable: {
-        const message = "There are currently no updates available.";
-        dialog.showMessageBox({ message });
-        return;
-      }
-      case UpdateState.UpdateDownloaded: {
-        const message = "There is an available update. Restart app to apply the latest update.";
-        const buttons = ["Update Now", "Later"];
-        dialog.showMessageBox({ message, buttons }).then(result => {
-          if (result.response === 0) {
-            updater.quit();
-          }
-        });
-        return;
-      }
-    }
+  click: async () => {
+    const shouldUpdate = await checkUpdate().catch(err => {
+      logger.error(err);
+      return false;
+    });
+    const message = shouldUpdate
+      ? "There is an available update. Download and install from here.\nhttps://github.com/bdash-app/bdash/releases/latest"
+      : "There are currently no updates available.";
+    dialog.showMessageBox({ message });
+    return;
   }
 };
 

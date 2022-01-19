@@ -1,5 +1,4 @@
 import electron from "electron";
-import { updater } from "./updater";
 import { initMenu } from "./menu";
 import logger from "./logger";
 import { windows, createWindow } from "./window";
@@ -25,7 +24,6 @@ app.on("window-all-closed", () => {
 app.whenReady().then(async () => {
   await createWindow();
   initMenu();
-  await updater.watch();
 });
 
 app.on("activate", async () => {
