@@ -1,6 +1,6 @@
 import { DataSourceKeys, TableType } from "../../renderer/pages/DataSource/DataSourceStore";
 
-type TableSummaryRow = string | null;
+export type TableSummaryRow = string | null;
 
 export type TableSummary = {
   name: string;
