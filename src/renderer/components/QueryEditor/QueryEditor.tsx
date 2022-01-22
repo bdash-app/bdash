@@ -29,7 +29,7 @@ export default class QueryEditor extends React.Component<Props> {
       lineNumbers: true,
       lineWrapping: this.props.setting.lineWrap,
       matchBrackets: true,
-      indentUnit: 4,
+      indentUnit: this.props.setting.indent,
       smartIndent: false,
       autoRefresh: { delay: 50 }
     };

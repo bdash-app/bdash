@@ -2,13 +2,23 @@ import fs from "fs";
 import yaml from "js-yaml";
 import _ from "lodash";
 
+export const indentValues = [2, 4] as const;
+type IndentValue = typeof indentValues[number];
+export const DEFAULT_INDENT: IndentValue = 4;
+
 export type SettingType = {
   readonly keyBind: "default" | "vim";
   readonly lineWrap: boolean;
+  readonly indent: IndentValue;
+  readonly formatter: FormatterSettingType;
   readonly github: GithubSettingType;
   readonly bdashServer: BdashServerSettingType;
   readonly experimentalFeature: ExperimentalFeatureSettingType;
   readonly defaultDataSourceId: number | null;
+};
+
+export type FormatterSettingType = {
+  toUppercaseKeyword: boolean;
 };
 
 export type GithubSettingType = {
@@ -36,6 +46,10 @@ export default class Setting {
     return {
       keyBind: "default",
       lineWrap: false,
+      indent: DEFAULT_INDENT,
+      formatter: {
+        toUppercaseKeyword: false
+      },
       github: {
         token: null,
         url: null,
