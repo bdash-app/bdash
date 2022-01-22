@@ -13,8 +13,9 @@ import "codemirror/lib/codemirror.css";
 import "codemirror/addon/dialog/dialog.css";
 import "codemirror/addon/hint/show-hint.css";
 import { isEqual } from "lodash";
-import { clipboard } from "electron";
-import { SettingType } from "src/lib/Setting";
+import { clipboard, ipcRenderer } from "electron";
+import { SettingType, DEFAULT_INDENT } from "../../../lib/Setting";
+import { format } from "sql-formatter";
 
 const MIN_COMPLETION_CHARS = 2;
 
@@ -62,9 +63,9 @@ export default class Editor extends React.Component<Props> {
       Tab: (cm: CodeMirror.Editor) => {
         if (!cm.state.vim) {
           if (cm.getDoc().somethingSelected()) cm.execCommand("indentMore");
-          else cm.execCommand("insertSoftTab");
+          else cm.replaceSelection(" ".repeat(cm.getOption("indentUnit") || DEFAULT_INDENT));
         } else if (cm.state.vim.insertMode) {
-          cm.execCommand("insertSoftTab");
+          cm.replaceSelection(" ".repeat(cm.getOption("indentUnit") || DEFAULT_INDENT));
         }
       }
     });
@@ -112,12 +113,33 @@ export default class Editor extends React.Component<Props> {
         vim.unmap("<C-c>");
       }
     }
+
+    this.handleIpcFormat = this.handleIpcFormat.bind(this);
+    ipcRenderer.on("format", this.handleIpcFormat);
   }
 
   componentWillUnmount(): void {
     // todo: is there a lighter-weight way to remove the cm instance?
     if (this.codeMirror) {
       this.codeMirror.toTextArea();
+    }
+    ipcRenderer.off("format", this.handleIpcFormat);
+  }
+
+  handleIpcFormat(): void {
+    let formattedQuery: string | null = null;
+    try {
+      formattedQuery = format(this.currentValue, {
+        linesBetweenQueries: 2,
+        indent: " ".repeat(this.props.setting.indent),
+        uppercase: this.props.setting.formatter.toUppercaseKeyword
+      });
+    } catch (err) {
+      alert("Format failed😢");
+      console.error(err);
+    }
+    if (formattedQuery) {
+      this.codeMirror.setValue(formattedQuery);
     }
   }
 

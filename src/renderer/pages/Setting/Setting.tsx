@@ -6,6 +6,7 @@ import Action from "./SettingAction";
 import Button from "../../components/Button";
 import ProgressIcon from "../../components/ProgressIcon";
 import { selectStyles } from "../../components/Select";
+import { indentValues } from "../../../lib/Setting";
 
 class Setting extends React.Component<unknown, SettingState> {
   componentDidMount(): void {
@@ -50,6 +51,29 @@ class Setting extends React.Component<unknown, SettingState> {
               type="checkbox"
               onChange={(e): void => Action.update({ lineWrap: e.target.checked })}
               checked={setting.lineWrap}
+            />
+          </div>
+          <div className="page-Setting-section2 page-Setting-lineWrap">
+            <h2>Indent</h2>
+            <Select
+              value={{ value: setting.indent, label: setting.indent }}
+              options={indentValues.map(v => ({ value: v, label: v }))}
+              onChange={(e): void => Action.update({ indent: (e as OptionTypeBase).value })}
+              isClearable={false}
+              isSearchable={false}
+              styles={selectStyles}
+            />
+          </div>
+        </div>
+
+        <div className="page-Setting-section1">
+          <h1>Formatter</h1>
+          <div className="page-Setting-section2 page-Setting-lineWrap">
+            <h2>Convert SQL keywords to uppercase</h2>
+            <input
+              type="checkbox"
+              onChange={(e): void => Action.update({ formatter: { toUppercaseKeyword: e.target.checked } })}
+              checked={setting.formatter.toUppercaseKeyword}
             />
           </div>
         </div>
@@ -147,7 +171,6 @@ class Setting extends React.Component<unknown, SettingState> {
           <div className="page-Setting-section2">
             <h2>Auto Complete</h2>
             <label>
-              Enabled{" "}
               <input
                 type="checkbox"
                 onChange={(e): void =>

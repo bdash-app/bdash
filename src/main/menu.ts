@@ -7,7 +7,19 @@ import { checkUpdate } from "./updateChecker";
 
 const editMenu: Electron.MenuItemConstructorOptions = {
   label: "Edit",
-  submenu: [{ role: "cut" }, { role: "copy" }, { role: "paste" }, { role: "selectAll" }]
+  submenu: [
+    { role: "cut" },
+    { role: "copy" },
+    { role: "paste" },
+    { role: "selectAll" },
+    {
+      label: "format query",
+      accelerator: "CmdOrCtrl+Shift+F",
+      click(_item, focusedWindow): void {
+        focusedWindow?.webContents.send("format");
+      }
+    }
+  ]
 };
 
 const viewMenu: Electron.MenuItemConstructorOptions = {
