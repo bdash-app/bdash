@@ -2,7 +2,15 @@ import Store, { StateBuilder } from "../../flux/Store";
 import Setting, { SettingType } from "../../../lib/Setting";
 import { TableSummary } from "../../../lib/DataSourceDefinition/Base";
 
-export type DataSourceKeys = "athena" | "bigquery" | "mysql" | "postgres" | "redshift" | "sqlite3" | "treasuredata";
+export type DataSourceKeys =
+  | "athena"
+  | "bigquery"
+  | "mysql"
+  | "postgres"
+  | "redshift"
+  | "sqlite3"
+  | "treasuredata"
+  | "timestream";
 
 export type DataSourceType = {
   readonly id: number;
