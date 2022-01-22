@@ -35,7 +35,7 @@ export default class QueryResult extends React.Component<Props> {
     }
   }
 
-  render(): React.ReactNode {
+  override render(): React.ReactNode {
     const query = this.props.query;
 
     if (query.status === "failure") {

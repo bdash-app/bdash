@@ -14,13 +14,13 @@ type TableSummaryField = {
 export default class BigQuery extends Base {
   _cancel: any;
 
-  static get key(): DataSourceKeys {
+  static override get key(): DataSourceKeys {
     return "bigquery";
   }
-  static get label(): string {
+  static override get label(): string {
     return "BigQuery";
   }
-  static get configSchema(): ConfigSchemasType {
+  static override get configSchema(): ConfigSchemasType {
     return [
       {
         name: "projectId",

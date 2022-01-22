@@ -5,13 +5,13 @@ import { DataSourceKeys } from "../../renderer/pages/DataSource/DataSourceStore"
 export default class Athena extends Base {
   client: AthenaClient;
 
-  static get key(): DataSourceKeys {
+  static override get key(): DataSourceKeys {
     return "athena";
   }
-  static get label(): string {
+  static override get label(): string {
     return "Amazon Athena";
   }
-  static get configSchema(): ConfigSchemasType {
+  static override get configSchema(): ConfigSchemasType {
     return [
       {
         name: "region",

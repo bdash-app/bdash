@@ -57,7 +57,7 @@ export default class QueryResultNav extends React.Component<Props, State> {
     this.props.onClickShareOnBdashServer();
   }
 
-  render(): React.ReactNode {
+  override render(): React.ReactNode {
     return (
       <div className="QueryResultNav">
         <span

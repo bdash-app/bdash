@@ -2,7 +2,7 @@ import React from "react";
 import Modal from "react-modal";
 
 export default class ModalDialog extends React.Component<{ className?: string }> {
-  render(): React.ReactNode {
+  override render(): React.ReactNode {
     const style = {
       overlay: { backgroundColor: "transparent" },
     };

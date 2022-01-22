@@ -8,7 +8,7 @@ import TableSummary from "../../components/TableSummary";
 import DataSourceForm from "../../components/DataSourceForm";
 
 class DataSource extends React.Component<unknown, DataSourceState> {
-  componentDidMount(): void {
+  override componentDidMount(): void {
     Action.initialize();
   }
 
@@ -36,7 +36,7 @@ class DataSource extends React.Component<unknown, DataSourceState> {
     );
   }
 
-  render(): React.ReactNode {
+  override render(): React.ReactNode {
     const dataSource = this.find(this.state.selectedDataSourceId ?? -1);
     const defaultDataSourceId = this.state.setting.defaultDataSourceId ?? this.state.dataSources[0]?.id;
 

@@ -26,7 +26,7 @@ export default class QueryHeader extends React.Component<Props> {
     this.props.onChangeDataSource(e.value);
   }
 
-  render(): React.ReactNode {
+  override render(): React.ReactNode {
     const options = this.props.dataSources.map((dataSource) => {
       return { value: dataSource.id, label: dataSource.name };
     });

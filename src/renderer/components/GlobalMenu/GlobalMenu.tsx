@@ -30,7 +30,7 @@ export default class GlobalMenu extends React.Component<Props> {
     this.props.onSelect(page);
   }
 
-  render(): React.ReactNode {
+  override render(): React.ReactNode {
     return <div className="GlobalMenu">{this.menuList}</div>;
   }
 }

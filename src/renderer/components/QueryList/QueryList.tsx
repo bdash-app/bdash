@@ -49,7 +49,7 @@ export default class QueryList extends React.Component<Props> {
     });
   }
 
-  render(): React.ReactNode {
+  override render(): React.ReactNode {
     const items = this.props.queries.map((query) => {
       const className = classNames({
         "is-selected": this.props.selectedQueryId === query.id,

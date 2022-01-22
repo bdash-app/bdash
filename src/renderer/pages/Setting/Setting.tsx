@@ -9,7 +9,7 @@ import { selectStyles } from "../../components/Select";
 import { indentValues } from "../../../lib/Setting";
 
 class Setting extends React.Component<unknown, SettingState> {
-  componentDidMount(): void {
+  override componentDidMount(): void {
     Action.initialize();
   }
 
@@ -23,7 +23,7 @@ class Setting extends React.Component<unknown, SettingState> {
     return status === null ? null : <ProgressIcon status={status} message={error} />;
   }
 
-  render(): React.ReactNode {
+  override render(): React.ReactNode {
     const keyBindOptions: { value: string; label: string }[] = ["default", "vim"].map((v) => ({ value: v, label: v }));
     const setting = this.state.setting;
     const currentOption = keyBindOptions.find((option) => option.value === (setting.keyBind || "default"));

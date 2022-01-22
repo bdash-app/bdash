@@ -7,15 +7,15 @@ export default class Timestream extends Base {
   database: string;
   queryId?: string;
 
-  static get key(): DataSourceKeys {
+  static override get key(): DataSourceKeys {
     return "timestream";
   }
 
-  static get label(): string {
+  static override get label(): string {
     return "Amazon Timestream";
   }
 
-  static get configSchema(): ConfigSchemasType {
+  static override get configSchema(): ConfigSchemasType {
     return [
       {
         name: "region",

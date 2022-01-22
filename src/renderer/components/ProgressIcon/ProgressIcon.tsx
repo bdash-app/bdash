@@ -26,7 +26,7 @@ export default class ProgressIcon extends React.Component<Props> {
     return <span className="ProgressIcon-message">{this.props.message}</span>;
   }
 
-  render(): React.ReactNode {
+  override render(): React.ReactNode {
     return (
       <span className={`ProgressIcon is-${this.props.status}`}>
         <span className="ProgressIcon-icon">{this.renderIcon()}</span>

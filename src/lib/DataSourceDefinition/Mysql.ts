@@ -8,13 +8,13 @@ import { DataSourceKeys } from "../../renderer/pages/DataSource/DataSourceStore"
 export default class Mysql extends Base {
   currentConnection: any;
 
-  static get key(): DataSourceKeys {
+  static override get key(): DataSourceKeys {
     return "mysql";
   }
-  static get label(): string {
+  static override get label(): string {
     return "MySQL";
   }
-  static get configSchema(): ConfigSchemasType {
+  static override get configSchema(): ConfigSchemasType {
     return [
       { name: "host", label: "Host", type: "string", placeholder: "localhost" },
       { name: "port", label: "Port", type: "number", placeholder: "3306" },

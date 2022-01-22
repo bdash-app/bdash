@@ -11,13 +11,13 @@ export default class TreasureData extends Base {
   _cancel: any;
   _client: any;
 
-  static get key(): DataSourceKeys {
+  static override get key(): DataSourceKeys {
     return "treasuredata";
   }
-  static get label(): string {
+  static override get label(): string {
     return "TreasureData";
   }
-  static get configSchema(): ConfigSchemasType {
+  static override get configSchema(): ConfigSchemasType {
     return [
       { name: "database", label: "Database", type: "string", required: true },
       {

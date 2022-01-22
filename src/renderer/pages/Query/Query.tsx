@@ -12,7 +12,7 @@ import { QueryType } from "../../../lib/Database/Query";
 import { DataSourceType } from "../DataSource/DataSourceStore";
 
 class Query extends React.Component<unknown, QueryState> {
-  componentDidMount(): void {
+  override componentDidMount(): void {
     Action.initialize();
   }
 
@@ -155,7 +155,7 @@ class Query extends React.Component<unknown, QueryState> {
     );
   }
 
-  render(): React.ReactNode {
+  override render(): React.ReactNode {
     return (
       <div className="page-Query">
         <div className="page-Query-list">

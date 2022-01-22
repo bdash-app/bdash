@@ -52,7 +52,7 @@ export default class DataSourceStore extends Store<DataSourceState> {
     };
   }
 
-  reduce(type: string, payload: any): StateBuilder<DataSourceState> {
+  override reduce(type: string, payload: any): StateBuilder<DataSourceState> {
     switch (type) {
       case "initialize": {
         return this.merge("setting", payload.setting).mergeList("dataSources", payload.dataSources);

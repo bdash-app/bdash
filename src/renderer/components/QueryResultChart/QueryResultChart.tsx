@@ -20,7 +20,7 @@ type Props = {
 export default class QueryResultChart extends React.Component<Props> {
   chartElement: HTMLDivElement | null;
 
-  shouldComponentUpdate(nextProps: Props): boolean {
+  override shouldComponentUpdate(nextProps: Props): boolean {
     const query = nextProps.query;
     const chart = nextProps.chart;
 
@@ -52,11 +52,11 @@ export default class QueryResultChart extends React.Component<Props> {
     await new Chart(params).drawTo(this.chartElement);
   }
 
-  componentDidMount(): void {
+  override componentDidMount(): void {
     this.drawChart();
   }
 
-  componentDidUpdate(): void {
+  override componentDidUpdate(): void {
     this.drawChart();
   }
 
@@ -101,7 +101,7 @@ export default class QueryResultChart extends React.Component<Props> {
     );
   }
 
-  render(): React.ReactNode {
+  override render(): React.ReactNode {
     const query = this.props.query;
     if (!query.fields) return null;
 

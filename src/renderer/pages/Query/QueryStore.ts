@@ -32,7 +32,7 @@ export default class QueryStore extends Store<QueryState> {
     };
   }
 
-  reduce(type: string, payload: any): StateBuilder<QueryState> {
+  override reduce(type: string, payload: any): StateBuilder<QueryState> {
     switch (type) {
       case "initialize": {
         return this.merge("setting", payload.setting)

@@ -29,7 +29,7 @@ export default class SettingStore extends Store<SettingState> {
     };
   }
 
-  reduce(type: string, payload: any): StateBuilder<SettingState> {
+  override reduce(type: string, payload: any): StateBuilder<SettingState> {
     switch (type) {
       case "initialize":
       case "update": {

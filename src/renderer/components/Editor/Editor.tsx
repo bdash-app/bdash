@@ -39,7 +39,7 @@ export default class Editor extends React.Component<Props> {
   ignoreTriggerChangeEvent = false;
   autoCompleteTimer: number;
 
-  componentDidMount(): void {
+  override componentDidMount(): void {
     if (this.textareaElement === null) {
       return;
     }
@@ -118,7 +118,7 @@ export default class Editor extends React.Component<Props> {
     ipcRenderer.on("format", this.handleIpcFormat);
   }
 
-  componentWillUnmount(): void {
+  override componentWillUnmount(): void {
     // todo: is there a lighter-weight way to remove the cm instance?
     if (this.codeMirror) {
       this.codeMirror.toTextArea();
@@ -143,7 +143,7 @@ export default class Editor extends React.Component<Props> {
     }
   }
 
-  componentWillReceiveProps(nextProps: Props): void {
+  override componentWillReceiveProps(nextProps: Props): void {
     if (this.currentValue !== nextProps.value) {
       this.ignoreTriggerChangeEvent = true;
       this.codeMirror.setValue(nextProps.value);
@@ -217,7 +217,7 @@ export default class Editor extends React.Component<Props> {
     this.props.onChangeCursor(line);
   }
 
-  render(): React.ReactNode {
+  override render(): React.ReactNode {
     return (
       <div className="Editor" ref={this.props.rootRef}>
         <textarea

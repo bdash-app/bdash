@@ -69,7 +69,7 @@ export default class DataSourceList extends React.Component<Props> {
     return this.props.dataSources.find((d) => d.id === id);
   }
 
-  render(): React.ReactNode {
+  override render(): React.ReactNode {
     const items = this.props.dataSources.map((dataSource) => {
       const className = classNames({
         "is-selected": this.props.selectedDataSourceId === dataSource.id,

@@ -5,13 +5,13 @@ import { DataSourceKeys } from "../../renderer/pages/DataSource/DataSourceStore"
 export default class SQLite3 extends Base {
   db: sqlite3.Database | null;
 
-  static get key(): DataSourceKeys {
+  static override get key(): DataSourceKeys {
     return "sqlite3";
   }
-  static get label(): string {
+  static override get label(): string {
     return "SQLite3";
   }
-  static get configSchema(): ConfigSchemasType {
+  static override get configSchema(): ConfigSchemasType {
     return [{ name: "path", label: "Path", type: "string", placeholder: "/path/to/db.sqlite3" }];
   }
 

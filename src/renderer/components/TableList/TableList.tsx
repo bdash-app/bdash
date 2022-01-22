@@ -43,7 +43,7 @@ export default class TableList extends React.Component<Props> {
     );
   }
 
-  render(): React.ReactNode {
+  override render(): React.ReactNode {
     const dataSource = this.props.dataSource;
     if (!dataSource) return null;
 

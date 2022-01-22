@@ -187,7 +187,7 @@ export default class DataSourceForm extends React.Component<Props, State> {
     });
   }
 
-  render(): React.ReactNode {
+  override render(): React.ReactNode {
     const list: DataSourceClasses[] = DataSource.list;
     const options = [{ key: "", label: "" }].concat(list).map(({ key, label }) => {
       return (

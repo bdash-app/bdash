@@ -16,13 +16,13 @@ import { DataSourceKeys } from "../../renderer/pages/DataSource/DataSourceStore"
 export default class Postgres extends Base {
   currentClient: any;
 
-  static get key(): DataSourceKeys {
+  static override get key(): DataSourceKeys {
     return "postgres";
   }
-  static get label(): string {
+  static override get label(): string {
     return "PostgreSQL";
   }
-  static get configSchema(): ConfigSchemasType {
+  static override get configSchema(): ConfigSchemasType {
     return [
       { name: "host", label: "Host", type: "string", placeholder: "localhost" },
       { name: "port", label: "Port", type: "number", placeholder: 5432 },
