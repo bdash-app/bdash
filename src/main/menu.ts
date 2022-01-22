@@ -17,9 +17,9 @@ const editMenu: Electron.MenuItemConstructorOptions = {
       accelerator: "CmdOrCtrl+Shift+F",
       click(_item, focusedWindow): void {
         focusedWindow?.webContents.send("format");
-      }
-    }
-  ]
+      },
+    },
+  ],
 };
 
 const viewMenu: Electron.MenuItemConstructorOptions = {
@@ -29,8 +29,8 @@ const viewMenu: Electron.MenuItemConstructorOptions = {
     { type: "separator" },
     { role: "resetZoom" },
     { role: "zoomIn" },
-    { role: "zoomOut" }
-  ]
+    { role: "zoomOut" },
+  ],
 };
 
 if (isDev && Array.isArray(viewMenu.submenu)) {
@@ -45,11 +45,11 @@ const windowMenu: Electron.MenuItemConstructorOptions = {
       accelerator: "CmdOrCtrl+Shift+N",
       click(): void {
         createWindow();
-      }
+      },
     },
     { role: "minimize" },
-    { role: "close" }
-  ]
+    { role: "close" },
+  ],
 };
 
 const helpMenu: Electron.MenuItemConstructorOptions = {
@@ -59,15 +59,15 @@ const helpMenu: Electron.MenuItemConstructorOptions = {
       label: "Report Issue",
       click(): void {
         shell.openExternal("https://github.com/bdash-app/bdash/issues/new");
-      }
-    }
-  ]
+      },
+    },
+  ],
 };
 
 const checkForUpdateItem: Electron.MenuItemConstructorOptions = {
   label: "Check for Updates...",
   click: async () => {
-    const shouldUpdate = await checkUpdate().catch(err => {
+    const shouldUpdate = await checkUpdate().catch((err) => {
       logger.error(err);
       return false;
     });
@@ -76,7 +76,7 @@ const checkForUpdateItem: Electron.MenuItemConstructorOptions = {
       : "There are currently no updates available.";
     dialog.showMessageBox({ message });
     return;
-  }
+  },
 };
 
 const template: Electron.MenuItemConstructorOptions[] = [editMenu, viewMenu, windowMenu, helpMenu];
@@ -92,8 +92,8 @@ if (process.platform === "darwin") {
       { role: "hideOthers" },
       { role: "unhide" },
       { type: "separator" },
-      { role: "quit" }
-    ]
+      { role: "quit" },
+    ],
   });
 } else if (Array.isArray(helpMenu.submenu)) {
   helpMenu.submenu.push({ type: "separator" });
@@ -101,7 +101,7 @@ if (process.platform === "darwin") {
   helpMenu.submenu.push(checkForUpdateItem);
   template.unshift({
     label: "File",
-    submenu: [{ role: "quit" }]
+    submenu: [{ role: "quit" }],
   });
 }
 
@@ -112,7 +112,7 @@ export function initMenu(): void {
   app.setAboutPanelOptions({
     applicationName: "Bdash",
     applicationVersion: app.getVersion(),
-    iconPath
+    iconPath,
   });
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);

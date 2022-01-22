@@ -17,8 +17,8 @@ suite("DataSourceDefinition/Postgres @remote", () => {
       rows: [
         ["1", "foo"],
         ["2", "bar"],
-        ["3", "baz"]
-      ]
+        ["3", "baz"],
+      ],
     });
   });
 
@@ -26,7 +26,7 @@ suite("DataSourceDefinition/Postgres @remote", () => {
     const result = await new Postgres(config).execute("insert into test values (4, 'hoge')");
     assert.deepStrictEqual(result, {
       fields: [],
-      rows: []
+      rows: [],
     });
   });
 
@@ -34,7 +34,7 @@ suite("DataSourceDefinition/Postgres @remote", () => {
     const result = await new Postgres(config).execute("update test set text = 'hoge'");
     assert.deepStrictEqual(result, {
       fields: [],
-      rows: []
+      rows: [],
     });
   });
 
@@ -42,7 +42,7 @@ suite("DataSourceDefinition/Postgres @remote", () => {
     const result = await new Postgres(config).execute("delete from test where id = 1");
     assert.deepStrictEqual(result, {
       fields: [],
-      rows: []
+      rows: [],
     });
   });
 

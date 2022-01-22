@@ -6,24 +6,24 @@ export const selectStyles: StylesConfig = {
     backgroundColor: isSelected ? "#f5faff" : "transparent",
     color: "black",
     "&:hover": {
-      backgroundColor: "#ebf5ff"
-    }
+      backgroundColor: "#ebf5ff",
+    },
   }),
-  indicatorSeparator: style => ({
+  indicatorSeparator: (style) => ({
     ...style,
-    display: "none"
+    display: "none",
   }),
-  clearIndicator: style => ({
+  clearIndicator: (style) => ({
     ...style,
     padding: "8px 0",
-    transform: "scale(0.8)"
+    transform: "scale(0.8)",
   }),
-  dropdownIndicator: style => ({
+  dropdownIndicator: (style) => ({
     ...style,
-    paddingLeft: "0"
+    paddingLeft: "0",
   }),
-  menu: style => ({
+  menu: (style) => ({
     ...style,
-    marginTop: "0"
-  })
+    marginTop: "0",
+  }),
 };

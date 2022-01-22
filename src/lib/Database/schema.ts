@@ -43,11 +43,11 @@ export const migrations: Migration[] = [
       updatedAt datetime not null
     );
     create index if not exists idx_query_id_on_charts on charts(queryId);
-    `
+    `,
   },
   {
     version: 2,
-    query: `alter table queries add column codeMirrorHistory json`
+    query: `alter table queries add column codeMirrorHistory json`,
   },
   {
     version: 3,
@@ -71,6 +71,6 @@ export const migrations: Migration[] = [
       drop table charts;
       alter table charts_backup rename to charts;
       create index if not exists idx_query_id_on_charts on charts(queryId);
-    `
-  }
+    `,
+  },
 ];

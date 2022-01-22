@@ -33,7 +33,7 @@ export default class DataSourceList extends React.Component<Props> {
             if (dataSource) {
               this.props.onEdit(dataSource);
             }
-          }
+          },
         },
         {
           label: "Reload",
@@ -42,7 +42,7 @@ export default class DataSourceList extends React.Component<Props> {
             if (dataSource) {
               this.props.onReload(dataSource);
             }
-          }
+          },
         },
         {
           label: "Set as default",
@@ -50,7 +50,7 @@ export default class DataSourceList extends React.Component<Props> {
           checked: id === this.props.defaultDataSourceId,
           click: (): void => {
             this.props.changeDefaultDataSourceId(id);
-          }
+          },
         },
         {
           label: "Delete",
@@ -58,21 +58,21 @@ export default class DataSourceList extends React.Component<Props> {
             if (window.confirm("Are you sure?")) {
               this.props.onDelete(id);
             }
-          }
-        }
+          },
+        },
       ]);
       menu.popup({ window: remote.getCurrentWindow() });
     });
   }
 
   find(id: number): DataSourceType | undefined {
-    return this.props.dataSources.find(d => d.id === id);
+    return this.props.dataSources.find((d) => d.id === id);
   }
 
   render(): React.ReactNode {
-    const items = this.props.dataSources.map(dataSource => {
+    const items = this.props.dataSources.map((dataSource) => {
       const className = classNames({
-        "is-selected": this.props.selectedDataSourceId === dataSource.id
+        "is-selected": this.props.selectedDataSourceId === dataSource.id,
       });
       const label: string =
         dataSource.id === this.props.defaultDataSourceId ? dataSource.name + " (default)" : dataSource.name;

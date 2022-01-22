@@ -3,5 +3,5 @@ import findQueryByLine from "./findQueryByLine";
 
 export default {
   stripHeredoc,
-  findQueryByLine
+  findQueryByLine,
 };

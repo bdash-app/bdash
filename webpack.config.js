@@ -16,23 +16,23 @@ module.exports = (env, argv) => {
     "static/scatter.svg",
     "build/icon.png",
     "package.json",
-    "yarn.lock"
+    "yarn.lock",
   ];
 
   const extractTextPlugin = new MiniCssExtractPlugin({ filename: "app.css" });
   const copyPlugin = new CopyWebpackPlugin({
-    patterns: copyTargetFiles.map(filePath => ({ from: filePath, to: appDir }))
+    patterns: copyTargetFiles.map((filePath) => ({ from: filePath, to: appDir })),
   });
   const definePlugin = new webpack.DefinePlugin({
-    "process.env.NODE_ENV": JSON.stringify(buildEnv)
+    "process.env.NODE_ENV": JSON.stringify(buildEnv),
   });
 
   const commonConfig = {
     resolve: { extensions: [".ts", ".tsx", ".js"] },
     node: {
       __dirname: false,
-      __filename: false
-    }
+      __filename: false,
+    },
   };
 
   const mainConfig = Object.assign(
@@ -42,18 +42,18 @@ module.exports = (env, argv) => {
       entry: "./src/main/index.ts",
       output: {
         path: distDir,
-        filename: "main.js"
+        filename: "main.js",
       },
       module: {
         rules: [
           {
             test: /\.tsx?$/,
             loader: "ts-loader",
-            options: { transpileOnly: isDevelopment }
-          }
-        ]
+            options: { transpileOnly: isDevelopment },
+          },
+        ],
       },
-      externals: [nodeExternals({ allowlist: ["electron-is-dev", "electron-log"] })]
+      externals: [nodeExternals({ allowlist: ["electron-is-dev", "electron-log"] })],
     },
     commonConfig
   );
@@ -69,17 +69,17 @@ module.exports = (env, argv) => {
         clean: {
           keep(asset) {
             return asset === "main.js";
-          }
+          },
         },
         path: distDir,
-        filename: "app.js"
+        filename: "app.js",
       },
       module: {
         rules: [
           {
             test: /\.tsx?$/,
             loader: "ts-loader",
-            options: { transpileOnly: isDevelopment }
+            options: { transpileOnly: isDevelopment },
           },
           {
             test: /\.css$/,
@@ -88,19 +88,19 @@ module.exports = (env, argv) => {
               {
                 loader: "css-loader",
                 options: {
-                  sourceMap: true
-                }
-              }
-            ]
+                  sourceMap: true,
+                },
+              },
+            ],
           },
           {
             test: /\.(png|ttf|eot|svg|woff|woff2)(\?.+)?$/,
-            type: "asset/inline"
-          }
-        ]
+            type: "asset/inline",
+          },
+        ],
       },
       externals: [nodeExternals({ allowlist: [/\.css$/, /^aws-sdk/, /^@fortawesome/] })],
-      plugins: [extractTextPlugin, definePlugin, copyPlugin]
+      plugins: [extractTextPlugin, definePlugin, copyPlugin],
     },
     commonConfig
   );

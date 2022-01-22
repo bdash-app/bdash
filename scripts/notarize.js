@@ -2,7 +2,7 @@ const path = require("path");
 const fs = require("fs");
 const { notarize } = require("electron-notarize");
 
-module.exports = async function() {
+module.exports = async function () {
   if (process.platform !== "darwin") {
     return;
   }
@@ -20,7 +20,7 @@ module.exports = async function() {
     appPath: appPath,
     appleId: process.env.APPLE_ID,
     appleIdPassword: process.env.APPLE_PASSWORD,
-    ascProvider: process.env.ASC_PROVIDER
+    ascProvider: process.env.ASC_PROVIDER,
   });
 
   console.log("afterSign: Notarized");

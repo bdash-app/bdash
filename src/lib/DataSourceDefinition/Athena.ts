@@ -18,31 +18,31 @@ export default class Athena extends Base {
         label: "Region",
         type: "string",
         placeholder: "us-east-1",
-        required: true
+        required: true,
       },
       {
         name: "accessKeyId",
         label: "Access key ID",
-        type: "string"
+        type: "string",
       },
       {
         name: "secretAccessKey",
         label: "Secret access key",
-        type: "string"
+        type: "string",
       },
       {
         name: "database",
         label: "Database",
         type: "string",
-        required: true
+        required: true,
       },
       {
         name: "outputLocation",
         label: "Query result location",
         type: "string",
         placeholder: "s3://query-results-bucket/prefix/",
-        required: true
-      }
+        required: true,
+      },
     ];
   }
 
@@ -67,7 +67,7 @@ export default class Athena extends Base {
 
   async fetchTables(): Promise<{ name: string; type: string; schema?: string }[]> {
     const rows = await this.client.execute("show tables");
-    return rows.map(row => ({ name: row[0]!, type: "table" }));
+    return rows.map((row) => ({ name: row[0]!, type: "table" }));
   }
 
   async fetchTableSummary({ name }: { name: string }): Promise<TableSummary> {
@@ -75,9 +75,9 @@ export default class Athena extends Base {
     const defs = {
       fields: ["name", "type"],
       rows: rows
-        .map(row => row[0])
-        .filter(v => v !== null && v[0] !== "#" && v.trim() !== "")
-        .map(v => (v || "").split("\t").map(c => c.trim()))
+        .map((row) => row[0])
+        .filter((v) => v !== null && v[0] !== "#" && v.trim() !== "")
+        .map((v) => (v || "").split("\t").map((c) => c.trim())),
     };
 
     return { name, defs };
@@ -87,7 +87,7 @@ export default class Athena extends Base {
     return {
       type: Athena.label,
       region: this.config.region,
-      database: this.config.database
+      database: this.config.database,
     };
   }
 }

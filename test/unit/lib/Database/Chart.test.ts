@@ -24,8 +24,8 @@ suite("Database/Chart", () => {
         groupColumns: ["g"],
         stacking: 1,
         updatedAt: "2017-02-01 00:00:00",
-        createdAt: "2017-01-01 00:00:00"
-      }
+        createdAt: "2017-01-01 00:00:00",
+      },
     ]);
   });
 
@@ -46,7 +46,7 @@ suite("Database/Chart", () => {
       groupColumns: ["g"],
       stacking: 1,
       updatedAt: "2017-02-01 00:00:00",
-      createdAt: "2017-01-01 00:00:00"
+      createdAt: "2017-01-01 00:00:00",
     });
   });
 
@@ -80,7 +80,7 @@ suite("Database/Chart", () => {
     `);
     const chart = await Chart.update(1, {
       xColumn: "new",
-      yColumns: ["c", "d"]
+      yColumns: ["c", "d"],
     });
     assert.strictEqual(chart.xColumn, "new");
     assert.deepStrictEqual(chart.yColumns, ["c", "d"]);

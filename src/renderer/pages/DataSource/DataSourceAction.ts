@@ -35,7 +35,7 @@ const DataSourceAction = {
     dispatch("selectTable", {
       id: dataSource.id,
       selectedTable: table,
-      tableSummary
+      tableSummary,
     });
   },
 
@@ -53,12 +53,12 @@ const DataSourceAction = {
     id,
     name,
     type,
-    config
+    config,
   }: Pick<DataSourceType, "id" | "name" | "type" | "config">): Promise<void> {
     const dataSource = await Database.DataSource.update(id, {
       name,
       type,
-      config
+      config,
     });
     dispatch("updateDataSource", { dataSource });
     DataSourceAction.loadTables(dataSource);
@@ -80,7 +80,7 @@ const DataSourceAction = {
   updateDefaultDataSourceId(defaultDataSourceId: number): void {
     setting.save({ defaultDataSourceId });
     dispatch("updateDefaultDataSourceId", { defaultDataSourceId });
-  }
+  },
 };
 
 export default DataSourceAction;

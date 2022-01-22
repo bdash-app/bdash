@@ -33,7 +33,7 @@ export default class TableList extends React.Component<Props> {
     }
     const className = classNames({
       "is-view": table.type.toLowerCase() === "view",
-      "is-selected": selectedTable && selectedTable.name === table.name && selectedTable.schema === table.schema
+      "is-selected": selectedTable && selectedTable.name === table.name && selectedTable.schema === table.schema,
     });
 
     return (

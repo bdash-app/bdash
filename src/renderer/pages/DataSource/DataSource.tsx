@@ -13,7 +13,7 @@ class DataSource extends React.Component<unknown, DataSourceState> {
   }
 
   find(id: number): DataSourceType | undefined {
-    return this.state.dataSources.find(d => d.id === id);
+    return this.state.dataSources.find((d) => d.id === id);
   }
 
   handleSave(dataSource: { id: number | null } & Pick<DataSourceType, "name" | "type" | "config">): void {

@@ -7,5 +7,5 @@ export default {
   connection,
   Query,
   DataSource,
-  Chart
+  Chart,
 };

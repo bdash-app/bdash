@@ -12,7 +12,7 @@ function rm(path: string): void {
 
 function cp(paths: string[], targetDir: string): void {
   const dir = normalizePath(targetDir);
-  paths.forEach(path => {
+  paths.forEach((path) => {
     const fileName = path.split("/").pop();
     fse.copyFileSync(normalizePath(path), `${dir}/${fileName}`);
   });

@@ -48,23 +48,23 @@ export default class Setting {
       lineWrap: false,
       indent: DEFAULT_INDENT,
       formatter: {
-        toUppercaseKeyword: false
+        toUppercaseKeyword: false,
       },
       github: {
         token: null,
         url: null,
         public: false,
-        maximumNumberOfRowsOfGist: 10000
+        maximumNumberOfRowsOfGist: 10000,
       },
       bdashServer: {
         token: null,
         url: null,
-        maximumNumberOfRows: 10000
+        maximumNumberOfRows: 10000,
       },
       experimentalFeature: {
-        autoCompleteEnabled: false
+        autoCompleteEnabled: false,
       },
-      defaultDataSourceId: null
+      defaultDataSourceId: null,
     };
   }
 
@@ -81,7 +81,7 @@ export default class Setting {
     this.setting =
       {
         ...Setting.getDefault(),
-        ...yaml.safeLoad(fs.readFileSync(filePath).toString())
+        ...yaml.safeLoad(fs.readFileSync(filePath).toString()),
       } || {};
   }
 

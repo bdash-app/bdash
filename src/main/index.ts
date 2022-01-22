@@ -6,7 +6,7 @@ import { windows, createWindow } from "./window";
 const app = electron.app;
 export let mainWindow: electron.BrowserWindow | null;
 
-process.on("uncaughtException", err => {
+process.on("uncaughtException", (err) => {
   logger.error(err);
 });
 

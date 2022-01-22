@@ -27,10 +27,10 @@ export default class QueryHeader extends React.Component<Props> {
   }
 
   render(): React.ReactNode {
-    const options = this.props.dataSources.map(dataSource => {
+    const options = this.props.dataSources.map((dataSource) => {
       return { value: dataSource.id, label: dataSource.name };
     });
-    const currentOption = options.find(option => option.value === this.props.query.dataSourceId);
+    const currentOption = options.find((option) => option.value === this.props.query.dataSourceId);
 
     return (
       <div className="QueryHeader">

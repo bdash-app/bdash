@@ -12,5 +12,5 @@ const settingPath = path.join(bdashRoot, "setting.yml");
 export default {
   bdashRoot,
   databasePath,
-  settingPath
+  settingPath,
 };

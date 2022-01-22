@@ -27,8 +27,8 @@ export default class QueryStore extends Store<QueryState> {
       selectedQueryId: null,
       editor: {
         height: null,
-        line: null
-      }
+        line: null,
+      },
     };
   }
 
@@ -42,14 +42,10 @@ export default class QueryStore extends Store<QueryState> {
       }
       case "selectQuery": {
         const idx = this.findQueryIndex(payload.id);
-        return this.set("selectedQueryId", payload.id)
-          .set("editor.line", null)
-          .merge(`queries.${idx}`, payload.query);
+        return this.set("selectedQueryId", payload.id).set("editor.line", null).merge(`queries.${idx}`, payload.query);
       }
       case "addNewQuery": {
-        return this.set("selectedQueryId", payload.query.id)
-          .set("editor.line", null)
-          .prepend("queries", payload.query);
+        return this.set("selectedQueryId", payload.query.id).set("editor.line", null).prepend("queries", payload.query);
       }
       case "updateQuery": {
         const idx = this.findQueryIndex(payload.id);
@@ -57,9 +53,7 @@ export default class QueryStore extends Store<QueryState> {
       }
       case "deleteQuery": {
         const idx = this.findQueryIndex(payload.id);
-        return this.set("selectedQueryId", null)
-          .set("editor.line", null)
-          .del(`queries.${idx}`);
+        return this.set("selectedQueryId", null).set("editor.line", null).del(`queries.${idx}`);
       }
       case "updateEditor": {
         return this.merge("editor", payload);
@@ -82,7 +76,7 @@ export default class QueryStore extends Store<QueryState> {
   }
 
   findQueryIndex(id: number): number {
-    const idx = this.state.queries.findIndex(q => q.id === id);
+    const idx = this.state.queries.findIndex((q) => q.id === id);
 
     if (idx === -1) {
       throw new Error(`query id:${id} not found`);
@@ -92,7 +86,7 @@ export default class QueryStore extends Store<QueryState> {
   }
 
   findChartIndex(id: number): number {
-    const idx = this.state.charts.findIndex(c => c.id === id);
+    const idx = this.state.charts.findIndex((c) => c.id === id);
 
     if (idx === -1) {
       throw new Error(`chart id:${id} not found`);

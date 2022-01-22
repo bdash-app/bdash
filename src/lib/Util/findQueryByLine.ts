@@ -11,24 +11,24 @@ interface QueryChunk {
 
 export default async function findQueryByLine(sql: string, mimeType: string, line: number): Promise<QueryChunk> {
   const chunks = await splitQuery(sql, mimeType);
-  const chunk = chunks.find(chunk => chunk.endLine >= line) ?? last(chunks);
+  const chunk = chunks.find((chunk) => chunk.endLine >= line) ?? last(chunks);
 
   if (!chunk) {
     return {
       query: "",
       startLine: 2,
-      endLine: 1
+      endLine: 1,
     };
   }
   return {
     query: chunk.query,
     startLine: chunk.startLine,
-    endLine: chunk.endLine
+    endLine: chunk.endLine,
   };
 }
 
 const splitQuery = (sql: string, mimeType: string): Promise<QueryChunk[]> => {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     let startLine = 1;
     let line = 1;
     let query = "";

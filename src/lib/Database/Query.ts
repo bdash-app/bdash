@@ -48,10 +48,10 @@ export default class Query {
 
     // For backword compatibility with beta version data structure.
     if (query.fields && typeof query.fields[0] === "object") {
-      query.fields = query.fields.map(f => f.name);
+      query.fields = query.fields.map((f) => f.name);
     }
     if (query.rows && typeof query.rows[0] === "object" && !Array.isArray(query.rows[0])) {
-      query.rows = query.rows.map(r => Object.values(r));
+      query.rows = query.rows.map((r) => Object.values(r));
     }
 
     if (query.codeMirrorHistory) {
@@ -76,7 +76,7 @@ export default class Query {
     const fields: string[] = [];
     const values: string[] = [];
 
-    Object.keys(params).forEach(field => {
+    Object.keys(params).forEach((field) => {
       fields.push(field);
       values.push(params[field]);
     });
@@ -84,7 +84,7 @@ export default class Query {
 
     const sql = `
       update queries
-      set ${fields.map(f => `${f} = ?`).join(", ")}, updatedAt = datetime('now')
+      set ${fields.map((f) => `${f} = ?`).join(", ")}, updatedAt = datetime('now')
       where id = ?
     `;
 

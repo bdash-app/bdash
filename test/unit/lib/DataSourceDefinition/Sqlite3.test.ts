@@ -30,8 +30,8 @@ suite("DataSourceDefinition/SQLite3 @remote", () => {
       rows: [
         [1, "foo"],
         [2, "bar"],
-        [3, "baz"]
-      ]
+        [3, "baz"],
+      ],
     });
   });
 
@@ -39,7 +39,7 @@ suite("DataSourceDefinition/SQLite3 @remote", () => {
     const result = await connection.execute("insert into test values (4, 'hoge')");
     assert.deepStrictEqual(result, {
       fields: [],
-      rows: []
+      rows: [],
     });
   });
 
@@ -47,7 +47,7 @@ suite("DataSourceDefinition/SQLite3 @remote", () => {
     const result = await connection.execute("update test set text = 'hoge'");
     assert.deepStrictEqual(result, {
       fields: [],
-      rows: []
+      rows: [],
     });
   });
 
@@ -55,7 +55,7 @@ suite("DataSourceDefinition/SQLite3 @remote", () => {
     const result = await connection.execute("delete from test where id = 1");
     assert.deepStrictEqual(result, {
       fields: [],
-      rows: []
+      rows: [],
     });
   });
 });

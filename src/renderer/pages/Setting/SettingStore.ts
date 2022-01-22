@@ -19,13 +19,13 @@ export default class SettingStore extends Store<SettingState> {
     this.state = {
       githubValidateToken: {
         status: null,
-        error: null
+        error: null,
       },
       bdashServerValidateToken: {
         status: null,
-        error: null
+        error: null,
       },
-      setting: Setting.getDefault()
+      setting: Setting.getDefault(),
     };
   }
 
@@ -38,37 +38,37 @@ export default class SettingStore extends Store<SettingState> {
       case "githubValidateTokenWorking": {
         return this.merge("githubValidateToken", {
           status: "working",
-          error: null
+          error: null,
         });
       }
       case "githubValidateTokenSuccess": {
         return this.merge("githubValidateToken", {
           status: "success",
-          error: null
+          error: null,
         });
       }
       case "githubValidateTokenError": {
         return this.merge("githubValidateToken", {
           status: "failure",
-          error: payload.message
+          error: payload.message,
         });
       }
       case "bdashServerValidateTokenWorking": {
         return this.merge("bdashServerValidateToken", {
           status: "working",
-          error: null
+          error: null,
         });
       }
       case "bdashServerValidateTokenSuccess": {
         return this.merge("bdashServerValidateToken", {
           status: "success",
-          error: null
+          error: null,
         });
       }
       case "bdashServerValidateTokenError": {
         return this.merge("bdashServerValidateToken", {
           status: "failure",
-          error: payload.message
+          error: payload.message,
         });
       }
       default: {

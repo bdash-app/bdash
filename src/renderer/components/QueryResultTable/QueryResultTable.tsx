@@ -37,7 +37,7 @@ export default class QueryResultTable extends React.Component<Props> {
     if (typeof value === "object") {
       return (
         <ul className="QueryResultTable-list">
-          {Object.keys(value).map(key => (
+          {Object.keys(value).map((key) => (
             <li key={key}>
               <span className="QueryResultTable-listKey">{key}:</span>
               {this.renderValue(value[key])}

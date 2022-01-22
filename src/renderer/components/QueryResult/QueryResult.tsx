@@ -28,7 +28,7 @@ export default class QueryResult extends React.Component<Props> {
 
   renderMain(): React.ReactNode {
     if (this.props.query.selectedTab === "chart") {
-      const chart = this.props.charts.find(chart => chart.queryId === this.props.query.id);
+      const chart = this.props.charts.find((chart) => chart.queryId === this.props.query.id);
       return <QueryResultChart chart={chart} {...this.props} />;
     } else {
       return <QueryResultTable {...this.props} />;

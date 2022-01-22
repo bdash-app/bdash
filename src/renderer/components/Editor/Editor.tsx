@@ -67,7 +67,7 @@ export default class Editor extends React.Component<Props> {
         } else if (cm.state.vim.insertMode) {
           cm.replaceSelection(" ".repeat(cm.getOption("indentUnit") || DEFAULT_INDENT));
         }
-      }
+      },
     });
     if (process.platform === "darwin") {
       this.codeMirror.addKeyMap({
@@ -84,12 +84,12 @@ export default class Editor extends React.Component<Props> {
           clipboard.writeFindText(cm.getSelection());
           cm.replaceSelection("");
         },
-        ["Ctrl-Y"]: cm => {
+        ["Ctrl-Y"]: (cm) => {
           const killBuffer = clipboard.readFindText();
           if (killBuffer.length > 0) {
             cm.replaceSelection(killBuffer);
           }
-        }
+        },
       });
     }
     this.currentValue = this.props.value;
@@ -100,12 +100,12 @@ export default class Editor extends React.Component<Props> {
     } else {
       this.codeMirror.clearHistory();
     }
-    CodeMirror.Vim.defineAction("delLineLeft", cm => cm.execCommand("delLineLeft"));
+    CodeMirror.Vim.defineAction("delLineLeft", (cm) => cm.execCommand("delLineLeft"));
     CodeMirror.Vim._mapCommand({
       keys: "<C-u>",
       type: "action",
       action: "delLineLeft",
-      context: "insert"
+      context: "insert",
     });
     if (process.platform !== "darwin") {
       const vim: any = CodeMirror.Vim;
@@ -132,7 +132,7 @@ export default class Editor extends React.Component<Props> {
       formattedQuery = format(this.currentValue, {
         linesBetweenQueries: 2,
         indent: " ".repeat(this.props.setting.indent),
-        uppercase: this.props.setting.formatter.toUppercaseKeyword
+        uppercase: this.props.setting.formatter.toUppercaseKeyword,
       });
     } catch (err) {
       alert("Format failed😢");
@@ -193,7 +193,9 @@ export default class Editor extends React.Component<Props> {
       }
       CodeMirror.showHint(editor, undefined, {
         hint: (cm: CodeMirror.Editor): CodeMirror.Hints => {
-          const tableHints = this.props.tables.filter(t => t.length > tokenString.length && t.startsWith(tokenString));
+          const tableHints = this.props.tables.filter(
+            (t) => t.length > tokenString.length && t.startsWith(tokenString)
+          );
           // Suppress 'hint does not exist' because codemirror does not serve types of addons.
           // @ts-expect-error
           const sqlHints = CodeMirror.hint.sql(cm);
@@ -201,10 +203,10 @@ export default class Editor extends React.Component<Props> {
           return {
             from: CodeMirror.Pos(cursor.line, token.start),
             to: CodeMirror.Pos(cursor.line, token.end),
-            list: hints
+            list: hints,
           };
         },
-        completeSingle: false
+        completeSingle: false,
       });
     }, 400);
   }

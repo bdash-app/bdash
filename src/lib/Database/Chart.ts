@@ -27,7 +27,7 @@ export default class Chart {
 
   static async findOrCreateByQueryId({
     queryId,
-    type = "line"
+    type = "line",
   }: {
     queryId: number;
     type?: string;
@@ -52,7 +52,7 @@ export default class Chart {
     const fields: string[] = [];
     const values: (string | number)[] = [];
 
-    Object.keys(params).forEach(field => {
+    Object.keys(params).forEach((field) => {
       fields.push(field);
       values.push(["yColumns", "groupColumns"].includes(field) ? JSON.stringify(params[field]) : params[field]);
     });
@@ -60,7 +60,7 @@ export default class Chart {
 
     const sql = `
       update charts
-      set ${fields.map(f => `${f} = ?`).join(", ")}, updatedAt = datetime('now')
+      set ${fields.map((f) => `${f} = ?`).join(", ")}, updatedAt = datetime('now')
       where id = ?
     `;
     await connection.run(sql, values);

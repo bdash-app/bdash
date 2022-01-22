@@ -12,7 +12,7 @@ export default class GitHubApiClient {
   getHeaders(): { [name: string]: string } {
     return {
       "Content-Type": "application/json",
-      Authorization: `token ${this.token}`
+      Authorization: `token ${this.token}`,
     };
   }
 
@@ -33,7 +33,7 @@ export default class GitHubApiClient {
       throw new Error("Token is not set");
     }
     const response = await fetch(this.getValidationTokenUrl(), {
-      headers: this.getHeaders()
+      headers: this.getHeaders(),
     });
     const scopes = response.headers.get("X-OAuth-Scopes");
 
@@ -43,7 +43,7 @@ export default class GitHubApiClient {
 
     const isInclude = scopes
       .split(",")
-      .map(s => s.trim())
+      .map((s) => s.trim())
       .includes("gist");
     if (isInclude) {
       return true;
@@ -56,7 +56,7 @@ export default class GitHubApiClient {
     const response = await fetch(this.getGistUrl(), {
       method: "POST",
       headers: this.getHeaders(),
-      body: JSON.stringify(contents)
+      body: JSON.stringify(contents),
     });
 
     if (!response.ok) {

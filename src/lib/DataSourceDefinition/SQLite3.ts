@@ -25,7 +25,7 @@ export default class SQLite3 extends Base {
 
   async fetchTables(): Promise<{ name: string; type: string; schema?: string }[]> {
     const { rows }: any = await this._execute("select tbl_name from sqlite_master where type = 'table'");
-    return rows.map(row => {
+    return rows.map((row) => {
       return { name: row[0], type: "table" };
     });
   }
@@ -53,7 +53,7 @@ export default class SQLite3 extends Base {
           return resolve({ rows: [], fields: [] });
         }
         const fields = Object.keys(results[0]);
-        const rows = results.map<(string | null)[]>(r => Object.values(r));
+        const rows = results.map<(string | null)[]>((r) => Object.values(r));
         resolve({ fields, rows });
       });
     });
@@ -62,7 +62,7 @@ export default class SQLite3 extends Base {
   dataSourceInfo(): Record<string, any> {
     return {
       type: SQLite3.label,
-      path: this.config.path
+      path: this.config.path,
     };
   }
 }

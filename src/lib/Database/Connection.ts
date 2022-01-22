@@ -20,7 +20,7 @@ export default class Connection {
   async migrate(migrations: Migration[]): Promise<void> {
     await this.exec("begin;");
     try {
-      const currentVersion: number = await this.get(`pragma user_version`).then(row => row.user_version);
+      const currentVersion: number = await this.get(`pragma user_version`).then((row) => row.user_version);
       let lastVersion = 0;
       for (const m of migrations) {
         if (m.version <= lastVersion) {
@@ -41,7 +41,7 @@ export default class Connection {
 
   exec(sql: string): Promise<void> {
     return new Promise((resolve, reject) => {
-      this.db.exec(sql, err => {
+      this.db.exec(sql, (err) => {
         if (err) {
           reject(err);
         } else {
@@ -77,7 +77,7 @@ export default class Connection {
 
   insert(sql: string, ...params: any[]): Promise<number> {
     return new Promise((resolve, reject) => {
-      this.db.run(sql, ...params, function(err: Error | null) {
+      this.db.run(sql, ...params, function (err: Error | null) {
         if (err) {
           reject(err);
         } else {

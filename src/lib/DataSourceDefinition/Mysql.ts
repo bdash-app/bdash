@@ -22,14 +22,19 @@ export default class Mysql extends Base {
         name: "user",
         label: "Username",
         type: "string",
-        placeholder: process.env.USER
+        placeholder: process.env.USER,
       },
       { name: "password", label: "Password", type: "password" },
       { name: "database", label: "Database", type: "string", required: true },
       { name: "ssl", label: "SSL", type: "checkbox" },
       { name: "sslCaFilename", label: "SSL CA File", type: "string", placeholder: "/path/to/ca.pem" },
       { name: "sslKeyFilename", label: "SSL Key File", type: "string", placeholder: "/path/to/client-key.pem" },
-      { name: "sslCertFilename", label: "SSL Cirtifcate File", type: "string", placeholder: "/path/to/client-cert.pem" }
+      {
+        name: "sslCertFilename",
+        label: "SSL Cirtifcate File",
+        type: "string",
+        placeholder: "/path/to/client-cert.pem",
+      },
     ];
   }
 
@@ -58,7 +63,7 @@ export default class Mysql extends Base {
     `);
     const { fields, rows } = await this._execute(query, this.config.database);
 
-    return rows.map(row => zipObject(fields, row));
+    return rows.map((row) => zipObject(fields, row));
   }
 
   async fetchTableSummary({ name }: { name: string }): Promise<TableSummary> {
@@ -78,7 +83,7 @@ export default class Mysql extends Base {
           // Some MySQL server doesn't support TLS v1.2,
           // However default minVersion is TLSv1.2 if you use Node.js v12.0 or later.
           // @see https://github.com/nodejs/help/issues/1936
-          minVersion: "TLSv1"
+          minVersion: "TLSv1",
         }
       : undefined;
     return {
@@ -87,7 +92,7 @@ export default class Mysql extends Base {
       user: this.config.user,
       password: this.config.password,
       database: this.config.database,
-      ssl
+      ssl,
     };
   }
 
@@ -100,7 +105,7 @@ export default class Mysql extends Base {
     return new Promise((resolve, reject) => {
       const params = Object.assign({ dateStrings: true }, config);
       this.currentConnection = mysql.createConnection(params);
-      this.currentConnection.connect(err => {
+      this.currentConnection.connect((err) => {
         if (err) {
           this.currentConnection.close();
           this.currentConnection = null;
@@ -114,7 +119,7 @@ export default class Mysql extends Base {
           if (err) {
             reject(err);
           } else if (fields && rows) {
-            resolve({ fields: fields.map(f => f.name), rows });
+            resolve({ fields: fields.map((f) => f.name), rows });
           } else if (rows) {
             resolve({ fields: [], rows: [] });
           } else {
@@ -132,7 +137,7 @@ export default class Mysql extends Base {
       host: this.config.host,
       port: this.config.port,
       user: this.config.user,
-      database: this.config.database
+      database: this.config.database,
     };
   }
 }

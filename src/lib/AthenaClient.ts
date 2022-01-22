@@ -21,7 +21,7 @@ export default class AthenaClient {
     this.config = config;
     this.client = new athena.AthenaClient({
       region,
-      credentials: { accessKeyId: accessKeyId!, secretAccessKey: secretAccessKey! }
+      credentials: { accessKeyId: accessKeyId!, secretAccessKey: secretAccessKey! },
     });
   }
 
@@ -29,18 +29,18 @@ export default class AthenaClient {
     const params = {
       QueryString: query,
       ResultConfiguration: {
-        OutputLocation: this.config.outputLocation
+        OutputLocation: this.config.outputLocation,
       },
       QueryExecutionContext: {
-        Database: this.config.database
-      }
+        Database: this.config.database,
+      },
     };
 
     const { QueryExecutionId } = await this.client.send(new athena.StartQueryExecutionCommand(params));
     if (QueryExecutionId === undefined) throw new Error("QueryExecutionId is undefined");
     this.executionId = QueryExecutionId;
 
-    await retry(async done => {
+    await retry(async (done) => {
       const { QueryExecution } = await this.client.send(
         new athena.GetQueryExecutionCommand({ QueryExecutionId: this.executionId })
       );
@@ -66,8 +66,8 @@ export default class AthenaClient {
         new athena.GetQueryResultsCommand({ QueryExecutionId: this.executionId, NextToken: nextToken })
       );
       nextToken = result.NextToken;
-      const rs = ((result.ResultSet && result.ResultSet.Rows) || []).map(r => {
-        return ((r && r.Data) || []).map(d => (d.VarCharValue === undefined ? null : d.VarCharValue));
+      const rs = ((result.ResultSet && result.ResultSet.Rows) || []).map((r) => {
+        return ((r && r.Data) || []).map((d) => (d.VarCharValue === undefined ? null : d.VarCharValue));
       });
       rows = rows.concat(rs);
       if (!nextToken) {

@@ -38,7 +38,7 @@ export default class Redshift extends Postgres {
     `);
     const { fields, rows } = await this._execute(query);
 
-    return rows.map(row => zipObject(fields, row));
+    return rows.map((row) => zipObject(fields, row));
   }
 
   async fetchTableSummary({ schema, name }: { schema: string; name: string }): Promise<TableSummary> {
@@ -65,7 +65,7 @@ export default class Redshift extends Postgres {
       host: this.config.host,
       port: this.config.port,
       user: this.config.user,
-      database: this.config.database
+      database: this.config.database,
     };
   }
 }

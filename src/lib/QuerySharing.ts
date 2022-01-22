@@ -16,7 +16,7 @@ export default {
     query,
     chart,
     setting,
-    dataSource
+    dataSource,
   }: {
     query: QueryType;
     chart: ChartType | undefined;
@@ -26,7 +26,7 @@ export default {
     const chartWidth = 1000;
     const [tsv, svg] = await Promise.all([
       getTableDataAsTsv(query, setting.maximumNumberOfRowsOfGist),
-      getChartAsSvg(query, chart, chartWidth)
+      getChartAsSvg(query, chart, chartWidth),
     ]);
 
     const description = query.title;
@@ -46,7 +46,7 @@ export default {
     const files = {
       [`${fileNamePrefix}.sql`]: { content: query.body },
       [`${fileNamePrefix}_02.tsv`]: { content: tsv },
-      [`${fileNamePrefix}_03.md`]: { content: infoMd }
+      [`${fileNamePrefix}_03.md`]: { content: infoMd },
     };
 
     if (svg) {
@@ -78,7 +78,7 @@ export default {
     query,
     chart,
     setting,
-    dataSource
+    dataSource,
   }: {
     query: QueryType;
     chart: ChartType | undefined;
@@ -88,7 +88,7 @@ export default {
     const chartWidth = 1200;
     const [tsv, svg] = await Promise.all([
       getTableDataAsTsv(query, setting.maximumNumberOfRows),
-      getChartAsSvg(query, chart, chartWidth)
+      getChartAsSvg(query, chart, chartWidth),
     ]);
 
     const description = query.title;
@@ -98,7 +98,7 @@ export default {
     const files = {
       "query.sql": { content: query.body },
       "result.tsv": { content: tsv },
-      "data_source.json": { content: JSON.stringify(dataSourceInfo) }
+      "data_source.json": { content: JSON.stringify(dataSourceInfo) },
     };
 
     if (svg) {
@@ -113,13 +113,13 @@ export default {
     const result = await client.post({ description, files });
 
     await electron.shell.openExternal(result.html_url);
-  }
+  },
 };
 
 // private functions
 function getTableData(query: QueryType, maximumNumberOfRowsOfGist?: number): any[] {
   const rows = maximumNumberOfRowsOfGist ? query.rows.slice(0, maximumNumberOfRowsOfGist) : query.rows;
-  return [query.fields].concat(rows.map(row => Object.values(row)));
+  return [query.fields].concat(rows.map((row) => Object.values(row)));
 }
 
 function getTableDataAsTsv(query: QueryType, maximumNumberOfRowsOfGist?: number): Promise<string> {
@@ -144,9 +144,9 @@ function getTableDataAsCsv(query: QueryType): Promise<string> {
       quotedString: true,
       escape: '"',
       columns: query.fields,
-      header: true
+      header: true,
     };
-    const data = query.rows.map(row => Object.values(row));
+    const data = query.rows.map((row) => Object.values(row));
     // @ts-ignore
     csvStringify(data, csvOpts, (err: Error, csv: string) => {
       if (err) {
@@ -168,7 +168,7 @@ function getChartAsSvg(query: QueryType, chart: ChartType | undefined, width: nu
     stacking: chart.stacking,
     groupBy: chart.groupColumns,
     rows: query.rows,
-    fields: query.fields
+    fields: query.fields,
   };
 
   return new Chart(params).toSVG({ width });

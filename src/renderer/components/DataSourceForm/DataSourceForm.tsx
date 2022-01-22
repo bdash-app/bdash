@@ -28,7 +28,7 @@ export default class DataSourceForm extends React.Component<Props, State> {
     this.state = {
       selectedType: props.dataSource?.type ?? null,
       connectionTestStatus: null,
-      connectionTestMessage: null
+      connectionTestMessage: null,
     };
     this.handleCancel = this.handleCancel.bind(this);
     this.handleSave = this.handleSave.bind(this);
@@ -46,7 +46,7 @@ export default class DataSourceForm extends React.Component<Props, State> {
       [
         ".DataSourceForm-configInput",
         ".DataSourceForm-configCheckbox:checked",
-        ".DataSourceForm-configRadio:checked"
+        ".DataSourceForm-configRadio:checked",
       ].join(",")
     );
 
@@ -92,7 +92,7 @@ export default class DataSourceForm extends React.Component<Props, State> {
     const config = this.getConfigValues();
     this.setState({
       connectionTestStatus: "working",
-      connectionTestMessage: null
+      connectionTestMessage: null,
     });
 
     try {
@@ -100,7 +100,7 @@ export default class DataSourceForm extends React.Component<Props, State> {
     } catch (err) {
       this.setState({
         connectionTestStatus: "failure",
-        connectionTestMessage: err.message
+        connectionTestMessage: err.message,
       });
       return;
     }
@@ -127,7 +127,7 @@ export default class DataSourceForm extends React.Component<Props, State> {
   }
 
   renderConfigRadio(i: number, value: string, schema: ConfigSchemaType): React.ReactNode {
-    const radios = schema.values!.map(v => {
+    const radios = schema.values!.map((v) => {
       return (
         <label key={v} className="DataSourceForm-configRadioLabel">
           <input

@@ -11,11 +11,11 @@ export default class GlobalMenu extends React.Component<Props> {
     return [
       { page: "query", icon: "terminal" },
       { page: "dataSource", icon: "database" },
-      { page: "setting", icon: "cog" }
+      { page: "setting", icon: "cog" },
     ].map((item, idx) => {
       const selected = this.props.selectedPage === item.page;
       const className = classNames("GlobalMenu-item", `GlobalMenu-${item.page}`, {
-        "is-selected": selected
+        "is-selected": selected,
       });
 
       return (
