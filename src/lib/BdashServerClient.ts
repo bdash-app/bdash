@@ -10,7 +10,7 @@ export default class BdashServerClient {
   getHeaders(): { [name: string]: string } {
     return {
       "Content-Type": "application/json",
-      Authorization: `token ${this.token}`
+      Authorization: `token ${this.token}`,
     };
   }
 
@@ -37,7 +37,7 @@ export default class BdashServerClient {
     const response = await fetch(this.getValidationTokenUrl(), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ token: this.token })
+      body: JSON.stringify({ token: this.token }),
     });
     if (!response.ok) {
       throw new Error(`Request failed: ${response.statusText}`);
@@ -57,7 +57,7 @@ export default class BdashServerClient {
     const response = await fetch(this.getUrl(), {
       method: "POST",
       headers: this.getHeaders(),
-      body: JSON.stringify(contents)
+      body: JSON.stringify(contents),
     });
 
     if (!response.ok) {

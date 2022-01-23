@@ -14,27 +14,27 @@ const QueryAction = {
     const [queries, dataSources, charts] = await Promise.all([
       Database.Query.getAll(),
       Database.DataSource.getAll(),
-      Database.Chart.getAll()
+      Database.Chart.getAll(),
     ]);
 
     dispatch("initialize", {
       queries,
       dataSources,
       charts,
-      setting: setting.load()
+      setting: setting.load(),
     });
   },
 
   async dataSourceWithTables(): Promise<DataSourceType[]> {
     const dataSources = await Database.DataSource.getAll();
     return Promise.all(
-      dataSources.map(async dataSource => {
+      dataSources.map(async (dataSource) => {
         const ds = DataSource.create(dataSource);
         try {
           const tables = await ds.fetchTables();
           return {
             ...dataSource,
-            tables
+            tables,
           };
         } catch (e) {
           console.log(`Failed to load tables from dataSource "${dataSource.name}"`, e);
@@ -63,7 +63,7 @@ const QueryAction = {
     dispatch("updateQuery", { id, params });
     return Database.Query.update(id, {
       ...params,
-      codeMirrorHistory: params.codeMirrorHistory ? JSON.stringify(params.codeMirrorHistory) : null
+      codeMirrorHistory: params.codeMirrorHistory ? JSON.stringify(params.codeMirrorHistory) : null,
     });
   },
 
@@ -80,7 +80,7 @@ const QueryAction = {
   async executeQuery({
     line,
     query,
-    dataSource
+    dataSource,
   }: {
     line: number;
     query: QueryType;
@@ -101,11 +101,11 @@ const QueryAction = {
         fields: null,
         rows: null,
         runtime: null,
-        errorMessage: err.message
+        errorMessage: err.message,
       };
       dispatch("updateQuery", {
         id,
-        params: Object.assign({ executor: null }, params)
+        params: Object.assign({ executor: null }, params),
       });
       Database.Query.update(id, params);
       return;
@@ -117,18 +117,18 @@ const QueryAction = {
       rows: result.rows,
       runtime: Date.now() - start,
       runAt: moment(),
-      errorMessage: null
+      errorMessage: null,
     };
     dispatch("updateQuery", {
       id,
-      params: Object.assign({ executor: null }, params)
+      params: Object.assign({ executor: null }, params),
     });
     Database.Query.update(
       id,
       Object.assign(params, {
         fields: JSON.stringify(params.fields),
         rows: JSON.stringify(params.rows),
-        runAt: params.runAt?.utc().format("YYYY-MM-DD HH:mm:ss")
+        runAt: params.runAt?.utc().format("YYYY-MM-DD HH:mm:ss"),
       })
     );
   },
@@ -147,7 +147,7 @@ const QueryAction = {
 
     if (name === "chart" && !query.chart) {
       const chart = await Database.Chart.findOrCreateByQueryId({
-        queryId: query.id
+        queryId: query.id,
       });
       dispatch("addChart", { chart });
     }
@@ -156,7 +156,7 @@ const QueryAction = {
   async updateChart(id: number, params): Promise<void> {
     const chart = await Database.Chart.update(id, params);
     dispatch("updateChart", { id, params: chart });
-  }
+  },
 };
 
 export default QueryAction;

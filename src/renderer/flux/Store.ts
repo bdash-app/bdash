@@ -77,13 +77,13 @@ type Comparator = ((a: any, b: any) => boolean) | null;
 
 export class StateBuilder<State> extends immup.Immup<State> {
   mergeList(path: string, value: any, comparator = (a, b): boolean => a.id === b.id): any {
-    return this.set(path, arr => {
+    return this.set(path, (arr) => {
       if (!Array.isArray(arr)) {
         throw new Error("target is not an array");
       }
 
-      return value.map(v => {
-        const target = arr.find(v2 => comparator(v, v2));
+      return value.map((v) => {
+        const target = arr.find((v2) => comparator(v, v2));
         if (target === undefined) {
           return v;
         } else {

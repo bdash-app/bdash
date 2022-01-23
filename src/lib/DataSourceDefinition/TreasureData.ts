@@ -11,13 +11,13 @@ export default class TreasureData extends Base {
   _cancel: any;
   _client: any;
 
-  static get key(): DataSourceKeys {
+  static override get key(): DataSourceKeys {
     return "treasuredata";
   }
-  static get label(): string {
+  static override get label(): string {
     return "TreasureData";
   }
-  static get configSchema(): ConfigSchemasType {
+  static override get configSchema(): ConfigSchemasType {
     return [
       { name: "database", label: "Database", type: "string", required: true },
       {
@@ -25,15 +25,15 @@ export default class TreasureData extends Base {
         label: "API key",
         type: "string",
         placeholder: "Your API key",
-        required: true
+        required: true,
       },
       {
         name: "queryType",
         label: "Query Type",
         type: "radio",
         values: ["hive", "presto"],
-        default: "hive"
-      }
+        default: "hive",
+      },
     ];
   }
 
@@ -73,7 +73,7 @@ export default class TreasureData extends Base {
 
   kill(): void {
     if (!this.jobId) return;
-    this.client.kill(this.jobId, err => {
+    this.client.kill(this.jobId, (err) => {
       if (err) console.error(err); // eslint-disable-line no-console
     });
   }
@@ -90,14 +90,14 @@ export default class TreasureData extends Base {
           reject(err);
         } else {
           cacheTableList = list;
-          resolve(list.tables.map(v => ({ name: v.name, type: "table" })));
+          resolve(list.tables.map((v) => ({ name: v.name, type: "table" })));
         }
       });
     });
   }
 
   async fetchTableSummary({ name }): Promise<TableSummary> {
-    const table = cacheTableList.tables.find(t => t.name === name);
+    const table = cacheTableList.tables.find((t) => t.name === name);
     const fields = ["column", "type"];
     const rows = JSON.parse(table.schema);
     return { name, defs: { fields, rows } };
@@ -107,12 +107,12 @@ export default class TreasureData extends Base {
     return {
       type: TreasureData.label,
       database: this.config.database,
-      queryType: this.config.queryType
+      queryType: this.config.queryType,
     };
   }
 
   async wait(): Promise<any> {
-    const sleep = (interval): Promise<void> => new Promise(resolve => setTimeout(resolve, interval));
+    const sleep = (interval): Promise<void> => new Promise((resolve) => setTimeout(resolve, interval));
     const showJob = (): Promise<any> =>
       new Promise((resolve, reject) => {
         this.client.showJob(this.jobId, (err, result) => {
@@ -145,12 +145,12 @@ export default class TreasureData extends Base {
           const rows = rowsString
             .trim()
             .split("\n")
-            .map(line => {
-              return JSON.parse(line).map(v => {
+            .map((line) => {
+              return JSON.parse(line).map((v) => {
                 return v === null || typeof v !== "object" ? v : JSON.stringify(v);
               });
             });
-          const fields = JSON.parse(result.hive_result_schema).map(f => f[0]);
+          const fields = JSON.parse(result.hive_result_schema).map((f) => f[0]);
           return { fields, rows, status };
         }
         case "error": {

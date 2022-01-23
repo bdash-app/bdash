@@ -48,11 +48,11 @@ export default class DataSourceStore extends Store<DataSourceState> {
       selectedDataSourceId: null,
       showForm: false,
       formValue: null,
-      setting: Setting.getDefault()
+      setting: Setting.getDefault(),
     };
   }
 
-  reduce(type: string, payload: any): StateBuilder<DataSourceState> {
+  override reduce(type: string, payload: any): StateBuilder<DataSourceState> {
     switch (type) {
       case "initialize": {
         return this.merge("setting", payload.setting).mergeList("dataSources", payload.dataSources);
@@ -70,7 +70,7 @@ export default class DataSourceStore extends Store<DataSourceState> {
           tables: payload.tables,
           selectedTable: null,
           tableSummary: null,
-          tableFetchingError: null
+          tableFetchingError: null,
         });
       }
       case "clearTables": {
@@ -79,20 +79,20 @@ export default class DataSourceStore extends Store<DataSourceState> {
           tables: null,
           selectedTable: null,
           tableSummary: null,
-          tableFetchingError: null
+          tableFetchingError: null,
         });
       }
       case "setErrorFetchingTables": {
         const idx = this.findDataSourceIndex(payload.id);
         return this.merge(`dataSources.${idx}`, {
-          tableFetchingError: payload.error.message
+          tableFetchingError: payload.error.message,
         });
       }
       case "selectTable": {
         const idx = this.findDataSourceIndex(payload.id);
         return this.merge(`dataSources.${idx}`, {
           selectedTable: payload.selectedTable,
-          tableSummary: payload.tableSummary
+          tableSummary: payload.tableSummary,
         });
       }
       case "changeTableFilter": {
@@ -126,7 +126,7 @@ export default class DataSourceStore extends Store<DataSourceState> {
   }
 
   findDataSourceIndex(id: number): number {
-    const idx = this.state.dataSources.findIndex(q => q.id === id);
+    const idx = this.state.dataSources.findIndex((q) => q.id === id);
 
     if (idx === -1) {
       throw new Error(`dataSource id:${id} not found`);

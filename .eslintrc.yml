@@ -9,7 +9,6 @@ env:
 extends:
   - eslint:recommended
   - plugin:@typescript-eslint/recommended
-  - prettier/@typescript-eslint
   - plugin:react/recommended
   - plugin:prettier/recommended
 

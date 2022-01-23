@@ -9,11 +9,11 @@ import DataSource from "../DataSource";
 import Setting from "../Setting";
 
 class App extends React.Component<unknown, AppState> {
-  componentDidMount(): void {
+  override componentDidMount(): void {
     Action.initialize();
   }
 
-  componentDidCatch(error, info) {
+  override componentDidCatch(error, info) {
     console.error(error);
     console.error(info);
     window.alert("An unexpected error has occurred 🥲")
@@ -32,7 +32,7 @@ class App extends React.Component<unknown, AppState> {
     }
   }
 
-  render(): React.ReactNode {
+  override render(): React.ReactNode {
     const Page = this.getSelectedPage();
 
     return (

@@ -12,7 +12,7 @@ export default class Button extends React.Component<ButtonProps> {
     }
   }
 
-  render(): React.ReactNode {
+  override render(): React.ReactNode {
     const className = `${this.props.className || ""} Button`.trim();
     return (
       <span className={className} onClick={this.handleClick.bind(this)}>

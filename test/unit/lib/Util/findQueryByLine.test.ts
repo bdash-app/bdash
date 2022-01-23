@@ -24,47 +24,47 @@ suite("Util/findQueryByLine", () => {
     assert.deepStrictEqual(await findQueryByLine(sql, "text/x-sql", 1), {
       query: sql1,
       startLine: 1,
-      endLine: 2
+      endLine: 2,
     });
     assert.deepStrictEqual(await findQueryByLine(sql, "text/x-sql", 2), {
       query: sql1,
       startLine: 1,
-      endLine: 2
+      endLine: 2,
     });
     assert.deepStrictEqual(await findQueryByLine(sql, "text/x-sql", 3), {
       query: sql2,
       startLine: 3,
-      endLine: 6
+      endLine: 6,
     });
     assert.deepStrictEqual(await findQueryByLine(sql, "text/x-sql", 4), {
       query: sql2,
       startLine: 3,
-      endLine: 6
+      endLine: 6,
     });
     assert.deepStrictEqual(await findQueryByLine(sql, "text/x-sql", 5), {
       query: sql2,
       startLine: 3,
-      endLine: 6
+      endLine: 6,
     });
     assert.deepStrictEqual(await findQueryByLine(sql, "text/x-sql", 6), {
       query: sql2,
       startLine: 3,
-      endLine: 6
+      endLine: 6,
     });
     assert.deepStrictEqual(await findQueryByLine(sql, "text/x-sql", 7), {
       query: sql3,
       startLine: 9,
-      endLine: 10
+      endLine: 10,
     });
     assert.deepStrictEqual(await findQueryByLine(sql, "text/x-sql", 8), {
       query: sql3,
       startLine: 9,
-      endLine: 10
+      endLine: 10,
     });
     assert.deepStrictEqual(await findQueryByLine(sql, "text/x-sql", 9), {
       query: sql3,
       startLine: 9,
-      endLine: 10
+      endLine: 10,
     });
   });
 
@@ -76,22 +76,22 @@ suite("Util/findQueryByLine", () => {
     assert.deepStrictEqual(await findQueryByLine(sql, "text/x-sql", 1), {
       query: sql1,
       startLine: 2,
-      endLine: 2
+      endLine: 2,
     });
     assert.deepStrictEqual(await findQueryByLine(sql, "text/x-sql", 2), {
       query: sql1,
       startLine: 2,
-      endLine: 2
+      endLine: 2,
     });
     assert.deepStrictEqual(await findQueryByLine(sql, "text/x-sql", 3), {
       query: sql2,
       startLine: 3,
-      endLine: 3
+      endLine: 3,
     });
     assert.deepStrictEqual(await findQueryByLine(sql, "text/x-sql", 4), {
       query: sql2,
       startLine: 3,
-      endLine: 3
+      endLine: 3,
     });
   });
 
@@ -100,7 +100,7 @@ suite("Util/findQueryByLine", () => {
     assert.deepStrictEqual(await findQueryByLine(sql, "text/x-sql", 1), {
       query: "select 1;",
       startLine: 1,
-      endLine: 1
+      endLine: 1,
     });
   });
 
@@ -109,7 +109,7 @@ suite("Util/findQueryByLine", () => {
     assert.deepStrictEqual(await findQueryByLine(sql, "text/x-sql", 1), {
       query: "select 1;",
       startLine: 2,
-      endLine: 2
+      endLine: 2,
     });
   });
 
@@ -122,17 +122,17 @@ suite("Util/findQueryByLine", () => {
     assert.deepStrictEqual(await findQueryByLine(sql, "text/x-sql", 1), {
       query: "select 1;",
       startLine: 1,
-      endLine: 1
+      endLine: 1,
     });
     assert.deepStrictEqual(await findQueryByLine(sql, "text/x-sql", 2), {
       query: "-- comment select 2; select 3\nselect 4 ;",
       startLine: 1,
-      endLine: 2
+      endLine: 2,
     });
     assert.deepStrictEqual(await findQueryByLine(sql, "text/x-sql", 3), {
       query: "select a\nfrom b",
       startLine: 2,
-      endLine: 3
+      endLine: 3,
     });
   });
 
@@ -145,12 +145,12 @@ suite("Util/findQueryByLine", () => {
     assert.deepStrictEqual(await findQueryByLine(sql, "text/x-sql", 1), {
       query: "select 1;",
       startLine: 1,
-      endLine: 1
+      endLine: 1,
     });
     assert.deepStrictEqual(await findQueryByLine(sql, "text/x-sql", 2), {
       query: "/* select 2; select 3;\nselect 4; */ select a\nfrom b",
       startLine: 1,
-      endLine: 3
+      endLine: 3,
     });
   });
 
@@ -164,7 +164,7 @@ suite("Util/findQueryByLine", () => {
     assert.deepStrictEqual(await findQueryByLine(sql, "text/x-sql", 2), {
       query: "with foo as (\n  select 1 from bar\n)\nselect 2 from baz;",
       startLine: 1,
-      endLine: 4
+      endLine: 4,
     });
   });
 });

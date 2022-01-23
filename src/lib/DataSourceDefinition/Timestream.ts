@@ -7,39 +7,39 @@ export default class Timestream extends Base {
   database: string;
   queryId?: string;
 
-  static get key(): DataSourceKeys {
+  static override get key(): DataSourceKeys {
     return "timestream";
   }
 
-  static get label(): string {
+  static override get label(): string {
     return "Amazon Timestream";
   }
 
-  static get configSchema(): ConfigSchemasType {
+  static override get configSchema(): ConfigSchemasType {
     return [
       {
         name: "region",
         label: "Region",
         type: "string",
         placeholder: "us-east-1",
-        required: true
+        required: true,
       },
       {
         name: "accessKeyId",
         label: "Access key ID",
-        type: "string"
+        type: "string",
       },
       {
         name: "secretAccessKey",
         label: "Secret access key",
-        type: "string"
+        type: "string",
       },
       {
         name: "database",
         label: "Database",
         type: "string",
-        required: true
-      }
+        required: true,
+      },
     ];
   }
 
@@ -49,8 +49,8 @@ export default class Timestream extends Base {
       region: config.region,
       credentials: {
         accessKeyId: config.accessKeyId,
-        secretAccessKey: config.secretAccessKey
-      }
+        secretAccessKey: config.secretAccessKey,
+      },
     });
     this.database = config.database;
   }
@@ -83,7 +83,7 @@ export default class Timestream extends Base {
 
     return {
       fields,
-      rows
+      rows,
     };
   }
 
@@ -103,7 +103,7 @@ export default class Timestream extends Base {
         for (const row of page.Rows) {
           tables.push({
             type: "table",
-            name: row.Data![0].ScalarValue!
+            name: row.Data![0].ScalarValue!,
           });
         }
       }
@@ -125,7 +125,7 @@ export default class Timestream extends Base {
             rows.push([
               row.Data[name2index["Column"]].ScalarValue ?? null,
               row.Data[name2index["Type"]].ScalarValue ?? null,
-              row.Data[name2index["Timestream attribute type"]].ScalarValue ?? null
+              row.Data[name2index["Timestream attribute type"]].ScalarValue ?? null,
             ]);
           }
         }
@@ -136,15 +136,15 @@ export default class Timestream extends Base {
       name,
       defs: {
         fields: ["name", "type", "attribute type"],
-        rows: rows
-      }
+        rows: rows,
+      },
     };
   }
 
   dataSourceInfo(): Record<string, any> {
     return {
       type: Timestream.label,
-      region: this.config.region
+      region: this.config.region,
     };
   }
 }

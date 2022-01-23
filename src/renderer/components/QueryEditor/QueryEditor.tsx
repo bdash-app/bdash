@@ -31,7 +31,7 @@ export default class QueryEditor extends React.Component<Props> {
       matchBrackets: true,
       indentUnit: this.props.setting.indent,
       smartIndent: false,
-      autoRefresh: { delay: 50 }
+      autoRefresh: { delay: 50 },
     };
   }
 
@@ -98,9 +98,9 @@ export default class QueryEditor extends React.Component<Props> {
     );
   }
 
-  render(): React.ReactNode {
+  override render(): React.ReactNode {
     const query = this.props.query;
-    const tables: string[] = this.props.tables.map(table => table.name);
+    const tables: string[] = this.props.tables.map((table) => table.name);
 
     return (
       <div className="QueryEditor">

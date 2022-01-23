@@ -34,7 +34,7 @@ export default class QueryList extends React.Component<Props> {
           label: "Duplicate",
           click: (): void => {
             this.props.onDuplicateQuery(query);
-          }
+          },
         },
         {
           label: "Delete",
@@ -42,17 +42,17 @@ export default class QueryList extends React.Component<Props> {
             if (window.confirm("Are you sure?")) {
               this.props.onDeleteQuery(query.id);
             }
-          }
-        }
+          },
+        },
       ]);
       menu.popup({ window: remote.getCurrentWindow() });
     });
   }
 
-  render(): React.ReactNode {
-    const items = this.props.queries.map(query => {
+  override render(): React.ReactNode {
+    const items = this.props.queries.map((query) => {
       const className = classNames({
-        "is-selected": this.props.selectedQueryId === query.id
+        "is-selected": this.props.selectedQueryId === query.id,
       });
       return (
         <li

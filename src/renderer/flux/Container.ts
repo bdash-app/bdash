@@ -12,7 +12,7 @@ export default {
         this._unsubscribe = store.subscribe((state: T) => this.setState(state));
       }
 
-      componentWillUnmount(): void {
+      override componentWillUnmount(): void {
         if (super.componentWillUnmount) {
           super.componentWillUnmount();
         }
@@ -20,5 +20,5 @@ export default {
         this._unsubscribe();
       }
     };
-  }
+  },
 };

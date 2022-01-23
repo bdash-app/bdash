@@ -12,7 +12,7 @@ import { QueryType } from "../../../lib/Database/Query";
 import { DataSourceType } from "../DataSource/DataSourceStore";
 
 class Query extends React.Component<unknown, QueryState> {
-  componentDidMount(): void {
+  override componentDidMount(): void {
     Action.initialize();
   }
 
@@ -27,7 +27,7 @@ class Query extends React.Component<unknown, QueryState> {
   }
 
   findDataSourceById(id: number): DataSourceType | undefined {
-    return this.state.dataSources.find(ds => ds.id === id);
+    return this.state.dataSources.find((ds) => ds.id === id);
   }
 
   async handleExecute(query: QueryType): Promise<void> {
@@ -47,9 +47,9 @@ class Query extends React.Component<unknown, QueryState> {
   }
 
   async handleShareOnGist(query: QueryType): Promise<void> {
-    const chart = this.state.charts.find(chart => chart.queryId === query.id);
+    const chart = this.state.charts.find((chart) => chart.queryId === query.id);
     const setting = this.state.setting.github;
-    const dataSource = this.state.dataSources.find(ds => ds.id === query.dataSourceId);
+    const dataSource = this.state.dataSources.find((ds) => ds.id === query.dataSourceId);
 
     if (!setting.token) {
       alert("Set your Github token");
@@ -68,9 +68,9 @@ class Query extends React.Component<unknown, QueryState> {
   }
 
   async handleShareOnBdashServer(query: QueryType): Promise<void> {
-    const chart = this.state.charts.find(chart => chart.queryId === query.id);
+    const chart = this.state.charts.find((chart) => chart.queryId === query.id);
     const setting = this.state.setting.bdashServer;
-    const dataSource = this.state.dataSources.find(ds => ds.id === query.dataSourceId);
+    const dataSource = this.state.dataSources.find((ds) => ds.id === query.dataSourceId);
 
     if (!setting.token) {
       alert("Set your Bdash Server's access token");
@@ -89,9 +89,9 @@ class Query extends React.Component<unknown, QueryState> {
   }
 
   renderMain(): React.ReactNode {
-    const query = this.state.queries.find(query => query.id === this.state.selectedQueryId);
+    const query = this.state.queries.find((query) => query.id === this.state.selectedQueryId);
     if (!query) return <div className="page-Query-main" />;
-    const dataSource = this.state.dataSources.find(dataSource => dataSource.id === query.dataSourceId);
+    const dataSource = this.state.dataSources.find((dataSource) => dataSource.id === query.dataSourceId);
 
     return (
       <div className="page-Query-main">
@@ -155,7 +155,7 @@ class Query extends React.Component<unknown, QueryState> {
     );
   }
 
-  render(): React.ReactNode {
+  override render(): React.ReactNode {
     return (
       <div className="page-Query">
         <div className="page-Query-list">

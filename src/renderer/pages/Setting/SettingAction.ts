@@ -37,7 +37,7 @@ const SettingAction = {
     }
 
     dispatch("bdashServerValidateTokenSuccess");
-  }
+  },
 };
 
 export default SettingAction;

@@ -24,7 +24,7 @@ export default class DataSource {
   static register(...classes: DataSourceClasses[]): void {
     const dataSources: { [dataSourceName: string]: DataSourceClasses } = {};
 
-    classes.forEach(DataSource => {
+    classes.forEach((DataSource) => {
       dataSources[DataSource.key] = DataSource;
     });
 

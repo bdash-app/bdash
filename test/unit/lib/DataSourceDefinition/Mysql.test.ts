@@ -3,7 +3,7 @@ import initialize from "../../../fixtures/mysql/initialize";
 import Mysql from "../../../../src/lib/DataSourceDefinition/Mysql";
 import DataSourceConfig from "../../../helpers/DataSourceConfig";
 
-suite("DataSourceDefinition/Mysql @remote", function() {
+suite("DataSourceDefinition/Mysql @remote", function () {
   this.timeout(10000);
   const config = DataSourceConfig.mysql;
 
@@ -18,8 +18,8 @@ suite("DataSourceDefinition/Mysql @remote", function() {
       rows: [
         [1, "foo"],
         [2, "bar"],
-        [3, "baz"]
-      ]
+        [3, "baz"],
+      ],
     });
   });
 
@@ -27,7 +27,7 @@ suite("DataSourceDefinition/Mysql @remote", function() {
     const result = await new Mysql(config).execute("insert into test values (4, 'hoge')");
     assert.deepStrictEqual(result, {
       fields: [],
-      rows: []
+      rows: [],
     });
   });
 
@@ -35,7 +35,7 @@ suite("DataSourceDefinition/Mysql @remote", function() {
     const result = await new Mysql(config).execute("update test set text = 'hoge'");
     assert.deepStrictEqual(result, {
       fields: [],
-      rows: []
+      rows: [],
     });
   });
 
@@ -43,7 +43,7 @@ suite("DataSourceDefinition/Mysql @remote", function() {
     const result = await new Mysql(config).execute("delete from test where id = 1");
     assert.deepStrictEqual(result, {
       fields: [],
-      rows: []
+      rows: [],
     });
   });
 

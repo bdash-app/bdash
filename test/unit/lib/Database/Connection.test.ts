@@ -9,8 +9,8 @@ suite("Database/Connection", () => {
       await connection.migrate([
         {
           version: 1000000000,
-          query: "select 1"
-        }
+          query: "select 1",
+        },
       ]);
     });
 
@@ -21,8 +21,8 @@ suite("Database/Connection", () => {
         await connection.migrate([
           {
             version: 0,
-            query: "select 1"
-          }
+            query: "select 1",
+          },
         ]);
         assert.fail();
       } catch (err) {
@@ -37,12 +37,12 @@ suite("Database/Connection", () => {
         await connection.migrate([
           {
             version: 1000000000,
-            query: "select 1"
+            query: "select 1",
           },
           {
             version: 1000000000,
-            query: "select 1"
-          }
+            query: "select 1",
+          },
         ]);
         assert.fail();
       } catch (err) {
@@ -57,16 +57,16 @@ suite("Database/Connection", () => {
         await connection.migrate([
           {
             version: 1000000000,
-            query: "create table test_aaa(id integer);"
+            query: "create table test_aaa(id integer);",
           },
           {
             version: 1000000001,
-            query: "insert into test_aaa values(0);"
+            query: "insert into test_aaa values(0);",
           },
           {
             version: 1000000002,
-            query: "broken sql"
-          }
+            query: "broken sql",
+          },
         ]);
         assert.fail();
       } catch (err) {

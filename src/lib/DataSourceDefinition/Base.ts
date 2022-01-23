@@ -44,7 +44,7 @@ export default abstract class Base {
 
   infoMdTable(): string {
     const info = this.dataSourceInfo();
-    const rows = Object.keys(info).map(k => {
+    const rows = Object.keys(info).map((k) => {
       const v = info[k];
       return `|${k}|${v}|`;
     });

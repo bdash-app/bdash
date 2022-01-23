@@ -14,7 +14,7 @@ const Bdash = {
 
     setting.initialize(Config.settingPath);
     await Database.connection.initialize({ databasePath: Config.databasePath });
-  }
+  },
 };
 
 export default Bdash;

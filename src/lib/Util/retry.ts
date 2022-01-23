@@ -24,7 +24,7 @@ export default async function retry(fn: (done: () => void) => void): Promise<voi
 }
 
 function wait(interval: number): Promise<void> {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(resolve, interval);
   });
 }

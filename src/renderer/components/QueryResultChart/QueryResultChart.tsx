@@ -20,7 +20,7 @@ type Props = {
 export default class QueryResultChart extends React.Component<Props> {
   chartElement: HTMLDivElement | null;
 
-  shouldComponentUpdate(nextProps: Props): boolean {
+  override shouldComponentUpdate(nextProps: Props): boolean {
     const query = nextProps.query;
     const chart = nextProps.chart;
 
@@ -46,17 +46,17 @@ export default class QueryResultChart extends React.Component<Props> {
       stacking: chart.stacking,
       groupBy: chart.groupColumns,
       rows: query.rows,
-      fields: query.fields
+      fields: query.fields,
     };
 
     await new Chart(params).drawTo(this.chartElement);
   }
 
-  componentDidMount(): void {
+  override componentDidMount(): void {
     this.drawChart();
   }
 
-  componentDidUpdate(): void {
+  override componentDidUpdate(): void {
     this.drawChart();
   }
 
@@ -73,7 +73,7 @@ export default class QueryResultChart extends React.Component<Props> {
   }
 
   handleChangeY(options: ValueType<OptionTypeBase>): void {
-    this.update({ yColumns: options && Array.isArray(options) ? options.map(o => o.value) : [] });
+    this.update({ yColumns: options && Array.isArray(options) ? options.map((o) => o.value) : [] });
   }
 
   handleSelectStacking(option: OptionType): void {
@@ -81,7 +81,7 @@ export default class QueryResultChart extends React.Component<Props> {
   }
 
   handleChangeGroup(options: ValueType<OptionTypeBase>): void {
-    this.update({ groupColumns: options && Array.isArray(options) ? options.map(o => o.value) : [] });
+    this.update({ groupColumns: options && Array.isArray(options) ? options.map((o) => o.value) : [] });
   }
 
   renderChartImage(chartType: string): React.ReactNode {
@@ -101,7 +101,7 @@ export default class QueryResultChart extends React.Component<Props> {
     );
   }
 
-  render(): React.ReactNode {
+  override render(): React.ReactNode {
     const query = this.props.query;
     if (!query.fields) return null;
 
@@ -126,22 +126,22 @@ export default class QueryResultChart extends React.Component<Props> {
       );
     };
 
-    const options = ["line", "scatter", "bar", "area", "pie"].map(value => {
+    const options = ["line", "scatter", "bar", "area", "pie"].map((value) => {
       return { value, label: value[0].toUpperCase() + value.slice(1) };
     });
-    const currentOption = options.find(option => option.value === chart.type);
-    const fieldOptions = query.fields.map(name => ({
+    const currentOption = options.find((option) => option.value === chart.type);
+    const fieldOptions = query.fields.map((name) => ({
       value: name,
-      label: name
+      label: name,
     }));
-    const currentXColumnFieldOption = fieldOptions.find(option => option.value === chart.xColumn);
-    const currentYColumnFieldOptions = fieldOptions.filter(option => chart.yColumns.includes(option.value));
-    const currentGroupOptions = fieldOptions.filter(option => chart.groupColumns.includes(option.value));
-    const stackingOptions = ["disable", "enable", "percent"].map(o => ({
+    const currentXColumnFieldOption = fieldOptions.find((option) => option.value === chart.xColumn);
+    const currentYColumnFieldOptions = fieldOptions.filter((option) => chart.yColumns.includes(option.value));
+    const currentGroupOptions = fieldOptions.filter((option) => chart.groupColumns.includes(option.value));
+    const stackingOptions = ["disable", "enable", "percent"].map((o) => ({
       label: o,
-      value: o
+      value: o,
     }));
-    const currentStackingOption = stackingOptions.find(option => option.value === chart.stacking);
+    const currentStackingOption = stackingOptions.find((option) => option.value === chart.stacking);
 
     return (
       <div className="QueryResultChart">

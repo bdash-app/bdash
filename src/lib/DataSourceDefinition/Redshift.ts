@@ -5,15 +5,15 @@ import { DataSourceKeys } from "../../renderer/pages/DataSource/DataSourceStore"
 import { TableSummary } from "./Base";
 
 export default class Redshift extends Postgres {
-  static get key(): DataSourceKeys {
+  static override get key(): DataSourceKeys {
     return "redshift";
   }
 
-  static get label(): string {
+  static override get label(): string {
     return "Redshift";
   }
 
-  async fetchTables(): Promise<{ name: string; type: string; schema?: string }[]> {
+  override async fetchTables(): Promise<{ name: string; type: string; schema?: string }[]> {
     const query = Util.stripHeredoc(`
       select * from (
           select
@@ -38,10 +38,10 @@ export default class Redshift extends Postgres {
     `);
     const { fields, rows } = await this._execute(query);
 
-    return rows.map(row => zipObject(fields, row));
+    return rows.map((row) => zipObject(fields, row));
   }
 
-  async fetchTableSummary({ schema, name }: { schema: string; name: string }): Promise<TableSummary> {
+  override async fetchTableSummary({ schema, name }: { schema: string; name: string }): Promise<TableSummary> {
     const query = Util.stripHeredoc(`
       select
           column_name
@@ -59,13 +59,13 @@ export default class Redshift extends Postgres {
     return { schema, name, defs };
   }
 
-  dataSourceInfo(): Record<string, any> {
+  override dataSourceInfo(): Record<string, any> {
     return {
       type: Redshift.label,
       host: this.config.host,
       port: this.config.port,
       user: this.config.user,
-      database: this.config.database
+      database: this.config.database,
     };
   }
 }

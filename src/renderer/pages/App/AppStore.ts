@@ -12,7 +12,7 @@ export default class AppStore extends Store<AppState> {
     };
   }
 
-  reduce(type: string, payload: any): StateBuilder<AppState> {
+  override reduce(type: string, payload: any): StateBuilder<AppState> {
     switch (type) {
       case "selectPage": {
         return this.set("selectedPage", payload.page);

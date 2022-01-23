@@ -14,17 +14,17 @@ export async function createWindow(): Promise<void> {
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true,
-      contextIsolation: false
-    }
+      contextIsolation: false,
+    },
   });
 
   await win.loadURL(`file://${__dirname}/../index.html`);
   win.once("closed", () => {
-    const idx = windows.findIndex(w => w === win);
+    const idx = windows.findIndex((w) => w === win);
     windows.splice(idx, 1);
   });
 
-  win.webContents.on("crashed", e => {
+  win.webContents.on("crashed", (e) => {
     logger.error("renderer process crashed", e);
     dialog.showErrorBox("Bdash is crashed", "Unrecoverable error");
   });

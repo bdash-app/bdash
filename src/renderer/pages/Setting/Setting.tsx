@@ -9,7 +9,7 @@ import { selectStyles } from "../../components/Select";
 import { indentValues } from "../../../lib/Setting";
 
 class Setting extends React.Component<unknown, SettingState> {
-  componentDidMount(): void {
+  override componentDidMount(): void {
     Action.initialize();
   }
 
@@ -23,10 +23,10 @@ class Setting extends React.Component<unknown, SettingState> {
     return status === null ? null : <ProgressIcon status={status} message={error} />;
   }
 
-  render(): React.ReactNode {
-    const keyBindOptions: { value: string; label: string }[] = ["default", "vim"].map(v => ({ value: v, label: v }));
+  override render(): React.ReactNode {
+    const keyBindOptions: { value: string; label: string }[] = ["default", "vim"].map((v) => ({ value: v, label: v }));
     const setting = this.state.setting;
-    const currentOption = keyBindOptions.find(option => option.value === (setting.keyBind || "default"));
+    const currentOption = keyBindOptions.find((option) => option.value === (setting.keyBind || "default"));
     const github = setting.github || {};
     const bdashServer = setting.bdashServer || {};
 
@@ -57,7 +57,7 @@ class Setting extends React.Component<unknown, SettingState> {
             <h2>Indent</h2>
             <Select
               value={{ value: setting.indent, label: setting.indent }}
-              options={indentValues.map(v => ({ value: v, label: v }))}
+              options={indentValues.map((v) => ({ value: v, label: v }))}
               onChange={(e): void => Action.update({ indent: (e as OptionTypeBase).value })}
               isClearable={false}
               isSearchable={false}

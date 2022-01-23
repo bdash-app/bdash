@@ -23,7 +23,7 @@ function appPath(): string {
 }
 
 const setValueToEditor = (text: string) => {
-  app.client.execute(text => {
+  app.client.execute((text) => {
     document.querySelector<Element & { CodeMirror: Doc }>(".QueryEditor .CodeMirror")?.CodeMirror?.setValue(text);
   }, text);
 };
@@ -33,7 +33,7 @@ const getValueFromEditor = async (): Promise<string | undefined> =>
     document.querySelector<Element & { CodeMirror: Doc }>(".QueryEditor .CodeMirror")?.CodeMirror.getValue()
   );
 
-suite("Launch and onboarding", function() {
+suite("Launch and onboarding", function () {
   this.timeout(50000);
 
   suiteSetup(async () => {
@@ -86,7 +86,7 @@ suite("Launch and onboarding", function() {
     await app.client.waitUntil(async () => (await getValueFromEditor()) === "select * from data_sources", {
       timeout: 5000,
       timeoutMsg: "Timeout 1",
-      interval: 1000
+      interval: 1000,
     });
     const firstQuery = await getValueFromEditor();
     assert.strictEqual(firstQuery, "select * from data_sources");
@@ -95,7 +95,7 @@ suite("Launch and onboarding", function() {
     await app.client.waitUntil(async () => (await getValueFromEditor()) !== "select * from data_sources", {
       timeout: 5000,
       timeoutMsg: "Timeout 2",
-      interval: 1000
+      interval: 1000,
     });
     const secondQuery = await getValueFromEditor();
     assert.strictEqual(secondQuery, "select 1;");

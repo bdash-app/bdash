@@ -7,57 +7,22 @@ import { DataSourceKeys } from "../../renderer/pages/DataSource/DataSourceStore"
 // Disable auto convert
 // https://github.com/brianc/node-pg-types/blob/ed2d0e36e33217b34530727a98d20b325389e73a/lib/textParsers.js#L147-L149
 [
-  20,
-  21,
-  23,
-  26,
-  700,
-  701,
-  16,
-  1082,
-  1114,
-  1184,
-  600,
-  718,
-  1000,
-  1001,
-  1005,
-  1007,
-  1028,
-  1016,
-  1021,
-  1022,
-  1231,
-  1014,
-  1015,
-  1008,
-  1009,
-  1115,
-  1182,
-  1185,
-  1186,
-  17,
-  114,
-  3802,
-  199,
-  3807,
-  2951,
-  791,
-  1183
-].forEach(n => {
-  pg.types.setTypeParser(n, v => v);
+  20, 21, 23, 26, 700, 701, 16, 1082, 1114, 1184, 600, 718, 1000, 1001, 1005, 1007, 1028, 1016, 1021, 1022, 1231, 1014,
+  1015, 1008, 1009, 1115, 1182, 1185, 1186, 17, 114, 3802, 199, 3807, 2951, 791, 1183,
+].forEach((n) => {
+  pg.types.setTypeParser(n, (v) => v);
 });
 
 export default class Postgres extends Base {
   currentClient: any;
 
-  static get key(): DataSourceKeys {
+  static override get key(): DataSourceKeys {
     return "postgres";
   }
-  static get label(): string {
+  static override get label(): string {
     return "PostgreSQL";
   }
-  static get configSchema(): ConfigSchemasType {
+  static override get configSchema(): ConfigSchemasType {
     return [
       { name: "host", label: "Host", type: "string", placeholder: "localhost" },
       { name: "port", label: "Port", type: "number", placeholder: 5432 },
@@ -65,11 +30,11 @@ export default class Postgres extends Base {
         name: "user",
         label: "Username",
         type: "string",
-        placeholder: process.env.USER
+        placeholder: process.env.USER,
       },
       { name: "password", label: "Password", type: "password" },
       { name: "database", label: "Database", type: "string", required: true },
-      { name: "ssl", label: "SSL", type: "checkbox" }
+      { name: "ssl", label: "SSL", type: "checkbox" },
     ];
   }
 
@@ -102,7 +67,7 @@ export default class Postgres extends Base {
     `);
     const { fields, rows } = await this._execute(query);
 
-    return rows.map(row => zipObject(fields, row));
+    return rows.map((row) => zipObject(fields, row));
   }
 
   async fetchTableSummary({ schema, name }: { schema: string; name: string }): Promise<TableSummary> {
@@ -137,7 +102,7 @@ export default class Postgres extends Base {
       host: this.config.host,
       port: this.config.port,
       user: this.config.user,
-      database: this.config.database
+      database: this.config.database,
     };
   }
 
@@ -148,7 +113,7 @@ export default class Postgres extends Base {
 
     return new Promise((resolve, reject) => {
       this.currentClient = new pg.Client(this.config);
-      this.currentClient.connect(err => {
+      this.currentClient.connect((err) => {
         if (err) {
           this.currentClient.end();
           this.currentClient = null;
@@ -163,7 +128,7 @@ export default class Postgres extends Base {
             reject(err);
           } else {
             const { rows, fields } = result;
-            resolve({ fields: fields.map(f => f.name), rows });
+            resolve({ fields: fields.map((f) => f.name), rows });
           }
         });
       });

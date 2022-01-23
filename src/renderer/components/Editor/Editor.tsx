@@ -39,7 +39,7 @@ export default class Editor extends React.Component<Props> {
   ignoreTriggerChangeEvent = false;
   autoCompleteTimer: number;
 
-  componentDidMount(): void {
+  override componentDidMount(): void {
     if (this.textareaElement === null) {
       return;
     }
@@ -67,7 +67,7 @@ export default class Editor extends React.Component<Props> {
         } else if (cm.state.vim.insertMode) {
           cm.replaceSelection(" ".repeat(cm.getOption("indentUnit") || DEFAULT_INDENT));
         }
-      }
+      },
     });
     if (process.platform === "darwin") {
       this.codeMirror.addKeyMap({
@@ -84,12 +84,12 @@ export default class Editor extends React.Component<Props> {
           clipboard.writeFindText(cm.getSelection());
           cm.replaceSelection("");
         },
-        ["Ctrl-Y"]: cm => {
+        ["Ctrl-Y"]: (cm) => {
           const killBuffer = clipboard.readFindText();
           if (killBuffer.length > 0) {
             cm.replaceSelection(killBuffer);
           }
-        }
+        },
       });
     }
     this.currentValue = this.props.value;
@@ -100,12 +100,12 @@ export default class Editor extends React.Component<Props> {
     } else {
       this.codeMirror.clearHistory();
     }
-    CodeMirror.Vim.defineAction("delLineLeft", cm => cm.execCommand("delLineLeft"));
+    CodeMirror.Vim.defineAction("delLineLeft", (cm) => cm.execCommand("delLineLeft"));
     CodeMirror.Vim._mapCommand({
       keys: "<C-u>",
       type: "action",
       action: "delLineLeft",
-      context: "insert"
+      context: "insert",
     });
     if (process.platform !== "darwin") {
       const vim: any = CodeMirror.Vim;
@@ -118,7 +118,7 @@ export default class Editor extends React.Component<Props> {
     ipcRenderer.on("format", this.handleIpcFormat);
   }
 
-  componentWillUnmount(): void {
+  override componentWillUnmount(): void {
     // todo: is there a lighter-weight way to remove the cm instance?
     if (this.codeMirror) {
       this.codeMirror.toTextArea();
@@ -132,7 +132,7 @@ export default class Editor extends React.Component<Props> {
       formattedQuery = format(this.currentValue, {
         linesBetweenQueries: 2,
         indent: " ".repeat(this.props.setting.indent),
-        uppercase: this.props.setting.formatter.toUppercaseKeyword
+        uppercase: this.props.setting.formatter.toUppercaseKeyword,
       });
     } catch (err) {
       alert("Format failed😢");
@@ -143,7 +143,7 @@ export default class Editor extends React.Component<Props> {
     }
   }
 
-  componentWillReceiveProps(nextProps: Props): void {
+  override componentWillReceiveProps(nextProps: Props): void {
     if (this.currentValue !== nextProps.value) {
       this.ignoreTriggerChangeEvent = true;
       this.codeMirror.setValue(nextProps.value);
@@ -193,7 +193,9 @@ export default class Editor extends React.Component<Props> {
       }
       CodeMirror.showHint(editor, undefined, {
         hint: (cm: CodeMirror.Editor): CodeMirror.Hints => {
-          const tableHints = this.props.tables.filter(t => t.length > tokenString.length && t.startsWith(tokenString));
+          const tableHints = this.props.tables.filter(
+            (t) => t.length > tokenString.length && t.startsWith(tokenString)
+          );
           // Suppress 'hint does not exist' because codemirror does not serve types of addons.
           // @ts-expect-error
           const sqlHints = CodeMirror.hint.sql(cm);
@@ -201,10 +203,10 @@ export default class Editor extends React.Component<Props> {
           return {
             from: CodeMirror.Pos(cursor.line, token.start),
             to: CodeMirror.Pos(cursor.line, token.end),
-            list: hints
+            list: hints,
           };
         },
-        completeSingle: false
+        completeSingle: false,
       });
     }, 400);
   }
@@ -215,7 +217,7 @@ export default class Editor extends React.Component<Props> {
     this.props.onChangeCursor(line);
   }
 
-  render(): React.ReactNode {
+  override render(): React.ReactNode {
     return (
       <div className="Editor" ref={this.props.rootRef}>
         <textarea

@@ -57,12 +57,12 @@ export default class QueryResultNav extends React.Component<Props, State> {
     this.props.onClickShareOnBdashServer();
   }
 
-  render(): React.ReactNode {
+  override render(): React.ReactNode {
     return (
       <div className="QueryResultNav">
         <span
           className={classNames("QueryResultNav-tabMenu", {
-            "is-selected": this.selectedTab("table")
+            "is-selected": this.selectedTab("table"),
           })}
           onClick={(): void => this.props.onSelectTab("table")}
         >
@@ -70,7 +70,7 @@ export default class QueryResultNav extends React.Component<Props, State> {
         </span>
         <span
           className={classNames("QueryResultNav-tabMenu", {
-            "is-selected": this.selectedTab("chart")
+            "is-selected": this.selectedTab("chart"),
           })}
           onClick={(): void => this.props.onSelectTab("chart")}
         >
