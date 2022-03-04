@@ -112,7 +112,7 @@ export default class Postgres extends Base {
     }
 
     return new Promise((resolve, reject) => {
-      this.currentClient = new pg.Client(this.config);
+      this.currentClient = new pg.Client(this.getConfig());
       this.currentClient.connect((err) => {
         if (err) {
           this.currentClient.end();
@@ -145,5 +145,24 @@ export default class Postgres extends Base {
     }
 
     return new Error(message);
+  }
+
+  private getConfig(): pg.ClientConfig {
+    let ssl: pg.ClientConfig["ssl"] = undefined;
+    if (this.config.ssl) {
+      // Skipping verification is equivalent to sslmode=prefer and sslmode=require in libpq.
+      // https://www.postgresql.org/docs/14/libpq-ssl.html
+      // https://node-postgres.com/features/ssl
+      // rejectUnauthorized=false is also set in ./Mysql.ts if sslCaFilename is unset.
+      ssl = { rejectUnauthorized: false };
+    }
+    return {
+      host: this.config.host,
+      port: this.config.port,
+      user: this.config.user,
+      password: this.config.password,
+      database: this.config.database,
+      ssl,
+    };
   }
 }
