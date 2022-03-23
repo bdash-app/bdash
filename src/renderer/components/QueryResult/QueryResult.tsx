@@ -8,6 +8,7 @@ import { QueryType } from "../../../lib/Database/Query";
 type Props = {
   readonly query: QueryType;
   readonly charts: ChartType[];
+  readonly onClickCopyAsJson: () => void;
   readonly onClickCopyAsTsv: () => void;
   readonly onClickCopyAsCsv: () => void;
   readonly onClickCopyAsMarkdown: () => void;

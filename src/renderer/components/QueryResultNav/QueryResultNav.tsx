@@ -5,6 +5,7 @@ import { QueryType } from "../../../lib/Database/Query";
 
 type Props = {
   readonly query: QueryType;
+  readonly onClickCopyAsJson: () => void;
   readonly onClickCopyAsTsv: () => void;
   readonly onClickCopyAsCsv: () => void;
   readonly onClickCopyAsMarkdown: () => void;
@@ -21,6 +22,7 @@ export default class QueryResultNav extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = { openShareFlyout: false };
+    this.handleClickCopyAsJson = this.handleClickCopyAsJson.bind(this);
     this.handleClickCopyAsTsv = this.handleClickCopyAsTsv.bind(this);
     this.handleClickCopyAsCsv = this.handleClickCopyAsCsv.bind(this);
     this.handleClickCopyAsMarkdown = this.handleClickCopyAsMarkdown.bind(this);
@@ -30,6 +32,11 @@ export default class QueryResultNav extends React.Component<Props, State> {
 
   selectedTab(name: string): boolean {
     return (this.props.query.selectedTab || "table") === name;
+  }
+
+  handleClickCopyAsJson(): void {
+    this.setState({ openShareFlyout: false });
+    this.props.onClickCopyAsJson();
   }
 
   handleClickCopyAsTsv(): void {
@@ -86,6 +93,7 @@ export default class QueryResultNav extends React.Component<Props, State> {
             onRequestClose={(): void => this.setState({ openShareFlyout: false })}
           >
             <ul>
+              <li onClick={this.handleClickCopyAsJson}>Copy table as JSON</li>
               <li onClick={this.handleClickCopyAsTsv}>Copy table as TSV</li>
               <li onClick={this.handleClickCopyAsCsv}>Copy table as CSV</li>
               <li onClick={this.handleClickCopyAsMarkdown}>Copy table as Markdown</li>

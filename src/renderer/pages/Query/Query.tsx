@@ -132,6 +132,9 @@ class Query extends React.Component<unknown, QueryState> {
           <QueryResult
             query={query}
             {...this.state}
+            onClickCopyAsJson={(): void => {
+              QuerySharing.copyAsJson(query);
+            }}
             onClickCopyAsTsv={(): void => {
               QuerySharing.copyAsTsv(query);
             }}

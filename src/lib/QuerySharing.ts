@@ -64,6 +64,11 @@ export default {
     electron.clipboard.writeText(markdown);
   },
 
+  copyAsJson(query: QueryType): void {
+    const json = JSON.stringify({ fields: query.fields, rows: query.rows });
+    return electron.clipboard.writeText(json);
+  },
+
   async copyAsTsv(query: QueryType, maximumNumberOfRowsOfGist?: number): Promise<void> {
     const tsv = await getTableDataAsTsv(query, maximumNumberOfRowsOfGist);
     return electron.clipboard.writeText(tsv);
