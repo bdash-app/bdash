@@ -6684,9 +6684,9 @@ sprintf-js@~1.0.2:
   resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.0.3.tgz#04e6926f662895354f3dd015203633b857297e2c"
   integrity sha1-BOaSb2YolTVPPdAVIDYzuFcpfiw=
 
-sql-formatter@hokaccha/sql-formatter#dist:
+sql-formatter@hokaccha/sql-formatter#hokaccha-fork-v2:
   version "4.0.2"
-  resolved "https://codeload.github.com/hokaccha/sql-formatter/tar.gz/f99cf59f0cc8d9220e99e50fae7afcad2959d126"
+  resolved "https://codeload.github.com/hokaccha/sql-formatter/tar.gz/db4bbfdbe9d594d4f920bf030e6a69856787d902"
   dependencies:
     argparse "^2.0.1"
 
