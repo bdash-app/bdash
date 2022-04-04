@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "Bdash",
-  "version": "1.14.3",
+  "version": "1.14.4",
   "productName": "Bdash",
   "description": "A simple business intelligence application.",
   "homepage": "https://github.com/bdash-app/bdash",
@@ -53,7 +53,7 @@
     "react-modal": "3.1.10",
     "react-select": "~3.0.8",
     "react-splitter-layout": "4.0.0",
-    "sql-formatter": "hokaccha/sql-formatter#hokaccha-fork-v4",
+    "sql-formatter": "hokaccha/sql-formatter#hokaccha-fork-v5.0.0",
     "sqlite3": "^5.0.2",
     "td": "0.3.0"
   },
