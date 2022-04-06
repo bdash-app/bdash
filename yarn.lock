@@ -965,6 +965,11 @@
   resolved "https://registry.yarnpkg.com/@google-cloud/promisify/-/promisify-2.0.3.tgz#f934b5cdc939e3c7039ff62b9caaf59a9d89e3a8"
   integrity sha512-d4VSA86eL/AFTe5xtyZX+ePUjE8dIFu2T8zmdeNBSa5/kNgXPCx/o/wbFNHAGLJdGnk1vddRuMESD9HbOC8irw==
 
+"@hokaccha/sql-formatter@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@hokaccha/sql-formatter/-/sql-formatter-1.0.0.tgz#cd810856a23be51cb11d920fd4e9477dbbfd3a3c"
+  integrity sha512-xy+oyafYDXBFwWdWEvooywous3uChmIE0zu8LKu3fO401iUE39vjjmeWvayNHtK/bZjmYZUA9+LDjRzRy+Hwrw==
+
 "@humanwhocodes/config-array@^0.9.2":
   version "0.9.2"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.9.2.tgz#68be55c737023009dfc5fe245d51181bb6476914"
@@ -6683,12 +6688,6 @@ sprintf-js@~1.0.2:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.0.3.tgz#04e6926f662895354f3dd015203633b857297e2c"
   integrity sha1-BOaSb2YolTVPPdAVIDYzuFcpfiw=
-
-sql-formatter@hokaccha/sql-formatter#hokaccha-fork-v5.0.0:
-  version "5.0.0"
-  resolved "https://codeload.github.com/hokaccha/sql-formatter/tar.gz/0fd0ef2ab1da063e5acf57b8e2ea901a06b01eac"
-  dependencies:
-    argparse "^2.0.1"
 
 sqlite3@^5.0.2:
   version "5.0.2"

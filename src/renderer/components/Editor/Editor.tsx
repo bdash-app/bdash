@@ -15,7 +15,7 @@ import "codemirror/addon/hint/show-hint.css";
 import { isEqual } from "lodash";
 import { clipboard, ipcRenderer } from "electron";
 import { SettingType, DEFAULT_INDENT } from "../../../lib/Setting";
-import { format } from "sql-formatter";
+import { format } from "@hokaccha/sql-formatter";
 
 const MIN_COMPLETION_CHARS = 2;
 
