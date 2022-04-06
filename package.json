@@ -11,6 +11,7 @@
   },
   "scripts": {
     "start": "electron app/development",
+    "build": "webpack --mode=development",
     "watch": "webpack --mode=development --watch",
     "test": "yarn run test:unit && yarn run test:integration",
     "test:unit": "electron-mocha --renderer --require ts-node/register --ui tdd --color --grep @remote --invert \"./test/unit/**/*.test.{ts,tsx}\"",
