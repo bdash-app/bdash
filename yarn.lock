@@ -965,10 +965,10 @@
   resolved "https://registry.yarnpkg.com/@google-cloud/promisify/-/promisify-2.0.3.tgz#f934b5cdc939e3c7039ff62b9caaf59a9d89e3a8"
   integrity sha512-d4VSA86eL/AFTe5xtyZX+ePUjE8dIFu2T8zmdeNBSa5/kNgXPCx/o/wbFNHAGLJdGnk1vddRuMESD9HbOC8irw==
 
-"@hokaccha/sql-formatter@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@hokaccha/sql-formatter/-/sql-formatter-1.0.0.tgz#cd810856a23be51cb11d920fd4e9477dbbfd3a3c"
-  integrity sha512-xy+oyafYDXBFwWdWEvooywous3uChmIE0zu8LKu3fO401iUE39vjjmeWvayNHtK/bZjmYZUA9+LDjRzRy+Hwrw==
+"@hokaccha/sql-formatter@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@hokaccha/sql-formatter/-/sql-formatter-1.2.0.tgz#8c19b1a4de0a076d8767a9f529cdee3a413fb45a"
+  integrity sha512-XXI8rL4odJuhYjBWZ/tdhd4KRyAQV/fOd4M8eMXZBsrT60ybm/kwcVqOQakqOslgfiFCchY+pXlI0hicsgRs3A==
 
 "@humanwhocodes/config-array@^0.9.2":
   version "0.9.2"

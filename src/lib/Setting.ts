@@ -1,6 +1,7 @@
 import fs from "fs";
 import yaml from "js-yaml";
 import _ from "lodash";
+import { KeywordCase } from "@hokaccha/sql-formatter";
 
 export const indentValues = [2, 4] as const;
 type IndentValue = typeof indentValues[number];
@@ -18,7 +19,7 @@ export type SettingType = {
 };
 
 export type FormatterSettingType = {
-  toUppercaseKeyword: boolean;
+  keywordCase: KeywordCase;
 };
 
 export type GithubSettingType = {
@@ -48,7 +49,7 @@ export default class Setting {
       lineWrap: false,
       indent: DEFAULT_INDENT,
       formatter: {
-        toUppercaseKeyword: false,
+        keywordCase: "preserve",
       },
       github: {
         token: null,

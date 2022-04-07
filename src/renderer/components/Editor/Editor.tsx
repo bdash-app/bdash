@@ -132,7 +132,7 @@ export default class Editor extends React.Component<Props> {
       formattedQuery = format(this.currentValue, {
         linesBetweenQueries: 2,
         indent: " ".repeat(this.props.setting.indent),
-        uppercase: this.props.setting.formatter.toUppercaseKeyword,
+        keywordCase: this.props.setting.formatter.keywordCase,
       });
     } catch (err) {
       alert("Format failed😢");

@@ -29,6 +29,11 @@ class Setting extends React.Component<unknown, SettingState> {
     const currentOption = keyBindOptions.find((option) => option.value === (setting.keyBind || "default"));
     const github = setting.github || {};
     const bdashServer = setting.bdashServer || {};
+    const keywordCaseOptions: { value: string; label: string }[] = ["upper", "lower", "preserve"].map((v) => ({
+      value: v,
+      label: v,
+    }));
+    const currentKeywordCase = keywordCaseOptions.find((option) => option.value === setting.formatter.keywordCase);
 
     return (
       <div className="page-Setting">
@@ -69,11 +74,14 @@ class Setting extends React.Component<unknown, SettingState> {
         <div className="page-Setting-section1">
           <h1>Formatter</h1>
           <div className="page-Setting-section2 page-Setting-lineWrap">
-            <h2>Convert SQL keywords to uppercase</h2>
-            <input
-              type="checkbox"
-              onChange={(e): void => Action.update({ formatter: { toUppercaseKeyword: e.target.checked } })}
-              checked={setting.formatter.toUppercaseKeyword}
+            <h2>Convert SQL keywords</h2>
+            <Select
+              value={currentKeywordCase}
+              options={keywordCaseOptions}
+              onChange={(e): void => Action.update({ formatter: { keywordCase: (e as OptionTypeBase).value } })}
+              isClearable={false}
+              isSearchable={false}
+              styles={selectStyles}
             />
           </div>
         </div>

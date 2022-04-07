@@ -31,7 +31,7 @@
     "@aws-sdk/client-timestream-query": "^3.47.1",
     "@fortawesome/fontawesome-free": "5.12.0",
     "@google-cloud/bigquery": "5.6.0",
-    "@hokaccha/sql-formatter": "^1.0.0",
+    "@hokaccha/sql-formatter": "^1.2.0",
     "classnames": "2.2.5",
     "codemirror": "~5.58.2",
     "compare-versions": "^4.1.3",
