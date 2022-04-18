@@ -1,7 +1,6 @@
 import Store, { StateBuilder } from "../../flux/Store";
 import Setting, { SettingType } from "../../../lib/Setting";
 import { TableSummary } from "../../../lib/DataSourceDefinition/Base";
-import { Language } from "@hokaccha/sql-formatter";
 
 export type DataSourceKeys =
   | "athena"
