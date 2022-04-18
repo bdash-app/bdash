@@ -3,12 +3,15 @@ import Util from "../Util";
 import { zipObject } from "lodash";
 import { DataSourceKeys } from "../../renderer/pages/DataSource/DataSourceStore";
 import { TableSummary } from "./Base";
+import { Language } from "@hokaccha/sql-formatter";
 
 export default class Redshift extends Postgres {
   static override get key(): DataSourceKeys {
     return "redshift";
   }
-
+  static override get formatType(): Language {
+    return "redshift";
+  }
   static override get label(): string {
     return "Redshift";
   }

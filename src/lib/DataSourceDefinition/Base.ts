@@ -1,3 +1,4 @@
+import { Language } from "@hokaccha/sql-formatter";
 import { DataSourceKeys, TableType } from "../../renderer/pages/DataSource/DataSourceStore";
 
 export type TableSummaryRow = string | null;
@@ -19,6 +20,9 @@ export default abstract class Base {
   }
   static get label(): string {
     throw new Error("Not Implemented");
+  }
+  static get formatType(): Language {
+    return "sql";
   }
   static get configSchema(): ConfigSchemasType {
     throw new Error("Not Implemented");

@@ -2,6 +2,7 @@ import { BigQuery as BigQueryClient } from "@google-cloud/bigquery";
 import Base, { ConfigSchemasType, TableSummary } from "./Base";
 import { flatten } from "lodash";
 import { DataSourceKeys } from "../../renderer/pages/DataSource/DataSourceStore";
+import { Language } from "@hokaccha/sql-formatter";
 
 type TableSummaryField = {
   name: string;
@@ -19,6 +20,9 @@ export default class BigQuery extends Base {
   }
   static override get label(): string {
     return "BigQuery";
+  }
+  static override get formatType(): Language {
+    return "bigquery";
   }
   static override get configSchema(): ConfigSchemasType {
     return [

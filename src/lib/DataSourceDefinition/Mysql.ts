@@ -4,6 +4,7 @@ import Util from "../Util";
 import { zipObject } from "lodash";
 import { promises } from "fs";
 import { DataSourceKeys } from "../../renderer/pages/DataSource/DataSourceStore";
+import { Language } from "@hokaccha/sql-formatter";
 
 export default class Mysql extends Base {
   currentConnection: any;
@@ -13,6 +14,9 @@ export default class Mysql extends Base {
   }
   static override get label(): string {
     return "MySQL";
+  }
+  static override get formatType(): Language {
+    return "mysql";
   }
   static override get configSchema(): ConfigSchemasType {
     return [

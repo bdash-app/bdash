@@ -15,7 +15,7 @@ import "codemirror/addon/hint/show-hint.css";
 import { isEqual } from "lodash";
 import { clipboard, ipcRenderer } from "electron";
 import { SettingType, DEFAULT_INDENT } from "../../../lib/Setting";
-import { format } from "@hokaccha/sql-formatter";
+import { format, Language } from "@hokaccha/sql-formatter";
 
 const MIN_COMPLETION_CHARS = 2;
 
@@ -24,6 +24,7 @@ type Props = {
   readonly tables: string[];
   readonly value: string;
   readonly setting: SettingType;
+  readonly formatType: Language;
   readonly codeMirrorHistory?: Record<string, unknown>;
   readonly rootRef: React.Ref<any>;
   readonly onSubmit: () => void;
@@ -130,6 +131,7 @@ export default class Editor extends React.Component<Props> {
     let formattedQuery: string | null = null;
     try {
       formattedQuery = format(this.currentValue, {
+        language: this.props.formatType,
         linesBetweenQueries: 2,
         indent: " ".repeat(this.props.setting.indent),
         keywordCase: this.props.setting.formatter.keywordCase,

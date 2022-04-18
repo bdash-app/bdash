@@ -3,6 +3,7 @@ import Base, { ConfigSchemasType, TableSummary } from "./Base";
 import Util from "../Util";
 import { zipObject } from "lodash";
 import { DataSourceKeys } from "../../renderer/pages/DataSource/DataSourceStore";
+import { Language } from "@hokaccha/sql-formatter";
 
 // Disable auto convert
 // https://github.com/brianc/node-pg-types/blob/ed2d0e36e33217b34530727a98d20b325389e73a/lib/textParsers.js#L147-L149
@@ -21,6 +22,9 @@ export default class Postgres extends Base {
   }
   static override get label(): string {
     return "PostgreSQL";
+  }
+  static override get formatType(): Language {
+    return "postgresql";
   }
   static override get configSchema(): ConfigSchemasType {
     return [

@@ -10,6 +10,7 @@ import QueryEditor from "../../components/QueryEditor";
 import QueryResult from "../../components/QueryResult";
 import { QueryType } from "../../../lib/Database/Query";
 import { DataSourceType } from "../DataSource/DataSourceStore";
+import DataSource from "../../../lib/DataSource";
 
 class Query extends React.Component<unknown, QueryState> {
   override componentDidMount(): void {
@@ -92,6 +93,7 @@ class Query extends React.Component<unknown, QueryState> {
     const query = this.state.queries.find((query) => query.id === this.state.selectedQueryId);
     if (!query) return <div className="page-Query-main" />;
     const dataSource = this.state.dataSources.find((dataSource) => dataSource.id === query.dataSourceId);
+    const dataSourceDef = dataSource ? DataSource.get(dataSource.type) : null;
 
     return (
       <div className="page-Query-main">
@@ -116,6 +118,7 @@ class Query extends React.Component<unknown, QueryState> {
             query={query}
             tables={dataSource?.tables ?? []}
             mimeType={dataSource?.mimeType ?? "text/x-sql"}
+            formatType={dataSourceDef?.formatType ?? "sql"}
             {...this.state}
             onChangeQueryBody={(body, codeMirrorHistory): void => {
               Action.updateQuery(query.id, { body, codeMirrorHistory: codeMirrorHistory });
