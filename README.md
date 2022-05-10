@@ -32,7 +32,7 @@ https://gist.github.com/hokaccha/e128e1c3a68527ebf2c50d5e95a089b1
 
 ## Installation
 
-You can download and install from here: [https://www.bdash.io/](https://www.bdash.io/)
+You can download and install from [Web Site](https://bdash.hokaccha.dev/) or [Releases](https://github.com/bdash-app/bdash/releases)
 
 ## Development
 
