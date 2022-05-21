@@ -1,16 +1,20 @@
 import React from "react";
 import Modal from "react-modal";
 
-export default class ModalDialog extends React.Component<{ className?: string }> {
-  override render(): React.ReactNode {
-    const style = {
-      overlay: { backgroundColor: "transparent" },
-    };
+type Props = {
+  className?: string;
+};
 
-    return (
-      <Modal isOpen={true} style={style} className={`ModalDialog ${this.props.className ?? ""}`} ariaHideApp={false}>
-        {this.props.children}
-      </Modal>
-    );
-  }
-}
+const ModalDialog: React.FC<React.PropsWithChildren<Props>> = ({ className, children }) => {
+  const style = {
+    overlay: { backgroundColor: "transparent" },
+  };
+
+  return (
+    <Modal isOpen={true} style={style} className={`ModalDialog ${className ?? ""}`} ariaHideApp={false}>
+      {children}
+    </Modal>
+  );
+};
+
+export default ModalDialog;
