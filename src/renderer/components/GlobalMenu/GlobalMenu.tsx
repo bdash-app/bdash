@@ -6,31 +6,29 @@ type Props = {
   readonly selectedPage: string;
 };
 
-export default class GlobalMenu extends React.Component<Props> {
-  get menuList(): React.ReactNode {
+const GlobalMenu = React.memo<Props>(function GlobalMenu({ onSelect, selectedPage }) {
+  const menuList = ((): React.ReactNode => {
     return [
       { page: "query", icon: "terminal" },
       { page: "dataSource", icon: "database" },
       { page: "setting", icon: "cog" },
     ].map((item, idx) => {
-      const selected = this.props.selectedPage === item.page;
+      const selected = selectedPage === item.page;
       const className = classNames("GlobalMenu-item", `GlobalMenu-${item.page}`, {
         "is-selected": selected,
       });
 
       return (
-        <span className={className} onClick={(): void => this.handleClick(item.page)} key={idx}>
+        <span className={className} onClick={(): void => handleClick(item.page)} key={idx}>
           <i className={`fas fa-${item.icon}`} />
         </span>
       );
     });
-  }
+  })();
 
-  handleClick(page: string): void {
-    this.props.onSelect(page);
-  }
+  const handleClick = onSelect;
 
-  override render(): React.ReactNode {
-    return <div className="GlobalMenu">{this.menuList}</div>;
-  }
-}
+  return <div className="GlobalMenu">{menuList}</div>;
+});
+
+export default GlobalMenu;
