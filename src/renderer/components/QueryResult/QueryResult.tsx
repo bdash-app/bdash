@@ -18,27 +18,28 @@ type Props = {
   readonly onUpdateChart: (id: number, params: any) => void;
 };
 
-export default class QueryResult extends React.Component<Props> {
-  renderError(): React.ReactNode {
-    return (
-      <div className="QueryResult">
-        <div className="QueryResult-errorMessage">{this.props.query.errorMessage}</div>
-      </div>
-    );
-  }
-
-  renderMain(): React.ReactNode {
-    if (this.props.query.selectedTab === "chart") {
-      const chart = this.props.charts.find((chart) => chart.queryId === this.props.query.id);
-      return <QueryResultChart chart={chart} {...this.props} />;
+const QueryResult: React.FC<Props> = ({
+  query,
+  charts,
+  onClickCopyAsJson,
+  onClickCopyAsTsv,
+  onClickCopyAsCsv,
+  onClickCopyAsMarkdown,
+  onClickShareOnGist,
+  onClickShareOnBdashServer,
+  onSelectTab,
+  onUpdateChart,
+}) => {
+  const renderMain = (): React.ReactNode => {
+    if (query.selectedTab === "chart") {
+      const chart = charts.find((chart) => chart.queryId === query.id);
+      return <QueryResultChart chart={chart} query={query} onUpdateChart={onUpdateChart} />;
     } else {
-      return <QueryResultTable {...this.props} />;
+      return <QueryResultTable query={query} />;
     }
-  }
+  };
 
-  override render(): React.ReactNode {
-    const query = this.props.query;
-
+  const render = (): React.ReactElement => {
     if (query.status === "failure") {
       return (
         <div className="QueryResult">
@@ -53,9 +54,22 @@ export default class QueryResult extends React.Component<Props> {
 
     return (
       <div className="QueryResult">
-        <QueryResultNav {...this.props} />
-        {this.renderMain()}
+        <QueryResultNav
+          query={query}
+          onClickCopyAsCsv={onClickCopyAsCsv}
+          onClickCopyAsJson={onClickCopyAsJson}
+          onClickCopyAsMarkdown={onClickCopyAsMarkdown}
+          onClickCopyAsTsv={onClickCopyAsTsv}
+          onClickShareOnBdashServer={onClickShareOnBdashServer}
+          onClickShareOnGist={onClickShareOnGist}
+          onSelectTab={onSelectTab}
+        />
+        {renderMain()}
       </div>
     );
-  }
-}
+  };
+
+  return render();
+};
+
+export default QueryResult;
