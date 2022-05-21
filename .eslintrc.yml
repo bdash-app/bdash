@@ -29,9 +29,12 @@ rules:
   '@typescript-eslint/no-non-null-assertion': off
   '@typescript-eslint/explicit-module-boundary-types': off
   'react/prop-types': off
+  'react-hooks/rules-of-hooks': error
+  'react-hooks/exhaustive-deps': warn
 
 plugins:
   - react
+  - react-hooks
 
 settings:
   react:
