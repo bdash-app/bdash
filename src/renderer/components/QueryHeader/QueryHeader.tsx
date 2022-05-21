@@ -2,7 +2,7 @@ import React from "react";
 import Select from "react-select";
 import { selectStyles } from "../Select";
 import { QueryType } from "../../../lib/Database/Query";
-import { DataSourceType } from "../../../renderer/pages/DataSource/DataSourceStore";
+import { DataSourceType } from "../../pages/DataSource/DataSourceStore";
 
 type Props = {
   readonly query: QueryType;
@@ -11,40 +11,32 @@ type Props = {
   readonly onChangeDataSource: (dataSourceId: number) => void;
 };
 
-export default class QueryHeader extends React.Component<Props> {
-  constructor(props: Props) {
-    super(props);
-    this.handleChangeTitle = this.handleChangeTitle.bind(this);
-    this.handleChangeDataSource = this.handleChangeDataSource.bind(this);
-  }
+const QueryHeader: React.FC<Props> = ({ query, dataSources, onChangeTitle, onChangeDataSource }) => {
+  const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    onChangeTitle(e.target.value);
+  };
 
-  handleChangeTitle(e: React.ChangeEvent<HTMLInputElement>): void {
-    this.props.onChangeTitle(e.target.value);
-  }
+  const handleChangeDataSource = React.useCallback(
+    (e: any): void => {
+      onChangeDataSource(e.value);
+    },
+    [onChangeDataSource]
+  );
 
-  handleChangeDataSource(e): void {
-    this.props.onChangeDataSource(e.value);
-  }
-
-  override render(): React.ReactNode {
-    const options = this.props.dataSources.map((dataSource) => {
+  const render = (): React.ReactElement => {
+    const options = dataSources.map((dataSource) => {
       return { value: dataSource.id, label: dataSource.name };
     });
-    const currentOption = options.find((option) => option.value === this.props.query.dataSourceId);
+    const currentOption = options.find((option) => option.value === query.dataSourceId);
 
     return (
       <div className="QueryHeader">
-        <input
-          className="QueryHeader-inputTitle"
-          type="text"
-          value={this.props.query.title}
-          onChange={this.handleChangeTitle}
-        />
+        <input className="QueryHeader-inputTitle" type="text" value={query.title} onChange={handleChangeTitle} />
         <Select
           className="QueryHeader-selectDataSource"
           value={currentOption}
           options={options}
-          onChange={this.handleChangeDataSource}
+          onChange={handleChangeDataSource}
           placeholder={"Select data source..."}
           isClearable={false}
           isSearchable={false}
@@ -52,5 +44,9 @@ export default class QueryHeader extends React.Component<Props> {
         />
       </div>
     );
-  }
-}
+  };
+
+  return render();
+};
+
+export default QueryHeader;
