@@ -63,7 +63,6 @@ class DataSource extends React.Component<unknown, DataSourceState> {
         <div className="page-DataSource-tableList">
           <TableList
             dataSource={dataSource}
-            {...this.state}
             onSelectTable={Action.selectTable}
             onChangeTableFilter={Action.changeTableFilter}
           />
