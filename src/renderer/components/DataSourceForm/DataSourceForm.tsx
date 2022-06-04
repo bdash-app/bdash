@@ -12,37 +12,21 @@ type Props = {
   readonly onSave: (dataSource: { id: number | null } & Pick<DataSourceType, "name" | "type" | "config">) => void;
 };
 
-type State = {
-  readonly selectedType: DataSourceKeys | null;
-  readonly connectionTestStatus: string | null;
-  readonly connectionTestMessage: string | null;
-};
+const DataSourceForm: React.FC<Props> = ({ dataSource, onCancel, onSave }) => {
+  const [selectedType, setSelectedType] = React.useState<DataSourceKeys | null>(dataSource?.type ?? null);
+  const [connectionTestStatus, setConnectionTestStatus] = React.useState<string | null>(null);
+  const [connectionTestMessage, setConnectionTestMessage] = React.useState<string | null>(null);
+  const formTableElementRef = React.useRef<HTMLTableElement>(null);
+  const inputNameElementRef = React.useRef<HTMLInputElement>(null);
 
-export default class DataSourceForm extends React.Component<Props, State> {
-  formTableElement: HTMLTableElement | null;
-  inputNameElement: HTMLInputElement | null;
-
-  constructor(props: Props) {
-    super(props);
-
-    this.state = {
-      selectedType: props.dataSource?.type ?? null,
-      connectionTestStatus: null,
-      connectionTestMessage: null,
-    };
-    this.handleCancel = this.handleCancel.bind(this);
-    this.handleSave = this.handleSave.bind(this);
-    this.handleChangeType = this.handleChangeType.bind(this);
-    this.handleConnectionTest = this.handleConnectionTest.bind(this);
-  }
-
-  getConfigValues(): { [name: string]: any } {
-    if (this.formTableElement === null) {
+  const getConfigValues = React.useCallback((): { [name: string]: any } => {
+    const formTableElement = formTableElementRef.current;
+    if (!formTableElement) {
       return {};
     }
 
     // TODO: validation
-    const inputs: NodeListOf<HTMLInputElement> = this.formTableElement.querySelectorAll(
+    const inputs: NodeListOf<HTMLInputElement> = formTableElement.querySelectorAll(
       [
         ".DataSourceForm-configInput",
         ".DataSourceForm-configCheckbox:checked",
@@ -62,53 +46,48 @@ export default class DataSourceForm extends React.Component<Props, State> {
         throw new Error(`type ${type} is not supported for config`);
       }
     }, {});
-  }
+  }, []);
 
-  handleSave(): void {
-    if (this.inputNameElement === null || this.state.selectedType === null) {
+  const handleSave = React.useCallback((): void => {
+    const inputNameElement = inputNameElementRef.current;
+    if (inputNameElement === null || selectedType === null) {
       return;
     }
 
-    const id = this.props.dataSource ? this.props.dataSource.id : null;
-    const name = this.inputNameElement.value;
-    const type = this.state.selectedType;
-    const config = this.getConfigValues();
-    this.props.onSave({ id, name, type, config });
-  }
+    const id = dataSource ? dataSource.id : null;
+    const name = inputNameElement.value;
+    const type = selectedType;
+    const config = getConfigValues();
+    onSave({ id, name, type, config });
+  }, [dataSource, getConfigValues, onSave, selectedType]);
 
-  handleCancel(): void {
-    this.props.onCancel();
-  }
+  const handleCancel = onCancel;
 
-  handleChangeType(e: React.ChangeEvent<HTMLSelectElement>): void {
-    this.setState({ selectedType: e.target.value as DataSourceKeys });
-  }
+  const handleChangeType = React.useCallback((e: React.ChangeEvent<HTMLSelectElement>): void => {
+    setSelectedType(e.target.value as DataSourceKeys);
+  }, []);
 
-  async handleConnectionTest(): Promise<void> {
-    const type = this.state.selectedType;
+  const handleConnectionTest = React.useCallback(async (): Promise<void> => {
+    const type = selectedType;
     if (!type) {
       return;
     }
-    const config = this.getConfigValues();
-    this.setState({
-      connectionTestStatus: "working",
-      connectionTestMessage: null,
-    });
+    const config = getConfigValues();
+    setConnectionTestStatus("working");
+    setConnectionTestMessage(null);
 
     try {
       await DataSource.create({ type, config }).connectionTest();
     } catch (err) {
-      this.setState({
-        connectionTestStatus: "failure",
-        connectionTestMessage: err.message,
-      });
+      setConnectionTestStatus("failure");
+      setConnectionTestMessage(err.message);
       return;
     }
 
-    this.setState({ connectionTestStatus: "success" });
-  }
+    setConnectionTestStatus("success");
+  }, [getConfigValues, selectedType]);
 
-  renderConfigCheckbox(i: number, value: boolean, schema: ConfigSchemaType): React.ReactNode {
+  const renderConfigCheckbox = (i: number, value: boolean, schema: ConfigSchemaType): React.ReactNode => {
     return (
       <tr key={i} className={schema.required ? "is-required" : ""}>
         <th>{schema.label}</th>
@@ -124,9 +103,9 @@ export default class DataSourceForm extends React.Component<Props, State> {
         </td>
       </tr>
     );
-  }
+  };
 
-  renderConfigRadio(i: number, value: string, schema: ConfigSchemaType): React.ReactNode {
+  const renderConfigRadio = (i: number, value: string, schema: ConfigSchemaType): React.ReactNode => {
     const radios = schema.values!.map((v) => {
       return (
         <label key={v} className="DataSourceForm-configRadioLabel">
@@ -148,9 +127,9 @@ export default class DataSourceForm extends React.Component<Props, State> {
         <td>{radios}</td>
       </tr>
     );
-  }
+  };
 
-  renderConfigInput(i: number, value: string, schema: ConfigSchemaType): React.ReactNode {
+  const renderConfigInput = (i: number, value: string, schema: ConfigSchemaType): React.ReactNode => {
     const type = schema.type === "password" ? "password" : "text";
     return (
       <tr key={i} className={schema.required ? "is-required" : ""}>
@@ -167,27 +146,27 @@ export default class DataSourceForm extends React.Component<Props, State> {
         </td>
       </tr>
     );
-  }
+  };
 
-  renderConfig(): React.ReactNode[] | null {
-    const ds = this.state.selectedType ? DataSource.get(this.state.selectedType) : undefined;
+  const renderConfig = (): React.ReactNode[] | null => {
+    const ds = selectedType ? DataSource.get(selectedType) : undefined;
     if (!ds || ds.configSchema.length === 0) return null;
 
     return ds.configSchema.map((schema: ConfigSchemaType, i: number) => {
-      const config = this.props.dataSource?.config || {};
+      const config = dataSource?.config || {};
       const value = config[schema.name];
       switch (schema.type) {
         case "radio":
-          return this.renderConfigRadio(i, value, schema);
+          return renderConfigRadio(i, value, schema);
         case "checkbox":
-          return this.renderConfigCheckbox(i, value, schema);
+          return renderConfigCheckbox(i, value, schema);
         default:
-          return this.renderConfigInput(i, value, schema);
+          return renderConfigInput(i, value, schema);
       }
     });
-  }
+  };
 
-  override render(): React.ReactNode {
+  const render = (): React.ReactElement => {
     const list: DataSourceClasses[] = DataSource.list;
     const options = [{ key: "", label: "" }].concat(list).map(({ key, label }) => {
       return (
@@ -199,21 +178,15 @@ export default class DataSourceForm extends React.Component<Props, State> {
 
     return (
       <ModalDialog className="DataSourceForm">
-        <table
-          ref={(node): void => {
-            this.formTableElement = node;
-          }}
-        >
+        <table ref={formTableElementRef}>
           <tbody>
             <tr className="is-required">
               <th>Name</th>
               <td>
                 <input
-                  ref={(node): void => {
-                    this.inputNameElement = node;
-                  }}
+                  ref={inputNameElementRef}
                   type="text"
-                  defaultValue={this.props.dataSource?.name}
+                  defaultValue={dataSource?.name}
                   name="name"
                   placeholder="My Database"
                 />
@@ -222,33 +195,37 @@ export default class DataSourceForm extends React.Component<Props, State> {
             <tr className="is-required">
               <th>Type</th>
               <td>
-                <select value={this.state.selectedType || ""} name="type" onChange={this.handleChangeType}>
+                <select value={selectedType || ""} name="type" onChange={handleChangeType}>
                   {options}
                 </select>
               </td>
             </tr>
-            {this.renderConfig()}
+            {renderConfig()}
           </tbody>
         </table>
 
         <div className="DataSourceForm-bottom">
           <div className="DataSourceForm-connectionTest">
-            <Button onClick={this.handleConnectionTest}>Connection Test</Button>
-            {this.state.connectionTestStatus ? <ProgressIcon status={this.state.connectionTestStatus} /> : null}
-            {this.state.connectionTestMessage ? (
-              <div className="DataSourceForm-connectionTestMessage">{this.state.connectionTestMessage}</div>
+            <Button onClick={handleConnectionTest}>Connection Test</Button>
+            {connectionTestStatus ? <ProgressIcon status={connectionTestStatus} /> : null}
+            {connectionTestMessage ? (
+              <div className="DataSourceForm-connectionTestMessage">{connectionTestMessage}</div>
             ) : null}
           </div>
           <div className="DataSourceForm-buttons">
-            <Button className="DataSourceForm-cancelBtn" onClick={this.handleCancel}>
+            <Button className="DataSourceForm-cancelBtn" onClick={handleCancel}>
               Cancel
             </Button>
-            <Button className="DataSourceForm-saveBtn" onClick={this.handleSave}>
+            <Button className="DataSourceForm-saveBtn" onClick={handleSave}>
               Save
             </Button>
           </div>
         </div>
       </ModalDialog>
     );
-  }
-}
+  };
+
+  return render();
+};
+
+export default DataSourceForm;

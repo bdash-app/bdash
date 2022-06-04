@@ -14,95 +14,95 @@ type Props = {
   readonly onSelectTab: (tabName: "table" | "chart") => void;
 };
 
-type State = {
-  readonly openShareFlyout: boolean;
-};
+const QueryResultNav = React.memo<Props>(function QueryResultNav({
+  query,
+  onClickCopyAsJson,
+  onClickCopyAsTsv,
+  onClickCopyAsCsv,
+  onClickCopyAsMarkdown,
+  onClickShareOnGist,
+  onClickShareOnBdashServer,
+  onSelectTab,
+}) {
+  const [openShareFlyout, setOpenShareFlyout] = React.useState(false);
 
-export default class QueryResultNav extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = { openShareFlyout: false };
-    this.handleClickCopyAsJson = this.handleClickCopyAsJson.bind(this);
-    this.handleClickCopyAsTsv = this.handleClickCopyAsTsv.bind(this);
-    this.handleClickCopyAsCsv = this.handleClickCopyAsCsv.bind(this);
-    this.handleClickCopyAsMarkdown = this.handleClickCopyAsMarkdown.bind(this);
-    this.handleClickShareOnGist = this.handleClickShareOnGist.bind(this);
-    this.handleClickShareOnBdashServer = this.handleClickShareOnBdashServer.bind(this);
-  }
+  const selectedTab = (name: string): boolean => {
+    return (query.selectedTab || "table") === name;
+  };
 
-  selectedTab(name: string): boolean {
-    return (this.props.query.selectedTab || "table") === name;
-  }
+  const handleClickCopyAsJson = (): void => {
+    setOpenShareFlyout(false);
+    onClickCopyAsJson();
+  };
 
-  handleClickCopyAsJson(): void {
-    this.setState({ openShareFlyout: false });
-    this.props.onClickCopyAsJson();
-  }
+  const handleClickCopyAsTsv = (): void => {
+    setOpenShareFlyout(false);
+    onClickCopyAsTsv();
+  };
 
-  handleClickCopyAsTsv(): void {
-    this.setState({ openShareFlyout: false });
-    this.props.onClickCopyAsTsv();
-  }
+  const handleClickCopyAsCsv = (): void => {
+    setOpenShareFlyout(false);
+    onClickCopyAsCsv();
+  };
 
-  handleClickCopyAsCsv(): void {
-    this.setState({ openShareFlyout: false });
-    this.props.onClickCopyAsCsv();
-  }
+  const handleClickCopyAsMarkdown = (): void => {
+    setOpenShareFlyout(false);
+    onClickCopyAsMarkdown();
+  };
 
-  handleClickCopyAsMarkdown(): void {
-    this.setState({ openShareFlyout: false });
-    this.props.onClickCopyAsMarkdown();
-  }
+  const handleClickShareOnGist = (): void => {
+    setOpenShareFlyout(false);
+    onClickShareOnGist();
+  };
 
-  handleClickShareOnGist(): void {
-    this.setState({ openShareFlyout: false });
-    this.props.onClickShareOnGist();
-  }
+  const handleClickShareOnBdashServer = (): void => {
+    setOpenShareFlyout(false);
+    onClickShareOnBdashServer();
+  };
 
-  handleClickShareOnBdashServer(): void {
-    this.setState({ openShareFlyout: false });
-    this.props.onClickShareOnBdashServer();
-  }
-
-  override render(): React.ReactNode {
+  const render = (): React.ReactElement => {
     return (
       <div className="QueryResultNav">
         <span
           className={classNames("QueryResultNav-tabMenu", {
-            "is-selected": this.selectedTab("table"),
+            "is-selected": selectedTab("table"),
           })}
-          onClick={(): void => this.props.onSelectTab("table")}
+          onClick={(): void => onSelectTab("table")}
         >
           <i className="fas fa-table" />
         </span>
         <span
           className={classNames("QueryResultNav-tabMenu", {
-            "is-selected": this.selectedTab("chart"),
+            "is-selected": selectedTab("chart"),
           })}
-          onClick={(): void => this.props.onSelectTab("chart")}
+          onClick={(): void => onSelectTab("chart")}
         >
           <i className="fas fa-chart-bar" />
         </span>
         <div className="QueryResultNav-share">
-          <span className="QueryResultNav-shareBtn" onClick={(): void => this.setState({ openShareFlyout: true })}>
+          <span className="QueryResultNav-shareBtn" onClick={(): void => setOpenShareFlyout(true)}>
             <i className="fas fa-share-alt" />
           </span>
           <Flyout
-            open={this.state.openShareFlyout}
+            open={openShareFlyout}
             className="QueryResultNav-shareFlyout"
-            onRequestClose={(): void => this.setState({ openShareFlyout: false })}
+            onRequestClose={(): void => setOpenShareFlyout(false)}
           >
             <ul>
-              <li onClick={this.handleClickCopyAsJson}>Copy table as JSON</li>
-              <li onClick={this.handleClickCopyAsTsv}>Copy table as TSV</li>
-              <li onClick={this.handleClickCopyAsCsv}>Copy table as CSV</li>
-              <li onClick={this.handleClickCopyAsMarkdown}>Copy table as Markdown</li>
-              <li onClick={this.handleClickShareOnGist}>Share on gist</li>
-              <li onClick={this.handleClickShareOnBdashServer}>Share on Bdash Server</li>
+              <li onClick={handleClickCopyAsJson}>Copy table as JSON</li>
+              <li onClick={handleClickCopyAsTsv}>Copy table as TSV</li>
+              <li onClick={handleClickCopyAsCsv}>Copy table as CSV</li>
+              <li onClick={handleClickCopyAsMarkdown}>Copy table as Markdown</li>
+              <li onClick={handleClickShareOnGist}>Share on gist</li>
+              <li onClick={handleClickShareOnBdashServer}>Share on Bdash Server</li>
             </ul>
           </Flyout>
         </div>
       </div>
     );
-  }
-}
+  };
+
+  return render();
+});
+
+export default QueryResultNav;

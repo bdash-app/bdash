@@ -124,7 +124,6 @@ class Query extends React.Component<unknown, QueryState> {
               Action.updateQuery(query.id, { body, codeMirrorHistory: codeMirrorHistory });
             }}
             onChangeCursorPosition={(line): void => Action.updateEditor({ line })}
-            onChangeEditorHeight={(height): void => Action.updateEditor({ height })}
             onExecute={(): void => {
               this.handleExecute(query);
             }}

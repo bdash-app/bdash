@@ -5,19 +5,12 @@ interface ButtonProps {
   readonly className?: string;
 }
 
-export default class Button extends React.Component<ButtonProps> {
-  handleClick(e: React.MouseEvent<HTMLSpanElement>): void {
-    if (this.props.onClick) {
-      this.props.onClick(e);
-    }
-  }
+const Button = React.memo<React.PropsWithChildren<ButtonProps>>(function Button({ onClick, className, children }) {
+  return (
+    <span className={`${className || ""} Button`.trim()} onClick={onClick}>
+      {children}
+    </span>
+  );
+});
 
-  override render(): React.ReactNode {
-    const className = `${this.props.className || ""} Button`.trim();
-    return (
-      <span className={className} onClick={this.handleClick.bind(this)}>
-        {this.props.children}
-      </span>
-    );
-  }
-}
+export default Button;

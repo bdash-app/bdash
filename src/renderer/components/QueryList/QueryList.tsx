@@ -12,54 +12,52 @@ type Props = {
   readonly onDeleteQuery: (queryId: number) => void;
 };
 
-export default class QueryList extends React.Component<Props> {
-  constructor(props: Props) {
-    super(props);
-    this.handleClickNew = this.handleClickNew.bind(this);
-  }
+const QueryList: React.FC<Props> = ({
+  queries,
+  selectedQueryId,
+  onAddQuery,
+  onSelectQuery,
+  onDuplicateQuery,
+  onDeleteQuery,
+}) => {
+  const handleClickNew = onAddQuery;
 
-  handleClickNew(): void {
-    this.props.onAddQuery();
-  }
+  const handleClickItem = onSelectQuery;
 
-  handleClickItem(query: QueryType): void {
-    this.props.onSelectQuery(query);
-  }
-
-  handleContextMenu(query: QueryType): void {
-    this.props.onSelectQuery(query);
+  const handleContextMenu = (query: QueryType): void => {
+    onSelectQuery(query);
     setImmediate(() => {
       const menu = remote.Menu.buildFromTemplate([
         {
           label: "Duplicate",
           click: (): void => {
-            this.props.onDuplicateQuery(query);
+            onDuplicateQuery(query);
           },
         },
         {
           label: "Delete",
           click: (): void => {
             if (window.confirm("Are you sure?")) {
-              this.props.onDeleteQuery(query.id);
+              onDeleteQuery(query.id);
             }
           },
         },
       ]);
       menu.popup({ window: remote.getCurrentWindow() });
     });
-  }
+  };
 
-  override render(): React.ReactNode {
-    const items = this.props.queries.map((query) => {
+  const render = (): React.ReactElement => {
+    const items = queries.map((query) => {
       const className = classNames({
-        "is-selected": this.props.selectedQueryId === query.id,
+        "is-selected": selectedQueryId === query.id,
       });
       return (
         <li
           key={query.id}
           className={className}
-          onClick={(): void => this.handleClickItem(query)}
-          onContextMenu={(): void => this.handleContextMenu(query)}
+          onClick={(): void => handleClickItem(query)}
+          onContextMenu={(): void => handleContextMenu(query)}
         >
           {query.title}
         </li>
@@ -69,10 +67,14 @@ export default class QueryList extends React.Component<Props> {
     return (
       <div className="QueryList">
         <div className={classNames("QueryList-new", { darwin: process.platform === "darwin" })}>
-          <i className="fas fa-plus" onClick={this.handleClickNew} />
+          <i className="fas fa-plus" onClick={handleClickNew} />
         </div>
         <ul className="QueryList-list">{items}</ul>
       </div>
     );
-  }
-}
+  };
+
+  return render();
+};
+
+export default QueryList;

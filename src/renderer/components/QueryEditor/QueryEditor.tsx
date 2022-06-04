@@ -8,7 +8,6 @@ import { TableType } from "src/renderer/pages/DataSource/DataSourceStore";
 import { Language } from "@hokaccha/sql-formatter";
 
 type Props = {
-  readonly editor: { line: number | null };
   readonly setting: SettingType;
   readonly query: QueryType;
   readonly tables: TableType[];
@@ -16,58 +15,66 @@ type Props = {
   readonly formatType: Language;
   readonly onCancel: () => void;
   readonly onExecute: () => void;
-  readonly onChangeEditorHeight: (height: number) => void;
   readonly onChangeQueryBody: (body: string, codeMirrorHistory: Record<string, unknown>) => void;
   readonly onChangeCursorPosition: (lineNumber: number) => void;
 };
 
-export default class QueryEditor extends React.Component<Props> {
-  editorElement: HTMLDivElement;
+const QueryEditor: React.FC<Props> = ({
+  setting,
+  query,
+  tables,
+  mimeType,
+  formatType,
+  onCancel,
+  onExecute,
+  onChangeQueryBody,
+  onChangeCursorPosition,
+}) => {
+  const editorElementRef = React.useRef<HTMLDivElement>(null);
 
-  get options(): EditorConfiguration {
+  const options = React.useMemo((): EditorConfiguration => {
     return {
-      mode: this.props.mimeType,
-      keyMap: this.props.setting.keyBind,
+      mode: mimeType,
+      keyMap: setting.keyBind,
       lineNumbers: true,
-      lineWrapping: this.props.setting.lineWrap,
+      lineWrapping: setting.lineWrap,
       matchBrackets: true,
-      indentUnit: this.props.setting.indent,
+      indentUnit: setting.indent,
       smartIndent: false,
       autoRefresh: { delay: 50 },
     };
-  }
+  }, [mimeType, setting.indent, setting.keyBind, setting.lineWrap]);
 
-  renderButton(): React.ReactNode {
-    if (this.props.query.status === "working") {
+  const renderButton = (): React.ReactNode => {
+    if (query.status === "working") {
       return (
-        <Button className="QueryEditor-cancelBtn" onClick={this.props.onCancel}>
+        <Button className="QueryEditor-cancelBtn" onClick={onCancel}>
           Cancel
         </Button>
       );
     } else {
       return (
-        <Button className="QueryEditor-executeBtn" onClick={this.props.onExecute}>
+        <Button className="QueryEditor-executeBtn" onClick={onExecute}>
           Execute
         </Button>
       );
     }
-  }
+  };
 
-  renderStatus(): React.ReactNode {
-    switch (this.props.query.status) {
+  const renderStatus = (): React.ReactNode => {
+    switch (query.status) {
       case "success":
-        return this.renderSuccess();
+        return renderSuccess();
       case "failure":
-        return this.renderError();
+        return renderError();
       case "working":
-        return this.renderWorking();
+        return renderWorking();
       default:
         return null;
     }
-  }
+  };
 
-  renderSuccess(): React.ReactNode {
-    const query = this.props.query;
+  const renderSuccess = (): React.ReactNode => {
     return (
       <div className="QueryEditor-status">
         <span>
@@ -78,9 +85,9 @@ export default class QueryEditor extends React.Component<Props> {
         <span>rows: {query.rows ? query.rows.length : "-"}</span>
       </div>
     );
-  }
+  };
 
-  renderError(): React.ReactNode {
+  const renderError = (): React.ReactNode => {
     return (
       <div className="QueryEditor-status is-error">
         <span>
@@ -88,9 +95,9 @@ export default class QueryEditor extends React.Component<Props> {
         </span>
       </div>
     );
-  }
+  };
 
-  renderWorking(): React.ReactNode {
+  const renderWorking = (): React.ReactNode => {
     return (
       <div className="QueryEditor-status is-working">
         <span>
@@ -98,31 +105,34 @@ export default class QueryEditor extends React.Component<Props> {
         </span>
       </div>
     );
-  }
+  };
 
-  override render(): React.ReactNode {
-    const query = this.props.query;
-    const tables: string[] = this.props.tables.map((table) => table.name);
+  const render = (): React.ReactElement => {
+    const tableNames: string[] = tables.map((table) => table.name);
 
     return (
       <div className="QueryEditor">
         <Editor
           value={query.body || ""}
-          tables={tables}
-          formatType={this.props.formatType}
-          rootRef={(node): void => (this.editorElement = node)}
-          onChange={this.props.onChangeQueryBody}
-          onChangeCursor={this.props.onChangeCursorPosition}
-          onSubmit={this.props.onExecute}
-          options={this.options}
-          codeMirrorHistory={this.props.query.codeMirrorHistory ?? undefined}
-          setting={this.props.setting}
+          tables={tableNames}
+          formatType={formatType}
+          rootRef={editorElementRef}
+          onChange={onChangeQueryBody}
+          onChangeCursor={onChangeCursorPosition}
+          onSubmit={onExecute}
+          options={options}
+          codeMirrorHistory={query.codeMirrorHistory ?? undefined}
+          setting={setting}
         />
         <div className="QueryEditor-navbar">
-          {this.renderButton()}
-          {this.renderStatus()}
+          {renderButton()}
+          {renderStatus()}
         </div>
       </div>
     );
-  }
-}
+  };
+
+  return render();
+};
+
+export default QueryEditor;

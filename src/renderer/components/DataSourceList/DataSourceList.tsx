@@ -15,12 +15,22 @@ type Props = {
   readonly changeDefaultDataSourceId: (dataSourceId: number) => void;
 };
 
-export default class DataSourceList extends React.Component<Props> {
-  handleContextMenu(id: number): void {
-    if (id !== this.props.selectedDataSourceId) {
-      const dataSource = this.find(id);
+const DataSourceList: React.FC<Props> = ({
+  dataSources,
+  selectedDataSourceId,
+  defaultDataSourceId,
+  onClickNew,
+  onSelect,
+  onEdit,
+  onReload,
+  onDelete,
+  changeDefaultDataSourceId,
+}) => {
+  const handleContextMenu = (id: number): void => {
+    if (id !== selectedDataSourceId) {
+      const dataSource = find(id);
       if (dataSource) {
-        this.props.onSelect(this.props.dataSources[id]);
+        onSelect(dataSources[id]);
       }
     }
 
@@ -29,59 +39,58 @@ export default class DataSourceList extends React.Component<Props> {
         {
           label: "Edit",
           click: (): void => {
-            const dataSource = this.find(id);
+            const dataSource = find(id);
             if (dataSource) {
-              this.props.onEdit(dataSource);
+              onEdit(dataSource);
             }
           },
         },
         {
           label: "Reload",
           click: (): void => {
-            const dataSource = this.find(id);
+            const dataSource = find(id);
             if (dataSource) {
-              this.props.onReload(dataSource);
+              onReload(dataSource);
             }
           },
         },
         {
           label: "Set as default",
           type: "checkbox",
-          checked: id === this.props.defaultDataSourceId,
+          checked: id === defaultDataSourceId,
           click: (): void => {
-            this.props.changeDefaultDataSourceId(id);
+            changeDefaultDataSourceId(id);
           },
         },
         {
           label: "Delete",
           click: (): void => {
             if (window.confirm("Are you sure?")) {
-              this.props.onDelete(id);
+              onDelete(id);
             }
           },
         },
       ]);
       menu.popup({ window: remote.getCurrentWindow() });
     });
-  }
+  };
 
-  find(id: number): DataSourceType | undefined {
-    return this.props.dataSources.find((d) => d.id === id);
-  }
+  const find = (id: number): DataSourceType | undefined => {
+    return dataSources.find((d) => d.id === id);
+  };
 
-  override render(): React.ReactNode {
-    const items = this.props.dataSources.map((dataSource) => {
+  const render = (): React.ReactElement => {
+    const items = dataSources.map((dataSource) => {
       const className = classNames({
-        "is-selected": this.props.selectedDataSourceId === dataSource.id,
+        "is-selected": selectedDataSourceId === dataSource.id,
       });
-      const label: string =
-        dataSource.id === this.props.defaultDataSourceId ? dataSource.name + " (default)" : dataSource.name;
+      const label: string = dataSource.id === defaultDataSourceId ? dataSource.name + " (default)" : dataSource.name;
       return (
         <li
           key={dataSource.id}
           className={className}
-          onContextMenu={(): void => this.handleContextMenu(dataSource.id)}
-          onClick={(): void => this.props.onSelect(dataSource)}
+          onContextMenu={(): void => handleContextMenu(dataSource.id)}
+          onClick={(): void => onSelect(dataSource)}
         >
           {label}
         </li>
@@ -91,10 +100,14 @@ export default class DataSourceList extends React.Component<Props> {
     return (
       <div className="DataSourceList">
         <div className={classNames("DataSourceList-new", { darwin: process.platform === "darwin" })}>
-          <i className="fas fa-plus" onClick={this.props.onClickNew} />
+          <i className="fas fa-plus" onClick={onClickNew} />
         </div>
         <ul className="DataSourceList-list">{items}</ul>
       </div>
     );
-  }
-}
+  };
+
+  return render();
+};
+
+export default DataSourceList;
