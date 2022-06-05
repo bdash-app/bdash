@@ -79,35 +79,31 @@ const DataSourceList: React.FC<Props> = ({
     return dataSources.find((d) => d.id === id);
   };
 
-  const render = (): React.ReactElement => {
-    const items = dataSources.map((dataSource) => {
-      const className = classNames({
-        "is-selected": selectedDataSourceId === dataSource.id,
-      });
-      const label: string = dataSource.id === defaultDataSourceId ? dataSource.name + " (default)" : dataSource.name;
-      return (
-        <li
-          key={dataSource.id}
-          className={className}
-          onContextMenu={(): void => handleContextMenu(dataSource.id)}
-          onClick={(): void => onSelect(dataSource)}
-        >
-          {label}
-        </li>
-      );
+  const items = dataSources.map((dataSource) => {
+    const className = classNames({
+      "is-selected": selectedDataSourceId === dataSource.id,
     });
-
+    const label: string = dataSource.id === defaultDataSourceId ? dataSource.name + " (default)" : dataSource.name;
     return (
-      <div className="DataSourceList">
-        <div className={classNames("DataSourceList-new", { darwin: process.platform === "darwin" })}>
-          <i className="fas fa-plus" onClick={onClickNew} />
-        </div>
-        <ul className="DataSourceList-list">{items}</ul>
-      </div>
+      <li
+        key={dataSource.id}
+        className={className}
+        onContextMenu={(): void => handleContextMenu(dataSource.id)}
+        onClick={(): void => onSelect(dataSource)}
+      >
+        {label}
+      </li>
     );
-  };
+  });
 
-  return render();
+  return (
+    <div className="DataSourceList">
+      <div className={classNames("DataSourceList-new", { darwin: process.platform === "darwin" })}>
+        <i className="fas fa-plus" onClick={onClickNew} />
+      </div>
+      <ul className="DataSourceList-list">{items}</ul>
+    </div>
+  );
 };
 
 export default DataSourceList;

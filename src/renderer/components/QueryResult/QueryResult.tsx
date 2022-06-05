@@ -39,37 +39,33 @@ const QueryResult: React.FC<Props> = ({
     }
   };
 
-  const render = (): React.ReactElement => {
-    if (query.status === "failure") {
-      return (
-        <div className="QueryResult">
-          <div className="QueryResult-errorMessage">{query.errorMessage}</div>
-        </div>
-      );
-    }
-
-    if (!query.fields || !query.rows) {
-      return <div className="QueryResult" />;
-    }
-
+  if (query.status === "failure") {
     return (
       <div className="QueryResult">
-        <QueryResultNav
-          query={query}
-          onClickCopyAsCsv={onClickCopyAsCsv}
-          onClickCopyAsJson={onClickCopyAsJson}
-          onClickCopyAsMarkdown={onClickCopyAsMarkdown}
-          onClickCopyAsTsv={onClickCopyAsTsv}
-          onClickShareOnBdashServer={onClickShareOnBdashServer}
-          onClickShareOnGist={onClickShareOnGist}
-          onSelectTab={onSelectTab}
-        />
-        {renderMain()}
+        <div className="QueryResult-errorMessage">{query.errorMessage}</div>
       </div>
     );
-  };
+  }
 
-  return render();
+  if (!query.fields || !query.rows) {
+    return <div className="QueryResult" />;
+  }
+
+  return (
+    <div className="QueryResult">
+      <QueryResultNav
+        query={query}
+        onClickCopyAsCsv={onClickCopyAsCsv}
+        onClickCopyAsJson={onClickCopyAsJson}
+        onClickCopyAsMarkdown={onClickCopyAsMarkdown}
+        onClickCopyAsTsv={onClickCopyAsTsv}
+        onClickShareOnBdashServer={onClickShareOnBdashServer}
+        onClickShareOnGist={onClickShareOnGist}
+        onSelectTab={onSelectTab}
+      />
+      {renderMain()}
+    </div>
+  );
 };
 
 export default QueryResult;

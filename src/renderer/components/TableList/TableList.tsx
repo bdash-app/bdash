@@ -40,42 +40,38 @@ const TableList = React.memo<Props>(function TableList({ dataSource, onSelectTab
     );
   };
 
-  const render = (): React.ReactElement | null => {
-    if (dataSource.tableFetchingError) {
-      return (
-        <div className="TableList">
-          <div className="TableList-error">
-            <i className="fas fa-exclamation-circle"></i>
-            {dataSource.tableFetchingError}
-          </div>
-        </div>
-      );
-    }
-
-    if (dataSource.tables === null) {
-      return (
-        <div className="TableList">
-          <div className="TableList-loading">
-            <LoadingIcon />
-          </div>
-        </div>
-      );
-    }
-
-    const items = (dataSource.tables || []).map(renderItem);
-
+  if (dataSource.tableFetchingError) {
     return (
       <div className="TableList">
-        <div className="TableList-filter">
-          <i className="fas fa-search" />
-          <input type="search" value={dataSource.tableFilter ?? ""} onChange={handleChangeTableFilter} />
+        <div className="TableList-error">
+          <i className="fas fa-exclamation-circle"></i>
+          {dataSource.tableFetchingError}
         </div>
-        <ul className="TableList-list">{items}</ul>
       </div>
     );
-  };
+  }
 
-  return render();
+  if (dataSource.tables === null) {
+    return (
+      <div className="TableList">
+        <div className="TableList-loading">
+          <LoadingIcon />
+        </div>
+      </div>
+    );
+  }
+
+  const items = (dataSource.tables || []).map(renderItem);
+
+  return (
+    <div className="TableList">
+      <div className="TableList-filter">
+        <i className="fas fa-search" />
+        <input type="search" value={dataSource.tableFilter ?? ""} onChange={handleChangeTableFilter} />
+      </div>
+      <ul className="TableList-list">{items}</ul>
+    </div>
+  );
 });
 
 export default TableList;

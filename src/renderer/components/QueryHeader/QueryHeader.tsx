@@ -23,30 +23,26 @@ const QueryHeader: React.FC<Props> = ({ query, dataSources, onChangeTitle, onCha
     [onChangeDataSource]
   );
 
-  const render = (): React.ReactElement => {
-    const options = dataSources.map((dataSource) => {
-      return { value: dataSource.id, label: dataSource.name };
-    });
-    const currentOption = options.find((option) => option.value === query.dataSourceId);
+  const options = dataSources.map((dataSource) => {
+    return { value: dataSource.id, label: dataSource.name };
+  });
+  const currentOption = options.find((option) => option.value === query.dataSourceId);
 
-    return (
-      <div className="QueryHeader">
-        <input className="QueryHeader-inputTitle" type="text" value={query.title} onChange={handleChangeTitle} />
-        <Select
-          className="QueryHeader-selectDataSource"
-          value={currentOption}
-          options={options}
-          onChange={handleChangeDataSource}
-          placeholder={"Select data source..."}
-          isClearable={false}
-          isSearchable={false}
-          styles={selectStyles}
-        />
-      </div>
-    );
-  };
-
-  return render();
+  return (
+    <div className="QueryHeader">
+      <input className="QueryHeader-inputTitle" type="text" value={query.title} onChange={handleChangeTitle} />
+      <Select
+        className="QueryHeader-selectDataSource"
+        value={currentOption}
+        options={options}
+        onChange={handleChangeDataSource}
+        placeholder={"Select data source..."}
+        isClearable={false}
+        isSearchable={false}
+        styles={selectStyles}
+      />
+    </div>
+  );
 };
 
 export default QueryHeader;
