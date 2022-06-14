@@ -60,49 +60,45 @@ const QueryResultNav = React.memo<Props>(function QueryResultNav({
     onClickShareOnBdashServer();
   };
 
-  const render = (): React.ReactElement => {
-    return (
-      <div className="QueryResultNav">
-        <span
-          className={classNames("QueryResultNav-tabMenu", {
-            "is-selected": selectedTab("table"),
-          })}
-          onClick={(): void => onSelectTab("table")}
-        >
-          <i className="fas fa-table" />
+  return (
+    <div className="QueryResultNav">
+      <span
+        className={classNames("QueryResultNav-tabMenu", {
+          "is-selected": selectedTab("table"),
+        })}
+        onClick={(): void => onSelectTab("table")}
+      >
+        <i className="fas fa-table" />
+      </span>
+      <span
+        className={classNames("QueryResultNav-tabMenu", {
+          "is-selected": selectedTab("chart"),
+        })}
+        onClick={(): void => onSelectTab("chart")}
+      >
+        <i className="fas fa-chart-bar" />
+      </span>
+      <div className="QueryResultNav-share">
+        <span className="QueryResultNav-shareBtn" onClick={(): void => setOpenShareFlyout(true)}>
+          <i className="fas fa-share-alt" />
         </span>
-        <span
-          className={classNames("QueryResultNav-tabMenu", {
-            "is-selected": selectedTab("chart"),
-          })}
-          onClick={(): void => onSelectTab("chart")}
+        <Flyout
+          open={openShareFlyout}
+          className="QueryResultNav-shareFlyout"
+          onRequestClose={(): void => setOpenShareFlyout(false)}
         >
-          <i className="fas fa-chart-bar" />
-        </span>
-        <div className="QueryResultNav-share">
-          <span className="QueryResultNav-shareBtn" onClick={(): void => setOpenShareFlyout(true)}>
-            <i className="fas fa-share-alt" />
-          </span>
-          <Flyout
-            open={openShareFlyout}
-            className="QueryResultNav-shareFlyout"
-            onRequestClose={(): void => setOpenShareFlyout(false)}
-          >
-            <ul>
-              <li onClick={handleClickCopyAsJson}>Copy table as JSON</li>
-              <li onClick={handleClickCopyAsTsv}>Copy table as TSV</li>
-              <li onClick={handleClickCopyAsCsv}>Copy table as CSV</li>
-              <li onClick={handleClickCopyAsMarkdown}>Copy table as Markdown</li>
-              <li onClick={handleClickShareOnGist}>Share on gist</li>
-              <li onClick={handleClickShareOnBdashServer}>Share on Bdash Server</li>
-            </ul>
-          </Flyout>
-        </div>
+          <ul>
+            <li onClick={handleClickCopyAsJson}>Copy table as JSON</li>
+            <li onClick={handleClickCopyAsTsv}>Copy table as TSV</li>
+            <li onClick={handleClickCopyAsCsv}>Copy table as CSV</li>
+            <li onClick={handleClickCopyAsMarkdown}>Copy table as Markdown</li>
+            <li onClick={handleClickShareOnGist}>Share on gist</li>
+            <li onClick={handleClickShareOnBdashServer}>Share on Bdash Server</li>
+          </ul>
+        </Flyout>
       </div>
-    );
-  };
-
-  return render();
+    </div>
+  );
 });
 
 export default QueryResultNav;

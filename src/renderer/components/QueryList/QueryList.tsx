@@ -47,34 +47,30 @@ const QueryList: React.FC<Props> = ({
     });
   };
 
-  const render = (): React.ReactElement => {
-    const items = queries.map((query) => {
-      const className = classNames({
-        "is-selected": selectedQueryId === query.id,
-      });
-      return (
-        <li
-          key={query.id}
-          className={className}
-          onClick={(): void => handleClickItem(query)}
-          onContextMenu={(): void => handleContextMenu(query)}
-        >
-          {query.title}
-        </li>
-      );
+  const items = queries.map((query) => {
+    const className = classNames({
+      "is-selected": selectedQueryId === query.id,
     });
-
     return (
-      <div className="QueryList">
-        <div className={classNames("QueryList-new", { darwin: process.platform === "darwin" })}>
-          <i className="fas fa-plus" onClick={handleClickNew} />
-        </div>
-        <ul className="QueryList-list">{items}</ul>
-      </div>
+      <li
+        key={query.id}
+        className={className}
+        onClick={(): void => handleClickItem(query)}
+        onContextMenu={(): void => handleContextMenu(query)}
+      >
+        {query.title}
+      </li>
     );
-  };
+  });
 
-  return render();
+  return (
+    <div className="QueryList">
+      <div className={classNames("QueryList-new", { darwin: process.platform === "darwin" })}>
+        <i className="fas fa-plus" onClick={handleClickNew} />
+      </div>
+      <ul className="QueryList-list">{items}</ul>
+    </div>
+  );
 };
 
 export default QueryList;

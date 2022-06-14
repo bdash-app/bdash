@@ -107,32 +107,28 @@ const QueryEditor: React.FC<Props> = ({
     );
   };
 
-  const render = (): React.ReactElement => {
-    const tableNames: string[] = tables.map((table) => table.name);
+  const tableNames: string[] = tables.map((table) => table.name);
 
-    return (
-      <div className="QueryEditor">
-        <Editor
-          value={query.body || ""}
-          tables={tableNames}
-          formatType={formatType}
-          rootRef={editorElementRef}
-          onChange={onChangeQueryBody}
-          onChangeCursor={onChangeCursorPosition}
-          onSubmit={onExecute}
-          options={options}
-          codeMirrorHistory={query.codeMirrorHistory ?? undefined}
-          setting={setting}
-        />
-        <div className="QueryEditor-navbar">
-          {renderButton()}
-          {renderStatus()}
-        </div>
+  return (
+    <div className="QueryEditor">
+      <Editor
+        value={query.body || ""}
+        tables={tableNames}
+        formatType={formatType}
+        rootRef={editorElementRef}
+        onChange={onChangeQueryBody}
+        onChangeCursor={onChangeCursorPosition}
+        onSubmit={onExecute}
+        options={options}
+        codeMirrorHistory={query.codeMirrorHistory ?? undefined}
+        setting={setting}
+      />
+      <div className="QueryEditor-navbar">
+        {renderButton()}
+        {renderStatus()}
       </div>
-    );
-  };
-
-  return render();
+    </div>
+  );
 };
 
 export default QueryEditor;

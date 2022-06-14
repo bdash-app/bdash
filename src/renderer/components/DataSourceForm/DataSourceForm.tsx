@@ -166,66 +166,62 @@ const DataSourceForm: React.FC<Props> = ({ dataSource, onCancel, onSave }) => {
     });
   };
 
-  const render = (): React.ReactElement => {
-    const list: DataSourceClasses[] = DataSource.list;
-    const options = [{ key: "", label: "" }].concat(list).map(({ key, label }) => {
-      return (
-        <option key={key} value={key}>
-          {label}
-        </option>
-      );
-    });
-
+  const list: DataSourceClasses[] = DataSource.list;
+  const options = [{ key: "", label: "" }].concat(list).map(({ key, label }) => {
     return (
-      <ModalDialog className="DataSourceForm">
-        <table ref={formTableElementRef}>
-          <tbody>
-            <tr className="is-required">
-              <th>Name</th>
-              <td>
-                <input
-                  ref={inputNameElementRef}
-                  type="text"
-                  defaultValue={dataSource?.name}
-                  name="name"
-                  placeholder="My Database"
-                />
-              </td>
-            </tr>
-            <tr className="is-required">
-              <th>Type</th>
-              <td>
-                <select value={selectedType || ""} name="type" onChange={handleChangeType}>
-                  {options}
-                </select>
-              </td>
-            </tr>
-            {renderConfig()}
-          </tbody>
-        </table>
-
-        <div className="DataSourceForm-bottom">
-          <div className="DataSourceForm-connectionTest">
-            <Button onClick={handleConnectionTest}>Connection Test</Button>
-            {connectionTestStatus ? <ProgressIcon status={connectionTestStatus} /> : null}
-            {connectionTestMessage ? (
-              <div className="DataSourceForm-connectionTestMessage">{connectionTestMessage}</div>
-            ) : null}
-          </div>
-          <div className="DataSourceForm-buttons">
-            <Button className="DataSourceForm-cancelBtn" onClick={handleCancel}>
-              Cancel
-            </Button>
-            <Button className="DataSourceForm-saveBtn" onClick={handleSave}>
-              Save
-            </Button>
-          </div>
-        </div>
-      </ModalDialog>
+      <option key={key} value={key}>
+        {label}
+      </option>
     );
-  };
+  });
 
-  return render();
+  return (
+    <ModalDialog className="DataSourceForm">
+      <table ref={formTableElementRef}>
+        <tbody>
+          <tr className="is-required">
+            <th>Name</th>
+            <td>
+              <input
+                ref={inputNameElementRef}
+                type="text"
+                defaultValue={dataSource?.name}
+                name="name"
+                placeholder="My Database"
+              />
+            </td>
+          </tr>
+          <tr className="is-required">
+            <th>Type</th>
+            <td>
+              <select value={selectedType || ""} name="type" onChange={handleChangeType}>
+                {options}
+              </select>
+            </td>
+          </tr>
+          {renderConfig()}
+        </tbody>
+      </table>
+
+      <div className="DataSourceForm-bottom">
+        <div className="DataSourceForm-connectionTest">
+          <Button onClick={handleConnectionTest}>Connection Test</Button>
+          {connectionTestStatus ? <ProgressIcon status={connectionTestStatus} /> : null}
+          {connectionTestMessage ? (
+            <div className="DataSourceForm-connectionTestMessage">{connectionTestMessage}</div>
+          ) : null}
+        </div>
+        <div className="DataSourceForm-buttons">
+          <Button className="DataSourceForm-cancelBtn" onClick={handleCancel}>
+            Cancel
+          </Button>
+          <Button className="DataSourceForm-saveBtn" onClick={handleSave}>
+            Save
+          </Button>
+        </div>
+      </div>
+    </ModalDialog>
+  );
 };
 
 export default DataSourceForm;
