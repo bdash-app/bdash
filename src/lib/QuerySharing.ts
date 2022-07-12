@@ -9,7 +9,7 @@ import { BdashServerSettingType, GithubSettingType } from "./Setting";
 import { ChartType } from "./Database/Chart";
 import { QueryType } from "./Database/Query";
 import { DataSourceType } from "src/renderer/pages/DataSource/DataSourceStore";
-import BdashServerClient from "./BdashServerClient";
+import BdashServerClient, { BdashServerPostResponse } from "./BdashServerClient";
 
 export default {
   async shareOnGist({
@@ -89,7 +89,7 @@ export default {
     chart: ChartType | undefined;
     setting: BdashServerSettingType;
     dataSource: DataSourceType;
-  }): Promise<void> {
+  }): Promise<BdashServerPostResponse> {
     const chartWidth = 1200;
     const [tsv, svg] = await Promise.all([
       getTableDataAsTsv(query, setting.maximumNumberOfRows),
@@ -117,7 +117,7 @@ export default {
     const client = new BdashServerClient(setting);
     const result = await client.post({ description, files });
 
-    await electron.shell.openExternal(result.html_url);
+    return result;
   },
 };
 

@@ -1,3 +1,4 @@
+import electron from "electron";
 import React from "react";
 import SplitterLayout from "react-splitter-layout";
 import QuerySharing from "../../../lib/QuerySharing";
@@ -83,7 +84,9 @@ class Query extends React.Component<unknown, QueryState> {
     }
 
     try {
-      await QuerySharing.shareOnBdashServer({ query, chart, setting, dataSource });
+      const { id: bdashServerQueryId, html_url } = await QuerySharing.shareOnBdashServer({ query, chart, setting, dataSource });
+      await electron.shell.openExternal(html_url);
+      await Action.updateQuery(query.id, { bdashServerQueryId });
     } catch (err) {
       alert(err.message);
     }

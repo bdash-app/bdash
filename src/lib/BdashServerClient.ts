@@ -1,3 +1,8 @@
+export type BdashServerPostResponse = {
+  id?: string;
+  html_url: string;
+};
+
 export default class BdashServerClient {
   readonly baseUrl: string | null;
   readonly token: string | null;
@@ -53,7 +58,7 @@ export default class BdashServerClient {
     return true;
   }
 
-  async post(contents: any): Promise<any> {
+  async post(contents: any): Promise<BdashServerPostResponse> {
     const response = await fetch(this.getUrl(), {
       method: "POST",
       headers: this.getHeaders(),
