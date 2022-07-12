@@ -47,6 +47,7 @@ suite("Database/Query", () => {
       updatedAt: "2017-01-02 00:00:00",
       createdAt: "2017-01-01 00:00:00",
       codeMirrorHistory: null,
+      bdashServerQueryId: null,
     });
   });
 
