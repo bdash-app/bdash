@@ -31,8 +31,12 @@ export default class BdashServerClient {
     return this.generateFullUrl(`/token_validation`);
   }
 
-  getUrl(): string {
+  getCreateUrl(): string {
     return this.generateFullUrl("/create");
+  }
+
+  getUpdateUrl(): string {
+    return this.generateFullUrl("/update");
   }
 
   async validateToken(): Promise<true> {
@@ -59,8 +63,26 @@ export default class BdashServerClient {
   }
 
   async post(contents: any): Promise<BdashServerPostResponse> {
-    const response = await fetch(this.getUrl(), {
+    const response = await fetch(this.getCreateUrl(), {
       method: "POST",
+      headers: this.getHeaders(),
+      body: JSON.stringify(contents),
+    });
+
+    if (!response.ok) {
+      throw new Error(`${response.status} ${response.statusText}`);
+    }
+
+    try {
+      return await response.json();
+    } catch (err) {
+      throw new Error("Invalid response.");
+    }
+  }
+
+  async put(contents: any): Promise<BdashServerPostResponse> {
+    const response = await fetch(this.getUpdateUrl(), {
+      method: "PUT",
       headers: this.getHeaders(),
       body: JSON.stringify(contents),
     });

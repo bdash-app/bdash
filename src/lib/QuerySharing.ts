@@ -84,11 +84,15 @@ export default {
     chart,
     setting,
     dataSource,
+    overwrite,
   }: {
     query: QueryType;
     chart: ChartType | undefined;
     setting: BdashServerSettingType;
     dataSource: DataSourceType;
+    overwrite?: {
+      idHash: string;
+    };
   }): Promise<BdashServerPostResponse> {
     const chartWidth = 1200;
     const [tsv, svg] = await Promise.all([
@@ -115,7 +119,12 @@ export default {
     }
 
     const client = new BdashServerClient(setting);
-    const result = await client.post({ description, files });
+    let result: BdashServerPostResponse;
+    if (overwrite === undefined) {
+      result = await client.post({ description, files });
+    } else {
+      result = await client.put({ idHash: overwrite.idHash, description, files });
+    }
 
     return result;
   },

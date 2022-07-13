@@ -83,10 +83,21 @@ class Query extends React.Component<unknown, QueryState> {
       return;
     }
 
+    let overwrite: { idHash: string } | undefined = undefined;
+    if (query.bdashServerQueryId) {
+      const response = electron.ipcRenderer.sendSync("showUpdateQueryDialog");
+      if (response === "cancel") return;
+      if (response === "update") {
+        overwrite = { idHash: query.bdashServerQueryId };
+      }
+    }
+
     try {
-      const { id: bdashServerQueryId, html_url } = await QuerySharing.shareOnBdashServer({ query, chart, setting, dataSource });
+      const { id: bdashServerQueryId, html_url } = await QuerySharing.shareOnBdashServer({ query, chart, setting, dataSource, overwrite });
       await electron.shell.openExternal(html_url);
-      await Action.updateQuery(query.id, { bdashServerQueryId });
+      if (bdashServerQueryId) {
+        await Action.updateQuery(query.id, { bdashServerQueryId });
+      }
     } catch (err) {
       alert(err.message);
     }
