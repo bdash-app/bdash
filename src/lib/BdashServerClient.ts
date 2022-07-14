@@ -100,7 +100,7 @@ export default class BdashServerClient {
     }
 
     try {
-      return await response.json();
+      return response.json();
     } catch (err) {
       throw new Error("Invalid response.");
     }
