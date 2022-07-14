@@ -83,7 +83,7 @@ class Query extends React.Component<unknown, QueryState> {
       return;
     }
 
-    let overwrite: { idHash: string } | undefined = undefined;
+    let overwrite: { idHash: string } | undefined;
     if (query.bdashServerQueryId) {
       const response = electron.ipcRenderer.sendSync("showUpdateQueryDialog");
       if (response === "cancel") return;
