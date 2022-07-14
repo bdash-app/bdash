@@ -18,6 +18,7 @@ export type QueryType = {
   readonly executor?: Base | null;
   readonly runAt?: moment.Moment;
   readonly codeMirrorHistory?: Record<string, unknown> | null; // Edit history of CodeMirror.Doc. https://codemirror.net/doc/manual.html#getHistory
+  readonly bdashServerQueryId?: string;
 };
 
 export type DatabaseQueryType = Omit<QueryType, "fields" | "rows" | "codeMirrorHistory"> & {

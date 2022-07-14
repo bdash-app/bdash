@@ -1,3 +1,4 @@
+import electron from "electron";
 import React from "react";
 import SplitterLayout from "react-splitter-layout";
 import QuerySharing from "../../../lib/QuerySharing";
@@ -82,11 +83,34 @@ class Query extends React.Component<unknown, QueryState> {
       return;
     }
 
+    let overwrite: { idHash: string } | undefined;
+    if (query.bdashServerQueryId) {
+      const response = electron.ipcRenderer.sendSync("showUpdateQueryDialog");
+      if (response === "cancel") return;
+      if (response === "update") {
+        overwrite = { idHash: query.bdashServerQueryId };
+      }
+    }
+
     try {
-      await QuerySharing.shareOnBdashServer({ query, chart, setting, dataSource });
+      const { id: bdashServerQueryId, html_url } = await QuerySharing.shareOnBdashServer({
+        query,
+        chart,
+        setting,
+        dataSource,
+        overwrite,
+      });
+      await electron.shell.openExternal(html_url);
+      if (bdashServerQueryId) {
+        await Action.updateQuery(query.id, { bdashServerQueryId });
+      }
     } catch (err) {
       alert(err.message);
     }
+  }
+
+  async handleShowSharedQueryOnBdashServer(query: QueryType): Promise<void> {
+    return QuerySharing.showSharedQueryOnBdashServer({ query, setting: this.state.setting.bdashServer });
   }
 
   renderMain(): React.ReactNode {
@@ -149,6 +173,9 @@ class Query extends React.Component<unknown, QueryState> {
             }}
             onClickShareOnBdashServer={(): void => {
               this.handleShareOnBdashServer(query);
+            }}
+            onClickShowSharedQueryOnBdashServer={(): void => {
+              this.handleShowSharedQueryOnBdashServer(query);
             }}
             onSelectTab={(name): void => {
               Action.selectResultTab(query, name);

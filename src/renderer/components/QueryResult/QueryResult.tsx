@@ -14,6 +14,7 @@ type Props = {
   readonly onClickCopyAsMarkdown: () => void;
   readonly onClickShareOnGist: () => void;
   readonly onClickShareOnBdashServer: () => void;
+  readonly onClickShowSharedQueryOnBdashServer: () => void;
   readonly onSelectTab: (tabName: string) => void;
   readonly onUpdateChart: (id: number, params: any) => void;
 };
@@ -27,6 +28,7 @@ const QueryResult: React.FC<Props> = ({
   onClickCopyAsMarkdown,
   onClickShareOnGist,
   onClickShareOnBdashServer,
+  onClickShowSharedQueryOnBdashServer,
   onSelectTab,
   onUpdateChart,
 }) => {
@@ -60,6 +62,7 @@ const QueryResult: React.FC<Props> = ({
         onClickCopyAsMarkdown={onClickCopyAsMarkdown}
         onClickCopyAsTsv={onClickCopyAsTsv}
         onClickShareOnBdashServer={onClickShareOnBdashServer}
+        onClickShowSharedQueryOnBdashServer={onClickShowSharedQueryOnBdashServer}
         onClickShareOnGist={onClickShareOnGist}
         onSelectTab={onSelectTab}
       />

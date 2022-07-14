@@ -1,3 +1,8 @@
+export type BdashServerPostResponse = {
+  id?: string;
+  html_url: string;
+};
+
 export default class BdashServerClient {
   readonly baseUrl: string | null;
   readonly token: string | null;
@@ -26,8 +31,20 @@ export default class BdashServerClient {
     return this.generateFullUrl(`/token_validation`);
   }
 
-  getUrl(): string {
+  getCreateUrl(): string {
     return this.generateFullUrl("/create");
+  }
+
+  getUpdateUrl(): string {
+    return this.generateFullUrl("/update");
+  }
+
+  getShowUrl(idHash: string): string {
+    if (!this.baseUrl) {
+      throw new Error("BdashServer URL is not set");
+    }
+    const url = new URL(this.baseUrl);
+    return `${url.origin}/query/${idHash}`;
   }
 
   async validateToken(): Promise<true> {
@@ -53,8 +70,8 @@ export default class BdashServerClient {
     return true;
   }
 
-  async post(contents: any): Promise<any> {
-    const response = await fetch(this.getUrl(), {
+  async post(contents: any): Promise<BdashServerPostResponse> {
+    const response = await fetch(this.getCreateUrl(), {
       method: "POST",
       headers: this.getHeaders(),
       body: JSON.stringify(contents),
@@ -66,6 +83,24 @@ export default class BdashServerClient {
 
     try {
       return await response.json();
+    } catch (err) {
+      throw new Error("Invalid response.");
+    }
+  }
+
+  async put(contents: any): Promise<BdashServerPostResponse> {
+    const response = await fetch(this.getUpdateUrl(), {
+      method: "PUT",
+      headers: this.getHeaders(),
+      body: JSON.stringify(contents),
+    });
+
+    if (!response.ok) {
+      throw new Error(`${response.status} ${response.statusText}`);
+    }
+
+    try {
+      return response.json();
     } catch (err) {
       throw new Error("Invalid response.");
     }

@@ -1,4 +1,4 @@
-import electron, { BrowserWindow, dialog, shell } from "electron";
+import electron, { BrowserWindow, dialog, ipcMain, shell } from "electron";
 import path from "path";
 import logger from "./logger";
 
@@ -16,6 +16,27 @@ export async function createWindow(): Promise<void> {
       enableRemoteModule: true,
       contextIsolation: false,
     },
+  });
+
+  ipcMain.on("showUpdateQueryDialog", async (event) => {
+    const { response } = await dialog.showMessageBox(win, {
+      message: "This query has been already shared.",
+      type: "question",
+      buttons: ["Cancel", "Share as a new query", "Update an existing query"],
+      defaultId: 2,
+      cancelId: 0,
+    });
+    switch (response) {
+      case 0:
+        event.returnValue = "cancel";
+        break;
+      case 1:
+        event.returnValue = "create";
+        break;
+      case 2:
+        event.returnValue = "update";
+        break;
+    }
   });
 
   await win.loadURL(`file://${__dirname}/../index.html`);

@@ -9,7 +9,7 @@ import { BdashServerSettingType, GithubSettingType } from "./Setting";
 import { ChartType } from "./Database/Chart";
 import { QueryType } from "./Database/Query";
 import { DataSourceType } from "src/renderer/pages/DataSource/DataSourceStore";
-import BdashServerClient from "./BdashServerClient";
+import BdashServerClient, { BdashServerPostResponse } from "./BdashServerClient";
 
 export default {
   async shareOnGist({
@@ -79,17 +79,33 @@ export default {
     return electron.clipboard.writeText(csv);
   },
 
+  async showSharedQueryOnBdashServer({
+    query,
+    setting,
+  }: {
+    query: QueryType;
+    setting: BdashServerSettingType;
+  }): Promise<void> {
+    if (query.bdashServerQueryId === undefined) return;
+    const url = new BdashServerClient(setting).getShowUrl(query.bdashServerQueryId);
+    return electron.shell.openExternal(url);
+  },
+
   async shareOnBdashServer({
     query,
     chart,
     setting,
     dataSource,
+    overwrite,
   }: {
     query: QueryType;
     chart: ChartType | undefined;
     setting: BdashServerSettingType;
     dataSource: DataSourceType;
-  }): Promise<void> {
+    overwrite?: {
+      idHash: string;
+    };
+  }): Promise<BdashServerPostResponse> {
     const chartWidth = 1200;
     const [tsv, svg] = await Promise.all([
       getTableDataAsTsv(query, setting.maximumNumberOfRows),
@@ -115,9 +131,14 @@ export default {
     }
 
     const client = new BdashServerClient(setting);
-    const result = await client.post({ description, files });
+    let result: BdashServerPostResponse;
+    if (overwrite === undefined) {
+      result = await client.post({ description, files });
+    } else {
+      result = await client.put({ idHash: overwrite.idHash, description, files });
+    }
 
-    await electron.shell.openExternal(result.html_url);
+    return result;
   },
 };
 
