@@ -39,6 +39,14 @@ export default class BdashServerClient {
     return this.generateFullUrl("/update");
   }
 
+  getShowUrl(idHash: string): string {
+    if (!this.baseUrl) {
+      throw new Error("BdashServer URL is not set");
+    }
+    const url = new URL(this.baseUrl);
+    return `${url.origin}/query/${idHash}`;
+  }
+
   async validateToken(): Promise<true> {
     if (!this.token || this.token.length === 0) {
       throw new Error("Token is not set");

@@ -11,6 +11,7 @@ type Props = {
   readonly onClickCopyAsMarkdown: () => void;
   readonly onClickShareOnGist: () => void;
   readonly onClickShareOnBdashServer: () => void;
+  readonly onClickShowSharedQueryOnBdashServer: () => void;
   readonly onSelectTab: (tabName: "table" | "chart") => void;
 };
 
@@ -22,6 +23,7 @@ const QueryResultNav = React.memo<Props>(function QueryResultNav({
   onClickCopyAsMarkdown,
   onClickShareOnGist,
   onClickShareOnBdashServer,
+  onClickShowSharedQueryOnBdashServer,
   onSelectTab,
 }) {
   const [openShareFlyout, setOpenShareFlyout] = React.useState(false);
@@ -60,6 +62,11 @@ const QueryResultNav = React.memo<Props>(function QueryResultNav({
     onClickShareOnBdashServer();
   };
 
+  const handleClickShowSharedQueryOnBdashServer = (): void => {
+    setOpenShareFlyout(false);
+    onClickShowSharedQueryOnBdashServer();
+  };
+
   return (
     <div className="QueryResultNav">
       <span
@@ -79,6 +86,15 @@ const QueryResultNav = React.memo<Props>(function QueryResultNav({
         <i className="fas fa-chart-bar" />
       </span>
       <div className="QueryResultNav-share">
+        {query.bdashServerQueryId && (
+          <span
+            className="QueryResultNav-shareBtn"
+            title="Open in Bdash Server"
+            onClick={handleClickShowSharedQueryOnBdashServer}
+          >
+            <i className="fas fa-globe"></i>
+          </span>
+        )}
         <span className="QueryResultNav-shareBtn" onClick={(): void => setOpenShareFlyout(true)}>
           <i className="fas fa-share-alt" />
         </span>

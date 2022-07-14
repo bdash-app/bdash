@@ -79,6 +79,18 @@ export default {
     return electron.clipboard.writeText(csv);
   },
 
+  async showSharedQueryOnBdashServer({
+    query,
+    setting,
+  }: {
+    query: QueryType;
+    setting: BdashServerSettingType;
+  }): Promise<void> {
+    if (query.bdashServerQueryId === undefined) return;
+    const url = new BdashServerClient(setting).getShowUrl(query.bdashServerQueryId);
+    return electron.shell.openExternal(url);
+  },
+
   async shareOnBdashServer({
     query,
     chart,

@@ -93,7 +93,13 @@ class Query extends React.Component<unknown, QueryState> {
     }
 
     try {
-      const { id: bdashServerQueryId, html_url } = await QuerySharing.shareOnBdashServer({ query, chart, setting, dataSource, overwrite });
+      const { id: bdashServerQueryId, html_url } = await QuerySharing.shareOnBdashServer({
+        query,
+        chart,
+        setting,
+        dataSource,
+        overwrite,
+      });
       await electron.shell.openExternal(html_url);
       if (bdashServerQueryId) {
         await Action.updateQuery(query.id, { bdashServerQueryId });
@@ -101,6 +107,10 @@ class Query extends React.Component<unknown, QueryState> {
     } catch (err) {
       alert(err.message);
     }
+  }
+
+  async handleShowSharedQueryOnBdashServer(query: QueryType): Promise<void> {
+    return QuerySharing.showSharedQueryOnBdashServer({ query, setting: this.state.setting.bdashServer });
   }
 
   renderMain(): React.ReactNode {
@@ -163,6 +173,9 @@ class Query extends React.Component<unknown, QueryState> {
             }}
             onClickShareOnBdashServer={(): void => {
               this.handleShareOnBdashServer(query);
+            }}
+            onClickShowSharedQueryOnBdashServer={(): void => {
+              this.handleShowSharedQueryOnBdashServer(query);
             }}
             onSelectTab={(name): void => {
               Action.selectResultTab(query, name);

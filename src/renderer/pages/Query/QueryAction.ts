@@ -59,7 +59,7 @@ const QueryAction = {
     dispatch("addNewQuery", { query });
   },
 
-  async updateQuery(id: number, params: Partial<QueryType>): Promise<void> {
+  updateQuery(id: number, params: Partial<QueryType>): Promise<void> {
     dispatch("updateQuery", { id, params });
     return Database.Query.update(id, {
       ...params,
