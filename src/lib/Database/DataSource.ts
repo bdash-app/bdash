@@ -67,7 +67,7 @@ const mimeType = (dsType: DataSourceType): string => {
     case "sqlite3":
       return "text/x-sqlite";
     case "treasuredata":
-      if (dsType.config["queryType"] === "presco") {
+      if (dsType.config["queryType"] === "presto") {
         return "text/x-sql";
       } else {
         return "text/x-hive";
