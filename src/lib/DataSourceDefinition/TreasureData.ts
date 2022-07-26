@@ -1,4 +1,4 @@
-import TD from "td";
+import TD, { TDClient } from "td";
 import Base, { ConfigSchemasType, TableSummary } from "./Base";
 import { DataSourceKeys } from "../../renderer/pages/DataSource/DataSourceStore";
 
@@ -166,9 +166,9 @@ export default class TreasureData extends Base {
     }
   }
 
-  get client(): TD {
+  get client(): TDClient {
     if (!this._client) {
-      this._client = new TD(this.config.apiKey);
+      this._client = new TDClient(this.config.apiKey);
     }
 
     return this._client;
