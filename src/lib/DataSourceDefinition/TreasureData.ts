@@ -168,7 +168,8 @@ export default class TreasureData extends Base {
 
   get client(): TDClient {
     if (!this._client) {
-      this._client = new TDClient(this.config.apiKey);
+      let options = {protocol: "https"};
+      this._client = new TDClient(this.config.apiKey, options);
     }
 
     return this._client;
