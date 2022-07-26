@@ -32,7 +32,7 @@ export default class TreasureData extends Base {
         label: "Query Type",
         type: "radio",
         values: ["hive", "presto"],
-        default: "hive",
+        default: "presto",
       },
     ];
   }
