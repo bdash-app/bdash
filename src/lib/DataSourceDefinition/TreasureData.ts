@@ -28,6 +28,13 @@ export default class TreasureData extends Base {
         required: true,
       },
       {
+        name: "endpoint",
+        label: "Endpoint",
+        type: "string",
+        placeholder: "api.treasuredata.com",
+        required: true,
+      },
+      {
         name: "queryType",
         label: "Query Type",
         type: "radio",
@@ -169,6 +176,9 @@ export default class TreasureData extends Base {
   get client(): TDClient {
     if (!this._client) {
       let options = {protocol: "https"};
+      if (this.config.endpoint) {
+        options.host = this.config.endpoint;
+      }
       this._client = new TDClient(this.config.apiKey, options);
     }
 
