@@ -1,4 +1,4 @@
-import TD from "td";
+import { TDClient } from "td";
 import Base, { ConfigSchemasType, TableSummary } from "./Base";
 import { DataSourceKeys } from "../../renderer/pages/DataSource/DataSourceStore";
 
@@ -28,11 +28,18 @@ export default class TreasureData extends Base {
         required: true,
       },
       {
+        name: "endpoint",
+        label: "Endpoint",
+        type: "string",
+        placeholder: "api.treasuredata.com",
+        required: true,
+      },
+      {
         name: "queryType",
         label: "Query Type",
         type: "radio",
         values: ["hive", "presto"],
-        default: "hive",
+        default: "presto",
       },
     ];
   }
@@ -166,9 +173,13 @@ export default class TreasureData extends Base {
     }
   }
 
-  get client(): TD {
+  get client(): TDClient {
     if (!this._client) {
-      this._client = new TD(this.config.apiKey);
+      const options = { protocol: "https" };
+      if (this.config.endpoint) {
+        options["host"] = this.config.endpoint;
+      }
+      this._client = new TDClient(this.config.apiKey, options);
     }
 
     return this._client;
