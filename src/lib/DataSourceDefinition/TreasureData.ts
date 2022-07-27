@@ -1,4 +1,4 @@
-import TD, { TDClient } from "td";
+import { TDClient } from "td";
 import Base, { ConfigSchemasType, TableSummary } from "./Base";
 import { DataSourceKeys } from "../../renderer/pages/DataSource/DataSourceStore";
 
@@ -175,9 +175,9 @@ export default class TreasureData extends Base {
 
   get client(): TDClient {
     if (!this._client) {
-      let options = {protocol: "https"};
+      const options = { protocol: "https" };
       if (this.config.endpoint) {
-        options.host = this.config.endpoint;
+        options["host"] = this.config.endpoint;
       }
       this._client = new TDClient(this.config.apiKey, options);
     }
