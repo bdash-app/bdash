@@ -56,7 +56,7 @@
     "react-select": "~3.0.8",
     "react-splitter-layout": "4.0.0",
     "sqlite3": "^5.0.2",
-    "td": "0.3.0"
+    "td": "0.4.0"
   },
   "devDependencies": {
     "@types/classnames": "2.2.10",
