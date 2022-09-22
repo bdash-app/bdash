@@ -37,7 +37,7 @@ class App extends React.Component<unknown, AppState> {
         <div className="page-app-main">
           <Page />
         </div>
-      </div >
+      </div>
     );
   }
 }
