@@ -148,7 +148,13 @@ export default class TreasureData extends Base {
 
       switch (status) {
         case "success": {
+          const fields = JSON.parse(result.hive_result_schema).map((f) => f[0]);
           const rowsString = await jobResult();
+          if (typeof rowsString === "object") {
+            // rowsString is an object when rows are empty.
+            const emptyRows = [] as string[];
+            return { fields, emptyRows, status };
+          }
           const rows = rowsString
             .trim()
             .split("\n")
@@ -157,7 +163,6 @@ export default class TreasureData extends Base {
                 return v === null || typeof v !== "object" ? v : JSON.stringify(v);
               });
             });
-          const fields = JSON.parse(result.hive_result_schema).map((f) => f[0]);
           return { fields, rows, status };
         }
         case "error": {
