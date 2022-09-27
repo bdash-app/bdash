@@ -1,7 +1,7 @@
-node_modules/
-out/
-app/
-dist/
-tmp/
+/node_modules
+/out
+/app
+/dist
+/tmp
 package.json
 package-lock.json

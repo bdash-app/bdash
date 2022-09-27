@@ -14,7 +14,7 @@ const AppAction = {
 
   selectPage(page: string): void {
     dispatch("selectPage", { page });
-  }
+  },
 };
 
 export default AppAction;
