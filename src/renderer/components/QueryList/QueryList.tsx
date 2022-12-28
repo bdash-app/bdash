@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import classNames from "classnames";
 import { remote } from "electron";
 import { QueryType } from "../../../lib/Database/Query";
@@ -47,28 +47,36 @@ const QueryList: React.FC<Props> = ({
     });
   };
 
-  const items = queries.map((query) => {
-    const className = classNames({
-      "is-selected": selectedQueryId === query.id,
-    });
-    return (
-      <li
-        key={query.id}
-        className={className}
-        onClick={(): void => handleClickItem(query)}
-        onContextMenu={(): void => handleContextMenu(query)}
-      >
-        {query.title}
-      </li>
-    );
-  });
+  const [filterText, setFilterText] = useState("");
+  const handleChange = (event) => {
+    setFilterText(event.target.value);
+  };
+
+  console.log(queries);
+
+  const filteredQueries = queries.filter((item) => item.title.toLowerCase().includes(filterText.toLowerCase()));
 
   return (
     <div className="QueryList">
       <div className={classNames("QueryList-new", { darwin: process.platform === "darwin" })}>
         <i className="fas fa-plus" onClick={handleClickNew} />
+        <div className="QueryList-filter">
+          <i className="fas fa-search" />
+          <input type="search" placeholder="Filter by title.." value={filterText} onChange={handleChange} />
+        </div>
       </div>
-      <ul className="QueryList-list">{items}</ul>
+      <ul className="QueryList-list">
+        {filteredQueries.map((query) => (
+          <li
+            key={query.id}
+            className={selectedQueryId === query.id ? "is-selected" : ""}
+            onClick={(): void => handleClickItem(query)}
+            onContextMenu={(): void => handleContextMenu(query)}
+          >
+            {query.title}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
