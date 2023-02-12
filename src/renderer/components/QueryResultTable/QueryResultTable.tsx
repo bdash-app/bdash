@@ -1,6 +1,7 @@
 import React from "react";
 import { QueryType } from "../../../lib/Database/Query";
 import Linkify from "react-linkify";
+import DataTable from "react-data-table-component";
 
 const MAX_DISPLAY_ROWS_COUNT = 1000;
 
@@ -62,17 +63,28 @@ export default class QueryResultTable extends React.Component<Props> {
       return <tr key={`cols-${i}`}>{cols}</tr>;
     });
 
-    return (
-      <div className="QueryResultTable">
-        <table className="QueryResultTable-table">
-          <thead>
-            <tr>{heads}</tr>
-          </thead>
-          <tbody>{rows}</tbody>
-        </table>
-        <div className="QueryResultTable-more" hidden={MAX_DISPLAY_ROWS_COUNT >= query.rows.length}>
-          And more rows ...
-        </div>
+   // Convert column result to datatable
+   const columns: object[] = [];
+   query.fields.forEach((el) => {
+     const item = {
+       name: el,
+       selector: (row) => row[el],
+       sortable: true,
+     };
+     columns.push(item);
+   });
+
+   // Convert column result to datatable
+   const data: object[] = [];
+   query.rows.forEach((el) => {
+     const item = {};
+     query.fields.forEach((key, idx) => (item[key] = el[idx]));
+     data.push(item);
+   });
+
+   return (
+     <div className="QueryResultTable">
+       <DataTable title="Search Results" columns={columns} data={data} pagination />
       </div>
     );
   }
