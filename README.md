@@ -47,6 +47,18 @@ $ yarn watch
 $ yarn start
 ```
 
+## Release
+
+To create a draft release on GitHub, run the following command with the next version name:
+
+```sh
+$ ./scripts/release v1.xx.x
+```
+
+This will trigger GitHub Action jobs to generate application binaries.
+
+Once the jobs have been completed, you can publish the draft release on GitHub. It is recommended to include change logs as part of the release description.
+
 ## License
 
 MIT
