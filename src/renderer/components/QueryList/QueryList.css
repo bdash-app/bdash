@@ -9,6 +9,9 @@
 }
 
 .QueryList-new {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 10px;
   font-size: 20px;
   border-bottom: 1px solid #ccc;
@@ -16,6 +19,31 @@
 
 .QueryList-new i {
   cursor: pointer;
+}
+
+.QueryList-new .QueryList-filter {
+  padding: 0 5px;
+  position: sticky;
+  top: 0;
+  background-color: inherit;
+}
+
+.QueryList-new .QueryList-filter > i {
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  color: #999;
+  font-size: 12px;
+}
+
+.QueryList-new .QueryList-filter input[type="search"] {
+  border-radius: 15px;
+  width: 100%;
+  padding: 6px 10px 6px 26px;
+  border: 1px solid #d0d0d0;
+  font-size: 14px;
+  color: #666;
+  outline: none;
 }
 
 .QueryList > ul {
@@ -63,14 +91,15 @@
 }
 
 .QueryList-item-subtitle {
-  font-size: 12px;
+  font-size: 11px;
   overflow: hidden;
   text-overflow: ellipsis;
   color: #666;
+  margin-top: 2px;
 }
 
 .QueryList-item-time {
-  font-size: 12px;
+  font-size: 11px;
   color: #666;
   align-self: flex-end;
   margin-top: 10px;
