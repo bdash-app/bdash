@@ -52,8 +52,6 @@ const QueryList: React.FC<Props> = ({
     setFilterText(event.target.value);
   };
 
-  console.log(queries);
-
   const filteredQueries = queries.filter((item) => item.title.toLowerCase().includes(filterText.toLowerCase()));
 
   return (
