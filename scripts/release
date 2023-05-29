@@ -20,4 +20,4 @@ while true; do
     esac
 done
 git push $REMOTE_REPO $BRANCH
-hub release create --draft --message=v$TARGET_VERSION v$TARGET_VERSION
+gh release create v$TARGET_VERSION --title=v$TARGET_VERSION --notes=v$TARGET_VERSION --draft
