@@ -10,15 +10,25 @@ suite("Database/Query", () => {
   test("getAll", async () => {
     await connection.exec(`
       insert into queries
-        (id, dataSourceId, title, updatedAt, createdAt)
+        (id, dataSourceId, title, updatedAt, createdAt, body)
       values
-        (1, 0, 'title 1', datetime('now'), '2017-01-01 00:00:00'),
-        (2, 0, 'title 2', datetime('now'), '2017-01-02 00:00:00')
+        (1, 0, 'title 1', '2017-01-02 00:00:00', '2017-01-01 00:00:00', 'select 1;'),
+        (2, 0, 'title 2', '2017-01-02 00:00:00', '2017-01-01 00:00:00', 'select 1;')
     `);
     const rows = await Query.getAll();
     assert.deepStrictEqual(rows, [
-      { id: 2, title: "title 2" },
-      { id: 1, title: "title 1" },
+      {
+        id: 1,
+        title: "title 1",
+        createdAt: moment.utc("2017-01-01 00:00:00", "YYYY-MM-DD HH:mm:ss", true).local(),
+        body: "select 1;",
+      },
+      {
+        id: 2,
+        title: "title 2",
+        createdAt: moment.utc("2017-01-01 00:00:00", "YYYY-MM-DD HH:mm:ss", true).local(),
+        body: "select 1;",
+      },
     ]);
   });
 
@@ -44,8 +54,8 @@ suite("Database/Query", () => {
       ],
       errorMessage: null,
       runAt: moment.utc("2017-01-03 00:00:00", "YYYY-MM-DD HH:mm:ss", true).local(),
-      updatedAt: "2017-01-02 00:00:00",
-      createdAt: "2017-01-01 00:00:00",
+      updatedAt: moment.utc("2017-01-02 00:00:00", "YYYY-MM-DD HH:mm:ss", true).local(),
+      createdAt: moment.utc("2017-01-01 00:00:00", "YYYY-MM-DD HH:mm:ss", true).local(),
       codeMirrorHistory: null,
       bdashServerQueryId: null,
     });

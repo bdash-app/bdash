@@ -17,6 +17,8 @@ export type QueryType = {
   readonly selectedTab?: "table" | "chart";
   readonly executor?: Base | null;
   readonly runAt?: moment.Moment;
+  readonly createdAt: moment.Moment;
+  readonly updatedAt: moment.Moment;
   readonly codeMirrorHistory?: Record<string, unknown> | null; // Edit history of CodeMirror.Doc. https://codemirror.net/doc/manual.html#getHistory
   readonly bdashServerQueryId?: string;
 };
@@ -28,8 +30,14 @@ export type DatabaseQueryType = Omit<QueryType, "fields" | "rows" | "codeMirrorH
 };
 
 export default class Query {
-  static getAll(): Promise<QueryType[]> {
-    return connection.all("select id, title from queries order by createdAt desc");
+  static async getAll(): Promise<Pick<QueryType, "id" | "title" | "body" | "createdAt">[]> {
+    const results = await connection.all("select id, title, body, createdAt from queries order by createdAt desc");
+    return results.map((query) => {
+      if (query.createdAt) {
+        query.createdAt = moment.utc(query.createdAt, "YYYY-MM-DD HH:mm:ss", true).local();
+      }
+      return query;
+    });
   }
 
   static async find(id: number): Promise<QueryType> {
@@ -45,6 +53,14 @@ export default class Query {
 
     if (query.runAt) {
       query.runAt = moment.utc(query.runAt, "YYYY-MM-DD HH:mm:ss", true).local();
+    }
+
+    if (query.createdAt) {
+      query.createdAt = moment.utc(query.createdAt, "YYYY-MM-DD HH:mm:ss", true).local();
+    }
+
+    if (query.updatedAt) {
+      query.updatedAt = moment.utc(query.updatedAt, "YYYY-MM-DD HH:mm:ss", true).local();
     }
 
     // For backword compatibility with beta version data structure.
@@ -63,14 +79,17 @@ export default class Query {
   }
 
   static async create(title: string, dataSourceId: number, body: string): Promise<QueryType> {
+    const now = moment();
+    const nowAsString = now.format("YYYY-MM-DD HH:mm:ss");
+
     const sql = `
       insert into queries
       (dataSourceId, title, updatedAt, createdAt)
-      values (?, ?, datetime('now'), datetime('now'))
+      values (?, ?, "${nowAsString}", "${nowAsString}")
     `;
     const id = await connection.insert(sql, dataSourceId, title);
 
-    return { id, dataSourceId, title, body };
+    return { id, dataSourceId, title, body, createdAt: now, updatedAt: now };
   }
 
   static update(id: number, params: Partial<DatabaseQueryType>): Promise<void> {
