@@ -80,12 +80,12 @@ export default class Query {
 
   static async create(title: string, dataSourceId: number, body: string): Promise<QueryType> {
     const now = moment();
-    const nowAsString = moment().format("YYYY-MM-DD HH:mm:ss");
+    const nowAsString = now.format("YYYY-MM-DD HH:mm:ss");
 
     const sql = `
       insert into queries
       (dataSourceId, title, updatedAt, createdAt)
-      values (?, ?, ${nowAsString}, ${nowAsString})
+      values (?, ?, "${nowAsString}", "${nowAsString}")
     `;
     const id = await connection.insert(sql, dataSourceId, title);
 
