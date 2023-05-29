@@ -42,7 +42,7 @@
 }
 
 .QueryList > ul > li.is-selected {
-  background-image: linear-gradient(to right, #2673e8 5px, #EDF5FE 5px);
+  background-image: linear-gradient(to right, #2673e8 5px, #edf5fe 5px);
   background-repeat: no-repeat;
 }
 
