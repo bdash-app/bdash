@@ -44,14 +44,9 @@ const QueryAction = {
     );
   },
 
-  async selectQuery(query: QueryType): Promise<void> {
-    const id = query.id;
-    if (query.body === undefined) {
-      const query = await Database.Query.find(id);
-      dispatch("selectQuery", { id, query });
-    } else {
-      dispatch("selectQuery", { id, query: {} });
-    }
+  async selectQuery(id: number): Promise<void> {
+    const query = await Database.Query.find(id);
+    dispatch("selectQuery", { id, query });
   },
 
   async addNewQuery({ dataSourceId }): Promise<void> {
@@ -67,7 +62,8 @@ const QueryAction = {
     });
   },
 
-  async duplicateQuery(query: QueryType): Promise<void> {
+  async duplicateQuery(id: number): Promise<void> {
+    const query = await Database.Query.find(id);
     const newQuery = await Database.Query.create(query.title, query.dataSourceId, query.body);
     dispatch("addNewQuery", { query: newQuery });
   },

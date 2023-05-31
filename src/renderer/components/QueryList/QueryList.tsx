@@ -7,8 +7,8 @@ type Props = {
   readonly queries: QueryType[];
   readonly selectedQueryId: number | null;
   readonly onAddQuery: () => void;
-  readonly onSelectQuery: (query: QueryType) => void;
-  readonly onDuplicateQuery: (query: QueryType) => void;
+  readonly onSelectQuery: (queryId: number) => void;
+  readonly onDuplicateQuery: (queryId: number) => void;
   readonly onDeleteQuery: (queryId: number) => void;
 };
 
@@ -24,21 +24,21 @@ const QueryList: React.FC<Props> = ({
 
   const handleClickItem = onSelectQuery;
 
-  const handleContextMenu = (query: QueryType): void => {
-    onSelectQuery(query);
+  const handleContextMenu = (queryId: number): void => {
+    onSelectQuery(queryId);
     setImmediate(() => {
       const menu = remote.Menu.buildFromTemplate([
         {
           label: "Duplicate",
           click: (): void => {
-            onDuplicateQuery(query);
+            onDuplicateQuery(queryId);
           },
         },
         {
           label: "Delete",
           click: (): void => {
             if (window.confirm("Are you sure?")) {
-              onDeleteQuery(query.id);
+              onDeleteQuery(queryId);
             }
           },
         },
@@ -68,8 +68,8 @@ const QueryList: React.FC<Props> = ({
           <li
             key={query.id}
             className={selectedQueryId === query.id ? "is-selected" : ""}
-            onClick={(): void => handleClickItem(query)}
-            onContextMenu={(): void => handleContextMenu(query)}
+            onClick={(): void => handleClickItem(query.id)}
+            onContextMenu={(): void => handleContextMenu(query.id)}
           >
             <div className="QueryList-item">
               <div className="QueryList-item-title">{query.title}</div>
