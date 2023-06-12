@@ -78,18 +78,22 @@ export default class Query {
     return query;
   }
 
-  static async create(title: string, dataSourceId: number, body: string): Promise<QueryType> {
+  static async create(
+    title: string,
+    dataSourceId: number,
+    body: string
+  ): Promise<Pick<QueryType, "id" | "title" | "body" | "dataSourceId" | "createdAt">> {
     const now = moment();
     const nowAsString = now.format("YYYY-MM-DD HH:mm:ss");
 
     const sql = `
       insert into queries
-      (dataSourceId, title, updatedAt, createdAt)
-      values (?, ?, "${nowAsString}", "${nowAsString}")
+      (dataSourceId, title, body, createdAt, updatedAt)
+      values (?, ?, ?, "${nowAsString}", "${nowAsString}")
     `;
-    const id = await connection.insert(sql, dataSourceId, title);
+    const id = await connection.insert(sql, dataSourceId, title, body);
 
-    return { id, dataSourceId, title, body, createdAt: now, updatedAt: now };
+    return { id, dataSourceId, title, body, createdAt: now };
   }
 
   static update(id: number, params: Partial<DatabaseQueryType>): Promise<void> {
