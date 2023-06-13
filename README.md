@@ -52,7 +52,7 @@ $ yarn start
 To create a draft release on GitHub, run the following command with the next version name:
 
 ```sh
-$ ./scripts/release v1.xx.x
+$ ./scripts/release 1.xx.x
 ```
 
 This will trigger GitHub Action jobs to generate application binaries.
