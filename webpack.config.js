@@ -43,6 +43,7 @@ module.exports = (env, argv) => {
       output: {
         path: distDir,
         filename: "main.js",
+        hashFunction: "xxhash64", // Workaround for Webpack 5 and OpenSSL 3 https://github.com/webpack/webpack/issues/14532#issuecomment-947525539
       },
       module: {
         rules: [
@@ -73,6 +74,7 @@ module.exports = (env, argv) => {
         },
         path: distDir,
         filename: "app.js",
+        hashFunction: "xxhash64", // Workaround for Webpack 5 and OpenSSL 3 https://github.com/webpack/webpack/issues/14532#issuecomment-947525539
       },
       module: {
         rules: [
