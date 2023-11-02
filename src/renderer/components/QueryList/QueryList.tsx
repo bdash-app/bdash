@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, MouseEvent } from "react";
 import classNames from "classnames";
-import { remote } from "electron";
 import { QueryType } from "../../../lib/Database/Query";
+import { Menu, Item, useContextMenu } from "react-contexify";
+import "react-contexify/ReactContexify.css";
+
+const MENU_ID = "QUERY_LIST_MENU";
 
 type Props = {
   readonly queries: QueryType[];
@@ -24,27 +27,35 @@ const QueryList: React.FC<Props> = ({
 
   const handleClickItem = onSelectQuery;
 
-  const handleContextMenu = (queryId: number): void => {
-    onSelectQuery(queryId);
-    setImmediate(() => {
-      const menu = remote.Menu.buildFromTemplate([
-        {
-          label: "Duplicate",
-          click: (): void => {
-            onDuplicateQuery(queryId);
-          },
-        },
-        {
-          label: "Delete",
-          click: (): void => {
-            if (window.confirm("Are you sure?")) {
-              onDeleteQuery(queryId);
-            }
-          },
-        },
-      ]);
-      menu.popup({ window: remote.getCurrentWindow() });
+  const handleDuplicate = () => {
+    if (selectedQueryId === null) {
+      return;
+    }
+    onDuplicateQuery(selectedQueryId);
+  };
+
+  const handleDelete = () => {
+    if (selectedQueryId === null) {
+      return;
+    }
+    if (window.confirm("Are you sure?")) {
+      onDeleteQuery(selectedQueryId);
+    }
+  };
+
+  const { show } = useContextMenu({
+    id: MENU_ID,
+  });
+
+  const handleContextMenu = (event: MouseEvent, queryId: number): void => {
+    show({
+      event,
+      props: {
+        key: "value",
+      },
     });
+
+    onSelectQuery(queryId);
   };
 
   const [filterText, setFilterText] = useState("");
@@ -63,13 +74,17 @@ const QueryList: React.FC<Props> = ({
           <input type="search" placeholder="Filter by title.." value={filterText} onChange={handleChange} />
         </div>
       </div>
+      <Menu id={MENU_ID}>
+        <Item onClick={handleDuplicate}>Duplicate</Item>
+        <Item onClick={handleDelete}>Delete</Item>
+      </Menu>
       <ul className="QueryList-list">
         {filteredQueries.map((query) => (
           <li
             key={query.id}
             className={selectedQueryId === query.id ? "is-selected" : ""}
             onClick={(): void => handleClickItem(query.id)}
-            onContextMenu={(): void => handleContextMenu(query.id)}
+            onContextMenu={(event): void => handleContextMenu(event, query.id)}
           >
             <div className="QueryList-item">
               <div className="QueryList-item-title">{query.title}</div>
