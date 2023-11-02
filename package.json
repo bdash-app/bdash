@@ -102,5 +102,9 @@
     "@types/react": "16.8.25",
     "@types/react-dom": "16.8.5"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "volta": {
+    "node": "14.21.3",
+    "yarn": "1.22.19"
+  }
 }
