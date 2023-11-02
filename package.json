@@ -49,6 +49,7 @@
     "pg": "8.7.1",
     "plotly.js-basic-dist-min": "1.57.1",
     "react": "16.8.6",
+    "react-contexify": "^6.0.0",
     "react-dom": "16.8.6",
     "react-linkify": "^1.0.0-alpha",
     "react-micro-flyout": "1.0.1",
