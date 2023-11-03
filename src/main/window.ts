@@ -14,7 +14,6 @@ export async function createWindow(): Promise<void> {
     icon: path.join(__dirname, "..", "icon.png"),
     webPreferences: {
       nodeIntegration: true,
-      enableRemoteModule: true,
       contextIsolation: false,
     },
   });
