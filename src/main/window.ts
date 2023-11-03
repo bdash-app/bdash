@@ -1,6 +1,7 @@
 import electron, { BrowserWindow, dialog, ipcMain, shell } from "electron";
 import path from "path";
 import logger from "./logger";
+import Config from "./Config";
 
 const windows: BrowserWindow[] = [];
 
@@ -17,6 +18,8 @@ export async function createWindow(): Promise<void> {
       contextIsolation: false,
     },
   });
+
+  ipcMain.handle("getConfig", async () => Config);
 
   ipcMain.on("showUpdateQueryDialog", async (event) => {
     const { response } = await dialog.showMessageBox(win, {
