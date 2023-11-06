@@ -1,7 +1,10 @@
-import React from "react";
+import React, { MouseEvent } from "react";
 import classNames from "classnames";
-import { remote } from "electron";
 import { DataSourceType } from "../../pages/DataSource/DataSourceStore";
+import { Menu, Item, useContextMenu } from "react-contexify";
+import "react-contexify/ReactContexify.css";
+
+const MENU_ID = "DATA_SOURCE_LIST_MENU";
 
 type Props = {
   readonly dataSources: DataSourceType[];
@@ -26,53 +29,60 @@ const DataSourceList: React.FC<Props> = ({
   onDelete,
   changeDefaultDataSourceId,
 }) => {
-  const handleContextMenu = (id: number): void => {
+  const handleEdit = () => {
+    if (selectedDataSourceId === null) {
+      return;
+    }
+    const dataSource = find(selectedDataSourceId);
+    if (dataSource) {
+      onEdit(dataSource);
+    }
+  };
+
+  const handleReload = () => {
+    if (selectedDataSourceId === null) {
+      return;
+    }
+    const dataSource = find(selectedDataSourceId);
+    if (dataSource) {
+      onReload(dataSource);
+    }
+  };
+
+  const handleSetAsDefault = () => {
+    if (selectedDataSourceId === null) {
+      return;
+    }
+    changeDefaultDataSourceId(selectedDataSourceId);
+  };
+
+  const handleDelete = () => {
+    if (selectedDataSourceId === null) {
+      return;
+    }
+    if (window.confirm("Are you sure?")) {
+      onDelete(selectedDataSourceId);
+    }
+  };
+
+  const { show } = useContextMenu({
+    id: MENU_ID,
+  });
+
+  const handleContextMenu = (event: MouseEvent, id: number): void => {
+    show({
+      event,
+      props: {
+        key: "value",
+      },
+    });
+
     if (id !== selectedDataSourceId) {
       const dataSource = find(id);
       if (dataSource) {
-        onSelect(dataSources[id]);
+        onSelect(dataSource);
       }
     }
-
-    setImmediate(() => {
-      const menu = remote.Menu.buildFromTemplate([
-        {
-          label: "Edit",
-          click: (): void => {
-            const dataSource = find(id);
-            if (dataSource) {
-              onEdit(dataSource);
-            }
-          },
-        },
-        {
-          label: "Reload",
-          click: (): void => {
-            const dataSource = find(id);
-            if (dataSource) {
-              onReload(dataSource);
-            }
-          },
-        },
-        {
-          label: "Set as default",
-          type: "checkbox",
-          checked: id === defaultDataSourceId,
-          click: (): void => {
-            changeDefaultDataSourceId(id);
-          },
-        },
-        {
-          label: "Delete",
-          click: (): void => {
-            if (window.confirm("Are you sure?")) {
-              onDelete(id);
-            }
-          },
-        },
-      ]);
-      menu.popup({ window: remote.getCurrentWindow() });
-    });
   };
 
   const find = (id: number): DataSourceType | undefined => {
@@ -88,7 +98,7 @@ const DataSourceList: React.FC<Props> = ({
       <li
         key={dataSource.id}
         className={className}
-        onContextMenu={(): void => handleContextMenu(dataSource.id)}
+        onContextMenu={(event): void => handleContextMenu(event, dataSource.id)}
         onClick={(): void => onSelect(dataSource)}
       >
         {label}
@@ -101,6 +111,12 @@ const DataSourceList: React.FC<Props> = ({
       <div className={classNames("DataSourceList-new", { darwin: process.platform === "darwin" })}>
         <i className="fas fa-plus" onClick={onClickNew} />
       </div>
+      <Menu id={MENU_ID}>
+        <Item onClick={handleEdit}>Edit</Item>
+        <Item onClick={handleReload}>Reload</Item>
+        <Item onClick={handleSetAsDefault}>Set as default</Item>
+        <Item onClick={handleDelete}>Delete</Item>
+      </Menu>
       <ul className="DataSourceList-list">{items}</ul>
     </div>
   );
