@@ -52,8 +52,8 @@ export default class SQLite3 extends Base {
         if (results.length === 0) {
           return resolve({ rows: [], fields: [] });
         }
-        const fields = Object.keys(results[0]);
-        const rows = results.map<(string | null)[]>((r) => Object.values(r));
+        const fields = Object.keys(results[0] as string[]);
+        const rows = results.map<(string | null)[]>((r) => Object.values(r as any));
         resolve({ fields, rows });
       });
     });
