@@ -32,12 +32,9 @@ win:
     - nsis
 
 mac:
-  singleArchFiles: "*"
   target:
-    - target: dmg
-      arch: universal
-    - target: zip
-      arch: universal
+    - zip
+    - dmg
   category: public.app-category.developer-tools
   hardenedRuntime: true
   entitlements: ./build/entitlement.plist
