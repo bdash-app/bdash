@@ -7,7 +7,7 @@ module.exports = async function () {
     return;
   }
 
-  const appPath = path.resolve(__dirname, "../dist/production/mac/Bdash.app");
+  const appPath = path.resolve(__dirname, "../dist/production/mac-universal/Bdash.app");
 
   if (!fs.existsSync(appPath)) {
     throw new Error(`Cannot find application at: ${appPath}`);
@@ -16,11 +16,12 @@ module.exports = async function () {
   console.log("afterSign: Notarizing");
 
   await notarize({
+    tool: "notarytool",
     appBundleId: "io.bdash",
     appPath: appPath,
     appleId: process.env.APPLE_ID,
     appleIdPassword: process.env.APPLE_PASSWORD,
-    ascProvider: process.env.ASC_PROVIDER,
+    teamId: process.env.ASC_PROVIDER,
   });
 
   console.log("afterSign: Notarized");
