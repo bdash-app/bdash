@@ -16,6 +16,7 @@ module.exports = async function () {
   console.log("afterSign: Notarizing");
 
   await notarize({
+    tool: "notarytool",
     appBundleId: "io.bdash",
     appPath: appPath,
     appleId: process.env.APPLE_ID,
