@@ -3,6 +3,7 @@ import Select from "react-select";
 import { selectStyles } from "../Select";
 import { QueryType } from "../../../lib/Database/Query";
 import { DataSourceType } from "../../pages/DataSource/DataSourceStore";
+import QueryHeaderTitle from "../QueryHeaderTitle";
 
 type Props = {
   readonly query: QueryType;
@@ -12,10 +13,6 @@ type Props = {
 };
 
 const QueryHeader: React.FC<Props> = ({ query, dataSources, onChangeTitle, onChangeDataSource }) => {
-  const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    onChangeTitle(e.target.value);
-  };
-
   const handleChangeDataSource = React.useCallback(
     (e: any): void => {
       onChangeDataSource(e.value);
@@ -30,7 +27,7 @@ const QueryHeader: React.FC<Props> = ({ query, dataSources, onChangeTitle, onCha
 
   return (
     <div className="QueryHeader">
-      <input className="QueryHeader-inputTitle" type="text" value={query.title} onChange={handleChangeTitle} />
+      <QueryHeaderTitle title={query.title} onChangeTitle={onChangeTitle} />
       <Select
         className="QueryHeader-selectDataSource"
         value={currentOption}
