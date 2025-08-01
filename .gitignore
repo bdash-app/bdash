@@ -4,3 +4,6 @@ node_modules
 /dist
 /app
 .DS_Store
+
+.claude/settings.local.json
+

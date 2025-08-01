@@ -1,4 +1,4 @@
-import electron, { BrowserWindow, dialog, ipcMain, shell } from "electron";
+import electron, { BrowserWindow, dialog, ipcMain, shell, Notification } from "electron";
 import path from "path";
 import logger from "./logger";
 import Config from "./Config";
@@ -19,6 +19,31 @@ export async function createWindow(): Promise<void> {
   });
 
   ipcMain.handle("getConfig", async () => Config);
+
+  ipcMain.on("queryCompleted", (_event, data) => {
+    const { success, title, runtime, rowCount, errorMessage } = data;
+
+    if (!win.isFocused()) {
+      const notificationTitle = success ? "✅️ Query completed" : "❌️ Query failed";
+      let notificationBody;
+
+      if (success) {
+        const timeText = runtime ? ` in ${runtime}ms` : "";
+        const rowText = rowCount !== undefined ? ` (${rowCount} rows)` : "";
+        notificationBody = `"${title}" completed${timeText}${rowText}`;
+      } else {
+        const errorText = errorMessage
+          ? `: ${errorMessage.substring(0, 100)}${errorMessage.length > 100 ? "..." : ""}`
+          : "";
+        notificationBody = `"${title}" failed${errorText}`;
+      }
+
+      new Notification({
+        title: notificationTitle,
+        body: notificationBody,
+      }).show();
+    }
+  });
 
   ipcMain.on("showUpdateQueryDialog", async (event) => {
     const { response } = await dialog.showMessageBox(win, {

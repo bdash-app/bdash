@@ -1,4 +1,5 @@
 import moment from "moment";
+import { ipcRenderer } from "electron";
 import { dispatch } from "./QueryStore";
 import { setting } from "../../../lib/Setting";
 import Database from "../../../lib/Database";
@@ -104,6 +105,13 @@ const QueryAction = {
         params: Object.assign({ executor: null }, params),
       });
       Database.Query.update(id, params);
+
+      ipcRenderer.send("queryCompleted", {
+        success: false,
+        title: query.title,
+        errorMessage: err.message,
+      });
+
       return;
     }
 
@@ -127,6 +135,13 @@ const QueryAction = {
         runAt: params.runAt?.utc().format("YYYY-MM-DD HH:mm:ss"),
       })
     );
+
+    ipcRenderer.send("queryCompleted", {
+      success: true,
+      title: query.title,
+      runtime: params.runtime,
+      rowCount: result.rows?.length || 0,
+    });
   },
 
   async cancelQuery(query: QueryType): Promise<void> {
