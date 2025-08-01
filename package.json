@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "Bdash",
-  "version": "1.16.3",
+  "version": "1.17.1",
   "productName": "Bdash",
   "description": "A simple business intelligence application.",
   "homepage": "https://github.com/bdash-app/bdash",
@@ -23,7 +23,7 @@
     "lint:tsc": "tsc --noEmit",
     "lint:prettier": "prettier --list-different \"./**/*.{js,jsx,ts,tsx,css,json}\"",
     "format": "prettier --write \"./**/*.{js,jsx,ts,tsx,css,json}\"",
-    "release:prepare": "webpack --env BUILD_ENV=production --mode=production && electron-builder build --publish always",
+    "release:prepare": "webpack --env BUILD_ENV=production --mode=production && electron-builder build --x64 --publish always",
     "ci": "yarn run lint && yarn run test:unit"
   },
   "dependencies": {
