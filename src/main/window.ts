@@ -24,7 +24,7 @@ export async function createWindow(): Promise<void> {
     const { success, title, runtime, rowCount, errorMessage } = data;
 
     if (!win.isFocused()) {
-      const notificationTitle = success ? "Query completed" : "Query failed";
+      const notificationTitle = success ? "✅️ Query completed" : "❌️ Query failed";
       let notificationBody;
 
       if (success) {
