@@ -18,8 +18,8 @@ jobs:
           - macos-latest
           - windows-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: "16"
       - run: sudo apt-get install xvfb
@@ -27,7 +27,7 @@ jobs:
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
-      - uses: actions/cache@v2
+      - uses: actions/cache@v4
         id: yarn-cache
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -59,15 +59,15 @@ jobs:
   #         POSTGRES_DB: bdash_test
   #         POSTGRES_PASSWORD: password
   #   steps:
-  #     - uses: actions/checkout@v2
-  #     - uses: actions/setup-node@v2
+  #     - uses: actions/checkout@v4
+  #     - uses: actions/setup-node@v4
   #       with:
   #         node-version: "16"
   #     - run: sudo apt-get install xvfb
   #     - name: Get yarn cache directory path
   #       id: yarn-cache-dir-path
   #       run: echo "::set-output name=dir::$(yarn cache dir)"
-  #     - uses: actions/cache@v2
+  #     - uses: actions/cache@v4
   #       id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
   #       with:
   #         path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
