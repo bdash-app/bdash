@@ -20,8 +20,8 @@ module.exports = async function () {
     appBundleId: "io.bdash",
     appPath: appPath,
     appleId: process.env.APPLE_ID,
-    appleIdPassword: process.env.APPLE_PASSWORD,
-    teamId: process.env.ASC_PROVIDER,
+    appleIdPassword: process.env.APPLE_APP_SPECIFIC_PASSWORD,
+    teamId: process.env.APPLE_TEAM_ID,
   });
 
   console.log("afterSign: Notarized");
