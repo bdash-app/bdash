@@ -41,12 +41,6 @@ contextBridge.exposeInMainWorld("nodeAPI", {
   },
   path: require("path"),
   setImmediate: setImmediate,
-  require: (module: string) => {
-    if (module === "./out/app") {
-      return require("../../app/development/out/app");
-    }
-    throw new Error(`Module ${module} is not allowed`);
-  },
 });
 
 // 型定義をグローバルに設定
@@ -66,7 +60,6 @@ declare global {
       };
       path: any;
       setImmediate: typeof setImmediate;
-      require: (module: string) => any;
     };
   }
 }
