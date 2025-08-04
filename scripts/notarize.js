@@ -7,7 +7,7 @@ module.exports = async function () {
     return;
   }
 
-  const appPath = path.resolve(__dirname, "../dist/production/mac/Bdash.app");
+  const appPath = path.resolve(__dirname, "../dist/production/mac-universal/Bdash.app");
 
   if (!fs.existsSync(appPath)) {
     throw new Error(`Cannot find application at: ${appPath}`);
