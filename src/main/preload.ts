@@ -11,7 +11,7 @@ const nodeApis = {
 };
 
 // 既に存在しない場合のみ追加
-Object.keys(nodeApis).forEach(key => {
+Object.keys(nodeApis).forEach((key) => {
   if (!(key in window)) {
     (window as any)[key] = (nodeApis as any)[key];
   }

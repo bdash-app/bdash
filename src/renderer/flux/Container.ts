@@ -1,7 +1,10 @@
 import Store from "./Store";
 
 export default {
-  create<T>(Component: React.ComponentClass<unknown, T>, store: Store<T>): React.ComponentClass<unknown, T> {
+  create<T extends Record<string, any>>(
+    Component: React.ComponentClass<unknown, T>,
+    store: Store<T>
+  ): React.ComponentClass<unknown, T> {
     return class Container extends Component {
       _unsubscribe: any;
 
