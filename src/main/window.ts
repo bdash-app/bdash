@@ -15,6 +15,8 @@ export async function createWindow(): Promise<void> {
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
+      // preload: path.join(__dirname, "preload.js"),
+      // sandbox: false,
     },
   });
 
@@ -72,8 +74,8 @@ export async function createWindow(): Promise<void> {
     windows.splice(idx, 1);
   });
 
-  win.webContents.on("crashed", (e) => {
-    logger.error("renderer process crashed", e);
+  win.webContents.on("render-process-gone", (e, details) => {
+    logger.error("renderer process crashed", e, details);
     dialog.showErrorBox("Bdash is crashed", "Unrecoverable error");
   });
 

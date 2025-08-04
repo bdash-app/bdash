@@ -59,6 +59,30 @@ module.exports = (env, argv) => {
     commonConfig
   );
 
+  const preloadConfig = Object.assign(
+    {
+      devtool: false,
+      target: "electron-preload",
+      entry: "./src/main/preload.ts",
+      output: {
+        path: distDir,
+        filename: "preload.js",
+        hashFunction: "xxhash64",
+      },
+      module: {
+        rules: [
+          {
+            test: /\.tsx?$/,
+            loader: "ts-loader",
+            options: { transpileOnly: isDevelopment },
+          },
+        ],
+      },
+      externals: [nodeExternals({ allowlist: ["electron-is-dev", "electron-log"] })],
+    },
+    commonConfig
+  );
+
   const rendererConfig = Object.assign(
     {
       // mini-css-extract-plugin does not support "cheap-source-map".
@@ -69,7 +93,7 @@ module.exports = (env, argv) => {
       output: {
         clean: {
           keep(asset) {
-            return asset === "main.js";
+            return asset === "main.js" || asset === "preload.js";
           },
         },
         path: distDir,
@@ -107,5 +131,5 @@ module.exports = (env, argv) => {
     commonConfig
   );
 
-  return [mainConfig, rendererConfig];
+  return [mainConfig, preloadConfig, rendererConfig];
 };

@@ -16,7 +16,9 @@ const editMenu: Electron.MenuItemConstructorOptions = {
       label: "format query",
       accelerator: "CmdOrCtrl+Shift+F",
       click(_item, focusedWindow): void {
-        focusedWindow?.webContents.send("format");
+        if (focusedWindow && (focusedWindow as any).webContents) {
+          (focusedWindow as any).webContents.send("format");
+        }
       },
     },
   ],
