@@ -19,6 +19,7 @@
 
 .QueryList-new i {
   cursor: pointer;
+  -webkit-app-region: no-drag;
 }
 
 .QueryList-new .QueryList-filter {
@@ -26,6 +27,7 @@
   position: sticky;
   top: 0;
   background-color: inherit;
+  -webkit-app-region: no-drag;
 }
 
 .QueryList-new .QueryList-filter > i {

@@ -12,6 +12,7 @@
   font-size: 28px;
   cursor: pointer;
   height: 42px;
+  -webkit-app-region: no-drag;
 }
 
 .GlobalMenu-item:hover {

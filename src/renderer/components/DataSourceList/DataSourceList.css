@@ -16,6 +16,7 @@
 
 .DataSourceList-new i {
   cursor: pointer;
+  -webkit-app-region: no-drag;
 }
 
 .DataSourceList > ul {
