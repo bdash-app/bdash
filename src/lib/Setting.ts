@@ -79,11 +79,10 @@ export default class Setting {
       fs.writeFileSync(filePath, "", { mode: 0o600 });
     }
 
-    this.setting =
-      {
-        ...Setting.getDefault(),
-        ...yaml.safeLoad(fs.readFileSync(filePath).toString()),
-      } || {};
+    this.setting = {
+      ...Setting.getDefault(),
+      ...yaml.safeLoad(fs.readFileSync(filePath).toString()),
+    };
   }
 
   load(): SettingType {

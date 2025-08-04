@@ -1,8 +1,10 @@
 import immup from "immup";
 import { EventEmitter } from "events";
 
-export default class Store<T> {
-  static create<T>(StoreClass): { store: Store<T>; dispatch: (type: string, payload?: any) => void } {
+export default class Store<T extends Record<string, any>> {
+  static create<T extends Record<string, any>>(
+    StoreClass
+  ): { store: Store<T>; dispatch: (type: string, payload?: any) => void } {
     const store = new StoreClass();
     const dispatch = store.dispatch.bind(store);
 
@@ -75,7 +77,7 @@ export default class Store<T> {
 
 type Comparator = ((a: any, b: any) => boolean) | null;
 
-export class StateBuilder<State> extends immup.Immup<State> {
+export class StateBuilder<State extends Record<string, any>> extends immup.Immup<State> {
   mergeList(path: string, value: any, comparator = (a, b): boolean => a.id === b.id): any {
     return this.set(path, (arr) => {
       if (!Array.isArray(arr)) {
