@@ -15,8 +15,6 @@ export async function createWindow(): Promise<void> {
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
-      // preload: path.join(__dirname, "preload.js"),
-      // sandbox: false,
     },
   });
 
