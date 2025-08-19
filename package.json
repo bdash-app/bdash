@@ -43,7 +43,7 @@
     "js-yaml": "3.10.0",
     "lodash": "~4.17.21",
     "markdown-table": "1.1.2",
-    "moment": "2.20.1",
+    "moment": "2.29.4",
     "mysql2": "1.7.0",
     "node-fetch": "^2.6.7",
     "pg": "8.7.1",
