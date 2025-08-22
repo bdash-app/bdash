@@ -6,7 +6,7 @@ import Action from "./SettingAction";
 import Button from "../../components/Button";
 import ProgressIcon from "../../components/ProgressIcon";
 import { selectStyles } from "../../components/Select";
-import { indentValues } from "../../../lib/Setting";
+import { indentValues, notificationWhenOptions } from "../../../lib/Setting";
 
 class Setting extends React.Component<unknown, SettingState> {
   override componentDidMount(): void {
@@ -171,6 +171,28 @@ class Setting extends React.Component<unknown, SettingState> {
               min={0}
               value={bdashServer.maximumNumberOfRows}
               onChange={(e): void => Action.update({ bdashServer: { maximumNumberOfRows: Number(e.target.value) } })}
+            />
+          </div>
+        </div>
+        <div className="page-Setting-section1">
+          <h1>Notification</h1>
+          <div className="page-Setting-section2">
+            <h2>Enable</h2>
+            <input
+              type="checkbox"
+              onChange={(e): void => Action.update({ notification: { enabled: e.target.checked } })}
+              checked={setting.notification.enabled}
+            />
+          </div>
+          <div className="page-Setting-section2">
+            <h2>Notify when</h2>
+            <Select
+              value={{ value: setting.notification.when, label: setting.notification.when }}
+              options={notificationWhenOptions.map((v) => ({ value: v, label: v }))}
+              onChange={(e): void => Action.update({ notification: { when: (e as OptionTypeBase).value } })}
+              isClearable={false}
+              isSearchable={false}
+              styles={selectStyles}
             />
           </div>
         </div>

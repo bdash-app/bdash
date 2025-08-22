@@ -2,8 +2,18 @@ import electron, { BrowserWindow, dialog, ipcMain, shell, Notification } from "e
 import path from "path";
 import logger from "./logger";
 import Config from "./Config";
+import { SettingType } from "src/lib/Setting";
 
 const windows: BrowserWindow[] = [];
+
+const shouldNotify = (setting: SettingType, isFocused: boolean) => {
+  return (
+    setting.notification.enabled &&
+    (setting.notification.when === "always" ||
+      (setting.notification.when === "focusing" && isFocused) ||
+      (setting.notification.when === "not_focusing" && !isFocused))
+  );
+};
 
 export async function createWindow(): Promise<void> {
   const win = new electron.BrowserWindow({
@@ -21,9 +31,9 @@ export async function createWindow(): Promise<void> {
   ipcMain.handle("getConfig", async () => Config);
 
   ipcMain.on("queryCompleted", (_event, data) => {
-    const { success, title, runtime, rowCount, errorMessage } = data;
+    const { success, title, runtime, rowCount, errorMessage, _setting } = data;
 
-    if (!win.isFocused()) {
+    if (shouldNotify(_setting, win.isFocused())) {
       const notificationTitle = success ? "✅️ Query completed" : "❌️ Query failed";
       let notificationBody;
 
