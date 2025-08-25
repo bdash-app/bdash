@@ -16,6 +16,7 @@ export type SettingType = {
   readonly bdashServer: BdashServerSettingType;
   readonly experimentalFeature: ExperimentalFeatureSettingType;
   readonly defaultDataSourceId: number | null;
+  readonly notification: NotificationSettingType;
 };
 
 export type FormatterSettingType = {
@@ -37,6 +38,14 @@ export type BdashServerSettingType = {
 
 export type ExperimentalFeatureSettingType = {
   autoCompleteEnabled: boolean;
+};
+
+export const notificationWhenOptions = ["focusing", "not_focusing", "always"] as const;
+export type NotificationWhenType = typeof notificationWhenOptions[number];
+
+export type NotificationSettingType = {
+  enabled: boolean;
+  when: NotificationWhenType;
 };
 
 // type for partial updating parameter.
@@ -66,6 +75,10 @@ export default class Setting {
         autoCompleteEnabled: false,
       },
       defaultDataSourceId: null,
+      notification: {
+        enabled: true,
+        when: "not_focusing",
+      },
     };
   }
 

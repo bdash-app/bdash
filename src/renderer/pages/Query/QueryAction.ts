@@ -86,6 +86,7 @@ const QueryAction = {
     const { query: queryBody, startLine } = await Util.findQueryByLine(query.body, dataSource.mimeType, line);
     const executor = DataSource.create(dataSource);
     const id = query.id;
+    const _setting = setting.load();
     dispatch("updateQuery", { id, params: { status: "working", executor } });
 
     const start = Date.now();
@@ -110,6 +111,7 @@ const QueryAction = {
         success: false,
         title: query.title,
         errorMessage: err.message,
+        _setting,
       });
 
       return;
@@ -141,6 +143,7 @@ const QueryAction = {
       title: query.title,
       runtime: params.runtime,
       rowCount: result.rows?.length || 0,
+      _setting,
     });
   },
 
