@@ -5,6 +5,7 @@ import { TableSummary } from "../../../lib/DataSourceDefinition/Base";
 export type DataSourceKeys =
   | "athena"
   | "bigquery"
+  | "databricks"
   | "mysql"
   | "postgres"
   | "redshift"

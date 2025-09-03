@@ -7,6 +7,7 @@ import TreasureData from "./DataSourceDefinition/TreasureData";
 import Athena from "./DataSourceDefinition/Athena";
 import SQLite3 from "./DataSourceDefinition/SQLite3";
 import Timestream from "./DataSourceDefinition/Timestream";
+import Databricks from "./DataSourceDefinition/Databricks";
 import { DataSourceType } from "../renderer/pages/DataSource/DataSourceStore";
 
 export type DataSourceClasses =
@@ -16,7 +17,8 @@ export type DataSourceClasses =
   | typeof TreasureData
   | typeof Athena
   | typeof SQLite3
-  | typeof Timestream;
+  | typeof Timestream
+  | typeof Databricks;
 
 export default class DataSource {
   static dataSources: { [dataSourceName: string]: DataSourceClasses };
@@ -44,4 +46,4 @@ export default class DataSource {
   }
 }
 
-DataSource.register(Mysql, Postgres, Redshift, BigQuery, TreasureData, Athena, SQLite3, Timestream);
+DataSource.register(Mysql, Postgres, Redshift, BigQuery, TreasureData, Athena, SQLite3, Timestream, Databricks);
