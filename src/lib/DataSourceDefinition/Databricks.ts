@@ -142,7 +142,7 @@ export default class Databricks extends Base {
   async cancel(): Promise<void> {
     if (!this.currentStatementId) {
       console.log("Databricks cancel: No active statement to cancel");
-      return Promise.resolve();
+      return;
     }
 
     const statementIdToCancel = this.currentStatementId;
