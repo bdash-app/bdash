@@ -29,13 +29,13 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  /* 初期ロード時に body クラスが付く前でもダーク背景に寄せる */
+  /* Apply dark theme colors before body class is set during initial load */
   .SplashScreen {
-    background-color: #0f192a;
-    color: #d1edff;
+    background-color: #0f172a;
+    color: #e5e7eb;
   }
 
   .SplashScreen-text {
-    color: #d1edff;
+    color: #86efac;
   }
 }
