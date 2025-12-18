@@ -37,6 +37,8 @@
   --color-code-comment: #6b7280;
   --color-code-variable: #0f172a;
   --color-code-operator: #111827;
+  --color-separator: #d1d5db;
+  --color-separator-highlighted: #9ca3af;
 }
 
 .theme-dark {
@@ -76,4 +78,6 @@
   --color-code-comment: #9ca3af;
   --color-code-variable: #e5e7eb;
   --color-code-operator: #e5e7eb;
+  --color-separator: #374151;
+  --color-separator-highlighted: #4b5563;
 }

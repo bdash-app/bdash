@@ -63,3 +63,16 @@ select:focus {
 .contexify_separator {
   background-color: var(--color-contextmenu-border) !important;
 }
+
+/* React Splitter Layout overrides */
+.splitter-layout > .layout-splitter {
+  background-color: var(--color-separator) !important;
+}
+
+.splitter-layout > .layout-splitter:hover {
+  background-color: var(--color-separator-highlighted) !important;
+}
+
+.splitter-layout.layout-changing > .layout-splitter {
+  background-color: var(--color-separator-highlighted) !important;
+}
