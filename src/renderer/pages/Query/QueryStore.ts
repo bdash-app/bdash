@@ -42,7 +42,14 @@ export default class QueryStore extends Store<QueryState> {
       }
       case "selectQuery": {
         const idx = this.findQueryIndex(payload.id);
-        return this.set("selectedQueryId", payload.id).set("editor.line", null).merge(`queries.${idx}`, payload.query);
+        const currentQuery = this.state.queries[idx];
+        // Preserve runtime state (status and executor) from memory, but update everything else from database
+        const updatedQuery = {
+          ...payload.query,
+          status: currentQuery.status || payload.query.status,
+          executor: currentQuery.executor,
+        };
+        return this.set("selectedQueryId", payload.id).set("editor.line", null).merge(`queries.${idx}`, updatedQuery);
       }
       case "addNewQuery": {
         return this.set("selectedQueryId", payload.query.id).set("editor.line", null).prepend("queries", payload.query);
