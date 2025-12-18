@@ -1,40 +1,5 @@
 /* Theme tokens for light/dark modes. */
-:root {
-  --color-bg: #ffffff;
-  --color-surface: #ffffff;
-  --color-text: #111827;
-  --color-text-muted: #6b7280;
-  --color-border: #d1d5db;
-  --color-accent: #2563eb;
-  --color-accent-contrast: #ffffff;
-  --color-input-bg: #ffffff;
-  --color-input-border: #d1d5db;
-  --color-table-header-bg: #ffffff;
-  --color-table-hover-bg: #f5f5f5;
-  --color-select-bg-selected: #f0f4ff;
-  --color-select-bg-hover: #ebf2ff;
-  --color-select-text: #111827;
-  --color-code-bg: #f8fafc;
-  --color-menu-bg: #333843;
-  --color-menu-hover-bg: #2b313b;
-  --color-menu-selected-bg: #2563eb;
-  --color-menu-text: #f8fafc;
-  --color-success: #59bb0c;
-  --color-danger: #bb0c0c;
-  --color-contextmenu-bg: #ffffff;
-  --color-contextmenu-border: #d1d5db;
-  --color-contextmenu-text: #111827;
-  --color-contextmenu-hover-bg: #e5e7eb;
-  --color-contextmenu-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
-  --color-code-keyword: #1d4ed8;
-  --color-code-string: #b45309;
-  --color-code-number: #b91c1c;
-  --color-code-atom: #7c3aed;
-  --color-code-comment: #6b7280;
-  --color-code-variable: #0f172a;
-  --color-code-operator: #111827;
-}
-
+:root,
 .theme-light {
   color-scheme: light;
   --color-bg: #ffffff;
