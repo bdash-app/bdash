@@ -4,18 +4,12 @@ import logger from "./logger";
 import Config from "./Config";
 import { SettingType, ThemeSettingType } from "src/lib/Setting";
 
-const LIGHT_BACKGROUND_COLOR = "#ffffff";
-const DARK_BACKGROUND_COLOR = "#0f172a";
-
 const windows: BrowserWindow[] = [];
 
 type NativeThemeState = {
   shouldUseDarkColors: boolean;
   themeSource: ThemeSettingType;
 };
-
-const getBackgroundColor = (shouldUseDarkColors: boolean): string =>
-  shouldUseDarkColors ? DARK_BACKGROUND_COLOR : LIGHT_BACKGROUND_COLOR;
 
 const getNativeThemeState = (): NativeThemeState => ({
   shouldUseDarkColors: nativeTheme.shouldUseDarkColors,
@@ -27,7 +21,6 @@ const sendNativeThemeUpdate = (): void => {
   windows.forEach((w) => {
     if (!w.isDestroyed() && !w.webContents.isDestroyed()) {
       w.webContents.send("native-theme-updated", payload);
-      w.setBackgroundColor(getBackgroundColor(payload.shouldUseDarkColors));
     }
   });
 };
@@ -67,9 +60,6 @@ export async function createWindow(): Promise<void> {
     title: "Bdash",
     titleBarStyle: process.platform === "darwin" ? "hidden" : undefined,
     icon: path.join(__dirname, "..", "icon.png"),
-    // Use light background as default to minimize flash for most users.
-    // The correct theme will be applied after settings are loaded in renderer.
-    backgroundColor: LIGHT_BACKGROUND_COLOR,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,

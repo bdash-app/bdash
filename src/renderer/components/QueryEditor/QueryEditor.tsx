@@ -38,10 +38,7 @@ const QueryEditor: React.FC<Props> = ({
 
   React.useEffect(() => {
     const observer = new MutationObserver(() => {
-      const isDark = document.body.classList.contains("theme-dark");
-      const newTheme = isDark ? "midnight" : "default";
-      // Only update if the theme actually changed
-      setCmTheme((currentTheme) => (currentTheme !== newTheme ? newTheme : currentTheme));
+      setCmTheme(document.body.classList.contains("theme-dark") ? "midnight" : "default");
     });
 
     observer.observe(document.body, { attributes: true, attributeFilter: ["class"] });
