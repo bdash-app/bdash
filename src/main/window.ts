@@ -1,10 +1,51 @@
-import electron, { BrowserWindow, dialog, ipcMain, shell, Notification } from "electron";
+import electron, { BrowserWindow, dialog, ipcMain, shell, Notification, nativeTheme } from "electron";
 import path from "path";
 import logger from "./logger";
 import Config from "./Config";
-import { SettingType } from "src/lib/Setting";
+import { SettingType, ThemeSettingType } from "src/lib/Setting";
+
+const LIGHT_BACKGROUND_COLOR = "#ffffff";
+const DARK_BACKGROUND_COLOR = "#0f172a";
 
 const windows: BrowserWindow[] = [];
+
+type NativeThemeState = {
+  shouldUseDarkColors: boolean;
+  themeSource: ThemeSettingType;
+};
+
+const getBackgroundColor = (shouldUseDarkColors: boolean): string =>
+  shouldUseDarkColors ? DARK_BACKGROUND_COLOR : LIGHT_BACKGROUND_COLOR;
+
+const getNativeThemeState = (): NativeThemeState => ({
+  shouldUseDarkColors: nativeTheme.shouldUseDarkColors,
+  themeSource: nativeTheme.themeSource as ThemeSettingType,
+});
+
+const sendNativeThemeUpdate = (): void => {
+  const payload = getNativeThemeState();
+  windows.forEach((w) => {
+    w.webContents.send("native-theme-updated", payload);
+    w.setBackgroundColor(getBackgroundColor(payload.shouldUseDarkColors));
+  });
+};
+
+let nativeThemeHandlersRegistered = false;
+
+const registerNativeThemeHandlers = (): void => {
+  if (nativeThemeHandlersRegistered) return;
+
+  ipcMain.handle("getNativeTheme", () => getNativeThemeState());
+
+  ipcMain.handle("setThemeSource", (_event, themeSource: ThemeSettingType) => {
+    nativeTheme.themeSource = themeSource;
+    sendNativeThemeUpdate();
+    return getNativeThemeState();
+  });
+
+  nativeTheme.on("updated", sendNativeThemeUpdate);
+  nativeThemeHandlersRegistered = true;
+};
 
 const shouldNotify = (setting: SettingType, isFocused: boolean) => {
   return (
@@ -16,12 +57,15 @@ const shouldNotify = (setting: SettingType, isFocused: boolean) => {
 };
 
 export async function createWindow(): Promise<void> {
+  registerNativeThemeHandlers();
+
   const win = new electron.BrowserWindow({
     width: 1280,
     height: 780,
     title: "Bdash",
     titleBarStyle: process.platform === "darwin" ? "hidden" : undefined,
     icon: path.join(__dirname, "..", "icon.png"),
+    backgroundColor: getBackgroundColor(nativeTheme.shouldUseDarkColors),
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
@@ -93,6 +137,7 @@ export async function createWindow(): Promise<void> {
   });
 
   windows.push(win);
+  sendNativeThemeUpdate();
 }
 
 export { windows };
