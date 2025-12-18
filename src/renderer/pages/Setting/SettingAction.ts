@@ -1,7 +1,8 @@
-import { setting, PartialSettingType } from "../../../lib/Setting";
+import { setting, PartialSettingType, ThemeSettingType } from "../../../lib/Setting";
 import GitHubApiClient from "../../../lib/GitHubApiClient";
 import { dispatch } from "./SettingStore";
 import BdashServerClient from "../../../lib/BdashServerClient";
+import { updateTheme } from "../../theme";
 
 const SettingAction = {
   initialize(): void {
@@ -10,6 +11,9 @@ const SettingAction = {
 
   update(params: PartialSettingType): void {
     setting.save(params);
+    if (params.theme) {
+      void updateTheme(params.theme as ThemeSettingType);
+    }
     dispatch("update", { setting: params });
   },
 

@@ -6,7 +6,7 @@ import Action from "./SettingAction";
 import Button from "../../components/Button";
 import ProgressIcon from "../../components/ProgressIcon";
 import { selectStyles } from "../../components/Select";
-import { indentValues, notificationWhenOptions } from "../../../lib/Setting";
+import { indentValues, notificationWhenOptions, themeOptions } from "../../../lib/Setting";
 
 class Setting extends React.Component<unknown, SettingState> {
   override componentDidMount(): void {
@@ -25,8 +25,10 @@ class Setting extends React.Component<unknown, SettingState> {
 
   override render(): React.ReactNode {
     const keyBindOptions: { value: string; label: string }[] = ["default", "vim"].map((v) => ({ value: v, label: v }));
+    const themeSettingOptions: { value: string; label: string }[] = themeOptions.map((v) => ({ value: v, label: v }));
     const setting = this.state.setting;
     const currentOption = keyBindOptions.find((option) => option.value === (setting.keyBind || "default"));
+    const currentThemeOption = themeSettingOptions.find((option) => option.value === (setting.theme || "system"));
     const github = setting.github || {};
     const bdashServer = setting.bdashServer || {};
     const keywordCaseOptions: { value: string; label: string }[] = ["upper", "lower", "preserve"].map((v) => ({
@@ -38,6 +40,18 @@ class Setting extends React.Component<unknown, SettingState> {
     return (
       <div className="page-Setting">
         <div className="page-Setting-section1">
+          <h1>General</h1>
+          <div className="page-Setting-section2 page-Setting-theme">
+            <h2>Theme</h2>
+            <Select
+              value={currentThemeOption}
+              options={themeSettingOptions}
+              onChange={(e): void => Action.update({ theme: (e as OptionTypeBase).value })}
+              isClearable={false}
+              isSearchable={false}
+              styles={selectStyles}
+            />
+          </div>
           <h1>Editor</h1>
           <div className="page-Setting-section2 page-Setting-keyBind">
             <h2>Key bind</h2>

@@ -10,8 +10,8 @@
 
 .page-Setting-section1 > h1 {
   font-size: 20px;
-  color: #333;
-  border-bottom: 1px solid #ccc;
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-border);
   padding-bottom: 5px;
   margin: 0 0 20px 0;
 }
@@ -22,7 +22,7 @@
 
 .page-Setting-section2 > h2 {
   font-size: 15px;
-  color: #333;
+  color: var(--color-text);
   font-weight: normal;
   margin: 0 0 10px 0;
 }
