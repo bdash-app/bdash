@@ -5,8 +5,8 @@
   margin: 0 auto;
   width: 400px;
   border-radius: 0;
-  background-color: #efefef;
-  border: 1px solid #ccc;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-top: none;
   box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2), 0 6px 10px -6px rgba(0, 0, 0, 0.2) inset;
   outline: none;

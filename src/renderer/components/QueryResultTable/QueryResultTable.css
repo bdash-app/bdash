@@ -5,9 +5,10 @@
 
 .QueryResultTable-table th,
 .QueryResultTable-table td {
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--color-border);
   padding: 10px;
   font-size: 13px;
+  color: var(--color-text);
 }
 
 .QueryResultTable-table th {
@@ -18,12 +19,12 @@
 .QueryResultTable-table thead th {
   top: 46px; /* (height + border-bottom) of QueryResultNav */
   position: sticky;
-  background-color: white;
+  background-color: var(--color-table-header-bg);
 }
 
 /* Use pesudo class to protect from overlapping border */
 .QueryResultTable-table thead th:after {
-  border-bottom: 3px double #ccc;
+  border-bottom: 3px double var(--color-border);
   bottom: 0;
   width: 100%;
   content: "";
@@ -37,11 +38,11 @@
 }
 
 .QueryResultTable-table tbody tr:hover {
-  background-color: #f5f5f5;
+  background-color: var(--color-table-hover-bg);
 }
 
 .QueryResultTable-null {
-  color: #999;
+  color: var(--color-text-muted);
 }
 
 .QueryResultTable-listKey {
@@ -68,6 +69,6 @@
 
 .QueryResultTable-more {
   font-size: 13px;
-  color: #999;
+  color: var(--color-text-muted);
   padding: 10px;
 }

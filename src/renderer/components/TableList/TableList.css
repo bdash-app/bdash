@@ -1,8 +1,8 @@
 .TableList {
-  background-color: #f7f7f7;
+  background-color: var(--color-surface);
   height: 100vh;
   overflow: auto;
-  border-right: 1px solid #ccc;
+  border-right: 1px solid var(--color-border);
 }
 
 .TableList-filter {
@@ -16,7 +16,7 @@
   position: absolute;
   left: 14px;
   top: 16px;
-  color: #999;
+  color: var(--color-text-muted);
   font-size: 12px;
 }
 
@@ -24,9 +24,9 @@
   border-radius: 15px;
   width: 100%;
   padding: 3px 15px 3px 26px;
-  border: 1px solid #d0d0d0;
+  border: 1px solid var(--color-border);
   font-size: 12px;
-  color: #666;
+  color: var(--color-text);
   outline: none;
 }
 
@@ -45,12 +45,12 @@
 }
 
 .TableList > ul > li:hover {
-  background-color: #efefef;
+  background-color: var(--color-table-hover-bg);
 }
 
 .TableList > ul > li.is-selected {
-  background-color: #2673e8;
-  color: #fff;
+  background-color: var(--color-accent);
+  color: var(--color-accent-contrast);
 }
 
 .TableList > ul > li.is-selected > i {

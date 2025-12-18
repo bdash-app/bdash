@@ -14,7 +14,7 @@
   align-items: center;
   padding: 10px;
   font-size: 20px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .QueryList-new i {
@@ -34,7 +34,7 @@
   position: absolute;
   left: 14px;
   top: 14px;
-  color: #999;
+  color: var(--color-text-muted);
   font-size: 12px;
 }
 
@@ -42,9 +42,9 @@
   border-radius: 15px;
   width: 100%;
   padding: 6px 10px 6px 26px;
-  border: 1px solid #d0d0d0;
+  border: 1px solid var(--color-border);
   font-size: 14px;
-  color: #666;
+  color: var(--color-text);
   outline: none;
 }
 
@@ -61,8 +61,8 @@
   padding-left: 10px;
   padding-right: 10px;
   padding-top: 10px;
-  border-bottom: 1px solid #ccc;
-  color: #333;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text);
   box-sizing: border-box;
   font-size: 14px;
   text-overflow: ellipsis;
@@ -72,7 +72,7 @@
 }
 
 .QueryList > ul > li.is-selected {
-  background-image: linear-gradient(to right, #2673e8 5px, #edf5fe 5px);
+  background-image: linear-gradient(to right, var(--color-accent) 5px, var(--color-select-bg-selected) 5px);
   background-repeat: no-repeat;
 }
 
@@ -89,20 +89,20 @@
   font-weight: bold;
   white-space: normal;
   overflow-wrap: break-word;
-  color: #333;
+  color: var(--color-text);
 }
 
 .QueryList-item-subtitle {
   font-size: 11px;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: #666;
+  color: var(--color-text-muted);
   margin-top: 2px;
 }
 
 .QueryList-item-time {
   font-size: 11px;
-  color: #666;
+  color: var(--color-text-muted);
   align-self: flex-end;
   margin-top: 10px;
   margin-bottom: 5px;

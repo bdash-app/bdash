@@ -26,7 +26,7 @@
   position: absolute;
   right: 3px;
   top: 12px;
-  color: #c00;
+  color: var(--color-danger);
 }
 
 .DataSourceForm td input[type="text"] {
@@ -41,9 +41,9 @@
 }
 
 .DataSourceForm td select {
-  border: 1px solid #dfdfdf;
+  border: 1px solid var(--color-border);
   font-size: 14px;
-  background-color: #fff;
+  background-color: var(--color-input-bg);
 }
 
 .DataSourceForm-configRadioLabel {
@@ -69,7 +69,7 @@
 
 .DataSourceForm-connectionTestMessage {
   font-size: 13px;
-  color: #bb0c0c;
+  color: var(--color-danger);
   margin-top: 10px;
 }
 
