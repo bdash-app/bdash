@@ -32,6 +32,7 @@ class DataSource extends React.Component<unknown, DataSourceState> {
         dataSource={this.state.formValue}
         onSave={this.handleSave.bind(this)}
         onCancel={Action.hideForm}
+        validationError={this.state.formValidationError}
       />
     );
   }

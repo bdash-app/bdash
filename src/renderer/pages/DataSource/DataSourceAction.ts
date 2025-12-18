@@ -47,6 +47,12 @@ const DataSourceAction = {
     const dataSource = await Database.DataSource.create({ name, type, config });
     dispatch("createDataSource", { dataSource });
     DataSourceAction.selectDataSource(dataSource);
+
+    // Auto-set as default if this is the first datasource
+    const count = await Database.DataSource.count();
+    if (count === 1) {
+      DataSourceAction.updateDefaultDataSourceId(dataSource.id);
+    }
   },
 
   async updateDataSource({
@@ -80,6 +86,10 @@ const DataSourceAction = {
   updateDefaultDataSourceId(defaultDataSourceId: number): void {
     setting.save({ defaultDataSourceId });
     dispatch("updateDefaultDataSourceId", { defaultDataSourceId });
+  },
+
+  setValidationError(error: string): void {
+    dispatch("setFormValidationError", { error });
   },
 };
 

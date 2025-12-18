@@ -37,6 +37,7 @@ export interface DataSourceState {
   selectedDataSourceId: number | null;
   showForm: boolean;
   formValue: DataSourceType | null;
+  formValidationError: string | null;
   setting: SettingType;
 }
 
@@ -48,6 +49,7 @@ export default class DataSourceStore extends Store<DataSourceState> {
       selectedDataSourceId: null,
       showForm: false,
       formValue: null,
+      formValidationError: null,
       setting: Setting.getDefault(),
     };
   }
@@ -100,17 +102,22 @@ export default class DataSourceStore extends Store<DataSourceState> {
         return this.set(`dataSources.${idx}.tableFilter`, payload.value);
       }
       case "showForm": {
-        return this.set("showForm", true).set("formValue", payload.dataSource);
+        return this.set("showForm", true).set("formValue", payload.dataSource).set("formValidationError", null);
       }
       case "cancelForm": {
-        return this.set("showForm", false).set("formValue", null);
+        return this.set("showForm", false).set("formValue", null).set("formValidationError", null);
+      }
+      case "setFormValidationError": {
+        return this.set("formValidationError", payload.error);
       }
       case "createDataSource": {
-        return this.set("showForm", false).prepend("dataSources", payload.dataSource);
+        return this.set("showForm", false).set("formValidationError", null).prepend("dataSources", payload.dataSource);
       }
       case "updateDataSource": {
         const idx = this.findDataSourceIndex(payload.dataSource.id);
-        return this.set("showForm", false).set(`dataSources.${idx}`, payload.dataSource);
+        return this.set("showForm", false)
+          .set("formValidationError", null)
+          .set(`dataSources.${idx}`, payload.dataSource);
       }
       case "deleteDataSource": {
         const idx = this.findDataSourceIndex(payload.id);

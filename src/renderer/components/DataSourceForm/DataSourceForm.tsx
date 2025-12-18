@@ -5,14 +5,16 @@ import DataSource, { DataSourceClasses } from "../../../lib/DataSource";
 import ProgressIcon from "../ProgressIcon";
 import { ConfigSchemaType } from "../../../lib/DataSourceDefinition/Base";
 import { DataSourceKeys, DataSourceType } from "../../pages/DataSource/DataSourceStore";
+import DataSourceAction from "../../pages/DataSource/DataSourceAction";
 
 type Props = {
   readonly dataSource: DataSourceType | null;
   readonly onCancel: () => void;
   readonly onSave: (dataSource: { id: number | null } & Pick<DataSourceType, "name" | "type" | "config">) => void;
+  readonly validationError?: string | null;
 };
 
-const DataSourceForm: React.FC<Props> = ({ dataSource, onCancel, onSave }) => {
+const DataSourceForm: React.FC<Props> = ({ dataSource, onCancel, onSave, validationError }) => {
   const [selectedType, setSelectedType] = React.useState<DataSourceKeys | null>(dataSource?.type ?? null);
   const [connectionTestStatus, setConnectionTestStatus] = React.useState<string | null>(null);
   const [connectionTestMessage, setConnectionTestMessage] = React.useState<string | null>(null);
@@ -48,9 +50,39 @@ const DataSourceForm: React.FC<Props> = ({ dataSource, onCancel, onSave }) => {
     }, {});
   }, []);
 
+  const validateRequiredFields = React.useCallback((): string | null => {
+    const inputNameElement = inputNameElementRef.current;
+    if (!inputNameElement?.value.trim()) {
+      return "Name is required";
+    }
+    if (!selectedType) {
+      return "Type is required";
+    }
+
+    const ds = DataSource.get(selectedType);
+    const config = getConfigValues();
+    const requiredFields = ds.configSchema.filter((schema) => schema.required);
+
+    for (const field of requiredFields) {
+      const value = config[field.name];
+      if (value === undefined || value === null || (typeof value === "string" && !value.trim())) {
+        return `${field.label} is required`;
+      }
+    }
+
+    return null;
+  }, [getConfigValues, selectedType]);
+
   const handleSave = React.useCallback((): void => {
     const inputNameElement = inputNameElementRef.current;
     if (inputNameElement === null || selectedType === null) {
+      return;
+    }
+
+    const validationError = validateRequiredFields();
+    if (validationError) {
+      // Dispatch validation error to store
+      DataSourceAction.setValidationError(validationError);
       return;
     }
 
@@ -59,7 +91,7 @@ const DataSourceForm: React.FC<Props> = ({ dataSource, onCancel, onSave }) => {
     const type = selectedType;
     const config = getConfigValues();
     onSave({ id, name, type, config });
-  }, [dataSource, getConfigValues, onSave, selectedType]);
+  }, [dataSource, getConfigValues, onSave, selectedType, validateRequiredFields]);
 
   const handleCancel = onCancel;
 
@@ -211,6 +243,7 @@ const DataSourceForm: React.FC<Props> = ({ dataSource, onCancel, onSave }) => {
             <div className="DataSourceForm-connectionTestMessage">{connectionTestMessage}</div>
           ) : null}
         </div>
+        {validationError ? <div className="DataSourceForm-validationError">{validationError}</div> : null}
         <div className="DataSourceForm-buttons">
           <Button className="DataSourceForm-cancelBtn" onClick={handleCancel}>
             Cancel
