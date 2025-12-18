@@ -9,13 +9,16 @@ const SettingAction = {
     dispatch("initialize", { setting: setting.load() });
   },
 
-  update(params: PartialSettingType): void {
-    setting.save(params);
+  async update(params: PartialSettingType): Promise<void> {
     if (params.theme) {
-      updateTheme(params.theme as ThemeSettingType).catch((err) => {
+      try {
+        await updateTheme(params.theme as ThemeSettingType);
+      } catch (err) {
         console.error("Failed to update theme:", err);
-      });
+        return;
+      }
     }
+    setting.save(params);
     dispatch("update", { setting: params });
   },
 
