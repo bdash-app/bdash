@@ -47,7 +47,7 @@ export const selectStyles: StylesConfig = {
     marginTop: "0",
     backgroundColor: "var(--color-surface)",
     border: "1px solid var(--color-border)",
-    boxShadow: "0 6px 20px rgba(0,0,0,0.25)",
+    boxShadow: "var(--color-shadow)",
   }),
   menuList: (style) => ({
     ...style,
