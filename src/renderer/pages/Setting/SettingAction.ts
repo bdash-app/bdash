@@ -1,14 +1,23 @@
-import { setting, PartialSettingType } from "../../../lib/Setting";
+import { setting, PartialSettingType, ThemeSettingType } from "../../../lib/Setting";
 import GitHubApiClient from "../../../lib/GitHubApiClient";
 import { dispatch } from "./SettingStore";
 import BdashServerClient from "../../../lib/BdashServerClient";
+import { updateTheme } from "../../theme";
 
 const SettingAction = {
   initialize(): void {
     dispatch("initialize", { setting: setting.load() });
   },
 
-  update(params: PartialSettingType): void {
+  async update(params: PartialSettingType): Promise<void> {
+    if (params.theme) {
+      try {
+        await updateTheme(params.theme as ThemeSettingType);
+      } catch (err) {
+        console.error("Failed to update theme:", err);
+        return;
+      }
+    }
     setting.save(params);
     dispatch("update", { setting: params });
   },

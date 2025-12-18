@@ -4,11 +4,11 @@
 }
 
 .ProgressIcon.is-success {
-  color: #59bb0c;
+  color: var(--color-success);
 }
 
 .ProgressIcon.is-failure {
-  color: #bb0c0c;
+  color: var(--color-danger);
 }
 
 .ProgressIcon-icon {

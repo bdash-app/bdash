@@ -6,7 +6,7 @@ import Action from "./SettingAction";
 import Button from "../../components/Button";
 import ProgressIcon from "../../components/ProgressIcon";
 import { selectStyles } from "../../components/Select";
-import { indentValues, notificationWhenOptions } from "../../../lib/Setting";
+import { indentValues, notificationWhenOptions, themeOptions } from "../../../lib/Setting";
 
 class Setting extends React.Component<unknown, SettingState> {
   override componentDidMount(): void {
@@ -25,8 +25,10 @@ class Setting extends React.Component<unknown, SettingState> {
 
   override render(): React.ReactNode {
     const keyBindOptions: { value: string; label: string }[] = ["default", "vim"].map((v) => ({ value: v, label: v }));
+    const themeSettingOptions: { value: string; label: string }[] = themeOptions.map((v) => ({ value: v, label: v }));
     const setting = this.state.setting;
     const currentOption = keyBindOptions.find((option) => option.value === (setting.keyBind || "default"));
+    const currentThemeOption = themeSettingOptions.find((option) => option.value === (setting.theme || "system"));
     const github = setting.github || {};
     const bdashServer = setting.bdashServer || {};
     const keywordCaseOptions: { value: string; label: string }[] = ["upper", "lower", "preserve"].map((v) => ({
@@ -38,13 +40,25 @@ class Setting extends React.Component<unknown, SettingState> {
     return (
       <div className="page-Setting">
         <div className="page-Setting-section1">
+          <h1>General</h1>
+          <div className="page-Setting-section2 page-Setting-theme">
+            <h2>Theme</h2>
+            <Select
+              value={currentThemeOption}
+              options={themeSettingOptions}
+              onChange={(e) => Action.update({ theme: (e as OptionTypeBase).value })}
+              isClearable={false}
+              isSearchable={false}
+              styles={selectStyles}
+            />
+          </div>
           <h1>Editor</h1>
           <div className="page-Setting-section2 page-Setting-keyBind">
             <h2>Key bind</h2>
             <Select
               value={currentOption}
               options={keyBindOptions}
-              onChange={(e): void => Action.update({ keyBind: (e as OptionTypeBase).value })}
+              onChange={(e) => Action.update({ keyBind: (e as OptionTypeBase).value })}
               isClearable={false}
               isSearchable={false}
               styles={selectStyles}
@@ -54,7 +68,7 @@ class Setting extends React.Component<unknown, SettingState> {
             <h2>Line wrap</h2>
             <input
               type="checkbox"
-              onChange={(e): void => Action.update({ lineWrap: e.target.checked })}
+              onChange={(e) => Action.update({ lineWrap: e.target.checked })}
               checked={setting.lineWrap}
             />
           </div>
@@ -63,7 +77,7 @@ class Setting extends React.Component<unknown, SettingState> {
             <Select
               value={{ value: setting.indent, label: setting.indent }}
               options={indentValues.map((v) => ({ value: v, label: v }))}
-              onChange={(e): void => Action.update({ indent: (e as OptionTypeBase).value })}
+              onChange={(e) => Action.update({ indent: (e as OptionTypeBase).value })}
               isClearable={false}
               isSearchable={false}
               styles={selectStyles}
@@ -78,7 +92,7 @@ class Setting extends React.Component<unknown, SettingState> {
             <Select
               value={currentKeywordCase}
               options={keywordCaseOptions}
-              onChange={(e): void => Action.update({ formatter: { keywordCase: (e as OptionTypeBase).value } })}
+              onChange={(e) => Action.update({ formatter: { keywordCase: (e as OptionTypeBase).value } })}
               isClearable={false}
               isSearchable={false}
               styles={selectStyles}
@@ -92,7 +106,7 @@ class Setting extends React.Component<unknown, SettingState> {
             <h2>Access Token (Required scope is only gist)</h2>
             <input
               type="text"
-              onChange={(e): void => Action.update({ github: { token: e.target.value } })}
+              onChange={(e) => Action.update({ github: { token: e.target.value } })}
               value={github.token || ""}
             />
           </div>
@@ -100,7 +114,7 @@ class Setting extends React.Component<unknown, SettingState> {
             <h2>GitHub Enterprise URL (optional)</h2>
             <input
               type="text"
-              onChange={(e): void => Action.update({ github: { url: e.target.value } })}
+              onChange={(e) => Action.update({ github: { url: e.target.value } })}
               value={github.url || ""}
               placeholder="https://yourdomain/api/v3"
             />
@@ -119,7 +133,7 @@ class Setting extends React.Component<unknown, SettingState> {
             <h2>Share on gist in public</h2>
             <input
               type="checkbox"
-              onChange={(e): void => Action.update({ github: { public: e.target.checked } })}
+              onChange={(e) => Action.update({ github: { public: e.target.checked } })}
               checked={setting.github.public}
             />
           </div>
@@ -130,7 +144,7 @@ class Setting extends React.Component<unknown, SettingState> {
               max={1000000}
               min={0}
               value={github.maximumNumberOfRowsOfGist}
-              onChange={(e): void => Action.update({ github: { maximumNumberOfRowsOfGist: Number(e.target.value) } })}
+              onChange={(e) => Action.update({ github: { maximumNumberOfRowsOfGist: Number(e.target.value) } })}
             />
           </div>
         </div>
@@ -140,7 +154,7 @@ class Setting extends React.Component<unknown, SettingState> {
             <h2>Access Token</h2>
             <input
               type="text"
-              onChange={(e): void => Action.update({ bdashServer: { token: e.target.value } })}
+              onChange={(e) => Action.update({ bdashServer: { token: e.target.value } })}
               value={bdashServer.token || ""}
             />
           </div>
@@ -148,7 +162,7 @@ class Setting extends React.Component<unknown, SettingState> {
             <h2>Bdash Server URL</h2>
             <input
               type="text"
-              onChange={(e): void => Action.update({ bdashServer: { url: e.target.value } })}
+              onChange={(e) => Action.update({ bdashServer: { url: e.target.value } })}
               value={bdashServer.url || ""}
               placeholder="https://bdash-server.your-domain.com/"
             />
@@ -170,7 +184,7 @@ class Setting extends React.Component<unknown, SettingState> {
               max={1000000}
               min={0}
               value={bdashServer.maximumNumberOfRows}
-              onChange={(e): void => Action.update({ bdashServer: { maximumNumberOfRows: Number(e.target.value) } })}
+              onChange={(e) => Action.update({ bdashServer: { maximumNumberOfRows: Number(e.target.value) } })}
             />
           </div>
         </div>
@@ -180,7 +194,7 @@ class Setting extends React.Component<unknown, SettingState> {
             <h2>Enable</h2>
             <input
               type="checkbox"
-              onChange={(e): void => Action.update({ notification: { enabled: e.target.checked } })}
+              onChange={(e) => Action.update({ notification: { enabled: e.target.checked } })}
               checked={setting.notification.enabled}
             />
           </div>
@@ -189,7 +203,7 @@ class Setting extends React.Component<unknown, SettingState> {
             <Select
               value={{ value: setting.notification.when, label: setting.notification.when }}
               options={notificationWhenOptions.map((v) => ({ value: v, label: v }))}
-              onChange={(e): void => Action.update({ notification: { when: (e as OptionTypeBase).value } })}
+              onChange={(e) => Action.update({ notification: { when: (e as OptionTypeBase).value } })}
               isClearable={false}
               isSearchable={false}
               styles={selectStyles}
@@ -203,9 +217,7 @@ class Setting extends React.Component<unknown, SettingState> {
             <label>
               <input
                 type="checkbox"
-                onChange={(e): void =>
-                  Action.update({ experimentalFeature: { autoCompleteEnabled: e.target.checked } })
-                }
+                onChange={(e) => Action.update({ experimentalFeature: { autoCompleteEnabled: e.target.checked } })}
                 checked={setting.experimentalFeature.autoCompleteEnabled}
               />
             </label>

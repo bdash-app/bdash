@@ -1,12 +1,12 @@
 .GlobalMenu {
   padding-top: 32px;
   height: 100vh;
-  background-color: #333;
+  background-color: var(--color-menu-bg);
 }
 
 .GlobalMenu-item {
   display: block;
-  color: #fff;
+  color: var(--color-menu-text);
   text-align: center;
   padding: 10px 0;
   font-size: 28px;
@@ -16,9 +16,9 @@
 }
 
 .GlobalMenu-item:hover {
-  background-color: #262626;
+  background-color: var(--color-menu-hover-bg);
 }
 
 .GlobalMenu-item.is-selected {
-  background-color: #4d4d4d;
+  background-color: var(--color-menu-selected-bg);
 }

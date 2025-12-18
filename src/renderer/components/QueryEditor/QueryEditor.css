@@ -3,8 +3,8 @@
   flex-direction: column;
   height: 100%;
   box-sizing: border-box;
-  border-top: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
   --QueryEditor-navbarHeight: 45px;
 }
 
@@ -20,9 +20,9 @@
   flex-basis: var(--QueryEditor-navbarHeight);
   box-sizing: border-box;
   padding: 10px;
-  background-color: #f7f7f7;
+  background-color: var(--color-surface);
   position: relative;
-  border-top: 1px solid #ccc;
+  border-top: 1px solid var(--color-border);
   height: var(--QueryEditor-navbarHeight);
 }
 
@@ -32,29 +32,29 @@
 }
 
 .QueryEditor-status > span {
-  color: #999;
+  color: var(--color-text-muted);
   display: inline-block;
   font-size: 13px;
   margin: 0 5px;
 }
 
 .QueryEditor-status .fa-check {
-  color: #59bb0c;
+  color: var(--color-success);
   font-size: 14px;
 }
 
 .QueryEditor-status .fa-close {
-  color: #bb0c0c;
+  color: var(--color-danger);
   font-size: 14px;
 }
 
 .QueryEditor-status .fa-working {
-  color: #999;
+  color: var(--color-text-muted);
   font-size: 14px;
 }
 
 .QueryEditor-status.is-error span {
-  color: #bb0c0c;
+  color: var(--color-danger);
 }
 
 .QueryEditor-resize {
@@ -62,7 +62,7 @@
   right: 8px;
   top: 5px;
   display: inline-block;
-  color: #999;
+  color: var(--color-text-muted);
   cursor: row-resize;
   padding: 10px 20px;
 }

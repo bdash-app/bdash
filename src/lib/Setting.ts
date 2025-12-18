@@ -17,6 +17,7 @@ export type SettingType = {
   readonly experimentalFeature: ExperimentalFeatureSettingType;
   readonly defaultDataSourceId: number | null;
   readonly notification: NotificationSettingType;
+  readonly theme: ThemeSettingType;
 };
 
 export type FormatterSettingType = {
@@ -47,6 +48,9 @@ export type NotificationSettingType = {
   enabled: boolean;
   when: NotificationWhenType;
 };
+
+export const themeOptions = ["system", "light", "dark"] as const;
+export type ThemeSettingType = typeof themeOptions[number];
 
 // type for partial updating parameter.
 export type PartialSettingType = { [P in keyof SettingType]?: Partial<SettingType[P]> };
@@ -79,6 +83,7 @@ export default class Setting {
         enabled: true,
         when: "not_focusing",
       },
+      theme: "system",
     };
   }
 

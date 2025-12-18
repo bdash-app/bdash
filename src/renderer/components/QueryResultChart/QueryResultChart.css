@@ -15,7 +15,7 @@
 .QueryResultChart-label {
   font-size: 12px;
   font-weight: bold;
-  color: #666;
+  color: var(--color-text);
   margin-bottom: 3px;
 }
 
@@ -36,7 +36,7 @@
 
 .QueryResultChart .has-value.Select--single > .Select-control .Select-value .Select-value-label,
 .QueryResultChart .has-value.is-pseudo-focused.Select--single > .Select-control .Select-value .Select-value-label {
-  color: #666;
+  color: var(--color-text);
 }
 
 .QueryResultChart .Select-placeholder {

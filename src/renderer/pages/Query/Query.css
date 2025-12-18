@@ -10,7 +10,8 @@
 
 .page-Query-list {
   width: 280px;
-  border-right: 1px solid #ccc;
+  border-right: 1px solid var(--color-border);
+  background-color: var(--color-surface);
   min-height: 100vh;
 }
 

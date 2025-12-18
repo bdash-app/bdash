@@ -4,13 +4,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: var(--color-bg);
+  color: var(--color-text);
 }
 
 .SplashScreen-text {
   font-style: italic;
   font-weight: bold;
   font-size: 32px;
-  color: #68b82d;
+  color: var(--color-success);
 }
 
 .SplashScreen-text::before {
@@ -24,4 +26,16 @@
   background-repeat: no-repeat;
   margin-right: 10px;
   margin-top: -10px;
+}
+
+@media (prefers-color-scheme: dark) {
+  /* Apply dark theme colors before body class is set during initial load */
+  .SplashScreen {
+    background-color: #0f172a;
+    color: #e5e7eb;
+  }
+
+  .SplashScreen-text {
+    color: #86efac;
+  }
 }

@@ -32,6 +32,20 @@ const QueryEditor: React.FC<Props> = ({
 }) => {
   const editorElementRef = React.useRef<HTMLDivElement>(null);
 
+  const [cmTheme, setCmTheme] = React.useState<string>(
+    document.body.classList.contains("theme-dark") ? "midnight" : "default"
+  );
+
+  React.useEffect(() => {
+    const observer = new MutationObserver(() => {
+      setCmTheme(document.body.classList.contains("theme-dark") ? "midnight" : "default");
+    });
+
+    observer.observe(document.body, { attributes: true, attributeFilter: ["class"] });
+
+    return () => observer.disconnect();
+  }, []);
+
   const options = React.useMemo((): EditorConfiguration => {
     return {
       mode: mimeType,
@@ -42,8 +56,9 @@ const QueryEditor: React.FC<Props> = ({
       indentUnit: setting.indent,
       smartIndent: false,
       autoRefresh: { delay: 50 },
+      theme: cmTheme,
     };
-  }, [mimeType, setting.indent, setting.keyBind, setting.lineWrap]);
+  }, [mimeType, setting.indent, setting.keyBind, setting.lineWrap, cmTheme]);
 
   const renderButton = (): React.ReactNode => {
     if (query.status === "working") {

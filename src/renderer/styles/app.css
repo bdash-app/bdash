@@ -2,8 +2,64 @@ body {
   margin: 0;
   padding: 0;
   font-family: "Hiragino Sans", sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
 }
 
 [hidden] {
   display: none !important;
+}
+
+a {
+  color: var(--color-accent);
+}
+
+input,
+textarea,
+select,
+button {
+  background-color: var(--color-input-bg);
+  color: var(--color-text);
+  border: 1px solid var(--color-input-border);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline-color: var(--color-accent);
+}
+
+/* Contexify context menu styling */
+:root {
+  --contexify-menu-bgColor: var(--color-contextmenu-bg);
+  --contexify-menu-shadow: var(--color-contextmenu-shadow);
+  --contexify-separator-color: var(--color-contextmenu-border);
+  --contexify-item-color: var(--color-contextmenu-text);
+  --contexify-activeItem-color: var(--color-contextmenu-text);
+  --contexify-activeItem-bgColor: var(--color-contextmenu-hover-bg);
+  --contexify-activeRightSlot-color: var(--color-contextmenu-text);
+  --contexify-arrow-color: var(--color-contextmenu-text);
+  --contexify-activeArrow-color: var(--color-contextmenu-text);
+}
+
+.contexify {
+  background-color: var(--color-contextmenu-bg) !important;
+  color: var(--color-contextmenu-text) !important;
+  border: 1px solid var(--color-contextmenu-border) !important;
+  box-shadow: var(--color-contextmenu-shadow) !important;
+}
+
+.contexify_itemContent {
+  color: var(--color-contextmenu-text) !important;
+  padding: 10px 16px !important;
+}
+
+.contexify_item:not(.contexify_item-disabled):hover > .contexify_itemContent,
+.contexify_item:not(.contexify_item-disabled):focus > .contexify_itemContent {
+  background-color: var(--color-contextmenu-hover-bg) !important;
+  color: var(--color-contextmenu-text) !important;
+}
+
+.contexify_separator {
+  background-color: var(--color-contextmenu-border) !important;
 }

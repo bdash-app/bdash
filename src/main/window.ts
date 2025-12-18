@@ -1,10 +1,46 @@
-import electron, { BrowserWindow, dialog, ipcMain, shell, Notification } from "electron";
+import electron, { BrowserWindow, dialog, ipcMain, shell, Notification, nativeTheme } from "electron";
 import path from "path";
 import logger from "./logger";
 import Config from "./Config";
-import { SettingType } from "src/lib/Setting";
+import { SettingType, ThemeSettingType } from "src/lib/Setting";
 
 const windows: BrowserWindow[] = [];
+
+type NativeThemeState = {
+  shouldUseDarkColors: boolean;
+  themeSource: ThemeSettingType;
+};
+
+const getNativeThemeState = (): NativeThemeState => ({
+  shouldUseDarkColors: nativeTheme.shouldUseDarkColors,
+  themeSource: nativeTheme.themeSource as ThemeSettingType,
+});
+
+const sendNativeThemeUpdate = (): void => {
+  const payload = getNativeThemeState();
+  windows.forEach((w) => {
+    if (!w.isDestroyed() && !w.webContents.isDestroyed()) {
+      w.webContents.send("native-theme-updated", payload);
+    }
+  });
+};
+
+let nativeThemeHandlersRegistered = false;
+
+const registerNativeThemeHandlers = (): void => {
+  if (nativeThemeHandlersRegistered) return;
+
+  ipcMain.handle("getNativeTheme", () => getNativeThemeState());
+
+  ipcMain.handle("setThemeSource", (_event, themeSource: ThemeSettingType) => {
+    nativeTheme.themeSource = themeSource;
+    sendNativeThemeUpdate();
+    return getNativeThemeState();
+  });
+
+  nativeTheme.on("updated", sendNativeThemeUpdate);
+  nativeThemeHandlersRegistered = true;
+};
 
 const shouldNotify = (setting: SettingType, isFocused: boolean) => {
   return (
@@ -16,6 +52,8 @@ const shouldNotify = (setting: SettingType, isFocused: boolean) => {
 };
 
 export async function createWindow(): Promise<void> {
+  registerNativeThemeHandlers();
+
   const win = new electron.BrowserWindow({
     width: 1280,
     height: 780,
@@ -93,6 +131,7 @@ export async function createWindow(): Promise<void> {
   });
 
   windows.push(win);
+  sendNativeThemeUpdate();
 }
 
 export { windows };

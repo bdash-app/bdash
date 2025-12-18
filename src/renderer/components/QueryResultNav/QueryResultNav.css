@@ -1,12 +1,12 @@
 .QueryResultNav {
   font-size: 15px;
-  color: #666;
+  color: var(--color-text);
   padding: 0 5px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid var(--color-border);
   position: sticky;
   top: 0;
   left: 0;
-  background-color: white;
+  background-color: var(--color-table-header-bg);
   z-index: 1;
   height: 45px;
 }
@@ -21,7 +21,7 @@
 }
 
 .QueryResultNav-tabMenu:hover {
-  background-color: #eaeaea;
+  background-color: var(--color-table-hover-bg);
 }
 
 .QueryResultNav-tabMenu.is-selected::after {
@@ -29,7 +29,7 @@
   position: absolute;
   width: 30px;
   height: 4px;
-  background-color: #2673e8;
+  background-color: var(--color-accent);
   bottom: -5px;
   left: -2px;
   border-radius: 3px 3px 0 0;
@@ -49,7 +49,7 @@
 }
 
 .QueryResultNav-shareBtn:hover {
-  background-color: #eaeaea;
+  background-color: var(--color-table-hover-bg);
 }
 
 .QueryResultNav-shareFlyout {
@@ -57,8 +57,8 @@
   top: 28px;
   width: 200px;
   right: 0;
-  border: 1px solid #ccc;
-  background-color: #fff;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
   border-radius: 4px;
 }
 
@@ -70,11 +70,11 @@
 
 .QueryResultNav-shareFlyout li {
   padding: 5px 8px;
-  color: #666;
+  color: var(--color-text);
   font-size: 14px;
   cursor: pointer;
 }
 
 .QueryResultNav-shareFlyout li:hover {
-  background-color: #efefef;
+  background-color: var(--color-table-hover-bg);
 }
