@@ -13,7 +13,12 @@ import { initializeTheme } from "./theme";
 
 Bdash.initialize()
   .then(async () => {
-    await initializeTheme(setting.load().theme || "system");
+    try {
+      await initializeTheme(setting.load().theme || "system");
+    } catch (err) {
+      console.error("Failed to initialize theme:", err);
+      // Continue with default theme if initialization fails
+    }
     ReactDOM.render(
       <AppErrorBoundary>
         <App />
