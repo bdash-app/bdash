@@ -16,6 +16,8 @@ const applyBodyClass = (isDark: boolean): void => {
 const subscribeNativeTheme = (): void => {
   if (subscribed) return;
 
+  // Note: This listener is registered once for the lifetime of the renderer process.
+  // No cleanup is needed as the process terminates when the app closes.
   ipcRenderer.on("native-theme-updated", (_event, payload: NativeThemeState) => {
     applyBodyClass(payload.shouldUseDarkColors);
   });
