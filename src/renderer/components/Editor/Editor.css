@@ -2,7 +2,7 @@
   flex-basis: auto;
 }
 
-/* Midnight theme (CodeMirror built-in) applied when CodeMirror option theme="midnight" */
+/* Custom Midnight theme for dark mode, applied when CodeMirror option theme="midnight" */
 .cm-s-midnight .CodeMirror-activeline-background {
   background: #253540;
 }
