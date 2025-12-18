@@ -2,8 +2,172 @@
   flex-basis: auto;
 }
 
+/* Midnight theme (CodeMirror built-in) applied when CodeMirror option theme="midnight" */
+.cm-s-midnight .CodeMirror-activeline-background {
+  background: #253540;
+}
+
+.cm-s-midnight.CodeMirror {
+  background: #0f192a;
+  color: #d1edff;
+}
+
+.cm-s-midnight div.CodeMirror-selected {
+  background: #314d67;
+}
+
+.cm-s-midnight .CodeMirror-line::selection,
+.cm-s-midnight .CodeMirror-line > span::selection,
+.cm-s-midnight .CodeMirror-line > span > span::selection {
+  background: rgba(49, 77, 103, 0.99);
+}
+
+.cm-s-midnight .CodeMirror-line::-moz-selection,
+.cm-s-midnight .CodeMirror-line > span::-moz-selection,
+.cm-s-midnight .CodeMirror-line > span > span::-moz-selection {
+  background: rgba(49, 77, 103, 0.99);
+}
+
+.cm-s-midnight .CodeMirror-gutters {
+  background: #0f192a;
+  border-right: 1px solid;
+}
+
+.cm-s-midnight .CodeMirror-guttermarker {
+  color: white;
+}
+
+.cm-s-midnight .CodeMirror-guttermarker-subtle {
+  color: #d0d0d0;
+}
+
+.cm-s-midnight .CodeMirror-linenumber {
+  color: #d0d0d0;
+}
+
+.cm-s-midnight .CodeMirror-cursor {
+  border-left: 1px solid #f8f8f0;
+}
+
+.cm-s-midnight span.cm-comment {
+  color: #428bdd;
+}
+
+.cm-s-midnight span.cm-atom {
+  color: #ae81ff;
+}
+
+.cm-s-midnight span.cm-number {
+  color: #d1edff;
+}
+
+.cm-s-midnight span.cm-property,
+.cm-s-midnight span.cm-attribute {
+  color: #a6e22e;
+}
+
+.cm-s-midnight span.cm-keyword {
+  color: #e83737;
+}
+
+.cm-s-midnight span.cm-string {
+  color: #1dc116;
+}
+
+.cm-s-midnight span.cm-variable,
+.cm-s-midnight span.cm-variable-2 {
+  color: #ffaa3e;
+}
+
+.cm-s-midnight span.cm-def {
+  color: #4dd;
+}
+
+.cm-s-midnight span.cm-bracket {
+  color: #d1edff;
+}
+
+.cm-s-midnight span.cm-tag {
+  color: #449;
+}
+
+.cm-s-midnight span.cm-link {
+  color: #ae81ff;
+}
+
+.cm-s-midnight span.cm-error {
+  background: #f92672;
+  color: #f8f8f0;
+}
+
+.cm-s-midnight .CodeMirror-matchingbracket {
+  text-decoration: underline;
+  color: white !important;
+}
+
 .Editor .CodeMirror {
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, "RictyDiminished", monospace;
   font-size: 13px;
   line-height: 1.4;
+}
+
+.theme-light .Editor .CodeMirror {
+  background-color: var(--color-code-bg);
+  color: var(--color-text);
+}
+
+.theme-light .Editor .CodeMirror .cm-keyword {
+  color: var(--color-code-keyword);
+}
+
+.theme-light .Editor .CodeMirror .cm-string {
+  color: var(--color-code-string);
+}
+
+.theme-light .Editor .CodeMirror .cm-number {
+  color: var(--color-code-number);
+}
+
+.theme-light .Editor .CodeMirror .cm-atom {
+  color: var(--color-code-atom);
+}
+
+.theme-light .Editor .CodeMirror .cm-comment {
+  color: var(--color-code-comment);
+}
+
+.theme-light .Editor .CodeMirror .cm-variable,
+.theme-light .Editor .CodeMirror .cm-variable-2,
+.theme-light .Editor .CodeMirror .cm-variable-3 {
+  color: var(--color-code-variable);
+}
+
+.theme-light .Editor .CodeMirror .cm-operator {
+  color: var(--color-code-operator);
+}
+
+.theme-light .Editor .CodeMirror-gutters {
+  background-color: var(--color-code-bg);
+  color: var(--color-text-muted);
+  border-right: 1px solid var(--color-border);
+}
+
+.theme-light .Editor .CodeMirror-cursor {
+  border-left: 1px solid var(--color-text);
+}
+
+.theme-light .Editor .CodeMirror-selected {
+  background-color: rgba(147, 197, 253, 0.25);
+}
+
+.theme-light .Editor .CodeMirror-line::selection,
+.theme-light .Editor .CodeMirror-line > span::selection,
+.theme-light .Editor .CodeMirror-line > span > span::selection {
+  background-color: rgba(147, 197, 253, 0.25);
+}
+
+.theme-light .Editor .CodeMirror-line::-moz-selection,
+.theme-light .Editor .CodeMirror-line > span::-moz-selection,
+.theme-light .Editor .CodeMirror-line > span > span::-moz-selection {
+  background-color: rgba(147, 197, 253, 0.25);
 }
