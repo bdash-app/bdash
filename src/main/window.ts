@@ -25,8 +25,10 @@ const getNativeThemeState = (): NativeThemeState => ({
 const sendNativeThemeUpdate = (): void => {
   const payload = getNativeThemeState();
   windows.forEach((w) => {
-    w.webContents.send("native-theme-updated", payload);
-    w.setBackgroundColor(getBackgroundColor(payload.shouldUseDarkColors));
+    if (!w.isDestroyed() && !w.webContents.isDestroyed()) {
+      w.webContents.send("native-theme-updated", payload);
+      w.setBackgroundColor(getBackgroundColor(payload.shouldUseDarkColors));
+    }
   });
 };
 
