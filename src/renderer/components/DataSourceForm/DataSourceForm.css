@@ -73,6 +73,13 @@
   margin-top: 10px;
 }
 
+.DataSourceForm-validationError {
+  font-size: 13px;
+  color: #bb0c0c;
+  margin-top: 10px;
+  margin-left: 20px;
+}
+
 .DataSourceForm-buttons {
   position: absolute;
   right: 20px;
