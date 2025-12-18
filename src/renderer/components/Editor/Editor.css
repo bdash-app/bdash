@@ -163,11 +163,11 @@
 .theme-light .Editor .CodeMirror-line::selection,
 .theme-light .Editor .CodeMirror-line > span::selection,
 .theme-light .Editor .CodeMirror-line > span > span::selection {
-  background-color: rgba(147, 197, 253, 0.25);
+  background-color: var(--color-code-selection-bg);
 }
 
 .theme-light .Editor .CodeMirror-line::-moz-selection,
 .theme-light .Editor .CodeMirror-line > span::-moz-selection,
 .theme-light .Editor .CodeMirror-line > span > span::-moz-selection {
-  background-color: rgba(147, 197, 253, 0.25);
+  background-color: var(--color-code-selection-bg);
 }

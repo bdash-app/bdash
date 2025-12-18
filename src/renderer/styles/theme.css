@@ -29,6 +29,7 @@
   --color-contextmenu-hover-bg: #e5e7eb;
   --color-contextmenu-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
   --color-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --color-code-selection-bg: rgba(147, 197, 253, 0.25);
   --color-code-keyword: #1d4ed8;
   --color-code-string: #b45309;
   --color-code-number: #b91c1c;
@@ -67,6 +68,7 @@
   --color-contextmenu-hover-bg: rgba(255, 255, 255, 0.08);
   --color-contextmenu-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
   --color-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+  --color-code-selection-bg: rgba(147, 197, 253, 0.3);
   --color-code-keyword: #93c5fd;
   --color-code-string: #fbbf24;
   --color-code-number: #f472b6;
