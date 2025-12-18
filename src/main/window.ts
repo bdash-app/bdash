@@ -67,7 +67,9 @@ export async function createWindow(): Promise<void> {
     title: "Bdash",
     titleBarStyle: process.platform === "darwin" ? "hidden" : undefined,
     icon: path.join(__dirname, "..", "icon.png"),
-    backgroundColor: getBackgroundColor(nativeTheme.shouldUseDarkColors),
+    // Use light background as default to minimize flash for most users.
+    // The correct theme will be applied after settings are loaded in renderer.
+    backgroundColor: LIGHT_BACKGROUND_COLOR,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
