@@ -12,7 +12,9 @@ const SettingAction = {
   update(params: PartialSettingType): void {
     setting.save(params);
     if (params.theme) {
-      void updateTheme(params.theme as ThemeSettingType);
+      updateTheme(params.theme as ThemeSettingType).catch((err) => {
+        console.error("Failed to update theme:", err);
+      });
     }
     dispatch("update", { setting: params });
   },
