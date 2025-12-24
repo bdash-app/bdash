@@ -19,10 +19,15 @@ export default class AthenaClient {
   constructor(config: AthenaClientConfig) {
     const { region, accessKeyId, secretAccessKey } = config;
     this.config = config;
-    this.client = new athena.AthenaClient({
-      region,
-      credentials: { accessKeyId: accessKeyId!, secretAccessKey: secretAccessKey! },
-    });
+
+    const clientConfig: any = { region };
+
+    // Only add credentials if BOTH accessKeyId and secretAccessKey are provided.
+    if (accessKeyId && secretAccessKey) {
+      clientConfig.credentials = { accessKeyId, secretAccessKey };
+    }
+
+    this.client = new athena.AthenaClient(clientConfig);
   }
 
   async execute(query: string): Promise<QueryResult> {

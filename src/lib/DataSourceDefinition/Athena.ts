@@ -24,11 +24,13 @@ export default class Athena extends Base {
         name: "accessKeyId",
         label: "Access key ID",
         type: "string",
+        placeholder: "Optional - uses AWS environment/profile if empty",
       },
       {
         name: "secretAccessKey",
         label: "Secret access key",
         type: "string",
+        placeholder: "Optional - uses AWS environment/profile if empty",
       },
       {
         name: "database",
