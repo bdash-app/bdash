@@ -28,11 +28,13 @@ export default class Timestream extends Base {
         name: "accessKeyId",
         label: "Access key ID",
         type: "string",
+        placeholder: "Optional - uses AWS environment/profile if empty",
       },
       {
         name: "secretAccessKey",
         label: "Secret access key",
         type: "string",
+        placeholder: "Optional - uses AWS environment/profile if empty",
       },
       {
         name: "database",
@@ -45,13 +47,18 @@ export default class Timestream extends Base {
 
   constructor(config: any) {
     super(config);
-    this.client = new timestreamquery.TimestreamQueryClient({
-      region: config.region,
-      credentials: {
+
+    const clientConfig: any = { region: config.region };
+
+    // Only add credentials if BOTH accessKeyId and secretAccessKey are provided.
+    if (config.accessKeyId && config.secretAccessKey) {
+      clientConfig.credentials = {
         accessKeyId: config.accessKeyId,
         secretAccessKey: config.secretAccessKey,
-      },
-    });
+      };
+    }
+
+    this.client = new timestreamquery.TimestreamQueryClient(clientConfig);
     this.database = config.database;
   }
 
