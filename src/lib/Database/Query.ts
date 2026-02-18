@@ -118,4 +118,14 @@ export default class Query {
   static del(id: number): Promise<void> {
     return connection.run("delete from queries where id = ?", id);
   }
+
+  static async getCount(): Promise<number> {
+    const row = await connection.get<{ count: number }>("select count(*) as count from queries");
+    return row ? row.count : 0;
+  }
+
+  static async getUpdatedAt(id: number): Promise<string | null> {
+    const row = await connection.get<{ updatedAt: string }>("select updatedAt from queries where id = ?", id);
+    return row ? row.updatedAt : null;
+  }
 }
