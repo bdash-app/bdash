@@ -26,6 +26,16 @@ publish:
 
 extraResources:
   - build/icon.png
+  - from: src/mcp/dist
+    to: mcp
+    filter:
+      - "**/*"
+  - from: src/mcp/node_modules
+    to: mcp/node_modules
+    filter:
+      - "**/*"
+  - from: src/mcp/package.json
+    to: mcp/package.json
 
 win:
   target:

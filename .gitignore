@@ -6,3 +6,4 @@ node_modules
 .DS_Store
 
 .claude/settings.local.json
+src/mcp/dist/
