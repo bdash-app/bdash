@@ -13,9 +13,56 @@ import { QueryType } from "../../../lib/Database/Query";
 import { DataSourceType } from "../DataSource/DataSourceStore";
 import DataSource from "../../../lib/DataSource";
 
+const POLLING_INTERVAL_MS = 1000;
+
 class Query extends React.Component<unknown, QueryState> {
+  private pollingTimer: ReturnType<typeof setInterval> | null = null;
+  private lastUpdatedAt: string | null = null;
+  private lastQueryCount: number | null = null;
+
   override componentDidMount(): void {
     Action.initialize();
+    this.startPolling();
+  }
+
+  override componentWillUnmount(): void {
+    this.stopPolling();
+  }
+
+  override componentDidUpdate(_prevProps: unknown, prevState: QueryState): void {
+    if (prevState.selectedQueryId !== this.state.selectedQueryId) {
+      this.lastUpdatedAt = null;
+    }
+  }
+
+  private startPolling(): void {
+    this.pollingTimer = setInterval(() => {
+      this.pollForChanges();
+    }, POLLING_INTERVAL_MS);
+  }
+
+  private stopPolling(): void {
+    if (this.pollingTimer) {
+      clearInterval(this.pollingTimer);
+      this.pollingTimer = null;
+    }
+  }
+
+  private async pollForChanges(): Promise<void> {
+    try {
+      this.lastQueryCount = await Action.refreshQueryListIfChanged(this.lastQueryCount ?? this.state.queries.length);
+    } catch {
+      // Ignore polling errors silently
+    }
+
+    const selectedId = this.state.selectedQueryId;
+    if (!selectedId) return;
+
+    try {
+      this.lastUpdatedAt = await Action.refreshQueryIfChanged(selectedId, this.lastUpdatedAt);
+    } catch {
+      // Ignore polling errors silently
+    }
   }
 
   handleAddQuery(): void {

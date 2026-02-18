@@ -171,6 +171,24 @@ const QueryAction = {
     const chart = await Database.Chart.update(id, params);
     dispatch("updateChart", { id, params: chart });
   },
+
+  async refreshQueryListIfChanged(currentCount: number): Promise<number> {
+    const dbCount = await Database.Query.getCount();
+    if (dbCount !== currentCount) {
+      const queries = await Database.Query.getAll();
+      dispatch("syncQueryList", { queries });
+    }
+    return dbCount;
+  },
+
+  async refreshQueryIfChanged(id: number, lastUpdatedAt: string | null): Promise<string | null> {
+    const updatedAt = await Database.Query.getUpdatedAt(id);
+    if (updatedAt && updatedAt !== lastUpdatedAt) {
+      const query = await Database.Query.find(id);
+      dispatch("updateQuery", { id, params: { body: query.body, codeMirrorHistory: null } });
+    }
+    return updatedAt;
+  },
 };
 
 export default QueryAction;
