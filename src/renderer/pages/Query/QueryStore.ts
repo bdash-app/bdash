@@ -47,11 +47,6 @@ export default class QueryStore extends Store<QueryState> {
       case "addNewQuery": {
         return this.set("selectedQueryId", payload.query.id).set("editor.line", null).prepend("queries", payload.query);
       }
-      case "syncQueryList": {
-        const existingIds = new Set(this.state.queries.map((q) => q.id));
-        const newQueries = payload.queries.filter((q: QueryType) => !existingIds.has(q.id));
-        return this.set("queries", [...newQueries, ...this.state.queries]);
-      }
       case "updateQuery": {
         const idx = this.findQueryIndex(payload.id);
         return this.merge(`queries.${idx}`, payload.params);

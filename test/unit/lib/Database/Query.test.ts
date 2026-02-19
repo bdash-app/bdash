@@ -82,23 +82,6 @@ suite("Database/Query", () => {
     assert.strictEqual(query.title, "updated");
   });
 
-  test("getCount returns 0 when no queries exist", async () => {
-    const count = await Query.getCount();
-    assert.strictEqual(count, 0);
-  });
-
-  test("getCount returns the number of queries", async () => {
-    await connection.exec(`
-      insert into queries
-        (id, dataSourceId, title, updatedAt, createdAt, body)
-      values
-        (1, 0, 'title 1', '2017-01-02 00:00:00', '2017-01-01 00:00:00', 'select 1;'),
-        (2, 0, 'title 2', '2017-01-02 00:00:00', '2017-01-01 00:00:00', 'select 2;')
-    `);
-    const count = await Query.getCount();
-    assert.strictEqual(count, 2);
-  });
-
   test("del", async () => {
     await connection.exec(`
       insert into queries
