@@ -45,7 +45,7 @@
     "electron-log": "4.3.0",
     "fs-extra": "5.0.0",
     "immup": "3.0.0",
-    "js-yaml": "3.10.0",
+    "js-yaml": "3.14.2",
     "lodash": "~4.17.21",
     "markdown-table": "1.1.2",
     "moment": "2.20.1",
