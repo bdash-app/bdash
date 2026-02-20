@@ -44,13 +44,14 @@
 
 .page-Setting-mcpDescription {
   margin: 0 0 10px 0;
-  color: #666;
+  color: var(--color-text-muted);
   font-size: 13px;
 }
 
 .page-Setting-mcpConfig {
-  background-color: #f5f5f5;
-  border: 1px solid #ddd;
+  background-color: var(--color-code-bg);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
   border-radius: 4px;
   padding: 12px;
   font-size: 13px;
