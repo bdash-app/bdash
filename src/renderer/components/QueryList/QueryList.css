@@ -17,6 +17,12 @@
   border-bottom: 1px solid var(--color-border);
 }
 
+.QueryList-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
 .QueryList-new i {
   cursor: pointer;
   -webkit-app-region: no-drag;

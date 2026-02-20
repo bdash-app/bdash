@@ -61,6 +61,18 @@ suite("Tools API", () => {
       assert.strictEqual(parsed.queries[0].dataSourceId, dsId);
       assert.ok(parsed.queries[0].createdAt);
     });
+
+    test("respects limit", async () => {
+      const dsId = await seedDataSource(dbPath, { name: "test-ds", type: "mysql" });
+      await seedQuery(dbPath, { dataSourceId: dsId, title: "Query 1", body: "SELECT 1" });
+      await seedQuery(dbPath, { dataSourceId: dsId, title: "Query 2", body: "SELECT 2" });
+      await seedQuery(dbPath, { dataSourceId: dsId, title: "Query 3", body: "SELECT 3" });
+
+      const result = await listQueries(db, { limit: 2 });
+      assert.strictEqual(result.isError, undefined);
+      const parsed = JSON.parse(result.content[0].text);
+      assert.strictEqual(parsed.queries.length, 2);
+    });
   });
 
   suite("get_query", () => {
