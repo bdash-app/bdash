@@ -205,6 +205,9 @@ class Query extends React.Component<unknown, QueryState> {
             onAddQuery={(): void => {
               this.handleAddQuery();
             }}
+            onRefresh={(): void => {
+              Action.initialize();
+            }}
             onSelectQuery={Action.selectQuery}
             onDuplicateQuery={Action.duplicateQuery}
             onDeleteQuery={Action.deleteQuery}

@@ -10,6 +10,7 @@ type Props = {
   readonly queries: QueryType[];
   readonly selectedQueryId: number | null;
   readonly onAddQuery: () => void;
+  readonly onRefresh: () => void;
   readonly onSelectQuery: (queryId: number) => void;
   readonly onDuplicateQuery: (queryId: number) => void;
   readonly onDeleteQuery: (queryId: number) => void;
@@ -19,11 +20,13 @@ const QueryList: React.FC<Props> = ({
   queries,
   selectedQueryId,
   onAddQuery,
+  onRefresh,
   onSelectQuery,
   onDuplicateQuery,
   onDeleteQuery,
 }) => {
   const handleClickNew = onAddQuery;
+  const handleClickRefresh = onRefresh;
 
   const handleClickItem = onSelectQuery;
 
@@ -68,7 +71,10 @@ const QueryList: React.FC<Props> = ({
   return (
     <div className="QueryList">
       <div className={classNames("QueryList-new", { darwin: process.platform === "darwin" })}>
-        <i className="fas fa-plus" onClick={handleClickNew} />
+        <div className="QueryList-controls">
+          <i className="fas fa-plus" onClick={handleClickNew} title="New Query" />
+          <i className="fas fa-sync-alt" onClick={handleClickRefresh} title="Reload query list" />
+        </div>
         <div className="QueryList-filter">
           <i className="fas fa-search" />
           <input type="search" placeholder="Filter by title.." value={filterText} onChange={handleChange} />
