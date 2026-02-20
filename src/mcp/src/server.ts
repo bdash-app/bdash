@@ -49,7 +49,12 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
         description: "List all saved queries in Bdash",
         inputSchema: {
           type: "object",
-          properties: {},
+          properties: {
+            limit: {
+              type: "number",
+              description: "Max number of queries to return (default: 100, max: 200)",
+            },
+          },
         },
       },
       {
@@ -123,7 +128,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     case "list_datasources":
       return await listDatasources(db);
     case "list_queries":
-      return await listQueries(db);
+      return await listQueries(db, toolArgs);
     case "get_query":
       return await getQuery(db, toolArgs);
     case "write_query":

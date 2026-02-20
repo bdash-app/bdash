@@ -134,6 +134,21 @@ export class BdashDatabase {
     });
   }
 
+  async getQueries(limit: number): Promise<QueryRow[]> {
+    const db = this.ensureDb();
+    return new Promise((resolve, reject) => {
+      const sql =
+        "SELECT id, title, body, dataSourceId, createdAt FROM queries ORDER BY createdAt DESC LIMIT ?";
+      db.all(sql, [limit], (err: Error | null, rows: QueryRow[]) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(rows);
+        }
+      });
+    });
+  }
+
   async getQuery(id: number): Promise<QueryRow | null> {
     const db = this.ensureDb();
     return new Promise((resolve, reject) => {
