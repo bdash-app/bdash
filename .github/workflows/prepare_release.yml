@@ -31,6 +31,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
       - run: yarn --prefer-offline
+      - run: yarn mcp:install
+      - run: yarn mcp:build
       - run: |
           echo "CSC_LINK=${{ secrets.CSC_LINK }}" >> $GITHUB_ENV
           echo "CSC_KEY_PASSWORD=${{ secrets.CSC_KEY_PASSWORD }}" >> $GITHUB_ENV

@@ -42,7 +42,7 @@ win:
     - nsis
 
 mac:
-  singleArchFiles: "*"
+  x64ArchFiles: "**/node_sqlite3.node"
   target:
     - target: dmg
       arch: universal
