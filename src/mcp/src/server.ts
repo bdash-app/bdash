@@ -46,13 +46,13 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
       },
       {
         name: "list_queries",
-        description: "List all saved queries in Bdash",
+        description: "List recently saved queries in Bdash",
         inputSchema: {
           type: "object",
           properties: {
             limit: {
               type: "number",
-              description: "Max number of queries to return (default: 100, max: 200)",
+              description: "Max number of queries to return (default: 20, max: 100)",
             },
           },
         },
