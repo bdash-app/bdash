@@ -16,7 +16,16 @@ import DataSource from "../../../lib/DataSource";
 class Query extends React.Component<unknown, QueryState> {
   override componentDidMount(): void {
     Action.initialize();
+    window.addEventListener("focus", this.handleWindowFocus);
   }
+
+  override componentWillUnmount(): void {
+    window.removeEventListener("focus", this.handleWindowFocus);
+  }
+
+  private handleWindowFocus = (): void => {
+    Action.initialize();
+  };
 
   handleAddQuery(): void {
     const defaultDataSourceId = this.state.setting.defaultDataSourceId;

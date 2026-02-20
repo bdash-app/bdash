@@ -1,5 +1,7 @@
 import React from "react";
+import path from "path";
 import Select, { OptionTypeBase } from "react-select";
+import { clipboard } from "electron";
 import Container from "../../flux/Container";
 import { store, SettingState } from "./SettingStore";
 import Action from "./SettingAction";
@@ -7,6 +9,27 @@ import Button from "../../components/Button";
 import ProgressIcon from "../../components/ProgressIcon";
 import { selectStyles } from "../../components/Select";
 import { indentValues, notificationWhenOptions, themeOptions } from "../../../lib/Setting";
+
+export function getMcpServerPath(): string {
+  const isPackaged = !process.defaultApp;
+  if (isPackaged) {
+    return path.join(process.resourcesPath, "mcp", "server.js");
+  }
+  return path.join(__dirname, "..", "..", "..", "src", "mcp", "dist", "server.js");
+}
+
+function getMcpConfigJson(): string {
+  const serverPath = getMcpServerPath();
+  const config = {
+    mcpServers: {
+      bdash: {
+        command: "node",
+        args: [serverPath],
+      },
+    },
+  };
+  return JSON.stringify(config, null, 2);
+}
 
 class Setting extends React.Component<unknown, SettingState> {
   override componentDidMount(): void {
@@ -221,6 +244,22 @@ class Setting extends React.Component<unknown, SettingState> {
                 checked={setting.experimentalFeature.autoCompleteEnabled}
               />
             </label>
+          </div>
+        </div>
+        <div className="page-Setting-section1">
+          <h1>MCP Server</h1>
+          <div className="page-Setting-section2">
+            <h2>Configuration</h2>
+            <p className="page-Setting-mcpDescription">Add the following JSON to your MCP client configuration file.</p>
+            <pre className="page-Setting-mcpConfig">{getMcpConfigJson()}</pre>
+            <Button
+              className="page-Setting-mcpCopyButton"
+              onClick={(): void => {
+                clipboard.writeText(getMcpConfigJson());
+              }}
+            >
+              Copy
+            </Button>
           </div>
         </div>
       </div>

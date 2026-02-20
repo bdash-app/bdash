@@ -41,3 +41,24 @@
 .page-Setting-validateToken .ProgressIcon {
   margin-left: 10px;
 }
+
+.page-Setting-mcpDescription {
+  margin: 0 0 10px 0;
+  color: #666;
+  font-size: 13px;
+}
+
+.page-Setting-mcpConfig {
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 12px;
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-x: auto;
+  margin: 0 0 10px 0;
+}
+
+.page-Setting-mcpCopyButton {
+  display: inline-block;
+}

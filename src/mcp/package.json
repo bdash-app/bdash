@@ -1,0 +1,36 @@
+{
+  "name": "bdash-mcp-server",
+  "version": "1.0.0",
+  "description": "MCP server for Bdash database schema information",
+  "type": "module",
+  "main": "dist/server.js",
+  "bin": {
+    "bdash-mcp-server": "./dist/server.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "test": "node --loader ts-node/esm ./node_modules/.bin/mocha --ui tdd --color 'test/**/*.test.ts'",
+    "prepare": "npm run build"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4",
+    "@google-cloud/bigquery": "^5.6.0",
+    "axios": "^1.11.0",
+    "mysql2": "^1.7.0",
+    "pg": "^8.7.1",
+    "sqlite3": "^5.1.6"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.0",
+    "@types/node": "^22.0.0",
+    "@types/pg": "^8.6.4",
+    "@types/sqlite3": "^3.1.6",
+    "mocha": "^10.0.0",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.5.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
