@@ -11,11 +11,11 @@ import { selectStyles } from "../../components/Select";
 import { indentValues, notificationWhenOptions, themeOptions } from "../../../lib/Setting";
 
 export function getMcpServerPath(): string {
-  const isPackaged = !process.defaultApp;
-  if (isPackaged) {
-    return path.join(process.resourcesPath, "mcp", "server.js");
+  const isDev = process.env.NODE_ENV === "development";
+  if (isDev) {
+    return path.join(__dirname, "..", "..", "..", "src", "mcp", "dist", "server.js");
   }
-  return path.join(__dirname, "..", "..", "..", "src", "mcp", "dist", "server.js");
+  return path.join(process.resourcesPath, "mcp", "server.js");
 }
 
 function getMcpConfigJson(): string {
