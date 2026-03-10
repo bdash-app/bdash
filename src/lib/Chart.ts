@@ -69,44 +69,47 @@ export default class Chart {
     return layout;
   }
 
-  // TODO: Performance tuning
-  generateChartData(): { x: (string | number)[]; y: (string | number)[]; name: string }[] {
+  generateChartData(): { x: (string | number)[]; y: (string | number | null)[]; name: string }[] {
     if (!this.params.y) return [];
 
     if (this.params.groupBy.length === 0 || _.difference(this.params.groupBy, this.params.fields).length > 0) {
-      return this.params.y.map((y) => {
-        return {
-          x: this.dataByField(this.params.x),
-          y: this.dataByField(y),
-          name: y,
-        };
-      });
+      const xData = this.dataByField(this.params.x);
+      return this.params.y.map((y) => ({
+        x: xData,
+        y: this.dataByField(y),
+        name: y,
+      }));
     }
 
-    // NOTE: Can delete sort?
-    const groupValues = this.params.groupBy.map((field) => _.uniq(this.dataByField(field)).sort());
-    const indices = this.params.groupBy.map((field) => this.rowIndexByFieldName(field));
-    const x = _.groupBy(this.params.rows, (row) => indices.map((idx) => row[idx]));
+    // With grouping, we need to create a separate series for each combination of group values,
+    // and align them on the x-axis.
 
-    // The cartesian product of group values
-    const groupPairs = groupValues.reduce(
-      (a: any[][], b: any[]) => _.flatMap(a, (x) => b.map((y) => x.concat([y]))),
-      [[]]
-    );
+    const xIdx = this.rowIndexByFieldName(this.params.x);
+    const groupByIndices = this.params.groupBy.map((field) => this.rowIndexByFieldName(field));
+
+    const xValuesSet = new Set<string | number>();
+    const groupRowMaps = new Map<string, Map<string | number, (string | number)[]>>();
+
+    for (const row of this.params.rows) {
+      xValuesSet.add(row[xIdx]);
+      const groupKey = groupByIndices.map((idx) => row[idx]).join(",");
+      let xToRow = groupRowMaps.get(groupKey);
+      if (!xToRow) {
+        xToRow = new Map();
+        groupRowMaps.set(groupKey, xToRow);
+      }
+      xToRow.set(row[xIdx], row);
+    }
+
+    const xValues = [...xValuesSet];
 
     return _.flatMap(this.params.y, (y) => {
       const yIdx = this.rowIndexByFieldName(y);
-      return groupPairs.map((g) => {
-        const key = g.join(",");
+      return Array.from(groupRowMaps, ([groupKeys, xToRow]) => {
         return {
-          name: `${y} (${key})`,
-          x: this.valuesByField(Object.prototype.hasOwnProperty.call(x, key) ? x[key] : [], this.params.x),
-          y: this.params.rows
-            .filter((row) =>
-              // For all group by indices, the values in row and g match.
-              indices.reduce((a: boolean, b: number, i) => a && row[b] === g[i], true)
-            )
-            .map((row) => row[yIdx]),
+          name: `${y} (${groupKeys})`,
+          x: xValues,
+          y: xValues.map((xVal) => xToRow.get(xVal)?.[yIdx] ?? null),
         };
       });
     });
