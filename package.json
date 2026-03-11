@@ -100,7 +100,7 @@
     "ts-loader": "~8.1.0",
     "ts-node": "^10.9.0",
     "typescript": "^5.5.0",
-    "webpack": "^5.54.0",
+    "webpack": "^5.104.1",
     "webpack-cli": "^4.6.0",
     "webpack-node-externals": "^2.5.2"
   },
