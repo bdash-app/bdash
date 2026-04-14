@@ -25,6 +25,12 @@ export default class Timestream extends Base {
         required: true,
       },
       {
+        name: "profile",
+        label: "Profile",
+        type: "string",
+        placeholder: "Optional - uses AWS default profile if empty",
+      },
+      {
         name: "accessKeyId",
         label: "Access key ID",
         type: "string",
@@ -49,6 +55,10 @@ export default class Timestream extends Base {
     super(config);
 
     const clientConfig: any = { region: config.region };
+
+    if (config.profile) {
+      clientConfig.profile = config.profile;
+    }
 
     // Only add credentials if BOTH accessKeyId and secretAccessKey are provided.
     if (config.accessKeyId && config.secretAccessKey) {

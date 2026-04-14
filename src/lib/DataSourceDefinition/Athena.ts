@@ -21,6 +21,12 @@ export default class Athena extends Base {
         required: true,
       },
       {
+        name: "profile",
+        label: "Profile",
+        type: "string",
+        placeholder: "Optional - uses AWS default profile if empty",
+      },
+      {
         name: "accessKeyId",
         label: "Access key ID",
         type: "string",

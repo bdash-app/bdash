@@ -3,6 +3,7 @@ import retry from "./Util/retry";
 
 interface AthenaClientConfig {
   region: string;
+  profile?: string;
   accessKeyId?: string;
   secretAccessKey?: string;
   database: string;
@@ -17,10 +18,14 @@ export default class AthenaClient {
   executionId: string;
 
   constructor(config: AthenaClientConfig) {
-    const { region, accessKeyId, secretAccessKey } = config;
+    const { region, profile, accessKeyId, secretAccessKey } = config;
     this.config = config;
 
     const clientConfig: any = { region };
+
+    if (profile) {
+      clientConfig.profile = profile;
+    }
 
     // Only add credentials if BOTH accessKeyId and secretAccessKey are provided.
     if (accessKeyId && secretAccessKey) {
