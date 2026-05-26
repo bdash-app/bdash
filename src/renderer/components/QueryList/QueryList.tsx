@@ -95,7 +95,10 @@ const QueryList: React.FC<Props> = ({
             <div className="QueryList-item">
               <div className="QueryList-item-title">{query.title}</div>
               <div className="QueryList-item-subtitle">{query.body.replace(/\s{2,}/g, " ").substring(0, 50)}</div>
-              <div className="QueryList-item-time">{query.createdAt.format("YYYY-MM-DD")}</div>
+              <div className="QueryList-item-meta">
+                <div className="QueryList-item-id">ID: {query.id}</div>
+                <div className="QueryList-item-time">{query.createdAt.format("YYYY-MM-DD")}</div>
+              </div>
             </div>
           </li>
         ))}

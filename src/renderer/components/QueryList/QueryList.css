@@ -106,10 +106,20 @@
   margin-top: 2px;
 }
 
+.QueryList-item-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.QueryList-item-id {
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+
 .QueryList-item-time {
   font-size: 11px;
   color: var(--color-text-muted);
-  align-self: flex-end;
-  margin-top: 10px;
-  margin-bottom: 5px;
 }
