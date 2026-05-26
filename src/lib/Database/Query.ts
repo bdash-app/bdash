@@ -30,11 +30,16 @@ export type DatabaseQueryType = Omit<QueryType, "fields" | "rows" | "codeMirrorH
 };
 
 export default class Query {
-  static async getAll(): Promise<Pick<QueryType, "id" | "title" | "body" | "createdAt">[]> {
-    const results = await connection.all("select id, title, body, createdAt from queries order by createdAt desc");
+  static async getAll(): Promise<Pick<QueryType, "id" | "title" | "body" | "createdAt" | "updatedAt">[]> {
+    const results = await connection.all(
+      "select id, title, body, createdAt, updatedAt from queries order by createdAt desc"
+    );
     return results.map((query) => {
       if (query.createdAt) {
         query.createdAt = moment.utc(query.createdAt, "YYYY-MM-DD HH:mm:ss", true).local();
+      }
+      if (query.updatedAt) {
+        query.updatedAt = moment.utc(query.updatedAt, "YYYY-MM-DD HH:mm:ss", true).local();
       }
       return query;
     });

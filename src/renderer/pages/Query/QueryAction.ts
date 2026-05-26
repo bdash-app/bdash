@@ -156,6 +156,10 @@ const QueryAction = {
     dispatch("updateEditor", params);
   },
 
+  markWindowBlurred(): void {
+    dispatch("windowBlurred", { timestamp: Date.now() });
+  },
+
   async selectResultTab(query: QueryType, name: string): Promise<void> {
     dispatch("selectResultTab", { id: query.id, name });
 

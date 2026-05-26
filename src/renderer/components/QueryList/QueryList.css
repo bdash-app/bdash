@@ -117,6 +117,17 @@
 .QueryList-item-id {
   font-size: 11px;
   color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.QueryList-item-update-mark {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-accent);
 }
 
 .QueryList-item-time {

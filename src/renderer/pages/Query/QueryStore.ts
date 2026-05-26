@@ -10,6 +10,8 @@ export interface QueryState {
   dataSources: DataSourceType[];
   charts: ChartType[];
   selectedQueryId: number | null;
+  markedQueryIds: number[];
+  inactiveSinceAt: number | null;
   editor: {
     height: number | null;
     line: number | null;
@@ -25,6 +27,8 @@ export default class QueryStore extends Store<QueryState> {
       dataSources: [],
       charts: [],
       selectedQueryId: null,
+      markedQueryIds: [],
+      inactiveSinceAt: null,
       editor: {
         height: null,
         line: null,
@@ -35,10 +39,29 @@ export default class QueryStore extends Store<QueryState> {
   override reduce(type: string, payload: any): StateBuilder<QueryState> {
     switch (type) {
       case "initialize": {
+        const inactiveSinceAt = this.state.inactiveSinceAt;
+        const existingMarkedIds = this.state.markedQueryIds;
+        const existingIds = new Set<number>(payload.queries.map((q: QueryType) => q.id));
+        let newMarkedIds = existingMarkedIds.filter((id) => existingIds.has(id));
+        if (inactiveSinceAt !== null) {
+          for (const q of payload.queries as QueryType[]) {
+            if (q.updatedAt && q.updatedAt.valueOf() > inactiveSinceAt && !newMarkedIds.includes(q.id)) {
+              newMarkedIds = [...newMarkedIds, q.id];
+            }
+          }
+        }
         return this.merge("setting", payload.setting)
           .mergeList("queries", payload.queries)
           .mergeList("charts", payload.charts)
-          .mergeList("dataSources", payload.dataSources);
+          .mergeList("dataSources", payload.dataSources)
+          .set("markedQueryIds", newMarkedIds)
+          .set("inactiveSinceAt", null);
+      }
+      case "windowBlurred": {
+        if (this.state.inactiveSinceAt !== null) {
+          return this.set("inactiveSinceAt", this.state.inactiveSinceAt);
+        }
+        return this.set("inactiveSinceAt", payload.timestamp);
       }
       case "selectQuery": {
         const idx = this.findQueryIndex(payload.id);
@@ -49,7 +72,17 @@ export default class QueryStore extends Store<QueryState> {
           status: currentQuery.status || payload.query.status,
           executor: currentQuery.executor,
         };
-        return this.set("selectedQueryId", payload.id).set("editor.line", null).merge(`queries.${idx}`, updatedQuery);
+        const idsToClear = new Set<number>([payload.id]);
+        if (this.state.selectedQueryId !== null) {
+          idsToClear.add(this.state.selectedQueryId);
+        }
+        return this.set("selectedQueryId", payload.id)
+          .set("editor.line", null)
+          .merge(`queries.${idx}`, updatedQuery)
+          .set(
+            "markedQueryIds",
+            this.state.markedQueryIds.filter((id) => !idsToClear.has(id))
+          );
       }
       case "addNewQuery": {
         return this.set("selectedQueryId", payload.query.id).set("editor.line", null).prepend("queries", payload.query);
@@ -60,7 +93,13 @@ export default class QueryStore extends Store<QueryState> {
       }
       case "deleteQuery": {
         const idx = this.findQueryIndex(payload.id);
-        return this.set("selectedQueryId", null).set("editor.line", null).del(`queries.${idx}`);
+        return this.set("selectedQueryId", null)
+          .set("editor.line", null)
+          .del(`queries.${idx}`)
+          .set(
+            "markedQueryIds",
+            this.state.markedQueryIds.filter((id) => id !== payload.id)
+          );
       }
       case "updateEditor": {
         return this.merge("editor", payload);
