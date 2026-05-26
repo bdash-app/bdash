@@ -63,6 +63,15 @@ export default class QueryStore extends Store<QueryState> {
         }
         return this.set("inactiveSinceAt", payload.timestamp);
       }
+      case "markQueryAfterExecution": {
+        if (this.state.selectedQueryId === payload.id) {
+          return this.set("markedQueryIds", this.state.markedQueryIds);
+        }
+        if (this.state.markedQueryIds.includes(payload.id)) {
+          return this.set("markedQueryIds", this.state.markedQueryIds);
+        }
+        return this.set("markedQueryIds", [...this.state.markedQueryIds, payload.id]);
+      }
       case "selectQuery": {
         const idx = this.findQueryIndex(payload.id);
         const currentQuery = this.state.queries[idx];
