@@ -1,5 +1,4 @@
 import React, { useState, MouseEvent } from "react";
-import classNames from "classnames";
 import { QueryType } from "../../../lib/Database/Query";
 import { Menu, Item, useContextMenu } from "react-contexify";
 import "react-contexify/ReactContexify.css";
@@ -72,7 +71,7 @@ const QueryList: React.FC<Props> = ({
 
   return (
     <div className="QueryList">
-      <div className={classNames("QueryList-new", { darwin: process.platform === "darwin" })}>
+      <div className="QueryList-new">
         <div className="QueryList-controls">
           <i className="fas fa-plus" onClick={handleClickNew} title="New Query" />
           <i className="fas fa-sync-alt" onClick={handleClickRefresh} title="Reload query list" />

@@ -10,13 +10,8 @@
   border-bottom: 1px solid var(--color-border);
 }
 
-.DataSourceList-new.darwin {
-  -webkit-app-region: drag;
-}
-
 .DataSourceList-new i {
   cursor: pointer;
-  -webkit-app-region: no-drag;
 }
 
 .DataSourceList > ul {

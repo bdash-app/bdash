@@ -9,10 +9,6 @@
   width: 68px;
 }
 
-.page-app-menu.darwin {
-  -webkit-app-region: drag;
-}
-
 .page-app-main {
   flex: 1;
   width: 0;

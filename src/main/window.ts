@@ -58,7 +58,6 @@ export async function createWindow(): Promise<void> {
     width: 1280,
     height: 780,
     title: "Bdash",
-    titleBarStyle: process.platform === "darwin" ? "hidden" : undefined,
     icon: path.join(__dirname, "..", "icon.png"),
     webPreferences: {
       nodeIntegration: true,
