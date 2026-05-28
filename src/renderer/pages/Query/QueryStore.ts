@@ -39,22 +39,17 @@ export default class QueryStore extends Store<QueryState> {
   override reduce(type: string, payload: any): StateBuilder<QueryState> {
     switch (type) {
       case "initialize": {
-        const inactiveSinceAt = this.state.inactiveSinceAt;
-        const existingMarkedIds = this.state.markedQueryIds;
+        const { inactiveSinceAt } = this.state;
         const existingIds = new Set<number>(payload.queries.map((q: QueryType) => q.id));
-        let newMarkedIds = existingMarkedIds.filter((id) => existingIds.has(id));
-        if (inactiveSinceAt !== null) {
-          for (const q of payload.queries as QueryType[]) {
-            if (q.updatedAt && q.updatedAt.valueOf() > inactiveSinceAt && !newMarkedIds.includes(q.id)) {
-              newMarkedIds = [...newMarkedIds, q.id];
-            }
-          }
-        }
+        const markedIds = new Set(this.state.markedQueryIds.filter((id) => existingIds.has(id)));
+        (payload.queries as QueryType[])
+          .filter((q) => inactiveSinceAt !== null && q.updatedAt && q.updatedAt.valueOf() > inactiveSinceAt)
+          .forEach((q) => markedIds.add(q.id));
         return this.merge("setting", payload.setting)
           .mergeList("queries", payload.queries)
           .mergeList("charts", payload.charts)
           .mergeList("dataSources", payload.dataSources)
-          .set("markedQueryIds", newMarkedIds)
+          .set("markedQueryIds", [...markedIds])
           .set("inactiveSinceAt", null);
       }
       case "windowBlurred": {
