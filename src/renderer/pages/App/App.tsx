@@ -1,5 +1,4 @@
 import React from "react";
-import classNames from "classnames";
 import Container from "../../flux/Container";
 import GlobalMenu from "../../components/GlobalMenu";
 import { store, AppState } from "./AppStore";
@@ -31,7 +30,7 @@ class App extends React.Component<unknown, AppState> {
 
     return (
       <div className="page-app">
-        <div className={classNames("page-app-menu", { darwin: process.platform === "darwin" })}>
+        <div className="page-app-menu">
           <GlobalMenu selectedPage={this.state.selectedPage} onSelect={Action.selectPage} />
         </div>
         <div className="page-app-main">

@@ -108,7 +108,7 @@ const DataSourceList: React.FC<Props> = ({
 
   return (
     <div className="DataSourceList">
-      <div className={classNames("DataSourceList-new", { darwin: process.platform === "darwin" })}>
+      <div className="DataSourceList-new">
         <i className="fas fa-plus" onClick={onClickNew} />
       </div>
       <Menu id={MENU_ID}>
