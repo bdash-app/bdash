@@ -105,6 +105,7 @@ const QueryAction = {
         id,
         params: Object.assign({ executor: null }, params),
       });
+      dispatch("markQueryAfterExecution", { id });
       Database.Query.update(id, params);
 
       ipcRenderer.send("queryCompleted", {
@@ -129,6 +130,7 @@ const QueryAction = {
       id,
       params: Object.assign({ executor: null }, params),
     });
+    dispatch("markQueryAfterExecution", { id });
     Database.Query.update(
       id,
       Object.assign(params, {
@@ -154,6 +156,10 @@ const QueryAction = {
 
   updateEditor(params): void {
     dispatch("updateEditor", params);
+  },
+
+  markWindowBlurred(): void {
+    dispatch("windowBlurred", { timestamp: Date.now() });
   },
 
   async selectResultTab(query: QueryType, name: string): Promise<void> {

@@ -21,12 +21,14 @@ suite("Database/Query", () => {
         id: 1,
         title: "title 1",
         createdAt: moment.utc("2017-01-01 00:00:00", "YYYY-MM-DD HH:mm:ss", true).local(),
+        updatedAt: moment.utc("2017-01-02 00:00:00", "YYYY-MM-DD HH:mm:ss", true).local(),
         body: "select 1;",
       },
       {
         id: 2,
         title: "title 2",
         createdAt: moment.utc("2017-01-01 00:00:00", "YYYY-MM-DD HH:mm:ss", true).local(),
+        updatedAt: moment.utc("2017-01-02 00:00:00", "YYYY-MM-DD HH:mm:ss", true).local(),
         body: "select 1;",
       },
     ]);

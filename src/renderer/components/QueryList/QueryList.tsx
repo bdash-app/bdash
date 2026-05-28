@@ -9,6 +9,7 @@ const MENU_ID = "QUERY_LIST_MENU";
 type Props = {
   readonly queries: QueryType[];
   readonly selectedQueryId: number | null;
+  readonly markedQueryIds: number[];
   readonly onAddQuery: () => void;
   readonly onRefresh: () => void;
   readonly onSelectQuery: (queryId: number) => void;
@@ -19,6 +20,7 @@ type Props = {
 const QueryList: React.FC<Props> = ({
   queries,
   selectedQueryId,
+  markedQueryIds,
   onAddQuery,
   onRefresh,
   onSelectQuery,
@@ -95,7 +97,15 @@ const QueryList: React.FC<Props> = ({
             <div className="QueryList-item">
               <div className="QueryList-item-title">{query.title}</div>
               <div className="QueryList-item-subtitle">{query.body.replace(/\s{2,}/g, " ").substring(0, 50)}</div>
-              <div className="QueryList-item-time">{query.createdAt.format("YYYY-MM-DD")}</div>
+              <div className="QueryList-item-meta">
+                <div className="QueryList-item-id">
+                  ID: {query.id}
+                  {markedQueryIds.includes(query.id) && (
+                    <span className="QueryList-item-update-mark" title="Updated while inactive" />
+                  )}
+                </div>
+                <div className="QueryList-item-time">{query.createdAt.format("YYYY-MM-DD")}</div>
+              </div>
             </div>
           </li>
         ))}

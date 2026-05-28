@@ -106,10 +106,31 @@
   margin-top: 2px;
 }
 
+.QueryList-item-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.QueryList-item-id {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.QueryList-item-update-mark {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-accent);
+}
+
 .QueryList-item-time {
   font-size: 11px;
   color: var(--color-text-muted);
-  align-self: flex-end;
-  margin-top: 10px;
-  margin-bottom: 5px;
 }

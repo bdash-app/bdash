@@ -17,14 +17,20 @@ class Query extends React.Component<unknown, QueryState> {
   override componentDidMount(): void {
     Action.initialize();
     window.addEventListener("focus", this.handleWindowFocus);
+    window.addEventListener("blur", this.handleWindowBlur);
   }
 
   override componentWillUnmount(): void {
     window.removeEventListener("focus", this.handleWindowFocus);
+    window.removeEventListener("blur", this.handleWindowBlur);
   }
 
   private handleWindowFocus = (): void => {
     Action.initialize();
+  };
+
+  private handleWindowBlur = (): void => {
+    Action.markWindowBlurred();
   };
 
   handleAddQuery(): void {
