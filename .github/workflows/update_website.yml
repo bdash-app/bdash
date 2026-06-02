@@ -8,10 +8,22 @@ on:
 jobs:
   dispatch:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
+      - name: Create GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ vars.WEBSITE_DISPATCH_APP_ID }}
+          private-key: ${{ secrets.WEBSITE_DISPATCH_PRIVATE_KEY }}
+          owner: bdash-app
+          repositories: bdash-app.github.io
+          permission-contents: write
+
       - name: Trigger website deploy
         env:
-          GH_TOKEN: ${{ secrets.WEBSITE_DISPATCH_TOKEN }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
           RELEASE_TAG: ${{ github.event.release.tag_name }}
         run: |
           gh api \
