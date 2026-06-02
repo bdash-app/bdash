@@ -1,0 +1,21 @@
+name: Update website
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger website deploy
+        env:
+          GH_TOKEN: ${{ secrets.WEBSITE_DISPATCH_TOKEN }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          gh api \
+            --method POST \
+            repos/bdash-app/bdash-app.github.io/dispatches \
+            -f event_type=bdash-release \
+            -f client_payload[tag]="$RELEASE_TAG"

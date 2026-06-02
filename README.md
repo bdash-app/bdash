@@ -115,6 +115,8 @@ This will trigger GitHub Action jobs to generate application binaries.
 
 Once the jobs have been completed, you can publish the draft release on GitHub. It is recommended to include change logs as part of the release description.
 
+Publishing a release also triggers the website deployment workflow in `bdash-app/bdash-app.github.io`, so the download version on the website is updated from the latest release. This requires the `WEBSITE_DISPATCH_TOKEN` repository secret to be configured with `Contents: Read and write` permission for the website repository.
+
 ## License
 
 MIT
