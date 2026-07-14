@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/bdash-app-bdash-badge.png)](https://mseep.ai/app/bdash-app-bdash)
+
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/bdash-app/bdash)](https://github.com/bdash-app/bdash/releases/latest)
 [![Test](https://github.com/bdash-app/bdash/actions/workflows/test.yml/badge.svg)](https://github.com/bdash-app/bdash/actions/workflows/test.yml)
 
