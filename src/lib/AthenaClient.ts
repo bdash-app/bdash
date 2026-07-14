@@ -6,6 +6,7 @@ interface AthenaClientConfig {
   profile?: string;
   accessKeyId?: string;
   secretAccessKey?: string;
+  catalog?: string;
   database: string;
   outputLocation: string;
 }
@@ -42,6 +43,7 @@ export default class AthenaClient {
         OutputLocation: this.config.outputLocation,
       },
       QueryExecutionContext: {
+        Catalog: this.config.catalog || undefined,
         Database: this.config.database,
       },
     };
@@ -86,6 +88,28 @@ export default class AthenaClient {
     }
 
     return rows;
+  }
+
+  async listTableMetadata(): Promise<athena.TableMetadata[]> {
+    let tables: athena.TableMetadata[] = [];
+    let nextToken: string | undefined = undefined;
+
+    for (;;) {
+      const result = await this.client.send(
+        new athena.ListTableMetadataCommand({
+          CatalogName: this.config.catalog || "AwsDataCatalog",
+          DatabaseName: this.config.database,
+          NextToken: nextToken,
+        })
+      );
+      tables = tables.concat(result.TableMetadataList || []);
+      nextToken = result.NextToken;
+      if (!nextToken) {
+        break;
+      }
+    }
+
+    return tables;
   }
 
   cancel(): void {
