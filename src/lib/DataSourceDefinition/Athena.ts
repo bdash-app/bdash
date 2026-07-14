@@ -39,6 +39,12 @@ export default class Athena extends Base {
         placeholder: "Optional - uses AWS environment/profile if empty",
       },
       {
+        name: "catalog",
+        label: "Catalog",
+        type: "string",
+        placeholder: "Optional - uses AwsDataCatalog if empty",
+      },
+      {
         name: "database",
         label: "Database",
         type: "string",
@@ -74,18 +80,18 @@ export default class Athena extends Base {
   }
 
   async fetchTables(): Promise<{ name: string; type: string; schema?: string }[]> {
-    const rows = await this.client.execute("show tables");
-    return rows.map((row) => ({ name: row[0]!, type: "table" }));
+    const tables = await this.client.listTableMetadata();
+    return tables.map((table) => ({ name: table.Name!, type: "table" }));
   }
 
   async fetchTableSummary({ name }: { name: string }): Promise<TableSummary> {
-    const rows = await this.client.execute(`describe ${name}`);
+    const tables = await this.client.listTableMetadata();
+    const table = tables.find((t) => t.Name === name);
+    const columns = [...(table?.Columns || []), ...(table?.PartitionKeys || [])];
+
     const defs = {
       fields: ["name", "type"],
-      rows: rows
-        .map((row) => row[0])
-        .filter((v) => v !== null && v[0] !== "#" && v.trim() !== "")
-        .map((v) => (v || "").split("\t").map((c) => c.trim())),
+      rows: columns.map((column) => [column.Name!, column.Type || ""]),
     };
 
     return { name, defs };
@@ -95,6 +101,7 @@ export default class Athena extends Base {
     return {
       type: Athena.label,
       region: this.config.region,
+      catalog: this.config.catalog || "AwsDataCatalog",
       database: this.config.database,
     };
   }
