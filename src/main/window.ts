@@ -25,10 +25,20 @@ const sendNativeThemeUpdate = (): void => {
   });
 };
 
-let nativeThemeHandlersRegistered = false;
+const shouldNotify = (setting: SettingType, isFocused: boolean) => {
+  return (
+    setting.notification.enabled &&
+    (setting.notification.when === "always" ||
+      (setting.notification.when === "focusing" && isFocused) ||
+      (setting.notification.when === "not_focusing" && !isFocused))
+  );
+};
 
-const registerNativeThemeHandlers = (): void => {
-  if (nativeThemeHandlersRegistered) return;
+let ipcHandlersRegistered = false;
+
+const registerIpcHandlers = (): void => {
+  if (ipcHandlersRegistered) return;
+  ipcHandlersRegistered = true;
 
   ipcMain.handle("getNativeTheme", () => getNativeThemeState());
 
@@ -39,38 +49,14 @@ const registerNativeThemeHandlers = (): void => {
   });
 
   nativeTheme.on("updated", sendNativeThemeUpdate);
-  nativeThemeHandlersRegistered = true;
-};
-
-const shouldNotify = (setting: SettingType, isFocused: boolean) => {
-  return (
-    setting.notification.enabled &&
-    (setting.notification.when === "always" ||
-      (setting.notification.when === "focusing" && isFocused) ||
-      (setting.notification.when === "not_focusing" && !isFocused))
-  );
-};
-
-export async function createWindow(): Promise<void> {
-  registerNativeThemeHandlers();
-
-  const win = new electron.BrowserWindow({
-    width: 1280,
-    height: 780,
-    title: "Bdash",
-    icon: path.join(__dirname, "..", "icon.png"),
-    webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false,
-    },
-  });
 
   ipcMain.handle("getConfig", async () => Config);
 
-  ipcMain.on("queryCompleted", (_event, data) => {
+  ipcMain.on("queryCompleted", (event, data) => {
     const { success, title, runtime, rowCount, errorMessage, _setting } = data;
+    const win = BrowserWindow.fromWebContents(event.sender);
 
-    if (shouldNotify(_setting, win.isFocused())) {
+    if (shouldNotify(_setting, win?.isFocused() ?? false)) {
       const notificationTitle = success ? "✅️ Query completed" : "❌️ Query failed";
       let notificationBody;
 
@@ -93,13 +79,15 @@ export async function createWindow(): Promise<void> {
   });
 
   ipcMain.on("showUpdateQueryDialog", async (event) => {
-    const { response } = await dialog.showMessageBox(win, {
+    const win = BrowserWindow.fromWebContents(event.sender);
+    const options: electron.MessageBoxOptions = {
       message: "This query has been already shared.",
       type: "question",
       buttons: ["Cancel", "Share as a new query", "Update an existing query"],
       defaultId: 2,
       cancelId: 0,
-    });
+    };
+    const { response } = win ? await dialog.showMessageBox(win, options) : await dialog.showMessageBox(options);
     switch (response) {
       case 0:
         event.returnValue = "cancel";
@@ -111,6 +99,21 @@ export async function createWindow(): Promise<void> {
         event.returnValue = "update";
         break;
     }
+  });
+};
+
+export async function createWindow(): Promise<void> {
+  registerIpcHandlers();
+
+  const win = new electron.BrowserWindow({
+    width: 1280,
+    height: 780,
+    title: "Bdash",
+    icon: path.join(__dirname, "..", "icon.png"),
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+    },
   });
 
   await win.loadURL(`file://${__dirname}/../index.html`);
