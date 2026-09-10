@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "Bdash",
-  "version": "1.35.1",
+  "version": "1.35.2",
   "productName": "Bdash",
   "description": "A simple business intelligence application.",
   "homepage": "https://github.com/bdash-app/bdash",
@@ -84,7 +84,7 @@
     "copy-webpack-plugin": "^8.1.1",
     "css-loader": "^5.2.1",
     "electron": "^40.6.0",
-    "electron-builder": "^26.8.1",
+    "electron-builder": "^26.16.1",
     "electron-mocha": "^12.3.0",
     "electron-notarize": "^1.2.2",
     "electron-publisher-s3": "^20.17.2",
