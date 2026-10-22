@@ -73,11 +73,20 @@ const checkForUpdateItem: Electron.MenuItemConstructorOptions = {
       logger.error(err);
       return false;
     });
-    const message = shouldUpdate
-      ? "There is an available update. Download and install from here.\nhttps://github.com/bdash-app/bdash/releases/latest"
-      : "There are currently no updates available.";
-    dialog.showMessageBox({ message });
-    return;
+    if (!shouldUpdate) {
+      await dialog.showMessageBox({ message: "There are currently no updates available." });
+      return;
+    }
+
+    const { response } = await dialog.showMessageBox({
+      message: "There is an available update. Download and install it from the release page.",
+      buttons: ["Open Download Page", "Cancel"],
+      defaultId: 0,
+      cancelId: 1,
+    });
+    if (response === 0) {
+      await shell.openExternal("https://github.com/bdash-app/bdash/releases/latest");
+    }
   },
 };
 
