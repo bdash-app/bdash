@@ -85,7 +85,7 @@ const checkForUpdateItem: Electron.MenuItemConstructorOptions = {
       cancelId: 1,
     });
     if (response === 0) {
-      await shell.openExternal("https://github.com/bdash-app/bdash/releases/latest");
+      await shell.openExternal("https://bdash-app.github.io/");
     }
   },
 };
