@@ -6056,9 +6056,9 @@ nock@^9.0.0:
     semver "^5.5.0"
 
 node-abi@^4.2.0:
-  version "4.26.0"
-  resolved "https://registry.yarnpkg.com/node-abi/-/node-abi-4.26.0.tgz#7068474b3a945c08372995d823b71053e3ed85af"
-  integrity sha512-8QwIZqikRvDIkXS2S93LjzhsSPJuIbfaMETWH+Bx8oOT9Sa9UsUtBFQlc3gBNd1+QINjaTloitXr1W3dQLi9Iw==
+  version "4.39.0"
+  resolved "https://registry.yarnpkg.com/node-abi/-/node-abi-4.39.0.tgz#9582bacca38af30781a529dfc3201083fd0b4591"
+  integrity sha512-pULjI3qsVrn6K5DZz5tCpX2dL8IKM9/xBMRz29hBko8UFXZ/C3QxRMl/Z7wKaQwaxPmYU+7UPKbDf7EO+ASvfA==
   dependencies:
     semver "^7.6.3"
 
